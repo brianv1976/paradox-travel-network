@@ -32,12 +32,16 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="container-px flex h-[88px] items-center justify-between">
-        <Link to="/" className="flex items-center gap-2" aria-label={business.name}>
+      <nav className="container-px flex h-[128px] items-center justify-between">
+        <Link
+          to="/"
+          className="flex items-center gap-2 outline-none focus:outline-none focus-visible:ring-0"
+          aria-label={business.name}
+        >
           <img
             src={assets.logo}
             alt={business.name}
-            className="h-[52px] w-auto"
+            className="h-20 w-auto object-contain md:h-24"
           />
         </Link>
 
