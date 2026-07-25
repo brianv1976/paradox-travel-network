@@ -32,12 +32,12 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="container-px flex h-[72px] items-center justify-between">
+      <nav className="container-px flex h-[88px] items-center justify-between">
         <Link to="/" className="flex items-center gap-2" aria-label={business.name}>
           <img
             src={assets.logo}
             alt={business.name}
-            className="h-12 w-auto md:h-14"
+            className="h-[52px] w-auto"
           />
         </Link>
 
