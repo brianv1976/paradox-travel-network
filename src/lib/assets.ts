@@ -1,9 +1,9 @@
 /**
  * Central asset + link registry.
  *
- * IMAGES: These currently point at the Webflow CDN (they load fine today).
- * Before you cancel Webflow, download each file into /public/assets and swap
- * the URL here to e.g. "/assets/brian-portrait.jpg". One place, one edit.
+ * IMAGES: Logo is self-hosted (no Webflow dependency). The 6 stock/category
+ * photos + headshot/portrait/mascot still point at Webflow's CDN — download
+ * each into /public/assets and swap the URL here to fully cut Webflow loose.
  *
  * LINKS: Affiliate + scheduling links are backend-tracked. Do not alter the
  * query params — they carry Brian's referral / tracking IDs.
@@ -12,7 +12,7 @@
 const CDN = "https://cdn.prod.website-files.com/6a5858ae0ba27f2df8e26b31";
 
 export const assets = {
-  logo: `${CDN}/6a5858ae0ba27f2df8e26b41_Paradox%20Travel%20Network%20-%20Primary%20Logo.svg`,
+  logo: "/png-1 (1).png",
   headshot: `${CDN}/6a5858ae0ba27f2df8e26b40_Brian%20Voyles%20-%20Approved%20Headshot.png`,
   portrait: `${CDN}/6a5858ae0ba27f2df8e26b3f_Brian%20Voyles%20-%20Approved%20Portrait.jpg`,
   mascotWhiteboard: `${CDN}/6a5858ae0ba27f2df8e26b5d_Brian%20Mascot%20Scene%20-%20Travel%20Tips%20Whiteboard.png`,
@@ -29,16 +29,13 @@ export const assets = {
 };
 
 export const links = {
-  // Affiliate / white-label (tracking IDs embedded — do not edit params)
   viator:
     "https://www.viator.com/?pid=P00003200&uid=U00747481&mcid=58086&currency=USD",
   shoreExcursions:
     "https://www.shoreexcursionsgroup.com/?source=portal&id=1786436&data=brian@paradoxtravelnetwork.com",
   exoticca:
     "https://exoticca.com/us?advisor_token=brian-voyles-019a21e0-2339-7046-a141-9ecdc021d5e3",
-  // Scheduling
   calendly: "https://calendly.com/paradoxtravelnetwork/30min",
-  // Contact
   email: "brian@paradoxtravelnetwork.com",
 };
 
