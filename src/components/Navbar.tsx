@@ -37,7 +37,7 @@ export default function Navbar() {
           <img
             src={assets.logo}
             alt={business.name}
-            className="h-8 w-auto md:h-9"
+            className="h-12 w-auto md:h-14"
           />
         </Link>
 
