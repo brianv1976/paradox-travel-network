@@ -38,11 +38,39 @@ export default function Navbar() {
           className="flex items-center gap-2 outline-none focus:outline-none focus-visible:ring-0"
           aria-label={business.name}
         >
-          <img
-            src={assets.logo}
-            alt={business.name}
-            className="h-20 w-auto object-contain md:h-24"
-          />
+          {/*
+            Logo crop fix — 2025-07-25
+            The PNG canvas is 2400×1462 but the actual logo content is only
+            1622×607 (67.6% wide, 41.5% tall), centered with ~388px left/right
+            and ~428px top/bottom of transparent padding baked in.
+
+            Fix: overflow-hidden container sized to the true logo aspect ratio
+            (1622:607), with the full PNG absolutely positioned inside and
+            offset to push the blank edges outside the clip boundary.
+
+            Offset math (relative to rendered img size):
+              height: canvas_h / content_h = 2400/607 → 240.9% of container
+              left:   -(pad_left / content_w) = -(388/1622) = -23.9%
+              top:    -(pad_top  / content_h) = -(428/607)  = -70.5%
+
+            Mobile:  container h-20 (80px)  → 80 × 2.672 ≈ 214px wide
+            Desktop: container h-24 (96px)  → 96 × 2.672 ≈ 257px wide
+          */}
+          <div
+            className="relative h-20 overflow-hidden md:h-24"
+            style={{ aspectRatio: "1622 / 607" }}
+          >
+            <img
+              src={assets.logo}
+              alt={business.name}
+              className="absolute w-auto"
+              style={{
+                height: "240.9%",
+                left: "-23.9%",
+                top: "-70.5%",
+              }}
+            />
+          </div>
         </Link>
 
         {/* Desktop nav */}
