@@ -19,6 +19,7 @@ export interface Post {
   date: string; // ISO
   readingTime: number;
   featured: boolean;
+  image?: string;
 }
 
 export const categoryImage: Record<Category, string> = {
@@ -69,6 +70,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "How to choose realistic flight connection times based on airport size, customs, terminals, mobility, and delay risk.",
+    image: assets.img.airportConnection,
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 2,

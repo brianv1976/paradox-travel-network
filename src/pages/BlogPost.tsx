@@ -79,7 +79,7 @@ export default function BlogPost() {
             className="mx-auto mt-10 aspect-[16/8] max-w-4xl overflow-hidden rounded-[2rem] shadow-lift"
           >
             <img
-              src={categoryImage[post.category]}
+              src={post.image ?? categoryImage[post.category]}
               alt=""
               className="h-full w-full object-cover"
             />

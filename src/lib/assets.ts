@@ -23,6 +23,8 @@ export const assets = {
     planning: `${CDN}/6a5858ae0ba27f2df8e26b3d_Travel%20Placeholder%20-%20Planning.jpg`,
     adventure: `${CDN}/6a5858ae0ba27f2df8e26b56_Travel%20Placeholder%20-%20Adventure.jpg`,
     localEscape: `${CDN}/6a5858ae0ba27f2df8e26b58_Travel%20Placeholder%20-%20Local%20Escape.jpg`,
+    airportConnection:
+      "https://images.pexels.com/photos/12717357/pexels-photo-12717357.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
 };
 
