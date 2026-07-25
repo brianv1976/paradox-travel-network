@@ -12,7 +12,7 @@
 const CDN = "https://cdn.prod.website-files.com/6a5858ae0ba27f2df8e26b31";
 
 export const assets = {
-  logo: "/png-1 (1).png",
+  logo: "/Web Logo.png",
   headshot: `${CDN}/6a5858ae0ba27f2df8e26b40_Brian%20Voyles%20-%20Approved%20Headshot.png`,
   portrait: `${CDN}/6a5858ae0ba27f2df8e26b3f_Brian%20Voyles%20-%20Approved%20Portrait.jpg`,
   mascotWhiteboard: `${CDN}/6a5858ae0ba27f2df8e26b5d_Brian%20Mascot%20Scene%20-%20Travel%20Tips%20Whiteboard.png`,
