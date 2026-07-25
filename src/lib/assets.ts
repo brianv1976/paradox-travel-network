@@ -1,28 +1,24 @@
 /**
  * Central asset + link registry.
  *
- * IMAGES: Logo is self-hosted (no Webflow dependency). The 6 stock/category
- * photos + headshot/portrait/mascot still point at Webflow's CDN — download
- * each into /public/assets and swap the URL here to fully cut Webflow loose.
+ * All images are now self-hosted in /public/assets/ — no Webflow CDN dependency.
+ * Safe to cancel Webflow subscription.
  *
  * LINKS: Affiliate + scheduling links are backend-tracked. Do not alter the
  * query params — they carry Brian's referral / tracking IDs.
  */
 
-const CDN = "https://cdn.prod.website-files.com/6a5858ae0ba27f2df8e26b31";
-
 export const assets = {
   logo: "/Web Logo.png",
-  headshot: `${CDN}/6a5858ae0ba27f2df8e26b40_Brian%20Voyles%20-%20Approved%20Headshot.png`,
-  portrait: `${CDN}/6a5858ae0ba27f2df8e26b3f_Brian%20Voyles%20-%20Approved%20Portrait.jpg`,
-  mascotWhiteboard: `${CDN}/6a5858ae0ba27f2df8e26b5d_Brian%20Mascot%20Scene%20-%20Travel%20Tips%20Whiteboard.png`,
+  headshot: "/assets/headshot.png",
+  portrait: "/assets/portrait.jpg",
+  mascotWhiteboard: "/assets/mascot-whiteboard.png",
   img: {
-    cruise: `${CDN}/6a5858ae0ba27f2df8e26b3b_Travel%20Placeholder%20-%20Cruise.jpg`,
-    resort: `${CDN}/6a5858ae0ba27f2df8e26b3c_Travel%20Placeholder%20-%20Resort.jpg`,
-    beach: `${CDN}/6a5858ae0ba27f2df8e26b3e_Travel%20Placeholder%20-%20Beach.jpg`,
-    planning: `${CDN}/6a5858ae0ba27f2df8e26b3d_Travel%20Placeholder%20-%20Planning.jpg`,
-    adventure: `${CDN}/6a5858ae0ba27f2df8e26b56_Travel%20Placeholder%20-%20Adventure.jpg`,
-    localEscape: `${CDN}/6a5858ae0ba27f2df8e26b58_Travel%20Placeholder%20-%20Local%20Escape.jpg`,
+    cruise: "/assets/cruise.jpg",
+    resort: "/assets/resort.jpg",
+    beach: "/assets/beach.jpg",
+    planning: "/assets/planning.jpg",
+    adventure: "/assets/adventure.jpg",
     familyTravel:
       "https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=1600",
     airportConnection:
