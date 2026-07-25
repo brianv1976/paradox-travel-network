@@ -50,15 +50,16 @@ export default function Navbar() {
             Mobile  (content h=80px): img 316×193, container 214×80, pos -51px -56px
             Desktop (content h=96px): img 380×231, container 257×96, pos -61px -68px
           */}
-          <div className="overflow-hidden" style={{ width: 214, height: 80 }}>
+          {/* PNG canvas 2400×1462; content 1622×607 centered; ~389px H / ~428px V padding */}
+          <div className="overflow-hidden" style={{ width: 139, height: 52 }}>
             <img
               src={assets.logo}
               alt={business.name}
               style={{
-                width: 316,
-                height: 193,
+                width: 206,
+                height: 125,
                 objectFit: "none",
-                objectPosition: "-51px -56px",
+                objectPosition: "-33px -37px",
               }}
             />
           </div>
