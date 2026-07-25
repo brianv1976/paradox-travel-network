@@ -39,27 +39,26 @@ export default function Navbar() {
           aria-label={business.name}
         >
           {/*
-            Logo crop fix — 2025-07-25 v2
-            PNG canvas is 2400×1462. Actual logo content is 1622×607,
-            centered with 388px left/right and 428px top/bottom padding baked in.
-
-            Approach: explicit px dimensions on the img + object-fit:none +
-            object-position to shift the image so only the content area shows,
-            clipped by overflow-hidden on the container.
-
-            Mobile  (content h=80px): img 316×193, container 214×80, pos -51px -56px
-            Desktop (content h=96px): img 380×231, container 257×96, pos -61px -68px
+            Logo crop — negative margin method (v3)
+            PNG canvas 2400×1462, content 1622×607 at offset (388,428).
+            Render img at fixed px size, negative margins push padding
+            outside the overflow-hidden container.
+            Mobile:  img 316×193, margins -51px -56px, container 214×80
+            Desktop: img 380×231, margins -61px -68px, container 257×96
           */}
-          {/* PNG canvas 2400×1462; content 1622×607 centered; ~389px H / ~428px V padding */}
-          <div className="overflow-hidden" style={{ width: 139, height: 52 }}>
+          <div
+            className="overflow-hidden"
+            style={{ width: 214, height: 80 }}
+          >
             <img
               src={assets.logo}
               alt={business.name}
               style={{
-                width: 206,
-                height: 125,
-                objectFit: "none",
-                objectPosition: "-33px -37px",
+                width: 316,
+                height: 193,
+                marginLeft: -51,
+                marginTop: -56,
+                display: "block",
               }}
             />
           </div>
