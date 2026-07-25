@@ -39,35 +39,26 @@ export default function Navbar() {
           aria-label={business.name}
         >
           {/*
-            Logo crop fix — 2025-07-25
-            The PNG canvas is 2400×1462 but the actual logo content is only
-            1622×607 (67.6% wide, 41.5% tall), centered with ~388px left/right
-            and ~428px top/bottom of transparent padding baked in.
+            Logo crop fix — 2025-07-25 v2
+            PNG canvas is 2400×1462. Actual logo content is 1622×607,
+            centered with 388px left/right and 428px top/bottom padding baked in.
 
-            Fix: overflow-hidden container sized to the true logo aspect ratio
-            (1622:607), with the full PNG absolutely positioned inside and
-            offset to push the blank edges outside the clip boundary.
+            Approach: explicit px dimensions on the img + object-fit:none +
+            object-position to shift the image so only the content area shows,
+            clipped by overflow-hidden on the container.
 
-            Offset math (relative to rendered img size):
-              height: canvas_h / content_h = 2400/607 → 240.9% of container
-              left:   -(pad_left / content_w) = -(388/1622) = -23.9%
-              top:    -(pad_top  / content_h) = -(428/607)  = -70.5%
-
-            Mobile:  container h-20 (80px)  → 80 × 2.672 ≈ 214px wide
-            Desktop: container h-24 (96px)  → 96 × 2.672 ≈ 257px wide
+            Mobile  (content h=80px): img 316×193, container 214×80, pos -51px -56px
+            Desktop (content h=96px): img 380×231, container 257×96, pos -61px -68px
           */}
-          <div
-            className="relative h-20 overflow-hidden md:h-24"
-            style={{ aspectRatio: "1622 / 607" }}
-          >
+          <div className="overflow-hidden" style={{ width: 214, height: 80 }}>
             <img
               src={assets.logo}
               alt={business.name}
-              className="absolute w-auto"
               style={{
-                height: "240.9%",
-                left: "-23.9%",
-                top: "-70.5%",
+                width: 316,
+                height: 193,
+                objectFit: "none",
+                objectPosition: "-51px -56px",
               }}
             />
           </div>
