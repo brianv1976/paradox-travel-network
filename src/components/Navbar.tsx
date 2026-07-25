@@ -32,36 +32,17 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="container-px flex h-[128px] items-center justify-between">
+      <nav className="container-px flex items-center justify-between py-5 md:py-6">
         <Link
           to="/"
           className="flex items-center gap-2 outline-none focus:outline-none focus-visible:ring-0"
           aria-label={business.name}
         >
-          {/*
-            Logo crop — negative margin method (v3)
-            PNG canvas 2400×1462, content 1622×607 at offset (388,428).
-            Render img at fixed px size, negative margins push padding
-            outside the overflow-hidden container.
-            Mobile:  img 316×193, margins -51px -56px, container 214×80
-            Desktop: img 380×231, margins -61px -68px, container 257×96
-          */}
-          <div
-            className="overflow-hidden"
-            style={{ width: 214, height: 80 }}
-          >
-            <img
-              src={assets.logo}
-              alt={business.name}
-              style={{
-                width: 316,
-                height: 193,
-                marginLeft: -51,
-                marginTop: -56,
-                display: "block",
-              }}
-            />
-          </div>
+          <img
+            src={assets.logo}
+            alt={business.name}
+            className="h-14 w-auto object-contain md:h-16 lg:h-20"
+          />
         </Link>
 
         {/* Desktop nav */}
