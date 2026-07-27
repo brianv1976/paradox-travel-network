@@ -18,7 +18,6 @@ import { assets, links } from "../lib/assets";
 import { faqs } from "../data/site";
 import { featuredPosts, categoryImage } from "../data/blog";
 import Globe from "../components/Globe";
-import Reviews from "../components/Reviews";
 import Marquee from "../components/Marquee";
 import Stats from "../components/Stats";
 import SectionHeading from "../components/SectionHeading";
@@ -341,7 +340,6 @@ export default function Home() {
         </div>
       </section>
 
-      <Reviews />
 
       {/* POSTCARDS */}
       <section id="tips" className="container-px py-24 md:py-32">
