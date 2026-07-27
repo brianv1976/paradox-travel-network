@@ -316,8 +316,8 @@ export const services: ServicePage[] = [
     h1: "A family trip should work for the family actually taking it.",
     intro:
       "Room setup, flight timing, food, naps, mobility, activities, and downtime matter more than a perfect schedule that collapses by the second afternoon.",
-    image: assets.img.familyTravel,
-    imageAlt: "Family enjoying a beach vacation together",
+    image: assets.img.localEscape,
+    imageAlt: "Scenic cabin getaway surrounded by nature",
     selfBookIntro:
       "Looking to book it yourself? Here's a short list of good options for family trips:",
     vendors: [

@@ -54,7 +54,7 @@ export default function PageHero({
             <img
               src={image}
               alt={imageAlt ?? ""}
-              className="h-full w-full object-cover object-top"
+              className="h-full w-full object-cover"
               loading="eager"
             />
           </motion.div>

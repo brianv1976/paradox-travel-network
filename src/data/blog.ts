@@ -24,7 +24,7 @@ export interface Post {
 
 export const categoryImage: Record<Category, string> = {
   Packing: assets.img.planning,
-  Airports: assets.img.airportConnection,
+  Airports: assets.img.localEscape,
   Cruises: assets.img.cruise,
   Resorts: assets.img.resort,
   Planning: assets.img.planning,
