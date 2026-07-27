@@ -72,35 +72,45 @@ export default function About() {
         </motion.div>
       </section>
 
-      {/* Why paradox */}
+      {/* Story */}
       <section className="bg-ocean text-cream">
         <div className="container-px py-20 md:py-28">
           <Reveal>
             <span className="text-xs font-semibold uppercase tracking-[0.22em] text-gold">
-              Why Paradox?
+              How this started
             </span>
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-[1.1] md:text-4xl">
-              Travel can be exciting and overwhelming at the same time.
+              The short version: I got obsessed.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-cream/80">
-              The name reflects that tension. People want the experience, but the
-              choices, timing, pricing, and logistics can drain the excitement
-              before the trip begins. The work is to reduce that friction without
-              flattening the trip into something ordinary. That mission doesn't
-              depend on who does the booking. Whether Brian is handling every
-              detail or simply pointing travelers to the right site to book it
-              themselves, the goal stays the same: the best trip for the budget,
-              with support the whole way through.
-            </p>
+            <div className="mt-6 max-w-3xl space-y-5 text-lg leading-relaxed text-cream/80">
+              <p>
+                I got my first taste of travel in my late twenties — a few
+                cruises that did something to me I couldn't quite explain at
+                the time. Then life threw me a curveball that changed
+                everything. When I came out the other side, I knew exactly
+                what I wanted to do with the time I had.
+              </p>
+              <p>
+                The oilfield schedule gave me 14 days off every month and I
+                used every one of them. Cruises, scuba, adventure travel,
+                destinations I had to actually research to find. I got
+                obsessed. My wife will confirm this.
+              </p>
+              <p>
+                PTN exists because that enthusiasm needed somewhere to go —
+                and because nobody should have to wait as long as I did to
+                find out what they've been missing.
+              </p>
+            </div>
           </Reveal>
           <Reveal delay={0.15}>
-            <blockquote className="mt-10 border-l-2 border-gold pl-6 font-display text-2xl italic leading-snug text-cream md:text-3xl">
-              “The goal is not to sell every traveler the same vacation. The goal
-              is to help the right trip become clear.”
+            <blockquote className="mt-10 max-w-3xl border-l-2 border-gold pl-6 font-display text-2xl italic leading-snug text-cream md:text-3xl">
+              “Something goes wrong mid-trip — and eventually something always
+              does — you've got my number. That's kind of the whole point.”
             </blockquote>
           </Reveal>
         </div>
