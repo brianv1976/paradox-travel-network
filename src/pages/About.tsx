@@ -35,7 +35,7 @@ export default function About() {
       <PageHero
         eyebrow="About Brian"
         title="A real person helping make the trip make sense."
-        image={assets.headshot}
+        image={assets.portrait}
         imageAlt="Brian Voyles, owner and travel advisor at Paradox Travel Network"
         imagePosition="object-top"
       >
