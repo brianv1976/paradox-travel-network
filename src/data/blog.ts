@@ -169,7 +169,7 @@ export const posts: Post[] = [
       "Review expiration, name, blank-page, visa, and destination entry rules early in the planning process.",
     content: [
       "Check passport validity, exact traveler names, blank-page requirements, visas, and destination entry rules well before departure. Some destinations require validity beyond the return date.",
-      "Rules can change, so confirm them through official government and destination sources rather than relying on a screenshot from someone's cousin.",
+      "Rules can change, so confirm them through official government and destination sources rather than relying on a screenshot from someone’s cousin.",
     ],
     seoDescription:
       "A practical checklist for reviewing passport validity, names, visas, blank pages, and destination entry requirements early.",
@@ -186,7 +186,7 @@ export const posts: Post[] = [
       "Confirm beds, bathrooms, privacy, connecting-room guarantees, storage, and sleeping arrangements before booking family lodging.",
     content: [
       "Check the actual sleeping setup, bed sizes, bathroom count, room capacity, storage, connecting-room policy, kitchen access, and whether a sofa bed is being asked to perform miracles.",
-      "Family harmony improves when nobody learns at check-in that \"sleeps five\" means four beds and one negotiation.",
+      "Family harmony improves when nobody learns at check-in that “sleeps five” means four beds and one negotiation.",
     ],
     seoDescription:
       "What families should confirm about beds, bathrooms, connecting rooms, privacy, storage, and sleeping arrangements.",

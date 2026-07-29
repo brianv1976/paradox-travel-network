@@ -34,7 +34,7 @@ export const links = {
   exoticca:
     "https://exoticca.com/us?advisor_token=brian-voyles-019a21e0-2339-7046-a141-9ecdc021d5e3",
   calendly: "https://calendly.com/paradoxtravelnetwork/30min",
-  email: "brian@paradoxtravelnetwork.com",
+  email: "hello@paradoxtravelnetwork.com",
 };
 
 export const business = {
