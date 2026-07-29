@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -286,8 +287,15 @@ export default function BookItYourself() {
       <div className="container-px py-12">
         <p className="text-sm text-fog">
           <span className="font-semibold text-ink">Booking disclosure:</span>{" "}
-          Reservations and payments are completed through the selected provider.
-          Provider terms and cancellation policies apply.
+          Reservations and payments are completed directly through the
+          selected provider, and provider terms and cancellation policies
+          apply. Any questions Brian answers about a trip you book yourself
+          are general guidance, not a formal recommendation or advisory
+          service — see the{" "}
+          <Link to="/terms" className="underline hover:text-ink">
+            Terms of Use
+          </Link>{" "}
+          for details.
         </p>
       </div>
     </>

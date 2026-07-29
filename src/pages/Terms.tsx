@@ -29,6 +29,17 @@ export default function Terms() {
         charge. Reservations and payments are completed directly through the
         selected provider, whose terms and cancellation policies apply.
       </p>
+      <h2>Self-booking guidance</h2>
+      <p>
+        Some pages, including Book It Yourself, are built for travelers who
+        book directly with the provider. When Paradox Travel Network answers
+        questions or offers input about a trip you are booking yourself, that
+        guidance is general information only. It is not a formal travel
+        advisory engagement, a professional recommendation, or a guarantee of
+        suitability, availability, pricing, or outcome. You are responsible
+        for reviewing eligibility requirements, terms, and details directly
+        with the provider, and for the decision to book.
+      </p>
       <h2>Affiliate relationships</h2>
       <p>
         Some outbound links are affiliate or referral links. A booking made
