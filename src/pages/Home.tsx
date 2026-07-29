@@ -16,7 +16,7 @@ import { useSeo } from "../hooks/useSeo";
 import { stagger, fadeUp } from "../lib/motion";
 import { assets, links } from "../lib/assets";
 import { faqs } from "../data/site";
-import { featuredPosts, categoryImage } from "../data/blog";
+import { featuredPosts, getPostImage } from "../data/blog";
 import Globe from "../components/Globe";
 import Marquee from "../components/Marquee";
 import Stats from "../components/Stats";
@@ -363,7 +363,7 @@ export default function Home() {
             <motion.article key={post.slug} variants={fadeUp}>
               <Link to={`/travel-tips/${post.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft">
                 <div className="relative h-40 overflow-hidden">
-                  <img src={categoryImage[post.category]} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src={getPostImage(post)} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean">
                     {post.category}
                   </span>

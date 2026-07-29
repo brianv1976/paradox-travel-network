@@ -1,7 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Clock, User } from "lucide-react";
-import { getPost, posts, categoryImage } from "../data/blog";
+import { getPost, posts, getPostImage } from "../data/blog";
 import { useSeo } from "../hooks/useSeo";
 import CTASection from "../components/CTASection";
 import { fadeUp, stagger } from "../lib/motion";
@@ -79,7 +79,7 @@ export default function BlogPost() {
             className="mx-auto mt-10 aspect-[16/8] max-w-4xl overflow-hidden rounded-[2rem] shadow-lift"
           >
             <img
-              src={post.image ?? categoryImage[post.category]}
+              src={getPostImage(post)}
               alt=""
               className="h-full w-full object-cover"
             />
@@ -116,7 +116,7 @@ export default function BlogPost() {
             >
               <div className="relative h-36 overflow-hidden">
                 <img
-                  src={categoryImage[p.category]}
+                  src={getPostImage(p)}
                   alt=""
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />

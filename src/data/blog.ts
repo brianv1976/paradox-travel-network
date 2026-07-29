@@ -31,6 +31,9 @@ export const categoryImage: Record<Category, string> = {
   General: assets.img.beach,
 };
 
+export const getPostImage = (post: Post): string =>
+  post.image ?? categoryImage[post.category];
+
 export const categories: Category[] = [
   "Packing",
   "Airports",

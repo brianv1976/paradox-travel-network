@@ -1,15 +1,98 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Clock, Mail, CheckCircle2 } from "lucide-react";
+import { ArrowRight, ChevronDown, Clock, Mail, CheckCircle2 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
-import { posts, categories, categoryImage, type Category } from "../data/blog";
+import { posts, categories, getPostImage, type Category, type Post } from "../data/blog";
 import { submitForm } from "../lib/form";
 import PageHero from "../components/PageHero";
 import { assets } from "../lib/assets";
 import { fadeUp, stagger } from "../lib/motion";
 
 type Filter = "All" | Category;
+
+function PostRow({ post }: { post: Post }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <motion.article
+      layout
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      whileHover={{ y: -4 }}
+      exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.25 } }}
+      transition={{ duration: 0.3 }}
+      className="group overflow-hidden rounded-3xl border border-ink/10 bg-cream transition-shadow duration-300 hover:shadow-soft"
+    >
+      <div className="flex flex-col md:flex-row">
+        <Link
+          to={`/travel-tips/${post.slug}`}
+          className="relative block aspect-[4/3] self-start overflow-hidden md:w-[26rem] md:flex-shrink-0"
+        >
+          <img
+            src={getPostImage(post)}
+            alt=""
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean">
+            {post.category}
+          </span>
+        </Link>
+
+        <div className="flex flex-1 flex-col p-6 md:p-8">
+          <div className="flex items-center gap-1.5 text-sm text-fog">
+            <Clock size={13} /> {post.readingTime} min
+          </div>
+          <Link to={`/travel-tips/${post.slug}`}>
+            <h3 className="mt-2 font-display text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-ocean md:text-3xl">
+              {post.title}
+            </h3>
+          </Link>
+          <p className="mt-3 leading-relaxed text-fog">{post.summary}</p>
+
+          <AnimatePresence initial={false}>
+            {expanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="overflow-hidden"
+              >
+                <div className="space-y-3 pt-3">
+                  {post.content.map((paragraph, i) => (
+                    <p key={i} className="leading-relaxed text-fog">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+                <Link
+                  to={`/travel-tips/${post.slug}`}
+                  className="link-underline mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-ocean"
+                >
+                  View full article <ArrowRight size={14} />
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-ocean"
+          >
+            {expanded ? "Show less" : "Read more"}
+            <ChevronDown
+              size={15}
+              className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+            />
+          </button>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
 
 export default function Blog() {
   useSeo(
@@ -70,58 +153,18 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Grid */}
+      {/* List */}
       <section className="container-px pb-24">
         <motion.div
           layout
-          variants={stagger(0.06)}
+          variants={stagger(0.08)}
           initial="hidden"
           animate="show"
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="flex flex-col gap-6"
         >
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence>
             {filtered.map((post) => (
-              <motion.article
-                key={post.slug}
-                layout
-                variants={fadeUp}
-                initial="hidden"
-                animate="show"
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.4 }}
-              >
-                <Link
-                  to={`/travel-tips/${post.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
-                >
-                  <div className="relative h-44 overflow-hidden">
-                    <img
-                      src={categoryImage[post.category]}
-                      alt=""
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean">
-                      {post.category}
-                    </span>
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <h3 className="font-display text-lg font-semibold leading-snug text-ink">
-                      {post.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-fog">
-                      {post.summary}
-                    </p>
-                    <div className="mt-auto flex items-center justify-between pt-4 text-sm">
-                      <span className="flex items-center gap-1.5 text-fog">
-                        <Clock size={13} /> {post.readingTime} min
-                      </span>
-                      <span className="link-underline">
-                        Read tip <ArrowRight size={14} />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.article>
+              <PostRow key={post.slug} post={post} />
             ))}
           </AnimatePresence>
         </motion.div>
