@@ -37,6 +37,7 @@ export default function About() {
         title="A real person helping make the trip make sense."
         image={assets.portrait}
         imageAlt="Brian Voyles, owner and travel advisor at Paradox Travel Network"
+        imagePosition="object-top"
       >
         <p className="text-lg leading-relaxed text-fog">
           Paradox Travel Network is built around practical help, clear choices,
@@ -109,8 +110,8 @@ export default function About() {
           </Reveal>
           <Reveal delay={0.15}>
             <blockquote className="mt-10 max-w-3xl border-l-2 border-gold pl-6 font-display text-2xl italic leading-snug text-cream md:text-3xl">
-              “Something goes wrong mid-trip — and eventually something always
-              does — you've got my number. That's kind of the whole point.”
+              "Something goes wrong mid-trip — and eventually something always
+              does — you've got my number. That's kind of the whole point."
             </blockquote>
           </Reveal>
         </div>

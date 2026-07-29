@@ -6,6 +6,7 @@ interface Props {
   title: string;
   image?: string;
   imageAlt?: string;
+  imagePosition?: string;
   children?: React.ReactNode;
 }
 
@@ -18,6 +19,7 @@ export default function PageHero({
   title,
   image,
   imageAlt,
+  imagePosition = "object-center",
   children,
 }: Props) {
   return (
@@ -54,7 +56,7 @@ export default function PageHero({
             <img
               src={image}
               alt={imageAlt ?? ""}
-              className="h-full w-full object-cover object-top"
+              className={`h-full w-full object-cover ${imagePosition}`}
               loading="eager"
             />
           </motion.div>
