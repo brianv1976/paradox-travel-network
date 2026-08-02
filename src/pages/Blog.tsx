@@ -26,7 +26,18 @@ function PostRow({ post }: { post: Post }) {
       transition={{ duration: 0.3 }}
       className="group overflow-hidden rounded-3xl border border-ink/10 bg-cream transition-shadow duration-300 hover:shadow-soft"
     >
-      <div className="flex flex-col md:flex-row">
+      <div className="p-6 pb-0 md:p-8 md:pb-0">
+        <div className="flex items-center gap-1.5 text-sm text-fog">
+          <Clock size={13} /> {post.readingTime} min
+        </div>
+        <Link to={`/travel-tips/${post.slug}`}>
+          <h3 className="mt-2 font-display text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-ocean md:text-3xl">
+            {post.title}
+          </h3>
+        </Link>
+      </div>
+
+      <div className="mt-5 flex flex-col md:mt-6 md:flex-row">
         <Link
           to={`/travel-tips/${post.slug}`}
           className="relative block aspect-[4/3] self-start overflow-hidden md:w-[26rem] md:flex-shrink-0"
@@ -42,15 +53,7 @@ function PostRow({ post }: { post: Post }) {
         </Link>
 
         <div className="flex flex-1 flex-col p-6 md:p-8">
-          <div className="flex items-center gap-1.5 text-sm text-fog">
-            <Clock size={13} /> {post.readingTime} min
-          </div>
-          <Link to={`/travel-tips/${post.slug}`}>
-            <h3 className="mt-2 font-display text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-ocean md:text-3xl">
-              {post.title}
-            </h3>
-          </Link>
-          <p className="mt-3 leading-relaxed text-fog">{post.summary}</p>
+          <p className="leading-relaxed text-fog">{post.summary}</p>
 
           <AnimatePresence initial={false}>
             {expanded && (
