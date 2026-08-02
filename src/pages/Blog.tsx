@@ -122,34 +122,35 @@ export default function Blog() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-cream pt-32 md:pt-40">
-        <div className="absolute inset-0">
+      <section className="bg-cream pt-32 md:pt-40">
+        <div className="h-64 w-full overflow-hidden md:h-80 lg:h-96">
           <img
             src="/assets/Useful Advice. Minimal inspirational fog V2.png"
             alt="Brian pointing toward the Postcards from Paradox intro, standing beside a bookshelf with travel mementos, a cork board of destination photos, and a packed bag"
             className="h-full w-full object-cover object-[70%_center]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-cream via-cream/80 to-transparent md:via-cream/60" />
         </div>
+      </section>
 
+      <section className="bg-cream">
         <motion.div
           variants={stagger(0.1)}
           initial="hidden"
           animate="show"
-          className="container-px relative flex min-h-[420px] flex-col justify-center gap-6 py-16 md:min-h-[520px] md:py-24"
+          className="container-px flex flex-col gap-6 py-12 md:py-16"
         >
           <motion.span variants={fadeUp} className="eyebrow">
             Postcards from Paradox
           </motion.span>
           <motion.h1
             variants={fadeUp}
-            className="max-w-xl text-4xl font-semibold leading-[1.05] text-ink md:text-5xl lg:text-6xl"
+            className="max-w-2xl text-4xl font-semibold leading-[1.05] text-ink md:text-5xl lg:text-6xl"
           >
             Useful advice. Minimal inspirational fog.
           </motion.h1>
           <motion.p
             variants={fadeUp}
-            className="max-w-md text-lg leading-relaxed text-fog"
+            className="max-w-xl text-lg leading-relaxed text-fog"
           >
             Practical articles for smoother trips, plus an occasional email
             with destination notes, booking reminders, and fewer manufactured
