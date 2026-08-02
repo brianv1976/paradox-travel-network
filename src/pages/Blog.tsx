@@ -123,11 +123,11 @@ export default function Blog() {
   return (
     <>
       <section className="bg-cream pt-32 md:pt-40">
-        <div className="h-64 w-full overflow-hidden md:h-80 lg:h-96">
+        <div className="aspect-[16/9] w-full overflow-hidden">
           <img
             src="/assets/Useful Advice. Minimal inspirational fog V2.png"
             alt="Brian pointing toward the Postcards from Paradox intro, standing beside a bookshelf with travel mementos, a cork board of destination photos, and a packed bag"
-            className="h-full w-full object-cover object-[70%_center]"
+            className="h-full w-full object-cover"
           />
         </div>
       </section>
