@@ -6,7 +6,6 @@ import { useSeo } from "../hooks/useSeo";
 import { posts, categories, getPostImage, type Category, type Post } from "../data/blog";
 import { submitForm } from "../lib/form";
 import PageHero from "../components/PageHero";
-import { assets } from "../lib/assets";
 import { fadeUp, stagger } from "../lib/motion";
 
 type Filter = "All" | Category;
@@ -127,8 +126,8 @@ export default function Blog() {
       <PageHero
         eyebrow="Postcards from Paradox"
         title="Useful advice. Minimal inspirational fog."
-        image={assets.mascotWhiteboard}
-        imageAlt="Brian mascot presenting practical travel tips beside a whiteboard"
+        image="/assets/Useful Advice. Minimal inspirational fog.png"
+        imageAlt="Brian pointing to Postcards from Paradox categories: travel tips, places worth the detour, booking reminders, and travel news"
       >
         <p className="text-lg leading-relaxed text-fog">
           Practical articles for smoother trips, plus an occasional email with

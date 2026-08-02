@@ -73,7 +73,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "How to choose realistic flight connection times based on airport size, customs, terminals, mobility, and delay risk.",
-    image: assets.img.airportConnection,
+    image: "/assets/Airport Connection Countdown 4-3 ratio.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 2,
@@ -91,6 +91,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "Why cruise travelers should consider arriving before embarkation day to reduce flight and baggage delay risks.",
+    image: "/assets/Arrive before embarkation day.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 2,
