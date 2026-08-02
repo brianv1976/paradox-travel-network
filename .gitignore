@@ -1,5 +1,2 @@
 node_modules/
 .env
-dist/
-lighthouse-report.json
-lighthouse-prod.json
