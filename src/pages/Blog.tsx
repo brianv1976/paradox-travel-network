@@ -5,7 +5,6 @@ import { ArrowRight, ChevronDown, Clock, Mail, CheckCircle2 } from "lucide-react
 import { useSeo } from "../hooks/useSeo";
 import { posts, categories, getPostImage, type Category, type Post } from "../data/blog";
 import { submitForm } from "../lib/form";
-import PageHero from "../components/PageHero";
 import { fadeUp, stagger } from "../lib/motion";
 
 type Filter = "All" | Category;
@@ -123,18 +122,41 @@ export default function Blog() {
 
   return (
     <>
-      <PageHero
-        eyebrow="Postcards from Paradox"
-        title="Useful advice. Minimal inspirational fog."
-        image="/assets/Useful Advice. Minimal inspirational fog.png"
-        imageAlt="Brian pointing to Postcards from Paradox categories: travel tips, places worth the detour, booking reminders, and travel news"
-      >
-        <p className="text-lg leading-relaxed text-fog">
-          Practical articles for smoother trips, plus an occasional email with
-          destination notes, booking reminders, and fewer manufactured
-          emergencies.
-        </p>
-      </PageHero>
+      <section className="relative overflow-hidden bg-cream pt-32 md:pt-40">
+        <div className="absolute inset-0">
+          <img
+            src="/assets/Useful Advice. Minimal inspirational fog V2.png"
+            alt="Brian pointing toward the Postcards from Paradox intro, standing beside a bookshelf with travel mementos, a cork board of destination photos, and a packed bag"
+            className="h-full w-full object-cover object-[70%_center]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-cream via-cream/80 to-transparent md:via-cream/60" />
+        </div>
+
+        <motion.div
+          variants={stagger(0.1)}
+          initial="hidden"
+          animate="show"
+          className="container-px relative flex min-h-[420px] flex-col justify-center gap-6 py-16 md:min-h-[520px] md:py-24"
+        >
+          <motion.span variants={fadeUp} className="eyebrow">
+            Postcards from Paradox
+          </motion.span>
+          <motion.h1
+            variants={fadeUp}
+            className="max-w-xl text-4xl font-semibold leading-[1.05] text-ink md:text-5xl lg:text-6xl"
+          >
+            Useful advice. Minimal inspirational fog.
+          </motion.h1>
+          <motion.p
+            variants={fadeUp}
+            className="max-w-md text-lg leading-relaxed text-fog"
+          >
+            Practical articles for smoother trips, plus an occasional email
+            with destination notes, booking reminders, and fewer manufactured
+            emergencies.
+          </motion.p>
+        </motion.div>
+      </section>
 
       {/* Filters */}
       <section className="container-px pb-6">
