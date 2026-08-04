@@ -76,7 +76,7 @@ export default function BlogPost() {
             initial={{ opacity: 0, scale: 1.03 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-10 aspect-[16/8] max-w-4xl overflow-hidden rounded-[2rem] shadow-lift"
+            className="mx-auto mt-10 aspect-[4/3] max-w-4xl overflow-hidden rounded-[2rem] shadow-lift"
           >
             <img
               src={getPostImage(post)}
@@ -114,7 +114,7 @@ export default function BlogPost() {
               to={`/travel-tips/${p.slug}`}
               className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
             >
-              <div className="relative h-36 overflow-hidden">
+              <div className="relative aspect-[4/3] overflow-hidden">
                 <img
                   src={getPostImage(p)}
                   alt=""

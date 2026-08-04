@@ -362,7 +362,7 @@ export default function Home() {
           {featuredPosts.map((post) => (
             <motion.article key={post.slug} variants={fadeUp}>
               <Link to={`/travel-tips/${post.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft">
-                <div className="relative h-40 overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={getPostImage(post)} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean">
                     {post.category}
