@@ -17,7 +17,9 @@ import { stagger, fadeUp } from "../lib/motion";
 import { assets, links } from "../lib/assets";
 import { faqs } from "../data/site";
 import { featuredPosts, getPostImage } from "../data/blog";
-import PostcardCollage from "../components/PostcardCollage";
+import Globe from "../components/Globe";
+import Parallax from "../components/Parallax";
+import AnimatedHeadline from "../components/AnimatedHeadline";
 import Marquee from "../components/Marquee";
 import Stats from "../components/Stats";
 import SectionHeading from "../components/SectionHeading";
@@ -107,13 +109,13 @@ export default function Home() {
             <motion.span variants={fadeUp} className="eyebrow">
               Travel Beyond Expectations
             </motion.span>
-            <motion.h1
-              variants={fadeUp}
-              className="text-4xl font-semibold leading-[1.03] text-ink md:text-5xl lg:text-[3.5rem]"
-            >
-              Planning a great trip is harder than booking one. That's what a
-              travel advisor is for.
-            </motion.h1>
+            <h1 className="text-4xl font-semibold leading-[1.03] text-ink md:text-5xl lg:text-[3.5rem]">
+              <AnimatedHeadline
+                immediate
+                delay={0.15}
+                text="Planning a great trip is harder than booking one. That's what a travel advisor is for."
+              />
+            </h1>
             <motion.p
               variants={fadeUp}
               className="max-w-xl text-lg leading-relaxed text-fog"
@@ -137,9 +139,11 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          <div className="relative mx-auto aspect-square w-full max-w-[460px]">
-            <PostcardCollage />
-          </div>
+          <Parallax speed={12} className="mx-auto w-full max-w-[520px]">
+            <div className="relative aspect-square w-full">
+              <Globe />
+            </div>
+          </Parallax>
         </div>
       </section>
 
