@@ -17,7 +17,7 @@ import { stagger, fadeUp } from "../lib/motion";
 import { assets, links } from "../lib/assets";
 import { faqs } from "../data/site";
 import { featuredPosts, getPostImage } from "../data/blog";
-import Globe from "../components/Globe";
+import TravelBoard from "../components/TravelBoard";
 import Marquee from "../components/Marquee";
 import Stats from "../components/Stats";
 import SectionHeading from "../components/SectionHeading";
@@ -145,7 +145,7 @@ export default function Home() {
           >
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-sand to-cream shadow-soft" />
             <div className="absolute inset-0">
-              <Globe />
+              <TravelBoard />
             </div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -156,7 +156,7 @@ export default function Home() {
               <img
                 src={assets.headshot}
                 alt="Brian Voyles"
-                className="h-12 w-12 rounded-full object-cover"
+                className="h-16 w-16 rounded-full object-cover"
               />
               <div>
                 <div className="text-sm font-semibold text-ink">Brian Voyles</div>
