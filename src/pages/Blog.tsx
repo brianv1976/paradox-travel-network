@@ -190,6 +190,12 @@ export default function Blog() {
         </div>
       </section>
 
+      <p className="container-px pb-6 text-center text-sm leading-relaxed text-fog sm:hidden">
+        Practical articles for smoother trips, plus an occasional email with
+        destination notes, booking reminders, and fewer manufactured
+        emergencies.
+      </p>
+
       {/* List */}
       <section className="container-px pb-24">
         <motion.div
