@@ -95,6 +95,7 @@ export default function PlanMyTrip() {
         title="When it's too complicated to Google."
         image={assets.headshot}
         imageAlt="Brian Voyles, travel advisor"
+        imagePosition="object-top"
       >
         <p className="text-lg leading-relaxed text-fog">
           This isn't the tell-me-your-vibe-and-inspire-me form. It's for
