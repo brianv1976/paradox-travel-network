@@ -123,40 +123,39 @@ export default function Blog() {
   return (
     <>
       <section className="bg-cream pt-32 md:pt-40">
-        <div className="aspect-[16/9] w-full overflow-hidden">
+        <div className="relative aspect-[16/9] w-full overflow-hidden">
           <img
-            src="/assets/Useful Advice. Minimal inspirational fog V2.png"
+            src="/assets/Useful Advice. Minimal inspirational fog V3.png"
             alt="Brian pointing toward the Postcards from Paradox intro, standing beside a bookshelf with travel mementos, a cork board of destination photos, and a packed bag"
             className="h-full w-full object-cover"
           />
-        </div>
-      </section>
+          <div className="absolute inset-0 bg-gradient-to-r from-cream/90 via-cream/40 to-transparent" />
 
-      <section className="bg-cream">
-        <motion.div
-          variants={stagger(0.1)}
-          initial="hidden"
-          animate="show"
-          className="container-px flex flex-col gap-6 py-12 md:py-16"
-        >
-          <motion.span variants={fadeUp} className="eyebrow">
-            Postcards from Paradox
-          </motion.span>
-          <motion.h1
-            variants={fadeUp}
-            className="max-w-2xl text-4xl font-semibold leading-[1.05] text-ink md:text-5xl lg:text-6xl"
+          <motion.div
+            variants={stagger(0.1)}
+            initial="hidden"
+            animate="show"
+            className="container-px absolute inset-y-0 left-0 flex w-full max-w-xl flex-col justify-center gap-0.5 sm:gap-4 md:gap-6"
           >
-            Useful advice. Minimal inspirational fog.
-          </motion.h1>
-          <motion.p
-            variants={fadeUp}
-            className="max-w-xl text-lg leading-relaxed text-fog"
-          >
-            Practical articles for smoother trips, plus an occasional email
-            with destination notes, booking reminders, and fewer manufactured
-            emergencies.
-          </motion.p>
-        </motion.div>
+            <motion.span variants={fadeUp} className="eyebrow text-[9px] leading-none sm:text-xs">
+              Postcards from Paradox
+            </motion.span>
+            <motion.h1
+              variants={fadeUp}
+              className="text-base font-semibold leading-[1.05] text-ink sm:text-2xl md:text-5xl lg:text-6xl"
+            >
+              Useful advice. Minimal inspirational fog.
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              className="hidden max-w-md text-sm leading-relaxed text-fog sm:block md:text-lg"
+            >
+              Practical articles for smoother trips, plus an occasional email
+              with destination notes, booking reminders, and fewer
+              manufactured emergencies.
+            </motion.p>
+          </motion.div>
+        </div>
       </section>
 
       {/* Filters */}
