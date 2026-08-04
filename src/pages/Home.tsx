@@ -17,7 +17,7 @@ import { stagger, fadeUp } from "../lib/motion";
 import { assets, links } from "../lib/assets";
 import { faqs } from "../data/site";
 import { featuredPosts, getPostImage } from "../data/blog";
-import TravelBoard from "../components/TravelBoard";
+import PostcardCollage from "../components/PostcardCollage";
 import Marquee from "../components/Marquee";
 import Stats from "../components/Stats";
 import SectionHeading from "../components/SectionHeading";
@@ -130,42 +130,16 @@ export default function Home() {
                 Book It Yourself
                 <ArrowRight size={16} />
               </Link>
-              <div className="flex flex-wrap items-center gap-4">
-                <Link to="/plan-my-trip" className="btn-primary">
-                  Let Brian Plan It
-                  <ArrowRight size={16} />
-                </Link>
-                <motion.div
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6, duration: 0.7 }}
-                  className="flex w-fit items-center gap-3 rounded-2xl bg-cream/90 p-3 pr-5 shadow-lift backdrop-blur-sm ring-1 ring-ink/5"
-                >
-                  <img
-                    src={assets.headshot}
-                    alt="Brian Voyles"
-                    className="h-16 w-16 rounded-full object-cover"
-                  />
-                  <div>
-                    <div className="text-sm font-semibold text-ink">Brian Voyles</div>
-                    <div className="text-xs text-fog">Owner & Travel Advisor</div>
-                  </div>
-                </motion.div>
-              </div>
+              <Link to="/plan-my-trip" className="btn-primary">
+                Let Brian Plan It
+                <ArrowRight size={16} />
+              </Link>
             </motion.div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto aspect-square w-full max-w-[460px]"
-          >
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-sand to-cream shadow-soft" />
-            <div className="absolute inset-0">
-              <TravelBoard />
-            </div>
-          </motion.div>
+          <div className="relative mx-auto aspect-square w-full max-w-[460px]">
+            <PostcardCollage />
+          </div>
         </div>
       </section>
 
