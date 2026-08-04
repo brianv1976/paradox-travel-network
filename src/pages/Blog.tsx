@@ -135,20 +135,29 @@ export default function Blog() {
             variants={stagger(0.1)}
             initial="hidden"
             animate="show"
-            className="container-px absolute inset-y-0 left-0 flex w-full max-w-xl flex-col justify-center gap-0.5 sm:gap-4 md:gap-6"
+            className="container-px absolute inset-y-0 left-0 flex w-full max-w-xl flex-col justify-start gap-1.5 pt-10 sm:gap-4 sm:pt-0 sm:justify-center md:w-[46%] md:max-w-none md:justify-start md:gap-6 md:pt-10 lg:gap-8 lg:pt-14"
           >
-            <motion.span variants={fadeUp} className="eyebrow text-[9px] leading-none sm:text-xs">
+            <motion.span variants={fadeUp} className="eyebrow hidden text-xs sm:block md:text-sm lg:text-base">
               Postcards from Paradox
             </motion.span>
             <motion.h1
               variants={fadeUp}
-              className="text-base font-semibold leading-[1.05] text-ink sm:text-2xl md:text-5xl lg:text-6xl"
+              className="text-2xl font-semibold leading-[1.15] text-ink sm:text-2xl sm:leading-[1.1] md:text-3xl lg:text-6xl xl:text-7xl"
             >
-              Useful advice. Minimal inspirational fog.
+              <span className="sm:hidden">
+                Useful advice.
+                <br />
+                Minimal
+                <br />
+                inspirational fog.
+              </span>
+              <span className="hidden sm:inline">
+                Useful advice. Minimal inspirational fog.
+              </span>
             </motion.h1>
             <motion.p
               variants={fadeUp}
-              className="hidden max-w-md text-sm leading-relaxed text-fog sm:block md:text-lg"
+              className="hidden max-w-md text-sm leading-relaxed text-fog sm:block md:max-w-none md:text-base lg:text-xl xl:text-2xl"
             >
               Practical articles for smoother trips, plus an occasional email
               with destination notes, booking reminders, and fewer
@@ -156,11 +165,15 @@ export default function Blog() {
             </motion.p>
           </motion.div>
         </div>
+
+        <span className="eyebrow container-px block pb-6 pt-4 text-center text-xs sm:hidden">
+          Postcards from Paradox
+        </span>
       </section>
 
       {/* Filters */}
       <section className="container-px pb-6">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
           {filters.map((f) => (
             <button
               key={f}
