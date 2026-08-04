@@ -21,9 +21,6 @@ export default function Navbar() {
     setOpen(false);
   }, [pathname]);
 
-  const items = navLinks.filter((l) => !l.cta);
-  const cta = navLinks.find((l) => l.cta);
-
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-smooth ${
@@ -47,26 +44,28 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-7 lg:flex">
-          {items.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                `text-sm font-medium transition-colors hover:text-ocean ${
-                  isActive && link.to !== "/#explore"
-                    ? "text-ocean"
-                    : "text-ink/80"
-                }`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
-          {cta && (
-            <Link to={cta.to} className="btn-primary">
-              {cta.label}
-              <ArrowRight size={16} />
-            </Link>
+          {navLinks.map((link) =>
+            link.cta ? (
+              <Link key={link.to} to={link.to} className="btn-primary">
+                {link.label}
+                <ArrowRight size={16} />
+              </Link>
+            ) : (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                end={link.to === "/"}
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors hover:text-ocean ${
+                    isActive && link.to !== "/#explore"
+                      ? "text-ocean"
+                      : "text-ink/80"
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            )
           )}
         </div>
 
@@ -90,20 +89,25 @@ export default function Navbar() {
             className="overflow-hidden border-t border-ink/10 bg-cream lg:hidden"
           >
             <div className="container-px flex flex-col gap-1 py-5">
-              {items.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className="rounded-xl px-3 py-3 text-base font-medium text-ink/85 transition-colors hover:bg-sand"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              {cta && (
-                <Link to={cta.to} className="btn-primary mt-3 w-full">
-                  {cta.label}
-                  <ArrowRight size={16} />
-                </Link>
+              {navLinks.map((link) =>
+                link.cta ? (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="btn-primary mt-3 w-full"
+                  >
+                    {link.label}
+                    <ArrowRight size={16} />
+                  </Link>
+                ) : (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="rounded-xl px-3 py-3 text-base font-medium text-ink/85 transition-colors hover:bg-sand"
+                  >
+                    {link.label}
+                  </Link>
+                )
               )}
             </div>
           </motion.div>

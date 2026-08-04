@@ -93,8 +93,8 @@ export default function PlanMyTrip() {
       <PageHero
         eyebrow="Booked right, no do-overs"
         title="When it's too complicated to Google."
-        image={assets.img.planning}
-        imageAlt="Traveler planning a journey with maps and travel essentials"
+        image={assets.headshot}
+        imageAlt="Brian Voyles, travel advisor"
       >
         <p className="text-lg leading-relaxed text-fog">
           This isn't the tell-me-your-vibe-and-inspire-me form. It's for

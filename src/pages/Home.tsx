@@ -178,12 +178,14 @@ export default function Home() {
           intro="Some travelers want control. Others want the details handled. Both paths stay clear and easy to find."
         />
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
-          <Reveal className="flex flex-col rounded-[2rem] border border-ink/10 bg-cream p-8 md:p-10">
-            <div className="flex items-center justify-between">
+          <Reveal className="group flex flex-col rounded-[2rem] border border-ink/10 bg-cream p-8 transition-shadow duration-300 hover:shadow-soft md:p-10">
+            <Link to="/book-it-yourself" className="flex items-center justify-between">
               <span className="font-display text-3xl font-semibold text-clay">01</span>
-              <ArrowUpRight className="text-ocean" />
-            </div>
-            <h3 className="mt-6 text-2xl font-semibold text-ink">Book It Yourself</h3>
+              <ArrowUpRight className="text-ocean transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+            <Link to="/book-it-yourself">
+              <h3 className="mt-6 text-2xl font-semibold text-ink">Book It Yourself</h3>
+            </Link>
             <p className="mt-3 leading-relaxed text-fog">
               Book directly with trusted names — all gathered in one place so you
               don't have to hunt across a dozen sites.
@@ -195,7 +197,7 @@ export default function Home() {
                 ["Exoticca", links.exoticca, "Fully packaged international vacations, flights included."],
               ].map(([name, href, blurb]) => (
                 <li key={name} className="text-fog">
-                  <a href={href} target="_blank" rel="noopener noreferrer sponsored" className="font-semibold text-ocean hover:text-clay">
+                  <a href={href} target="_blank" rel="noopener noreferrer sponsored" className="relative z-10 font-semibold text-ocean hover:text-clay">
                     {name}
                   </a>{" "}
                   — {blurb}
@@ -207,12 +209,14 @@ export default function Home() {
             </Link>
           </Reveal>
 
-          <Reveal delay={0.1} className="flex flex-col rounded-[2rem] bg-ocean p-8 text-cream md:p-10">
-            <div className="flex items-center justify-between">
+          <Reveal delay={0.1} className="group flex flex-col rounded-[2rem] bg-ocean p-8 text-cream transition-shadow duration-300 hover:shadow-lift md:p-10">
+            <Link to="/plan-my-trip" className="flex items-center justify-between">
               <span className="font-display text-3xl font-semibold text-gold">02</span>
-              <Sparkles className="text-gold" />
-            </div>
-            <h3 className="mt-6 text-2xl font-semibold">Let Brian Plan It</h3>
+              <Sparkles className="text-gold transition-transform duration-300 group-hover:scale-110" />
+            </Link>
+            <Link to="/plan-my-trip">
+              <h3 className="mt-6 text-2xl font-semibold">Let Brian Plan It</h3>
+            </Link>
             <p className="mt-3 leading-relaxed text-cream/80">
               Complicated itinerary or group logistics? Tell Brian what you're
               planning — he'll book it right the first time.

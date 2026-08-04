@@ -6,18 +6,19 @@ export interface NavLink {
 
 // Primary navigation. "Explore Travel" points at the homepage #explore anchor.
 export const navLinks: NavLink[] = [
+  { label: "Home", to: "/" },
   { label: "Book It Yourself", to: "/book-it-yourself" },
+  { label: "Let Brian Book It", to: "/plan-my-trip", cta: true },
   { label: "Postcards from Paradox", to: "/travel-tips" },
   { label: "Explore Travel", to: "/#explore" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
-  { label: "Plan My Trip", to: "/plan-my-trip", cta: true },
 ];
 
 export const footerLinks: NavLink[] = [
   { label: "Home", to: "/" },
   { label: "Book It Yourself", to: "/book-it-yourself" },
-  { label: "Plan My Trip", to: "/plan-my-trip" },
+  { label: "Let Brian Book It", to: "/plan-my-trip" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
   { label: "Privacy", to: "/privacy" },
