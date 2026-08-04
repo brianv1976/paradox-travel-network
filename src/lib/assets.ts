@@ -10,7 +10,8 @@
 
 export const assets = {
   logo: "/Web Logo.png",
-  headshot: "/assets/headshot.png",
+  headshot: "/assets/Headshot.png",
+  halfBody: "/assets/Half body Shot.jpg",
   portrait: "/assets/portrait.jpg",
   mascotWhiteboard: "/assets/mascot-whiteboard.png",
   img: {
