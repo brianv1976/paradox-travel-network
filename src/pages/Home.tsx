@@ -135,6 +135,22 @@ export default function Home() {
                 <ArrowRight size={16} />
               </Link>
             </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.7 }}
+              className="flex w-fit items-center gap-3 rounded-2xl bg-cream/90 p-3 pr-5 shadow-lift backdrop-blur-sm ring-1 ring-ink/5"
+            >
+              <img
+                src={assets.headshot}
+                alt="Brian Voyles"
+                className="h-16 w-16 rounded-full object-cover"
+              />
+              <div>
+                <div className="text-sm font-semibold text-ink">Brian Voyles</div>
+                <div className="text-xs text-fog">Owner & Travel Advisor</div>
+              </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
@@ -147,22 +163,6 @@ export default function Home() {
             <div className="absolute inset-0">
               <TravelBoard />
             </div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.7 }}
-              className="absolute -bottom-2 left-2 flex items-center gap-3 rounded-2xl bg-cream/90 p-3 pr-5 shadow-lift backdrop-blur-sm ring-1 ring-ink/5"
-            >
-              <img
-                src={assets.headshot}
-                alt="Brian Voyles"
-                className="h-16 w-16 rounded-full object-cover"
-              />
-              <div>
-                <div className="text-sm font-semibold text-ink">Brian Voyles</div>
-                <div className="text-xs text-fog">Owner & Travel Advisor</div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </section>
