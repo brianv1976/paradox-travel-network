@@ -125,30 +125,32 @@ export default function Home() {
               sites you already know and trust — gathered in one place, vetted,
               and sorted so you're not spending 16 hours on tabs.
             </motion.p>
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
               <Link to="/book-it-yourself" className="btn-ghost">
                 Book It Yourself
                 <ArrowRight size={16} />
               </Link>
-              <Link to="/plan-my-trip" className="btn-primary">
-                Let Brian Plan It
-                <ArrowRight size={16} />
-              </Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.7 }}
-              className="flex w-fit items-center gap-3 rounded-2xl bg-cream/90 p-3 pr-5 shadow-lift backdrop-blur-sm ring-1 ring-ink/5"
-            >
-              <img
-                src={assets.headshot}
-                alt="Brian Voyles"
-                className="h-16 w-16 rounded-full object-cover"
-              />
-              <div>
-                <div className="text-sm font-semibold text-ink">Brian Voyles</div>
-                <div className="text-xs text-fog">Owner & Travel Advisor</div>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link to="/plan-my-trip" className="btn-primary">
+                  Let Brian Plan It
+                  <ArrowRight size={16} />
+                </Link>
+                <motion.div
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6, duration: 0.7 }}
+                  className="flex w-fit items-center gap-3 rounded-2xl bg-cream/90 p-3 pr-5 shadow-lift backdrop-blur-sm ring-1 ring-ink/5"
+                >
+                  <img
+                    src={assets.headshot}
+                    alt="Brian Voyles"
+                    className="h-16 w-16 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="text-sm font-semibold text-ink">Brian Voyles</div>
+                    <div className="text-xs text-fog">Owner & Travel Advisor</div>
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           </motion.div>
