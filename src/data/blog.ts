@@ -216,7 +216,7 @@ export const posts: Post[] = [
   },
   {
     slug: "do-not-overschedule-the-vacation",
-    title: "Do Not Schedule the Vacation Until It Feels Like Another Job",
+    title: "Do Not Schedule Your Vacation So Tightly That It Feels Like Another Job",
     category: "General",
     summary:
       "Prioritize the experiences that matter and leave room for rest, weather, discovery, and reality.",
