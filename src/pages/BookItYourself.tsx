@@ -69,16 +69,19 @@ const projectExpeditionHighlights = [
     icon: Map,
     title: "Full multi-day itineraries",
     body: "Genuine multi-day trips and adventures, planned start to finish — not single-day tours stitched together.",
+    image: assets.img.adventure,
   },
   {
     icon: Users,
     title: "Local operators, not a marketplace",
     body: "A smaller, curated catalog run by local guides who know their destination, rather than an endless generic listing.",
+    image: assets.img.resort,
   },
   {
     icon: ShieldCheck,
     title: "Back-to-Ship Guarantee",
     body: "If a shore excursion runs long, they cover getting you back to the ship — no clock-watching on port day.",
+    image: assets.img.cruise,
   },
 ];
 
@@ -313,16 +316,39 @@ export default function BookItYourself() {
           {projectExpeditionHighlights.map((h) => {
             const Icon = h.icon;
             return (
-              <motion.div
-                key={h.title}
-                variants={fadeUp}
-                className="rounded-2xl border border-ink/10 bg-cream p-8"
-              >
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean/10 text-ocean">
-                  <Icon size={22} />
-                </span>
-                <h3 className="mt-5 text-xl font-semibold text-ink">{h.title}</h3>
-                <p className="mt-2 text-fog">{h.body}</p>
+              <motion.div key={h.title} variants={fadeUp}>
+                <TiltCard className="rounded-2xl" intensity={7}>
+                  <a
+                    href={links.projectExpedition}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
+                  >
+                    <div className="relative h-40 overflow-hidden">
+                      <img
+                        src={h.image}
+                        alt=""
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-cream/25 to-transparent transition-transform duration-[900ms] ease-smooth group-hover:translate-x-full" />
+                      <span className="absolute -bottom-5 left-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean text-cream shadow-lift transition-transform duration-300 group-hover:rotate-12">
+                        <Icon size={20} />
+                      </span>
+                    </div>
+                    <div
+                      className="flex flex-1 flex-col p-5 pt-8"
+                      style={{ transform: "translateZ(28px)" }}
+                    >
+                      <h3 className="font-display text-lg font-semibold text-ink">
+                        {h.title}
+                      </h3>
+                      <p className="mt-1 text-sm text-fog">{h.body}</p>
+                      <span className="link-underline mt-auto pt-4 text-sm">
+                        Explore Tours &amp; Experiences <ExternalLink size={13} />
+                      </span>
+                    </div>
+                  </a>
+                </TiltCard>
               </motion.div>
             );
           })}
