@@ -21,6 +21,7 @@ import Globe from "../components/Globe";
 import Parallax from "../components/Parallax";
 import DestinationPlayer from "../components/DestinationPlayer";
 import TiltCard from "../components/TiltCard";
+import Magnetic from "../components/Magnetic";
 import AnimatedHeadline from "../components/AnimatedHeadline";
 import Marquee from "../components/Marquee";
 import Stats from "../components/Stats";
@@ -130,14 +131,18 @@ export default function Home() {
               and sorted so you're not spending 16 hours on tabs.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
-              <Link to="/book-it-yourself" className="btn-ghost">
-                Book It Yourself
-                <ArrowRight size={16} />
-              </Link>
-              <Link to="/plan-my-trip" className="btn-primary">
-                Let Brian Plan It
-                <ArrowRight size={16} />
-              </Link>
+              <Magnetic strength={8}>
+                <Link to="/book-it-yourself" className="btn-ghost">
+                  Book It Yourself
+                  <ArrowRight size={16} />
+                </Link>
+              </Magnetic>
+              <Magnetic strength={8}>
+                <Link to="/plan-my-trip" className="btn-primary">
+                  Let Brian Plan It
+                  <ArrowRight size={16} />
+                </Link>
+              </Magnetic>
             </motion.div>
           </motion.div>
 

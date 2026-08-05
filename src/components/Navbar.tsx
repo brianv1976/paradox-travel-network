@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { navLinks } from "../data/site";
+import Magnetic from "./Magnetic";
 import { assets, business } from "../lib/assets";
 
 export default function Navbar() {
@@ -46,10 +47,12 @@ export default function Navbar() {
         <div className="hidden items-center gap-7 lg:flex">
           {navLinks.map((link) =>
             link.cta ? (
-              <Link key={link.to} to={link.to} className="btn-primary">
-                {link.label}
-                <ArrowRight size={16} />
-              </Link>
+              <Magnetic key={link.to} strength={6}>
+                <Link to={link.to} className="btn-primary">
+                  {link.label}
+                  <ArrowRight size={16} />
+                </Link>
+              </Magnetic>
             ) : (
               <NavLink
                 key={link.to}

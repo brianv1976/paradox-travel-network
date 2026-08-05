@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Reveal from "./Reveal";
+import Magnetic from "./Magnetic";
 
 interface Props {
   eyebrow?: string;
@@ -39,17 +40,21 @@ export default function CTASection({
             <p className="text-lg leading-relaxed text-cream/80">{body}</p>
           )}
           <div className="mt-4 flex flex-wrap gap-4">
-            <Link to={primaryTo} className="btn bg-clay text-cream hover:bg-clay-dark">
-              {primaryLabel}
-              <ArrowRight size={16} />
-            </Link>
-            {secondaryLabel && secondaryTo && (
-              <Link
-                to={secondaryTo}
-                className="btn border border-cream/30 text-cream hover:bg-cream/10"
-              >
-                {secondaryLabel}
+            <Magnetic strength={9}>
+              <Link to={primaryTo} className="btn bg-clay text-cream hover:bg-clay-dark">
+                {primaryLabel}
+                <ArrowRight size={16} />
               </Link>
+            </Magnetic>
+            {secondaryLabel && secondaryTo && (
+              <Magnetic strength={9}>
+                <Link
+                  to={secondaryTo}
+                  className="btn border border-cream/30 text-cream hover:bg-cream/10"
+                >
+                  {secondaryLabel}
+                </Link>
+              </Magnetic>
             )}
           </div>
         </div>

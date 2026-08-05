@@ -9,8 +9,9 @@ import { submitForm } from "../lib/form";
 import { links, assets } from "../lib/assets";
 import { stagger, fadeUp } from "../lib/motion";
 
+// Fields lift and glow on focus so the active one is unmistakable.
 const inputClass =
-  "w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink outline-none transition focus:border-ocean focus:ring-2 focus:ring-ocean/20 placeholder:text-fog/60";
+  "w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink outline-none transition-all duration-300 ease-smooth focus:-translate-y-0.5 focus:border-ocean focus:shadow-soft focus:ring-2 focus:ring-ocean/20 hover:border-ink/25 placeholder:text-fog/60";
 const labelClass = "mb-1.5 block text-sm font-medium text-ink";
 
 const tripTypes = [

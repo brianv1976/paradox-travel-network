@@ -19,11 +19,39 @@ export default function Stats() {
         viewport={{ once: true, amount: 0.3 }}
         className="grid gap-8 rounded-[2rem] border border-ink/10 bg-cream p-10 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {STATS.map((s) => (
-          <motion.div key={s.label} variants={fadeUp} className="text-center">
-            <div className="font-display text-5xl font-semibold text-ocean md:text-6xl">
+        {STATS.map((s, i) => (
+          <motion.div
+            key={s.label}
+            variants={fadeUp}
+            whileHover={{ y: -6 }}
+            transition={{ duration: 0.3 }}
+            className="group relative text-center"
+          >
+            {/* Divider rules draw down between columns as the row lands. */}
+            {i > 0 && (
+              <motion.span
+                aria-hidden="true"
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
+                className="absolute -left-4 top-1/2 hidden h-16 w-px origin-top -translate-y-1/2 bg-ink/10 lg:block"
+              />
+            )}
+            <motion.div
+              initial={{ scale: 0.7, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{
+                type: "spring",
+                stiffness: 180,
+                damping: 14,
+                delay: i * 0.09,
+              }}
+              className="font-display text-5xl font-semibold text-ocean transition-colors duration-300 group-hover:text-clay md:text-6xl"
+            >
               <Counter value={s.value} suffix={s.suffix} />
-            </div>
+            </motion.div>
             <p className="mx-auto mt-3 max-w-[15rem] text-sm leading-relaxed text-fog">
               {s.label}
             </p>

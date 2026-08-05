@@ -12,6 +12,7 @@ import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
+import TiltCard from "../components/TiltCard";
 import { assets, links } from "../lib/assets";
 import { fadeUp, stagger } from "../lib/motion";
 
@@ -98,34 +99,38 @@ function ExampleGrid({
       className="grid gap-5 md:grid-cols-3"
     >
       {items.map((it) => (
-        <motion.a
-          key={it.title}
-          variants={fadeUp}
-          href={it.href}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
-        >
-          <div className="relative h-40 overflow-hidden">
-            <img
-              src={it.image}
-              alt=""
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          </div>
-          <div className="flex flex-1 flex-col p-5">
-            <span className="text-xs font-semibold uppercase tracking-wide text-clay">
-              {it.place}
-            </span>
-            <h4 className="mt-1 font-display text-lg font-semibold text-ink">
-              {it.title}
-            </h4>
-            <p className="mt-1 text-sm text-fog">{it.blurb}</p>
-            <span className="link-underline mt-auto pt-4 text-sm">
-              View experience <ExternalLink size={13} />
-            </span>
-          </div>
-        </motion.a>
+        <motion.div key={it.title} variants={fadeUp}>
+          <TiltCard className="rounded-2xl" intensity={7}>
+            <a
+              href={it.href}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
+            >
+              <div className="relative h-40 overflow-hidden">
+                <img
+                  src={it.image}
+                  alt=""
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                {/* Sweeps across the image on hover. */}
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-cream/25 to-transparent transition-transform duration-[900ms] ease-smooth group-hover:translate-x-full" />
+              </div>
+              <div className="flex flex-1 flex-col p-5" style={{ transform: "translateZ(28px)" }}>
+                <span className="text-xs font-semibold uppercase tracking-wide text-clay">
+                  {it.place}
+                </span>
+                <h4 className="mt-1 font-display text-lg font-semibold text-ink">
+                  {it.title}
+                </h4>
+                <p className="mt-1 text-sm text-fog">{it.blurb}</p>
+                <span className="link-underline mt-auto pt-4 text-sm">
+                  View experience <ExternalLink size={13} />
+                </span>
+              </div>
+            </a>
+          </TiltCard>
+        </motion.div>
       ))}
     </motion.div>
   );
