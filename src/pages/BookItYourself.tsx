@@ -267,28 +267,6 @@ export default function BookItYourself() {
         </div>
       </section>
 
-      {/* Viator */}
-      <section id="viator" className="container-px py-20 md:py-28">
-        <SectionHeading
-          eyebrow="Tours, activities and local experiences"
-          title="Viator"
-          intro="Search tours, attractions, tickets, day trips, transfers, food experiences, cultural activities, outdoor adventures, and memorable things to do around the world."
-        />
-        <Reveal delay={0.05} className="mt-6">
-          <a
-            href={links.viator}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
-            className="btn-primary"
-          >
-            Browse all Viator experiences <ExternalLink size={15} />
-          </a>
-        </Reveal>
-        <div className="mt-12">
-          <ExampleGrid items={viatorExamples} />
-        </div>
-      </section>
-
       {/* Project Expedition */}
       <section id="project-expedition" className="container-px py-20 md:py-28">
         <SectionHeading
@@ -353,6 +331,28 @@ export default function BookItYourself() {
             );
           })}
         </motion.div>
+      </section>
+
+      {/* Viator */}
+      <section id="viator" className="container-px py-20 md:py-28">
+        <SectionHeading
+          eyebrow="Tours, activities and local experiences"
+          title="Viator"
+          intro="Search tours, attractions, tickets, day trips, transfers, food experiences, cultural activities, outdoor adventures, and memorable things to do around the world."
+        />
+        <Reveal delay={0.05} className="mt-6">
+          <a
+            href={links.viator}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="btn-primary"
+          >
+            Browse all Viator experiences <ExternalLink size={15} />
+          </a>
+        </Reveal>
+        <div className="mt-12">
+          <ExampleGrid items={viatorExamples} />
+        </div>
       </section>
 
       {/* Shore Excursions */}
