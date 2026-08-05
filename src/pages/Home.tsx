@@ -154,7 +154,7 @@ export default function Home() {
               than the intended globe size — max-w alone never exceeds the
               track. Sized big enough that the bottom runs past the section
               edge — accepted per Brian's call, rather than shrinking it. */}
-          <Parallax speed={5} className="w-[560px] self-start -mt-6 md:-mt-10 md:w-[640px] lg:w-[760px]">
+          <Parallax speed={5} className="w-[620px] self-start -mt-10 md:-mt-20 md:w-[720px] lg:w-[960px]">
             <div className="relative aspect-square w-full">
               <Globe />
             </div>
