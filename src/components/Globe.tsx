@@ -49,6 +49,14 @@ const DESTINATIONS: { name: string; lat: number; lng: number }[] = [
   { name: "Kyoto", lat: 35.01, lng: 135.77 },
   { name: "Sydney", lat: -33.87, lng: 151.21 },
   { name: "Hawaii", lat: 21.31, lng: -157.86 },
+  { name: "Cancún", lat: 21.16, lng: -86.85 },
+  { name: "Santorini", lat: 36.39, lng: 25.46 },
+  { name: "Juneau", lat: 58.3, lng: -134.42 },
+  { name: "Amsterdam", lat: 52.37, lng: 4.9 },
+  { name: "Machu Picchu", lat: -13.16, lng: -72.55 },
+  { name: "Costa Rica", lat: 9.93, lng: -84.08 },
+  { name: "Dubai", lat: 25.2, lng: 55.27 },
+  { name: "Tokyo", lat: 35.68, lng: 139.65 },
 ];
 
 /** Every route originates at DFW (index 0) — it's a DFW advisor's globe. */
@@ -63,12 +71,20 @@ const ROUTES: [number, number][] = [
   [0, 9],
   [0, 10],
   [0, 11],
+  [0, 12],
+  [0, 13],
+  [0, 14],
+  [0, 15],
+  [0, 16],
+  [0, 17],
+  [0, 18],
+  [0, 19],
 ];
 
-/** Routes that get an animated aircraft + arrival label — spans the
- *  destinations Brian actually gets asked about (Italy, Bahamas, Iceland,
- *  Australia, Hawaii) plus a couple of the tropical sellers. */
-const FLOWN = [0, 2, 4, 5, 6, 8, 9];
+/** Routes that get an animated aircraft + arrival label — a wide spread
+ *  across regions (Italy, Bahamas, Iceland, Australia, Hawaii, Greece,
+ *  Peru, Dubai) so the flown set isn't clustered in one part of the map. */
+const FLOWN = [0, 2, 4, 5, 6, 8, 9, 11, 14, 16];
 
 function latLngToVec3(lat: number, lng: number, r: number) {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -278,6 +294,7 @@ export default function Globe() {
       phase: number;
       point: THREE.Vector3;
       labelEl?: HTMLDivElement;
+      peakFacing: number;
     }[] = [];
 
     points.forEach((p, i) => {
@@ -325,7 +342,7 @@ export default function Globe() {
         labelLayer.appendChild(labelEl);
       }
 
-      markers.push({ sprite, base, phase: i * 0.8, point: p, labelEl });
+      markers.push({ sprite, base, phase: i * 0.8, point: p, labelEl, peakFacing: 0.05 });
     });
 
     // --- Routes + aircraft --------------------------------------------------
@@ -427,8 +444,10 @@ export default function Globe() {
     const outward = new THREE.Vector3();
     const viewDir = new THREE.Vector3();
     const ndc = new THREE.Vector3();
+    // Fraction of a destination's own tracked peak facing value it needs
+    // to reach before its callout starts fading in (see note below).
     const FRONT_THRESHOLD = 0.82;
-    const FRONT_RANGE = 0.16;
+    const FRONT_RANGE = 0.14;
 
     const animate = () => {
       const dt = Math.min(clock.getDelta(), 0.05);
@@ -455,13 +474,21 @@ export default function Globe() {
 
         // Callout fades in as a destination rotates through the front of
         // the globe, and out again as it turns away — no plane required.
+        // Triggered relative to each destination's OWN best-ever facing
+        // value rather than a fixed dot-product: at this globe's gentle
+        // idle tilt, a high-latitude spot like Reykjavík can only ever
+        // reach a shallow facing value (~0.24) versus ~0.98 for something
+        // near the equator, so a single absolute threshold would either
+        // flood the screen with equatorial labels or never show the poles.
         if (m.labelEl) {
           worldPos.copy(m.point);
           globe.localToWorld(worldPos);
           outward.copy(worldPos).normalize();
           viewDir.copy(camera.position).sub(worldPos).normalize();
           const facing = outward.dot(viewDir);
-          const strength = Math.max(0, (facing - FRONT_THRESHOLD) / FRONT_RANGE);
+          m.peakFacing = Math.max(m.peakFacing, facing);
+          const ratio = facing / m.peakFacing;
+          const strength = Math.max(0, (ratio - FRONT_THRESHOLD) / FRONT_RANGE);
           const eased = Math.min(1, strength * strength);
 
           if (eased > 0.01) {
