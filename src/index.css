@@ -82,3 +82,29 @@
     background-size: 4px 4px;
   }
 }
+
+@layer utilities {
+  /* Slow Ken Burns drift so photography is never fully static.
+     Paused for anyone who asked for reduced motion. */
+  @keyframes kenburns {
+    0% {
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+    50% {
+      transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+    }
+    100% {
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+  }
+
+  .animate-kenburns {
+    animation: kenburns 26s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-kenburns {
+      animation: none;
+    }
+  }
+}

@@ -19,6 +19,7 @@ import { faqs } from "../data/site";
 import { featuredPosts, getPostImage } from "../data/blog";
 import Globe from "../components/Globe";
 import Parallax from "../components/Parallax";
+import DestinationPlayer from "../components/DestinationPlayer";
 import AnimatedHeadline from "../components/AnimatedHeadline";
 import Marquee from "../components/Marquee";
 import Stats from "../components/Stats";
@@ -148,6 +149,12 @@ export default function Home() {
       </section>
 
       <Marquee />
+
+      {/* Destinations sit high on the page — this is a travel site, the
+          places should arrive before the process does. One fixed stage that
+          cycles in place, rather than sections scrolling past. */}
+      <DestinationPlayer />
+
       <Stats />
 
       {/* CHOOSE PATH */}
