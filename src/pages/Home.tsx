@@ -20,6 +20,7 @@ import { featuredPosts, getPostImage } from "../data/blog";
 import Globe from "../components/Globe";
 import Parallax from "../components/Parallax";
 import DestinationPlayer from "../components/DestinationPlayer";
+import TiltCard from "../components/TiltCard";
 import AnimatedHeadline from "../components/AnimatedHeadline";
 import Marquee from "../components/Marquee";
 import Stats from "../components/Stats";
@@ -242,15 +243,18 @@ export default function Home() {
               const Icon = card.icon;
               return (
                 <motion.div key={card.label} variants={fadeUp}>
-                  <Link to={card.to} className="group relative flex h-64 flex-col justify-end overflow-hidden rounded-2xl p-6 shadow-soft">
-                    <img src={card.image} alt={card.label} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-smooth group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/25 to-transparent" />
-                    <div className="relative">
-                      <Icon className="mb-2 text-cream/90" size={20} />
-                      <h3 className="text-xl font-semibold text-cream">{card.label}</h3>
-                      {card.caption && <p className="mt-1 text-sm text-cream/80">{card.caption}</p>}
-                    </div>
-                  </Link>
+                  <TiltCard className="rounded-2xl">
+                    <Link to={card.to} className="group relative flex h-64 flex-col justify-end overflow-hidden rounded-2xl p-6 shadow-soft">
+                      <img src={card.image} alt={card.label} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-smooth group-hover:scale-110" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/25 to-transparent" />
+                      {/* Lifted off the card face so it floats above the tilt. */}
+                      <div className="relative" style={{ transform: "translateZ(38px)" }}>
+                        <Icon className="mb-2 text-cream/90" size={20} />
+                        <h3 className="text-xl font-semibold text-cream">{card.label}</h3>
+                        {card.caption && <p className="mt-1 text-sm text-cream/80">{card.caption}</p>}
+                      </div>
+                    </Link>
+                  </TiltCard>
                 </motion.div>
               );
             })}
@@ -381,14 +385,28 @@ export default function Home() {
         <div className="container-px py-24 md:py-32">
           <SectionHeading eyebrow="Quick answers" title="Before the obvious questions become emails." />
           <div className="mt-12 grid gap-x-12 gap-y-8 md:grid-cols-2">
-            {faqs.map((f) => (
-              <Reveal key={f.q}>
+            {faqs.map((f, i) => (
+              <motion.div
+                key={f.q}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -28 : 28 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: (i % 2) * 0.08 }}
+                className="group"
+              >
                 <h3 className="flex items-start gap-2 text-lg font-semibold text-ink">
-                  <Compass size={18} className="mt-1 shrink-0 text-clay" />
+                  <motion.span
+                    className="mt-1 shrink-0 text-clay"
+                    whileHover={{ rotate: 90, scale: 1.15 }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <Compass size={18} />
+                  </motion.span>
                   {f.q}
                 </h3>
                 <p className="mt-2 pl-6 leading-relaxed text-fog">{f.a}</p>
-              </Reveal>
+                <span className="mt-4 block h-px w-0 bg-clay/40 transition-all duration-500 ease-smooth group-hover:w-full" />
+              </motion.div>
             ))}
           </div>
         </div>
