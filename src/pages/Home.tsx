@@ -102,7 +102,9 @@ export default function Home() {
       <section className="relative overflow-hidden bg-cream pt-28 md:pt-32">
         <div className="grain pointer-events-none absolute inset-0 opacity-60" />
         <div className="pointer-events-none absolute -left-32 top-24 h-96 w-96 rounded-full bg-clay/10 blur-3xl" />
-        <div className="container-px relative grid items-center gap-10 pb-16 md:grid-cols-2 md:pb-24 md:pt-8">
+        {/* Balanced padding: enough to clear the marquee bar below without
+            leaving dead space that pushes the globe off-centre. */}
+        <div className="container-px relative grid items-center gap-10 pb-16 md:grid-cols-2 md:pb-20 md:pt-4">
           <motion.div
             variants={stagger(0.1)}
             initial="hidden"
@@ -146,7 +148,12 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          <Parallax speed={12} className="mx-auto w-full max-w-[520px]">
+          {/* Gentle drift only — a large travel here pushes the globe down
+              into the marquee on first paint. */}
+          {/* Centres the globe in the open area rather than on the taller text
+              column. Under `items-center` a top margin shifts the centre by
+              only half its value, hence mt-16 for a 32px correction. */}
+          <Parallax speed={5} className="mx-auto w-full max-w-[500px] md:mt-16">
             <div className="relative aspect-square w-full">
               <Globe />
             </div>
