@@ -35,15 +35,18 @@ function bandColor(lat: number) {
   return "#f2ead9";
 }
 
-/** Real coordinates for the destinations the site sells. */
-const DESTINATIONS: { name: string; lat: number; lng: number }[] = [
+/** Real coordinates for the destinations the site sells. Index 0 (DFW) is
+ *  the hub every route originates from. `skipRoute` keeps a marker on the
+ *  globe without drawing an arc to it — used for spots that sit too close
+ *  to a neighboring destination for a second line to read cleanly. */
+const DESTINATIONS: { name: string; lat: number; lng: number; skipRoute?: boolean }[] = [
   { name: "Dallas–Fort Worth", lat: 32.9, lng: -97.04 },
   { name: "Aruba", lat: 12.52, lng: -69.97 },
   { name: "Turks & Caicos", lat: 21.69, lng: -71.8 },
   { name: "The Bahamas", lat: 25.03, lng: -77.4 },
   { name: "St. Lucia", lat: 13.91, lng: -60.98 },
   { name: "Amalfi Coast", lat: 40.63, lng: 14.6 },
-  { name: "Rome", lat: 41.9, lng: 12.5 },
+  { name: "Rome", lat: 41.9, lng: 12.5, skipRoute: true },
   { name: "Reykjavík", lat: 64.15, lng: -21.94 },
   { name: "The Maldives", lat: 3.2, lng: 73.22 },
   { name: "Kyoto", lat: 35.01, lng: 135.77 },
@@ -56,35 +59,59 @@ const DESTINATIONS: { name: string; lat: number; lng: number }[] = [
   { name: "Machu Picchu", lat: -13.16, lng: -72.55 },
   { name: "Costa Rica", lat: 9.93, lng: -84.08 },
   { name: "Dubai", lat: 25.2, lng: 55.27 },
-  { name: "Tokyo", lat: 35.68, lng: 139.65 },
+  { name: "Cape Town", lat: -33.92, lng: 18.42 },
+  { name: "Marrakech", lat: 31.63, lng: -7.99 },
+  { name: "Zanzibar", lat: -6.16, lng: 39.19 },
+  { name: "Bali", lat: -8.34, lng: 115.09 },
+  { name: "Fiji", lat: -17.71, lng: 178.02 },
+  { name: "Rio de Janeiro", lat: -22.91, lng: -43.17 },
+  { name: "Bangkok", lat: 13.75, lng: 100.5 },
+  { name: "Boracay", lat: 11.97, lng: 121.93 },
+  { name: "Moscow", lat: 55.75, lng: 37.62 },
+  { name: "Oslo", lat: 59.91, lng: 10.75 },
+  { name: "Paris", lat: 48.86, lng: 2.35 },
+  { name: "Galápagos Islands", lat: -0.79, lng: -91.14 },
+  { name: "London", lat: 51.51, lng: -0.13 },
+  { name: "Istanbul", lat: 41.01, lng: 28.98 },
+  { name: "Madrid", lat: 40.42, lng: -3.7 },
+  { name: "Serengeti", lat: -2.33, lng: 34.83 },
 ];
 
-/** Every route originates at DFW (index 0) — it's a DFW advisor's globe. */
-const ROUTES: [number, number][] = [
-  [0, 1],
-  [0, 2],
-  [0, 3],
-  [0, 4],
-  [0, 5],
-  [0, 7],
-  [0, 8],
-  [0, 9],
-  [0, 10],
-  [0, 11],
-  [0, 12],
-  [0, 13],
-  [0, 14],
-  [0, 15],
-  [0, 16],
-  [0, 17],
-  [0, 18],
-  [0, 19],
-];
+/** Every route originates at DFW (index 0) — it's a DFW advisor's globe.
+ *  Built from DESTINATIONS instead of hand-listed pairs so adding or
+ *  removing a destination can't silently desync the route/index bookkeeping. */
+const ROUTES: [number, number][] = DESTINATIONS.map((d, i) => [0, i] as [number, number]).filter(
+  ([, i]) => i !== 0 && !DESTINATIONS[i].skipRoute
+);
 
-/** Routes that get an animated aircraft + arrival label — a wide spread
- *  across regions (Italy, Bahamas, Iceland, Australia, Hawaii, Greece,
- *  Peru, Dubai) so the flown set isn't clustered in one part of the map. */
-const FLOWN = [0, 2, 4, 5, 6, 8, 9, 11, 14, 16];
+/** Destinations that get an animated aircraft + arrival label — named
+ *  (not indexed) so the set survives DESTINATIONS being reordered or
+ *  extended. A wide regional spread rather than everything at once. */
+const FLOWN_NAMES = new Set([
+  "Aruba",
+  "The Bahamas",
+  "Amalfi Coast",
+  "Reykjavík",
+  "The Maldives",
+  "Kyoto",
+  "Hawaii",
+  "Juneau",
+  "Machu Picchu",
+  "Dubai",
+  "Cape Town",
+  "Bali",
+  "Rio de Janeiro",
+  "Bangkok",
+  "Boracay",
+  "Paris",
+  "Galápagos Islands",
+  "London",
+  "Istanbul",
+  "Serengeti",
+]);
+const FLOWN = ROUTES.map(([, b], i) => (FLOWN_NAMES.has(DESTINATIONS[b].name) ? i : -1)).filter(
+  (i) => i >= 0
+);
 
 function latLngToVec3(lat: number, lng: number, r: number) {
   const phi = (90 - lat) * (Math.PI / 180);
