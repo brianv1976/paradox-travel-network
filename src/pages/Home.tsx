@@ -149,10 +149,12 @@ export default function Home() {
           </motion.div>
 
           {/* self-start overrides the grid's items-center for this column
-              only, so the globe sits high next to the headline. Sized big
-              enough that the bottom runs past the section edge — accepted
-              per Brian's call, rather than shrinking it to avoid that. */}
-          <Parallax speed={5} className="mx-auto w-full max-w-[620px] self-start -mt-6 md:-mt-10 lg:max-w-[680px]">
+              only, so the globe sits high next to the headline. Explicit
+              width (not max-w) because the grid track itself is narrower
+              than the intended globe size — max-w alone never exceeds the
+              track. Sized big enough that the bottom runs past the section
+              edge — accepted per Brian's call, rather than shrinking it. */}
+          <Parallax speed={5} className="w-[560px] self-start -mt-6 md:-mt-10 md:w-[640px] lg:w-[760px]">
             <div className="relative aspect-square w-full">
               <Globe />
             </div>

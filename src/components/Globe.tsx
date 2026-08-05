@@ -18,12 +18,22 @@ import { decodeLandRings } from "../data/worldLand";
 
 const OCEAN = "#0e5f7d";
 const OCEAN_DEEP = "#0a4a63";
-const LAND = "#f0b247";
 const LAND_EDGE = "#c8862a";
 const ATMOSPHERE = 0x5fd8ea;
 const ARC_COLORS = [0xffd166, 0xff8a5b, 0x7ee787, 0x6fe3f5, 0xffb4a2];
 
 const RADIUS = 1.55;
+
+/** Warm, brand-adjacent tint bands by distance from the equator — stands
+ *  in for real biome data so the land reads as textured, not flat. */
+function bandColor(lat: number) {
+  const a = Math.abs(lat);
+  if (a < 12) return "#94a84f";
+  if (a < 30) return "#eab54f";
+  if (a < 50) return "#cf8b42";
+  if (a < 65) return "#ab8a6a";
+  return "#f2ead9";
+}
 
 /** Real coordinates for the destinations the site sells. */
 const DESTINATIONS: { name: string; lat: number; lng: number }[] = [
@@ -37,6 +47,8 @@ const DESTINATIONS: { name: string; lat: number; lng: number }[] = [
   { name: "Reykjavík", lat: 64.15, lng: -21.94 },
   { name: "The Maldives", lat: 3.2, lng: 73.22 },
   { name: "Kyoto", lat: 35.01, lng: 135.77 },
+  { name: "Sydney", lat: -33.87, lng: 151.21 },
+  { name: "Hawaii", lat: 21.31, lng: -157.86 },
 ];
 
 /** Every route originates at DFW (index 0) — it's a DFW advisor's globe. */
@@ -49,10 +61,14 @@ const ROUTES: [number, number][] = [
   [0, 7],
   [0, 8],
   [0, 9],
+  [0, 10],
+  [0, 11],
 ];
 
-/** Routes that actually get an aircraft (keeping all eight would be busy). */
-const FLOWN = [0, 2, 4, 6];
+/** Routes that get an animated aircraft + arrival label — spans the
+ *  destinations Brian actually gets asked about (Italy, Bahamas, Iceland,
+ *  Australia, Hawaii) plus a couple of the tropical sellers. */
+const FLOWN = [0, 2, 4, 5, 6, 8, 9];
 
 function latLngToVec3(lat: number, lng: number, r: number) {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -99,14 +115,21 @@ function buildEarthTexture() {
     ctx.stroke();
   }
 
-  // Landmasses, solid.
+  // Landmasses, tinted by latitude band so they read as textured, not flat.
   const rings = decodeLandRings();
-  ctx.fillStyle = LAND;
   ctx.strokeStyle = LAND_EDGE;
   ctx.lineWidth = 3;
   ctx.lineJoin = "round";
 
   for (const flat of rings) {
+    let latSum = 0;
+    let n = 0;
+    for (let i = 1; i < flat.length; i += 2) {
+      latSum += flat[i];
+      n++;
+    }
+    ctx.fillStyle = bandColor(n ? latSum / n : 0);
+
     ctx.beginPath();
     for (let i = 0; i < flat.length; i += 2) {
       const x = ((flat[i] + 180) / 360) * w;
@@ -197,6 +220,16 @@ export default function Globe() {
     renderer.domElement.style.cursor = "grab";
     renderer.domElement.style.touchAction = "pan-y";
 
+    // Arrival labels ("landing" callouts) live in a plain DOM layer on top
+    // of the canvas — cheaper than sprite-based text and easier to read.
+    mount.style.position = "relative";
+    const labelLayer = document.createElement("div");
+    labelLayer.style.position = "absolute";
+    labelLayer.style.inset = "0";
+    labelLayer.style.overflow = "hidden";
+    labelLayer.style.pointerEvents = "none";
+    mount.appendChild(labelLayer);
+
     const system = new THREE.Group();
     system.rotation.z = 0.22;
     scene.add(system);
@@ -239,7 +272,13 @@ export default function Globe() {
     // --- Destination markers ------------------------------------------------
     const markerTex = glowTexture(0xffd166);
     const points = DESTINATIONS.map((d) => latLngToVec3(d.lat, d.lng, RADIUS * 1.008));
-    const markers: { sprite: THREE.Sprite; base: number; phase: number }[] = [];
+    const markers: {
+      sprite: THREE.Sprite;
+      base: number;
+      phase: number;
+      point: THREE.Vector3;
+      labelEl?: HTMLDivElement;
+    }[] = [];
 
     points.forEach((p, i) => {
       const isHome = i === 0;
@@ -255,7 +294,6 @@ export default function Globe() {
       const base = isHome ? 0.3 : 0.19;
       sprite.scale.setScalar(base);
       globe.add(sprite);
-      markers.push({ sprite, base, phase: i * 0.8 });
 
       // Solid pin dot so the location reads even against bright land.
       const dot = new THREE.Mesh(
@@ -264,6 +302,30 @@ export default function Globe() {
       );
       dot.position.copy(p);
       globe.add(dot);
+
+      // Every destination but the home hub gets a callout that fades in
+      // when it rotates into view near the front of the globe.
+      let labelEl: HTMLDivElement | undefined;
+      if (!isHome) {
+        labelEl = document.createElement("div");
+        labelEl.textContent = DESTINATIONS[i].name;
+        labelEl.style.position = "absolute";
+        labelEl.style.left = "0";
+        labelEl.style.top = "0";
+        labelEl.style.padding = "5px 12px";
+        labelEl.style.borderRadius = "999px";
+        labelEl.style.background = "rgba(14,31,38,0.85)";
+        labelEl.style.color = "#fdf6e8";
+        labelEl.style.fontSize = "12px";
+        labelEl.style.fontWeight = "600";
+        labelEl.style.letterSpacing = "0.04em";
+        labelEl.style.whiteSpace = "nowrap";
+        labelEl.style.opacity = "0";
+        labelEl.style.willChange = "transform, opacity";
+        labelLayer.appendChild(labelEl);
+      }
+
+      markers.push({ sprite, base, phase: i * 0.8, point: p, labelEl });
     });
 
     // --- Routes + aircraft --------------------------------------------------
@@ -361,6 +423,12 @@ export default function Globe() {
     const right = new THREE.Vector3();
     const trueUp = new THREE.Vector3();
     const basis = new THREE.Matrix4();
+    const worldPos = new THREE.Vector3();
+    const outward = new THREE.Vector3();
+    const viewDir = new THREE.Vector3();
+    const ndc = new THREE.Vector3();
+    const FRONT_THRESHOLD = 0.82;
+    const FRONT_RANGE = 0.16;
 
     const animate = () => {
       const dt = Math.min(clock.getDelta(), 0.05);
@@ -379,10 +447,35 @@ export default function Globe() {
 
       currentTilt.x += (targetTilt.x - currentTilt.x) * 0.06;
       globe.rotation.x = currentTilt.x;
+      globe.updateWorldMatrix(true, false);
 
       markers.forEach((m) => {
         const s = m.base * (1 + Math.sin(t * 1.5 + m.phase) * 0.2);
         m.sprite.scale.setScalar(reduce ? m.base : s);
+
+        // Callout fades in as a destination rotates through the front of
+        // the globe, and out again as it turns away — no plane required.
+        if (m.labelEl) {
+          worldPos.copy(m.point);
+          globe.localToWorld(worldPos);
+          outward.copy(worldPos).normalize();
+          viewDir.copy(camera.position).sub(worldPos).normalize();
+          const facing = outward.dot(viewDir);
+          const strength = Math.max(0, (facing - FRONT_THRESHOLD) / FRONT_RANGE);
+          const eased = Math.min(1, strength * strength);
+
+          if (eased > 0.01) {
+            ndc.copy(worldPos).project(camera);
+            const mw = mount.clientWidth || 1;
+            const mh = mount.clientHeight || 1;
+            const sx = (ndc.x * 0.5 + 0.5) * mw;
+            const sy = (-ndc.y * 0.5 + 0.5) * mh;
+            m.labelEl.style.transform = `translate(${sx}px, ${sy}px) translate(-50%, -170%)`;
+            m.labelEl.style.opacity = String(eased);
+          } else {
+            m.labelEl.style.opacity = "0";
+          }
+        }
       });
 
       arcs.forEach((a) => {
@@ -424,7 +517,7 @@ export default function Globe() {
       const w = mount.clientWidth;
       const h = mount.clientHeight;
       if (!w || !h) return;
-      renderer.setSize(w, h, false);
+      renderer.setSize(w, h);
       camera.aspect = w / h;
       const fit = Math.min(1, camera.aspect);
       camera.position.z = baseDist / Math.max(0.6, fit);
@@ -462,6 +555,7 @@ export default function Globe() {
       });
       renderer.dispose();
       if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
+      if (mount.contains(labelLayer)) mount.removeChild(labelLayer);
     };
   }, []);
 
