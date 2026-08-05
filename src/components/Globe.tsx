@@ -188,7 +188,7 @@ export default function Globe() {
     const scene = new THREE.Scene();
     const fov = 42;
     const camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 100);
-    const baseDist = (RADIUS * 1.32) / Math.tan((fov / 2) * (Math.PI / 180));
+    const baseDist = (RADIUS * 1.22) / Math.tan((fov / 2) * (Math.PI / 180));
     camera.position.z = baseDist;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });

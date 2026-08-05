@@ -148,12 +148,11 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* Gentle drift only — a large travel here pushes the globe down
-              into the marquee on first paint. */}
-          {/* Centres the globe in the open area rather than on the taller text
-              column. Under `items-center` a top margin shifts the centre by
-              only half its value, hence mt-16 for a 32px correction. */}
-          <Parallax speed={5} className="mx-auto w-full max-w-[500px] md:mt-16">
+          {/* self-start overrides the grid's items-center for this column
+              only, so the globe sits high next to the headline. Sized big
+              enough that the bottom runs past the section edge — accepted
+              per Brian's call, rather than shrinking it to avoid that. */}
+          <Parallax speed={5} className="mx-auto w-full max-w-[620px] self-start -mt-6 md:-mt-10 lg:max-w-[680px]">
             <div className="relative aspect-square w-full">
               <Globe />
             </div>
