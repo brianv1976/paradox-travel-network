@@ -69,19 +69,19 @@ const projectExpeditionHighlights = [
     icon: Map,
     title: "Full multi-day itineraries",
     body: "Genuine multi-day trips and adventures, planned start to finish — not single-day tours stitched together.",
-    image: assets.img.adventure,
+    image: assets.img.multiDayTrek,
   },
   {
     icon: Users,
     title: "Local operators, not a marketplace",
     body: "A smaller, curated catalog run by local guides who know their destination, rather than an endless generic listing.",
-    image: assets.img.resort,
+    image: assets.img.localGuide,
   },
   {
     icon: ShieldCheck,
     title: "Back-to-Ship Guarantee",
     body: "If a shore excursion runs long, they cover getting you back to the ship — no clock-watching on port day.",
-    image: assets.img.cruise,
+    image: assets.img.cruiseTender,
   },
 ];
 

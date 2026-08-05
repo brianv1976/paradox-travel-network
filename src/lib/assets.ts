@@ -24,6 +24,12 @@ export const assets = {
       "https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=1600",
     airportConnection:
       "https://images.pexels.com/photos/12717357/pexels-photo-12717357.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    multiDayTrek:
+      "https://images.pexels.com/photos/34833709/pexels-photo-34833709.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    localGuide:
+      "https://images.pexels.com/photos/36465268/pexels-photo-36465268.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    cruiseTender:
+      "https://images.pexels.com/photos/745737/pexels-photo-745737.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
 };
 
