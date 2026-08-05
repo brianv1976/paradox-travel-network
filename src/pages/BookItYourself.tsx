@@ -7,6 +7,9 @@ import {
   Compass,
   Plane,
   HelpCircle,
+  Users,
+  Map,
+  ShieldCheck,
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
@@ -58,6 +61,24 @@ const viatorExamples = [
     blurb: "Ride the dunes, try sandboarding and camel riding, then a camp dinner.",
     image: assets.img.planning,
     href: "https://www.viator.com/tours/Dubai/Dubai-Premium-Red-Dunes-Camel-Ride-and-5-BBQ-at-Al-Khayma-Camp/d828-91421P12?pid=P00003200&uid=U00747481&mcid=58086&currency=USD",
+  },
+];
+
+const projectExpeditionHighlights = [
+  {
+    icon: Map,
+    title: "Full multi-day itineraries",
+    body: "Genuine multi-day trips and adventures, planned start to finish — not single-day tours stitched together.",
+  },
+  {
+    icon: Users,
+    title: "Local operators, not a marketplace",
+    body: "A smaller, curated catalog run by local guides who know their destination, rather than an endless generic listing.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Back-to-Ship Guarantee",
+    body: "If a shore excursion runs long, they cover getting you back to the ship — no clock-watching on port day.",
   },
 ];
 
@@ -263,6 +284,49 @@ export default function BookItYourself() {
         <div className="mt-12">
           <ExampleGrid items={viatorExamples} />
         </div>
+      </section>
+
+      {/* Project Expedition */}
+      <section id="project-expedition" className="container-px py-20 md:py-28">
+        <SectionHeading
+          eyebrow="Boutique tours, activities & multi-day trips"
+          title="Project Expedition"
+          intro="A smaller, curated alternative to a giant marketplace — local operators, genuine multi-day itineraries, and cruise shore excursions backed by a guarantee that gets you back to the ship."
+        />
+        <Reveal delay={0.05} className="mt-6">
+          <a
+            href={links.projectExpedition}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="btn-primary"
+          >
+            Explore Tours &amp; Experiences <ExternalLink size={15} />
+          </a>
+        </Reveal>
+        <motion.div
+          variants={stagger(0.1)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-12 grid gap-6 md:grid-cols-3"
+        >
+          {projectExpeditionHighlights.map((h) => {
+            const Icon = h.icon;
+            return (
+              <motion.div
+                key={h.title}
+                variants={fadeUp}
+                className="rounded-2xl border border-ink/10 bg-cream p-8"
+              >
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean/10 text-ocean">
+                  <Icon size={22} />
+                </span>
+                <h3 className="mt-5 text-xl font-semibold text-ink">{h.title}</h3>
+                <p className="mt-2 text-fog">{h.body}</p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </section>
 
       {/* Shore Excursions */}

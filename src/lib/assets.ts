@@ -34,6 +34,8 @@ export const links = {
     "https://www.shoreexcursionsgroup.com/?source=portal&id=1786436&data=brian@paradoxtravelnetwork.com",
   exoticca:
     "https://exoticca.com/us?advisor_token=brian-voyles-019a21e0-2339-7046-a141-9ecdc021d5e3",
+  projectExpedition:
+    "https://www.projectexpedition.com/?utm_source=paradoxtravelnetwork-52289-brian-98147&utm_medium=referral&utm_campaign=tagent",
   calendly: "https://calendly.com/paradoxtravelnetwork/30min",
   email: "hello@paradoxtravelnetwork.com",
 };
