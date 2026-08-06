@@ -62,7 +62,7 @@ export default function DestinationPlayer() {
     my.set(0);
   };
 
-  /** Sends people to the Book It Yourself / Let Brian Book It decision that
+  /** Sends people to the Book It Yourself / Plan With Brian decision that
    *  already lives further down the home page, rather than a separate route. */
   const scrollToChoosePath = useCallback(() => {
     document
@@ -237,7 +237,7 @@ export default function DestinationPlayer() {
                     to="/plan-my-trip"
                     className="btn bg-clay text-cream hover:bg-clay-dark"
                   >
-                    Let Brian Book It
+                    Plan With Brian
                     <ArrowRight size={16} />
                   </Link>
                   <button

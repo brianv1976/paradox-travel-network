@@ -8,7 +8,7 @@ export interface NavLink {
 export const navLinks: NavLink[] = [
   { label: "Home", to: "/" },
   { label: "Book It Yourself", to: "/book-it-yourself" },
-  { label: "Let Brian Book It", to: "/plan-my-trip", cta: true },
+  { label: "Plan With Brian", to: "/plan-my-trip", cta: true },
   { label: "Postcards from Paradox", to: "/travel-tips" },
   { label: "Explore Travel", to: "/#explore" },
   { label: "About", to: "/about" },
@@ -18,7 +18,7 @@ export const navLinks: NavLink[] = [
 export const footerLinks: NavLink[] = [
   { label: "Home", to: "/" },
   { label: "Book It Yourself", to: "/book-it-yourself" },
-  { label: "Let Brian Book It", to: "/plan-my-trip" },
+  { label: "Plan With Brian", to: "/plan-my-trip" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
   { label: "Privacy", to: "/privacy" },

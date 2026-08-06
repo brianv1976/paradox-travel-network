@@ -11,6 +11,10 @@ import {
   Ship,
   Umbrella,
   Mountain,
+  LayoutGrid,
+  ShieldCheck,
+  BookOpen,
+  Phone,
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { stagger, fadeUp } from "../lib/motion";
@@ -66,6 +70,34 @@ const exploreCards = [
   },
 ];
 
+const capabilities = [
+  {
+    icon: Compass,
+    title: "Find inspiration",
+    body: "Destination ideas and real trip planning — not stock-photo fluff.",
+  },
+  {
+    icon: LayoutGrid,
+    title: "Browse & compare",
+    body: "Cruises, resorts, hotels, vacation packages, tours, and activities.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Book with confidence",
+    body: "Every partner here is vetted — not just paid to be listed.",
+  },
+  {
+    icon: BookOpen,
+    title: "Read real stories",
+    body: "Postcards from Paradox: honest advice, not manufactured emergencies.",
+  },
+  {
+    icon: Phone,
+    title: "Bring in Brian",
+    body: "Founder and travel advisor, on call for as much or as little help as you want.",
+  },
+];
+
 const steps = [
   {
     n: "1",
@@ -112,25 +144,25 @@ export default function Home() {
             className="flex flex-col gap-6"
           >
             <motion.span variants={fadeUp} className="eyebrow">
-              Travel Beyond Expectations
+              Travel On Your Terms
             </motion.span>
             <h1 className="text-4xl font-semibold leading-[1.03] text-ink md:text-5xl lg:text-[3.5rem]">
               <AnimatedHeadline
                 immediate
                 delay={0.15}
-                text="Planning a great trip is harder than booking one. That's what a travel advisor is for."
+                text="One place. Two ways to travel."
               />
             </h1>
             <motion.p
               variants={fadeUp}
               className="max-w-xl text-lg leading-relaxed text-fog"
             >
-              I'm Brian Voyles — travel advisor, trip planner, and the person who
-              picks up the phone when something goes sideways. I help with
-              cruises, all-inclusive resorts, honeymoons, family vacations, and
-              adventure travel. Prefer to do it yourself? You'll find the booking
-              sites you already know and trust — gathered in one place, vetted,
-              and sorted so you're not spending 16 hours on tabs.
+              Paradox Travel Network is built for two kinds of travelers: the
+              ones who want to browse, choose, and book it themselves, and the
+              ones who'd rather hand the details to someone who's done it
+              before. Explore destinations, book through trusted partners, or
+              work directly with founder and travel advisor Brian Voyles —
+              often, it's a bit of both.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
               <Magnetic strength={8}>
@@ -141,7 +173,7 @@ export default function Home() {
               </Magnetic>
               <Magnetic strength={8}>
                 <Link to="/plan-my-trip" className="btn-primary">
-                  Let Brian Plan It
+                  Plan With Brian
                   <ArrowRight size={16} />
                 </Link>
               </Magnetic>
@@ -160,6 +192,46 @@ export default function Home() {
             </div>
           </Parallax>
         </div>
+      </section>
+
+      {/* WHAT PARADOX IS — the fuller business introduction. Placed directly
+          beneath the hero so both kinds of visitor land on "here's the whole
+          business" before anything else, rather than either path reading as
+          the afterthought. */}
+      <section className="container-px py-20 md:py-28">
+        <SectionHeading
+          eyebrow="What Paradox Travel Network Is"
+          title="A travel network, not just a booking page."
+          intro="Most travel sites make you pick a lane — book everything yourself on a marketplace, or hand it all to an agent. Paradox exists because that's a false choice. Get destination ideas, compare real options through vetted travel partners, read honest advice, and bring in a real travel advisor exactly as much as you want."
+        />
+        <motion.div
+          variants={stagger(0.08)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {capabilities.map((c) => {
+            const Icon = c.icon;
+            return (
+              <motion.div key={c.title} variants={fadeUp} className="flex flex-col gap-3">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-clay/10 text-clay">
+                  <Icon size={20} />
+                </span>
+                <h3 className="font-semibold text-ink">{c.title}</h3>
+                <p className="text-sm leading-relaxed text-fog">{c.body}</p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+        <Reveal delay={0.1} className="mt-12 border-t border-ink/10 pt-8">
+          <p className="max-w-2xl text-fog">
+            <span className="font-semibold text-ink">Brian Voyles</span> founded
+            Paradox Travel Network to build the resource he wished existed —
+            one that respects travelers who want to do it themselves as much
+            as those who want an expert in their corner.
+          </p>
+        </Reveal>
       </section>
 
       <Marquee />
@@ -216,11 +288,12 @@ export default function Home() {
               <Sparkles className="text-gold transition-transform duration-300 group-hover:scale-110" />
             </Link>
             <Link to="/plan-my-trip">
-              <h3 className="mt-6 text-2xl font-semibold">Let Brian Plan It</h3>
+              <h3 className="mt-6 text-2xl font-semibold">Plan With Brian</h3>
             </Link>
             <p className="mt-3 leading-relaxed text-cream/80">
               Complicated itinerary or group logistics? Tell Brian what you're
-              planning — he'll book it right the first time.
+              planning — from quick advice to full-service booking, he'll help
+              at whatever level makes sense.
             </p>
             <ul className="mt-6 space-y-3">
               {["Personal planning support", "Options shaped around your goals", "A real person when details get messy"].map((item) => (
