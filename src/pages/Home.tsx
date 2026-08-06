@@ -98,23 +98,23 @@ const diyReasons = [
 const advisorReasons = [
   {
     icon: Puzzle,
-    title: "Complexity, solved",
-    body: "68% of travelers say planning has gotten more complicated — the top reason people bring in an advisor.",
+    title: "I untangle the mess",
+    body: "Multi-stop honeymoons, family reunions with a dozen opinions, group cruises with even more — the trips too complicated to book alone are exactly the ones I'm built for.",
   },
   {
     icon: Clock,
-    title: "Hours back",
-    body: "DIY research runs 30+ hours on average. Tell Brian what matters and get it back in one conversation.",
+    title: "Your time, back",
+    body: "You've already got a job. Tell me dates, budget, and what would ruin the trip, and I'll turn it into real options — not another 30 tabs.",
   },
   {
     icon: KeyRound,
-    title: "Access you can't book yourself",
-    body: "Upgrades, amenities, and rates that never make it to a public booking page.",
+    title: "Rates you can't find yourself",
+    body: "I reach upgrades, amenities, and pricing that never make it to a public booking page. Same trip. Better seats. No extra cost to you.",
   },
   {
     icon: LifeBuoy,
-    title: "Someone to call",
-    body: "When something goes wrong mid-trip, you've got a number that answers — not a call center queue.",
+    title: "Me, not a call center",
+    body: "Flight cancels? Hotel loses your room? You call me directly — and I'm still around after the trip's booked, not just before.",
   },
 ];
 
@@ -280,6 +280,13 @@ export default function Home() {
             <Link to="/book-it-yourself" className="link-underline mt-8 pt-2">
               Explore self-booking <ArrowRight size={15} />
             </Link>
+            <p className="mt-4 text-sm text-fog">
+              Trip getting complicated?{" "}
+              <Link to="/plan-my-trip" className="font-semibold text-ocean hover:text-clay">
+                Plan With Brian
+              </Link>{" "}
+              is right next door.
+            </p>
           </Reveal>
 
           <Reveal delay={0.1} className="group flex flex-col rounded-[2rem] bg-ocean p-8 text-cream transition-shadow duration-300 hover:shadow-lift md:p-10">
@@ -292,10 +299,11 @@ export default function Home() {
               </Link>
             </div>
             <p className="mt-3 leading-relaxed text-cream/80">
-              For trips with too many moving parts, or travelers who'd rather
-              hand it off entirely. Brian Voyles, founder and travel advisor,
-              plans it, books it, and stays reachable through the very last
-              day.
+              This is where I stop being modest. I've planned trips
+              complicated enough to make an airline hold desk cry, and simple
+              ones where the only real ask was "don't let this be boring."
+              Either way, I'm the one on the phone when something needs
+              fixing — not you.
             </p>
             <ul className="mt-6 space-y-4">
               {advisorReasons.map((r) => {
