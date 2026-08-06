@@ -15,6 +15,10 @@ import {
   ShieldCheck,
   BookOpen,
   Phone,
+  Puzzle,
+  Clock,
+  KeyRound,
+  LifeBuoy,
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { stagger, fadeUp } from "../lib/motion";
@@ -98,6 +102,29 @@ const capabilities = [
   },
 ];
 
+const advisorReasons = [
+  {
+    icon: Puzzle,
+    title: "Complexity, solved",
+    body: "68% of travelers say trip planning has gotten more complicated — it's the top reason people bring in an advisor instead of piecing it together alone.",
+  },
+  {
+    icon: Clock,
+    title: "Hours back",
+    body: "DIY trip research runs 30+ hours on average, spread across a dozen tabs. Tell Brian what matters and get it back in one conversation.",
+  },
+  {
+    icon: KeyRound,
+    title: "Access you can't book yourself",
+    body: "Advisors reach upgrades, amenities, and rates that never make it to a public booking page — the same trip, better seats.",
+  },
+  {
+    icon: LifeBuoy,
+    title: "Someone to call",
+    body: "When a flight cancels or a hotel loses your reservation, you're not on hold with a call center. You've got a number that answers.",
+  },
+];
+
 const steps = [
   {
     n: "1",
@@ -159,10 +186,10 @@ export default function Home() {
             >
               Paradox Travel Network is built for two kinds of travelers: the
               ones who want to browse, choose, and book it themselves, and the
-              ones who'd rather hand the details to someone who's done it
-              before. Explore destinations, book through trusted partners, or
-              work directly with founder and travel advisor Brian Voyles —
-              often, it's a bit of both.
+              ones who'd rather hand the whole thing to someone who's done it
+              before. Explore destinations and book through trusted partners
+              on your own — or tell Brian Voyles, founder and travel advisor,
+              what you're planning and let him take it from there.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
               <Magnetic strength={8}>
@@ -232,6 +259,49 @@ export default function Home() {
             as those who want an expert in their corner.
           </p>
         </Reveal>
+      </section>
+
+      {/* WHY WORK WITH BRIAN — makes the case for the advisor path with real
+          numbers rather than just restating "personal service." Framed as
+          "when it's worth it" rather than "why you need this," so it argues
+          for advisor value without implying the self-book path is lesser. */}
+      <section className="bg-sand/60">
+        <div className="container-px py-20 md:py-28">
+          <SectionHeading
+            eyebrow="Why Work With Brian"
+            title="When it's worth having a pro in your corner."
+            intro="Booking a quick weekend trip yourself is easy — the tools on this page make that simple. A multi-stop honeymoon, a family reunion cruise, or a group trip with a dozen opinions is a different kind of problem, and it's exactly where a real advisor earns their keep."
+          />
+          <motion.div
+            variants={stagger(0.08)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          >
+            {advisorReasons.map((r) => {
+              const Icon = r.icon;
+              return (
+                <motion.div
+                  key={r.title}
+                  variants={fadeUp}
+                  className="rounded-2xl border border-ink/10 bg-cream p-6"
+                >
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-ocean/10 text-ocean">
+                    <Icon size={20} />
+                  </span>
+                  <h3 className="mt-4 font-semibold text-ink">{r.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-fog">{r.body}</p>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+          <Reveal delay={0.1} className="mt-10">
+            <Link to="/plan-my-trip" className="btn-primary">
+              Plan With Brian <ArrowRight size={16} />
+            </Link>
+          </Reveal>
+        </div>
       </section>
 
       <Marquee />
