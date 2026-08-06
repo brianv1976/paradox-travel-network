@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   ArrowUpRight,
-  Check,
   Sparkles,
   Compass,
   Users,
@@ -13,8 +12,7 @@ import {
   Mountain,
   LayoutGrid,
   ShieldCheck,
-  BookOpen,
-  Phone,
+  CalendarPlus,
   Puzzle,
   Clock,
   KeyRound,
@@ -22,7 +20,7 @@ import {
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { stagger, fadeUp } from "../lib/motion";
-import { assets, links } from "../lib/assets";
+import { assets } from "../lib/assets";
 import { faqs } from "../data/site";
 import { featuredPosts, getPostImage } from "../data/blog";
 import Globe from "../components/Globe";
@@ -74,31 +72,26 @@ const exploreCards = [
   },
 ];
 
-const capabilities = [
+const diyReasons = [
   {
     icon: Compass,
-    title: "Find inspiration",
-    body: "Destination ideas and real trip planning — not stock-photo fluff.",
+    title: "You're in control",
+    body: "Compare, choose, and book on your own schedule — no one hovering over the decision.",
   },
   {
     icon: LayoutGrid,
-    title: "Browse & compare",
-    body: "Cruises, resorts, hotels, vacation packages, tours, and activities.",
+    title: "Trusted sites, already gathered",
+    body: "Viator, Shore Excursions Group, Exoticca, Project Expedition, and more — vetted, not just linked.",
+  },
+  {
+    icon: CalendarPlus,
+    title: "Already booked? Add to it",
+    body: "Trip locked in somewhere else? Browse excursions, tours, and activities to round it out.",
   },
   {
     icon: ShieldCheck,
-    title: "Book with confidence",
-    body: "Every partner here is vetted — not just paid to be listed.",
-  },
-  {
-    icon: BookOpen,
-    title: "Read real stories",
-    body: "Postcards from Paradox: honest advice, not manufactured emergencies.",
-  },
-  {
-    icon: Phone,
-    title: "Bring in Brian",
-    body: "Founder and travel advisor, on call for as much or as little help as you want.",
+    title: "No markup",
+    body: "Book directly with the partner. Paradox doesn't add a fee to self-booked trips.",
   },
 ];
 
@@ -106,22 +99,22 @@ const advisorReasons = [
   {
     icon: Puzzle,
     title: "Complexity, solved",
-    body: "68% of travelers say trip planning has gotten more complicated — it's the top reason people bring in an advisor instead of piecing it together alone.",
+    body: "68% of travelers say planning has gotten more complicated — the top reason people bring in an advisor.",
   },
   {
     icon: Clock,
     title: "Hours back",
-    body: "DIY trip research runs 30+ hours on average, spread across a dozen tabs. Tell Brian what matters and get it back in one conversation.",
+    body: "DIY research runs 30+ hours on average. Tell Brian what matters and get it back in one conversation.",
   },
   {
     icon: KeyRound,
     title: "Access you can't book yourself",
-    body: "Advisors reach upgrades, amenities, and rates that never make it to a public booking page — the same trip, better seats.",
+    body: "Upgrades, amenities, and rates that never make it to a public booking page.",
   },
   {
     icon: LifeBuoy,
     title: "Someone to call",
-    body: "When a flight cancels or a hotel loses your reservation, you're not on hold with a call center. You've got a number that answers.",
+    body: "When something goes wrong mid-trip, you've got a number that answers — not a call center queue.",
   },
 ];
 
@@ -184,12 +177,23 @@ export default function Home() {
               variants={fadeUp}
               className="max-w-xl text-lg leading-relaxed text-fog"
             >
-              Paradox Travel Network is built for two kinds of travelers: the
-              ones who want to browse, choose, and book it themselves, and the
-              ones who'd rather hand the whole thing to someone who's done it
-              before. Explore destinations and book through trusted partners
-              on your own — or tell Brian Voyles, founder and travel advisor,
-              what you're planning and let him take it from there.
+              Paradox Travel Network isn't just a booking page, and it isn't a
+              traditional travel agency either. It's a real travel business
+              built on one idea: you shouldn't have to choose between a
+              massive marketplace and a single advisor's phone number. Find
+              destination inspiration, browse cruises, resorts, hotels,
+              vacation packages, tours, and activities, and book directly
+              through partners we've actually vetted.
+            </motion.p>
+            <motion.p
+              variants={fadeUp}
+              className="max-w-xl text-lg leading-relaxed text-fog"
+            >
+              Prefer to handle the booking yourself? You're already in the
+              right place. Want an experienced second opinion — or the whole
+              trip planned and handled? Founder and travel advisor Brian
+              Voyles picks up from there. Two clear paths, one place, and it's
+              your call which one fits this trip.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
               <Magnetic strength={8}>
@@ -221,89 +225,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHAT PARADOX IS — the fuller business introduction. Placed directly
-          beneath the hero so both kinds of visitor land on "here's the whole
-          business" before anything else, rather than either path reading as
-          the afterthought. */}
-      <section className="container-px py-20 md:py-28">
-        <SectionHeading
-          eyebrow="What Paradox Travel Network Is"
-          title="A travel network, not just a booking page."
-          intro="Most travel sites make you pick a lane — book everything yourself on a marketplace, or hand it all to an agent. Paradox exists because that's a false choice. Get destination ideas, compare real options through vetted travel partners, read honest advice, and bring in a real travel advisor exactly as much as you want."
-        />
-        <motion.div
-          variants={stagger(0.08)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {capabilities.map((c) => {
-            const Icon = c.icon;
-            return (
-              <motion.div key={c.title} variants={fadeUp} className="flex flex-col gap-3">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-clay/10 text-clay">
-                  <Icon size={20} />
-                </span>
-                <h3 className="font-semibold text-ink">{c.title}</h3>
-                <p className="text-sm leading-relaxed text-fog">{c.body}</p>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-        <Reveal delay={0.1} className="mt-12 border-t border-ink/10 pt-8">
-          <p className="max-w-2xl text-fog">
-            <span className="font-semibold text-ink">Brian Voyles</span> founded
-            Paradox Travel Network to build the resource he wished existed —
-            one that respects travelers who want to do it themselves as much
-            as those who want an expert in their corner.
-          </p>
-        </Reveal>
-      </section>
-
-      {/* WHY WORK WITH BRIAN — makes the case for the advisor path with real
-          numbers rather than just restating "personal service." Framed as
-          "when it's worth it" rather than "why you need this," so it argues
-          for advisor value without implying the self-book path is lesser. */}
-      <section className="bg-sand/60">
-        <div className="container-px py-20 md:py-28">
-          <SectionHeading
-            eyebrow="Why Work With Brian"
-            title="When it's worth having a pro in your corner."
-            intro="Booking a quick weekend trip yourself is easy — the tools on this page make that simple. A multi-stop honeymoon, a family reunion cruise, or a group trip with a dozen opinions is a different kind of problem, and it's exactly where a real advisor earns their keep."
-          />
-          <motion.div
-            variants={stagger(0.08)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-          >
-            {advisorReasons.map((r) => {
-              const Icon = r.icon;
-              return (
-                <motion.div
-                  key={r.title}
-                  variants={fadeUp}
-                  className="rounded-2xl border border-ink/10 bg-cream p-6"
-                >
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-ocean/10 text-ocean">
-                    <Icon size={20} />
-                  </span>
-                  <h3 className="mt-4 font-semibold text-ink">{r.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-fog">{r.body}</p>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-          <Reveal delay={0.1} className="mt-10">
-            <Link to="/plan-my-trip" className="btn-primary">
-              Plan With Brian <ArrowRight size={16} />
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
       <Marquee />
 
       {/* Destinations sit high on the page — this is a travel site, the
@@ -313,7 +234,11 @@ export default function Home() {
 
       <Stats />
 
-      {/* CHOOSE PATH */}
+      {/* CHOOSE PATH — the full explanation of both paths. Absorbed what
+          used to be two separate sections ("What Paradox Is" and "Why Work
+          With Brian") into one place, so the detail lives right where the
+          decision gets made instead of being scattered above it. No 01/02
+          numbering — two options don't need to be counted. */}
       <section id="choose-path" className="container-px py-24 md:py-32">
         <SectionHeading
           eyebrow="Your Trip, Your Way"
@@ -322,58 +247,73 @@ export default function Home() {
         />
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
           <Reveal className="group flex flex-col rounded-[2rem] border border-ink/10 bg-cream p-8 transition-shadow duration-300 hover:shadow-soft md:p-10">
-            <Link to="/book-it-yourself" className="flex items-center justify-between">
-              <span className="font-display text-3xl font-semibold text-clay">01</span>
-              <ArrowUpRight className="text-ocean transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-            <Link to="/book-it-yourself">
-              <h3 className="mt-6 text-2xl font-semibold text-ink">Book It Yourself</h3>
-            </Link>
+            <div className="flex items-start justify-between">
+              <Link to="/book-it-yourself">
+                <h3 className="text-2xl font-semibold text-ink">Book It Yourself</h3>
+              </Link>
+              <Link to="/book-it-yourself">
+                <ArrowUpRight className="text-ocean transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+            </div>
             <p className="mt-3 leading-relaxed text-fog">
-              Book directly with trusted names — all gathered in one place so you
-              don't have to hunt across a dozen sites.
+              For travelers who like doing the research themselves —
+              comparing options, reading reviews, and booking on their own
+              terms. Every partner listed here is one Paradox has actually
+              vetted, not just linked for a commission.
             </p>
-            <ul className="mt-6 space-y-3 text-sm">
-              {[
-                ["Viator", links.viator, "Tours, activities, and local experiences worldwide."],
-                ["Shore Excursions Group", links.shoreExcursions, "Independent cruise port excursions, often cheaper than the ship."],
-                ["Exoticca", links.exoticca, "Fully packaged international vacations, flights included."],
-              ].map(([name, href, blurb]) => (
-                <li key={name} className="text-fog">
-                  <a href={href} target="_blank" rel="noopener noreferrer sponsored" className="relative z-10 font-semibold text-ocean hover:text-clay">
-                    {name}
-                  </a>{" "}
-                  — {blurb}
-                </li>
-              ))}
+            <ul className="mt-6 space-y-4">
+              {diyReasons.map((r) => {
+                const Icon = r.icon;
+                return (
+                  <li key={r.title} className="flex gap-3">
+                    <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-clay/10 text-clay">
+                      <Icon size={15} />
+                    </span>
+                    <div>
+                      <div className="text-sm font-semibold text-ink">{r.title}</div>
+                      <p className="text-sm leading-relaxed text-fog">{r.body}</p>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
-            <Link to="/book-it-yourself" className="link-underline mt-auto pt-8">
+            <Link to="/book-it-yourself" className="link-underline mt-8 pt-2">
               Explore self-booking <ArrowRight size={15} />
             </Link>
           </Reveal>
 
           <Reveal delay={0.1} className="group flex flex-col rounded-[2rem] bg-ocean p-8 text-cream transition-shadow duration-300 hover:shadow-lift md:p-10">
-            <Link to="/plan-my-trip" className="flex items-center justify-between">
-              <span className="font-display text-3xl font-semibold text-gold">02</span>
-              <Sparkles className="text-gold transition-transform duration-300 group-hover:scale-110" />
-            </Link>
-            <Link to="/plan-my-trip">
-              <h3 className="mt-6 text-2xl font-semibold">Plan With Brian</h3>
-            </Link>
+            <div className="flex items-start justify-between">
+              <Link to="/plan-my-trip">
+                <h3 className="text-2xl font-semibold">Plan With Brian</h3>
+              </Link>
+              <Link to="/plan-my-trip">
+                <Sparkles className="text-gold transition-transform duration-300 group-hover:scale-110" />
+              </Link>
+            </div>
             <p className="mt-3 leading-relaxed text-cream/80">
-              Complicated itinerary or group logistics? Tell Brian what you're
-              planning — from quick advice to full-service booking, he'll help
-              at whatever level makes sense.
+              For trips with too many moving parts, or travelers who'd rather
+              hand it off entirely. Brian Voyles, founder and travel advisor,
+              plans it, books it, and stays reachable through the very last
+              day.
             </p>
-            <ul className="mt-6 space-y-3">
-              {["Personal planning support", "Options shaped around your goals", "A real person when details get messy"].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-cream/90">
-                  <Check size={16} className="text-gold" />
-                  {item}
-                </li>
-              ))}
+            <ul className="mt-6 space-y-4">
+              {advisorReasons.map((r) => {
+                const Icon = r.icon;
+                return (
+                  <li key={r.title} className="flex gap-3">
+                    <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold">
+                      <Icon size={15} />
+                    </span>
+                    <div>
+                      <div className="text-sm font-semibold text-cream">{r.title}</div>
+                      <p className="text-sm leading-relaxed text-cream/80">{r.body}</p>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
-            <Link to="/plan-my-trip" className="mt-auto inline-flex items-center gap-1 pt-8 font-semibold text-gold hover:text-cream">
+            <Link to="/plan-my-trip" className="mt-8 inline-flex items-center gap-1 pt-2 font-semibold text-gold hover:text-cream">
               Start planning <ArrowRight size={15} />
             </Link>
           </Reveal>
