@@ -312,6 +312,12 @@ export default function Home() {
                   </a>
                 ))}
               </div>
+              <p className="mt-3 text-xs leading-relaxed text-fog/70">
+                Vendor logos displayed on this site are trademarks of their
+                respective owners. Their use identifies them as Paradox
+                Travel Network booking partners and does not imply
+                endorsement, sponsorship, or co-branding by these companies.
+              </p>
             </div>
             <Link to="/book-it-yourself" className="link-underline mt-8 pt-2">
               Explore self-booking <ArrowRight size={15} />
