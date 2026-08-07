@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { stagger, fadeUp } from "../lib/motion";
-import { assets } from "../lib/assets";
+import { assets, links } from "../lib/assets";
 import { faqs } from "../data/site";
 import { featuredPosts, getPostImage } from "../data/blog";
 import Globe from "../components/Globe";
@@ -282,16 +282,22 @@ export default function Home() {
                 Trusted booking partners
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
-                {["Viator", "Shore Excursions Group", "Exoticca", "Project Expedition"].map(
-                  (name) => (
-                    <span
-                      key={name}
-                      className="rounded-full border border-ink/10 bg-sand/60 px-3 py-1.5 text-xs font-semibold text-ink"
-                    >
-                      {name}
-                    </span>
-                  )
-                )}
+                {[
+                  { name: "Viator", href: links.viator },
+                  { name: "Shore Excursions Group", href: links.shoreExcursions },
+                  { name: "Exoticca", href: links.exoticca },
+                  { name: "Project Expedition", href: links.projectExpedition },
+                ].map((partner) => (
+                  <a
+                    key={partner.name}
+                    href={partner.href}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="rounded-full border border-ink/10 bg-sand/60 px-3 py-1.5 text-xs font-semibold text-ink transition-colors duration-200 hover:border-ocean/30 hover:bg-ocean/10 hover:text-ocean"
+                  >
+                    {partner.name}
+                  </a>
+                ))}
               </div>
             </div>
             <Link to="/book-it-yourself" className="link-underline mt-8 pt-2">
