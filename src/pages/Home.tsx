@@ -113,8 +113,8 @@ const advisorReasons = [
   },
   {
     icon: Puzzle,
-    title: "I untangle the mess",
-    body: "Multi-stop honeymoons, family reunions with a dozen opinions, group cruises with even more — the trips too complicated to book alone are exactly the ones I'm built for.",
+    title: "Smooth, even when it isn't",
+    body: "Weather delays, flight cancellations, a missed connection — sometimes I'm fixing it in the background before you even know there was a problem. You just get the version where the trip still went fine.",
   },
 ];
 
