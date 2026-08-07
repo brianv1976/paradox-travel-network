@@ -290,7 +290,18 @@ export default function Home() {
                 <Sparkles className="text-gold transition-transform duration-300 group-hover:scale-110" />
               </Link>
             </div>
-            <p className="mt-3 leading-relaxed text-cream/80">
+            <div className="mt-4 flex w-fit items-center gap-3 rounded-2xl bg-cream/10 p-3 pr-5 ring-1 ring-cream/15 backdrop-blur-sm">
+              <img
+                src={assets.headshot}
+                alt="Brian Voyles"
+                className="h-14 w-14 rounded-full object-cover"
+              />
+              <div>
+                <div className="text-sm font-semibold text-cream">Brian Voyles</div>
+                <div className="text-xs text-cream/70">Founder &amp; Travel Advisor</div>
+              </div>
+            </div>
+            <p className="mt-4 leading-relaxed text-cream/80">
               This is where I stop being modest. I've planned trips
               complicated enough to make an airline hold desk cry, and simple
               ones where the only real ask was "don't let this be boring."
