@@ -94,7 +94,7 @@ const advisorReasons = [
   {
     icon: MessageCircle,
     title: "No job is too small",
-    body: "Just need a hotel for a couple nights, or a quick answer before you book something yourself? Message me and it's done — like having a personal assistant on speed dial.",
+    body: "Need a hotel for two nights? A flight and a hotel for a quick trip? Call me, tell me what you need, and it's done — like having a personal assistant on speed dial.",
   },
   {
     icon: Clock,
