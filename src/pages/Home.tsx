@@ -557,6 +557,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* AFFILIATION — restrained, single-line credibility statement using
+          the exact WorldVia-approved wording. Not a badge/logo (none are
+          authorized yet) — just text. */}
+      <div className="container-px pb-4 text-center">
+        <span className="text-xs font-medium text-fog">
+          A WorldVia Travel Network Independent Agency
+        </span>
+      </div>
+
       {/* FINAL CTA */}
       <CTASection
         eyebrow="Ready when the idea is"
