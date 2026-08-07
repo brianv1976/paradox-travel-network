@@ -15,7 +15,7 @@ import {
   CalendarPlus,
   Puzzle,
   Clock,
-  KeyRound,
+  SearchCheck,
   LifeBuoy,
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
@@ -107,9 +107,9 @@ const advisorReasons = [
     body: "You've already got a job. Tell me dates, budget, and what would ruin the trip, and I'll turn it into real options — not another 30 tabs.",
   },
   {
-    icon: KeyRound,
-    title: "Rates you can't find yourself",
-    body: "I reach upgrades, amenities, and pricing that never make it to a public booking page. Same trip. Better seats. No extra cost to you.",
+    icon: SearchCheck,
+    title: "A concierge, not a coupon",
+    body: "The value isn't a secret discount code — it's someone who vets the hotel, catches the resort fee buried in fine print, and steers you away from what looks great in photos and isn't. Deals and upgrades happen along the way, but they're the bonus, not the pitch.",
   },
   {
     icon: LifeBuoy,
