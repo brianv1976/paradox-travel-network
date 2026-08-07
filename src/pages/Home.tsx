@@ -281,7 +281,7 @@ export default function Home() {
               <div className="text-xs font-semibold uppercase tracking-wide text-fog">
                 Trusted booking partners
               </div>
-              <div className="mt-3 flex flex-wrap gap-3">
+              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {[
                   { name: "Viator", href: links.viator, src: assets.partnerLogos.viator },
                   {
@@ -302,12 +302,12 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer sponsored"
                     aria-label={partner.name}
-                    className="flex h-14 items-center rounded-xl border border-ink/10 bg-white px-4 transition-shadow duration-200 hover:shadow-soft"
+                    className="flex h-24 w-full items-center justify-center rounded-xl border border-ink/10 bg-white px-4 transition-shadow duration-200 hover:shadow-soft"
                   >
                     <img
                       src={partner.src}
                       alt={partner.name}
-                      className="h-7 w-auto max-w-[120px] object-contain"
+                      className="h-14 w-full object-contain"
                     />
                   </a>
                 ))}

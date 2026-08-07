@@ -19,6 +19,10 @@ export default function Footer() {
             <Mail size={16} />
             {links.email}
           </a>
+          <p className="mt-6 max-w-sm text-xs leading-relaxed text-cream/50">
+            Paradox Travel Network is an independent agency affiliated with
+            WorldVia Travel Network, a Travel Leaders Network Associate.
+          </p>
         </div>
 
         <nav className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
