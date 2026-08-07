@@ -281,21 +281,34 @@ export default function Home() {
               <div className="text-xs font-semibold uppercase tracking-wide text-fog">
                 Trusted booking partners
               </div>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 flex flex-wrap gap-3">
                 {[
-                  { name: "Viator", href: links.viator },
-                  { name: "Shore Excursions Group", href: links.shoreExcursions },
-                  { name: "Exoticca", href: links.exoticca },
-                  { name: "Project Expedition", href: links.projectExpedition },
+                  { name: "Viator", href: links.viator, src: assets.partnerLogos.viator },
+                  {
+                    name: "Shore Excursions Group",
+                    href: links.shoreExcursions,
+                    src: assets.partnerLogos.shoreExcursions,
+                  },
+                  { name: "Exoticca", href: links.exoticca, src: assets.partnerLogos.exoticca },
+                  {
+                    name: "Project Expedition",
+                    href: links.projectExpedition,
+                    src: assets.partnerLogos.projectExpedition,
+                  },
                 ].map((partner) => (
                   <a
                     key={partner.name}
                     href={partner.href}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
-                    className="rounded-full border border-ink/10 bg-sand/60 px-3 py-1.5 text-xs font-semibold text-ink transition-colors duration-200 hover:border-ocean/30 hover:bg-ocean/10 hover:text-ocean"
+                    aria-label={partner.name}
+                    className="flex h-14 items-center rounded-xl border border-ink/10 bg-white px-4 transition-shadow duration-200 hover:shadow-soft"
                   >
-                    {partner.name}
+                    <img
+                      src={partner.src}
+                      alt={partner.name}
+                      className="h-7 w-auto max-w-[120px] object-contain"
+                    />
                   </a>
                 ))}
               </div>

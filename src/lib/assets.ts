@@ -34,6 +34,16 @@ export const assets = {
     desertSafari:
       "https://images.pexels.com/photos/2867769/pexels-photo-2867769.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
+  // Official partner logos, unmodified except for cropping page chrome off
+  // shoreExcursions (see /public/assets/partners — sourced by Brian from
+  // each partner's own site, per their README: original colors/proportions,
+  // never stretched/cropped/recolored beyond removing non-logo background).
+  partnerLogos: {
+    viator: "/assets/partners/viator.jpg",
+    projectExpedition: "/assets/partners/project-expedition.jpg",
+    exoticca: "/assets/partners/exoticca.jpg",
+    shoreExcursions: "/assets/partners/shore-excursions-group.jpg",
+  },
 };
 
 export const links = {
