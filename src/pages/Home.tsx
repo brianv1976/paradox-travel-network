@@ -81,7 +81,7 @@ const diyReasons = [
   {
     icon: LayoutGrid,
     title: "Trusted sites, already gathered",
-    body: "Viator, Shore Excursions Group, Exoticca, Project Expedition, and more, all in one place.",
+    body: "No hunting across a dozen different tabs — the good ones are linked right here.",
   },
   {
     icon: CalendarPlus,
@@ -258,7 +258,8 @@ export default function Home() {
             <p className="mt-3 leading-relaxed text-fog">
               Popular booking sites you've probably already used — gathered
               in one place so you can easily compare prices, navigate, and
-              book activities at your destination.
+              book activities at your destination. No account required, no
+              sales pitch, just the same booking flow you already know.
             </p>
             <ul className="mt-6 space-y-4">
               {diyReasons.map((r) => {
@@ -276,6 +277,23 @@ export default function Home() {
                 );
               })}
             </ul>
+            <div className="mt-8">
+              <div className="text-xs font-semibold uppercase tracking-wide text-fog">
+                Trusted booking partners
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {["Viator", "Shore Excursions Group", "Exoticca", "Project Expedition"].map(
+                  (name) => (
+                    <span
+                      key={name}
+                      className="rounded-full border border-ink/10 bg-sand/60 px-3 py-1.5 text-xs font-semibold text-ink"
+                    >
+                      {name}
+                    </span>
+                  )
+                )}
+              </div>
+            </div>
             <Link to="/book-it-yourself" className="link-underline mt-8 pt-2">
               Explore self-booking <ArrowRight size={15} />
             </Link>
