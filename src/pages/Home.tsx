@@ -97,11 +97,6 @@ const diyReasons = [
 
 const advisorReasons = [
   {
-    icon: Puzzle,
-    title: "I untangle the mess",
-    body: "Multi-stop honeymoons, family reunions with a dozen opinions, group cruises with even more — the trips too complicated to book alone are exactly the ones I'm built for.",
-  },
-  {
     icon: Clock,
     title: "Your time, back",
     body: "You've already got a job. Tell me dates, budget, and what would ruin the trip, and I'll turn it into real options — not another 30 tabs.",
@@ -115,6 +110,11 @@ const advisorReasons = [
     icon: LifeBuoy,
     title: "Me, not a call center",
     body: "Flight cancels? Hotel loses your room? You call me directly — and I'm still around after the trip's booked, not just before.",
+  },
+  {
+    icon: Puzzle,
+    title: "I untangle the mess",
+    body: "Multi-stop honeymoons, family reunions with a dozen opinions, group cruises with even more — the trips too complicated to book alone are exactly the ones I'm built for.",
   },
 ];
 
