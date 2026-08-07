@@ -59,7 +59,7 @@ const viatorExamples = [
     place: "Dubai · Desert Adventure",
     title: "Red Dunes Desert Safari",
     blurb: "Ride the dunes, try sandboarding and camel riding, then a camp dinner.",
-    image: assets.img.planning,
+    image: assets.img.desertSafari,
     href: "https://www.viator.com/tours/Dubai/Dubai-Premium-Red-Dunes-Camel-Ride-and-5-BBQ-at-Al-Khayma-Camp/d828-91421P12?pid=P00003200&uid=U00747481&mcid=58086&currency=USD",
   },
 ];

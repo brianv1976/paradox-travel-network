@@ -16,6 +16,7 @@ import {
   Clock,
   SearchCheck,
   LifeBuoy,
+  MessageCircle,
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { stagger, fadeUp } from "../lib/motion";
@@ -90,6 +91,11 @@ const diyReasons = [
 ];
 
 const advisorReasons = [
+  {
+    icon: MessageCircle,
+    title: "No job is too small",
+    body: "Just need a hotel for a couple nights, or a quick answer before you book something yourself? Message me and it's done — like having a personal assistant on speed dial.",
+  },
   {
     icon: Clock,
     title: "Your time, back",
@@ -444,16 +450,11 @@ export default function Home() {
 
       {/* POSTCARDS */}
       <section id="tips" className="container-px py-24 md:py-32">
-        <div className="grid items-end gap-8 md:grid-cols-[1.2fr_1fr]">
-          <SectionHeading
-            eyebrow="Postcards from Paradox"
-            title="Useful advice. Minimal inspirational fog."
-            intro="Practical articles for smoother trips, plus an occasional email with destination notes, booking reminders, and fewer manufactured emergencies."
-          />
-          <Reveal className="hidden justify-self-end md:block">
-            <img src={assets.mascotWhiteboard} alt="Brian mascot presenting practical travel tips" className="max-h-56 w-auto" />
-          </Reveal>
-        </div>
+        <SectionHeading
+          eyebrow="Postcards from Paradox"
+          title="Useful advice. Minimal inspirational fog."
+          intro="Practical articles for smoother trips, plus an occasional email with destination notes, booking reminders, and fewer manufactured emergencies."
+        />
         <motion.div
           variants={stagger(0.1)}
           initial="hidden"

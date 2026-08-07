@@ -13,12 +13,10 @@ export const assets = {
   headshot: "/assets/Headshot.png",
   halfBody: "/assets/Half body Shot.jpg",
   portrait: "/assets/portrait.jpg",
-  mascotWhiteboard: "/assets/mascot-whiteboard.png",
   img: {
     cruise: "/assets/cruise.jpg",
     resort: "/assets/resort.jpg",
     beach: "/assets/beach.jpg",
-    planning: "/assets/planning.jpg",
     adventure: "/assets/adventure.jpg",
     familyTravel:
       "https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=1600",
@@ -30,6 +28,11 @@ export const assets = {
       "https://images.pexels.com/photos/36465268/pexels-photo-36465268.jpeg?auto=compress&cs=tinysrgb&w=1600",
     cruiseTender:
       "https://images.pexels.com/photos/745737/pexels-photo-745737.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    // Replaces the corrupted local planning.jpg (truncated at 512KB).
+    planning:
+      "https://images.pexels.com/photos/7010194/pexels-photo-7010194.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    desertSafari:
+      "https://images.pexels.com/photos/2867769/pexels-photo-2867769.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
 };
 
