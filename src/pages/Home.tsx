@@ -11,7 +11,6 @@ import {
   Umbrella,
   Mountain,
   LayoutGrid,
-  ShieldCheck,
   CalendarPlus,
   Puzzle,
   Clock,
@@ -81,17 +80,12 @@ const diyReasons = [
   {
     icon: LayoutGrid,
     title: "Trusted sites, already gathered",
-    body: "Viator, Shore Excursions Group, Exoticca, Project Expedition, and more — vetted, not just linked.",
+    body: "Viator, Shore Excursions Group, Exoticca, Project Expedition, and more, all in one place.",
   },
   {
     icon: CalendarPlus,
     title: "Already booked? Add to it",
     body: "Trip locked in somewhere else? Browse excursions, tours, and activities to round it out.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "No markup",
-    body: "Book directly with the partner. Paradox doesn't add a fee to self-booked trips.",
   },
 ];
 
@@ -183,7 +177,7 @@ export default function Home() {
               massive marketplace and a single advisor's phone number. Find
               destination inspiration, browse cruises, resorts, hotels,
               vacation packages, tours, and activities, and book directly
-              through partners we've actually vetted.
+              through popular, trusted booking partners.
             </motion.p>
             <motion.p
               variants={fadeUp}
@@ -256,10 +250,9 @@ export default function Home() {
               </Link>
             </div>
             <p className="mt-3 leading-relaxed text-fog">
-              For travelers who like doing the research themselves —
-              comparing options, reading reviews, and booking on their own
-              terms. Every partner listed here is one Paradox has actually
-              vetted, not just linked for a commission.
+              Popular booking sites you've probably already used — gathered
+              in one place so you can easily compare prices, navigate, and
+              book activities at your destination.
             </p>
             <ul className="mt-6 space-y-4">
               {diyReasons.map((r) => {
@@ -281,11 +274,10 @@ export default function Home() {
               Explore self-booking <ArrowRight size={15} />
             </Link>
             <p className="mt-4 text-sm text-fog">
-              Trip getting complicated?{" "}
-              <Link to="/plan-my-trip" className="font-semibold text-ocean hover:text-clay">
-                Plan With Brian
-              </Link>{" "}
-              is right next door.
+              Booking it yourself doesn't mean you're on your own — Brian's
+              still around for questions along the way. He wants you to have
+              a great trip, whether he's planning it or just helping you book
+              it right.
             </p>
           </Reveal>
 
