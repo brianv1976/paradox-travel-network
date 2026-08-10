@@ -26,19 +26,21 @@ const HOLD_MS = 5200;
  *   - holds on a slow Ken Burns push so the still is never actually still
  *   - re-animates its type per word, so the name lands with the image
  *
- * Autoplay pauses on hover/focus (and while the tab is hidden, so it doesn't
- * churn in a background tab), and can be paused outright — an autoplaying
- * thing that can't be stopped is an accessibility problem.
+ * Autoplay pauses on keyboard focus (and while the tab is hidden, so it
+ * doesn't churn in a background tab), and can be paused outright via the
+ * button — an autoplaying thing that can't be stopped is an accessibility
+ * problem. Mouse hover does NOT pause it — it keeps advancing under the
+ * cursor by design.
  */
 export default function DestinationPlayer() {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const timerRef = useRef<number | null>(null);
 
   const active = destinations[index];
-  const running = !paused && !hovered && !reduce;
+  const running = !paused && !focused && !reduce;
 
   // --- Cursor parallax: photo, ghost type and copy each track the pointer at
   // a different depth, so the stage has real dimensionality on hover. ------
@@ -120,14 +122,10 @@ export default function DestinationPlayer() {
           // Sized to leave room for the heading and rail inside one laptop
           // screen — the whole section should be visible without scrolling.
           className="relative mt-6 h-[clamp(300px,46vh,460px)] w-full overflow-hidden rounded-[2rem] bg-ink/60 shadow-lift"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => {
-            setHovered(false);
-            resetParallax();
-          }}
+          onMouseLeave={resetParallax}
           onMouseMove={reduce ? undefined : onStageMove}
-          onFocusCapture={() => setHovered(true)}
-          onBlurCapture={() => setHovered(false)}
+          onFocusCapture={() => setFocused(true)}
+          onBlurCapture={() => setFocused(false)}
         >
           {/* Photo layer: clip-path wipe on the outside, swoop + cursor
               parallax on the inside, Ken Burns push on the image itself.

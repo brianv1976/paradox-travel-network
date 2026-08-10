@@ -37,7 +37,7 @@ function localResponder(input: string): string {
   if (/(fee|cost|price|charge|how much|pay)/.test(q))
     return `Most planning is free. If a trip is complex enough to carry a planning fee, you'll know the number upfront, before any work starts. ${plan}`;
   if (/(book|myself|self|diy|own)/.test(q))
-    return `Absolutely. The Book It Yourself page gathers trusted names — Viator, Shore Excursions Group, and Exoticca — in one place, no advisor markup. Brian's still around for free questions any time.`;
+    return `Absolutely. The Book It Yourself page gathers the booking sites Brian actually trusts — Viator, Shore Excursions Group, Exoticca, and more — in one place, at the same prices you'd find booking direct. Brian's still around for free pointers any time.`;
   if (/(cruise|ship|cabin|sail)/.test(q))
     return `Cruises are a specialty — line, ship style, itinerary, and cabin location all change the trip. See the Cruises page, or share the details on Plan My Trip and Brian will narrow it down.`;
   if (/(resort|all.?inclusive|beach)/.test(q))

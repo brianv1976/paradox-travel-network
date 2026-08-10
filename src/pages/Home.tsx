@@ -281,7 +281,7 @@ export default function Home() {
               <div className="text-xs font-semibold uppercase tracking-wide text-fog">
                 Trusted booking partners
               </div>
-              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-5">
                 {[
                   { name: "Viator", href: links.viator, src: assets.partnerLogos.viator },
                   {
@@ -294,6 +294,11 @@ export default function Home() {
                     name: "Project Expedition",
                     href: links.projectExpedition,
                     src: assets.partnerLogos.projectExpedition,
+                  },
+                  {
+                    name: "Virgin Voyages",
+                    href: links.virginVoyages,
+                    src: assets.partnerLogos.virginVoyages,
                   },
                 ].map((partner) => (
                   <a
@@ -562,15 +567,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* AFFILIATION — restrained, single-line credibility statement using
-          the exact WorldVia-approved wording. Not a badge/logo (none are
-          authorized yet) — just text. */}
-      <div className="container-px pb-4 text-center">
-        <span className="text-xs font-medium text-fog">
-          A WorldVia Travel Network Independent Agency
-        </span>
-      </div>
 
       {/* FINAL CTA */}
       <CTASection

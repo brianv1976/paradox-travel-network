@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, CalendarClock, CheckCircle2, ShieldAlert } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
@@ -7,7 +7,7 @@ import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
 import { submitForm } from "../lib/form";
 import { links, assets } from "../lib/assets";
-import { stagger, fadeUp } from "../lib/motion";
+import { stagger, fadeUp, smooth } from "../lib/motion";
 
 // Fields lift and glow on focus so the active one is unmistakable.
 const inputClass =
@@ -70,6 +70,7 @@ export default function PlanMyTrip() {
     "Tell a Dallas–Fort Worth travel advisor about your trip, budget, dates, and style to begin personalized vacation planning."
   );
 
+  const reduce = useReducedMotion();
   const [data, setData] = useState(empty);
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
@@ -92,19 +93,30 @@ export default function PlanMyTrip() {
   return (
     <>
       <PageHero
-        eyebrow="Booked right, no do-overs"
-        title="When it's too complicated to Google."
-        image={assets.headshot}
-        imageAlt="Brian Voyles, travel advisor"
-        imagePosition="object-top"
+        eyebrow="Book it right the first time."
+        title="Let Me Be Your Personal Travel Assistant — Even on the Fly."
+        imageAspect="aspect-[4/5]"
+        imageSlot={
+          <motion.div
+            className="absolute inset-0"
+            animate={reduce ? undefined : { y: [0, -14, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <img
+              src={assets.halfBody}
+              alt="Brian Voyles, travel advisor"
+              className="h-full w-full object-cover object-center animate-kenburns"
+            />
+          </motion.div>
+        }
       >
         <p className="text-lg leading-relaxed text-fog">
-          This isn't the tell-me-your-vibe-and-inspire-me form. It's for
-          multi-stop itineraries, group logistics, and trips with too many moving
-          parts to trust to a search bar. Tell me what you're trying to pull off —
-          I'll book it right the first time. Most planning is free. If a trip is
-          complex enough to carry a planning fee, you'll know the number upfront,
-          before any work starts.
+          Think of it like having your own personal assistant — no trip too
+          small. I'll help you navigate the planning, give you honest advice,
+          and flag the hidden costs before they turn into surprises. From
+          finding the right deal to booking the trip that's actually right
+          for you, it's real, one-on-one attention — I take the time to find
+          out what you really want, then make it happen.
         </p>
         <a href="#intake" className="btn-primary w-fit">
           Let's Get It Booked <ArrowRight size={16} />
@@ -114,7 +126,14 @@ export default function PlanMyTrip() {
       <section id="intake" className="container-px py-20 md:py-28">
         {status === "sent" ? (
           <Reveal className="mx-auto max-w-2xl rounded-[2rem] border border-ocean/20 bg-cream p-10 text-center shadow-soft">
-            <CheckCircle2 className="mx-auto text-ocean" size={48} />
+            <motion.div
+              initial={{ scale: 0, rotate: -90, opacity: 0 }}
+              animate={{ scale: 1, rotate: 0, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.15 }}
+              className="mx-auto flex h-16 w-16 items-center justify-center"
+            >
+              <CheckCircle2 className="text-ocean" size={48} />
+            </motion.div>
             <h2 className="mt-4 font-display text-3xl font-semibold text-ink">
               Thanks — your trip details are in.
             </h2>
@@ -133,7 +152,7 @@ export default function PlanMyTrip() {
           </Reveal>
         ) : (
           <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
-            <div>
+            <Reveal variant="rise">
               <SectionHeading
                 eyebrow="Trip planning inquiry"
                 title="Share the useful details."
@@ -309,28 +328,53 @@ export default function PlanMyTrip() {
                   {status === "sending" ? "Sending…" : "Send Trip Details"}
                   <ArrowRight size={16} />
                 </button>
+
+                <p className="text-sm text-fog">
+                  Most planning is free. If a trip carries a fee, you'll know
+                  the number upfront, before any work starts.
+                </p>
               </form>
-            </div>
+            </Reveal>
 
             {/* Sidebar: schedule a call */}
             <aside className="lg:pt-16">
-              <div className="sticky top-24 rounded-[2rem] bg-ocean p-8 text-cream">
-                <CalendarClock className="text-gold" />
-                <h3 className="mt-4 text-xl font-semibold">
-                  Prefer to talk it through first?
-                </h3>
-                <p className="mt-3 leading-relaxed text-cream/80">
-                  Use the call to discuss trip ideas, destination questions,
-                  dates, budget, and the type of planning help you may need.
-                </p>
-                <a
-                  href={links.calendly}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn mt-6 w-full bg-gold text-ink hover:bg-cream"
+              <div className="sticky top-24 overflow-hidden rounded-[2rem] bg-ocean p-8 text-cream transition-transform duration-300 hover:-translate-y-1">
+                <motion.div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gold/20 blur-3xl"
+                  animate={{ y: [0, 18, 0], x: [0, -12, 0] }}
+                  transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -bottom-16 -left-10 h-44 w-44 rounded-full bg-cream/10 blur-3xl"
+                  animate={{ y: [0, -16, 0], x: [0, 14, 0] }}
+                  transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.4 }}
+                  variants={fadeUp}
+                  className="relative"
                 >
-                  Schedule a Trip Planning Call
-                </a>
+                  <CalendarClock className="text-gold" />
+                  <h3 className="mt-4 text-xl font-semibold">
+                    Prefer to talk it through first?
+                  </h3>
+                  <p className="mt-3 leading-relaxed text-cream/80">
+                    Use the call to discuss trip ideas, destination questions,
+                    dates, budget, and the type of planning help you may need.
+                  </p>
+                  <a
+                    href={links.calendly}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn mt-6 w-full bg-gold text-ink hover:bg-cream"
+                  >
+                    Schedule a Trip Planning Call
+                  </a>
+                </motion.div>
               </div>
             </aside>
           </div>
@@ -341,23 +385,33 @@ export default function PlanMyTrip() {
       <section className="bg-sand/60">
         <div className="container-px py-20 md:py-28">
           <SectionHeading eyebrow="What happens next" title="Let Brian plan it." />
-          <motion.div
-            variants={stagger(0.12)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            className="mt-12 grid gap-8 md:grid-cols-3"
-          >
-            {nextSteps.map((s) => (
-              <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-3">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean font-display text-xl font-semibold text-cream">
-                  {s.n}
-                </span>
-                <h3 className="text-xl font-semibold text-ink">{s.title}</h3>
-                <p className="leading-relaxed text-fog">{s.body}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <div className="relative mt-12">
+            <div className="absolute inset-x-6 top-6 hidden h-px bg-ink/10 md:block" />
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 1.4, ease: smooth, delay: 0.2 }}
+              className="absolute inset-x-6 top-6 hidden h-px origin-left bg-ocean md:block"
+            />
+            <motion.div
+              variants={stagger(0.12)}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.2 }}
+              className="grid gap-8 md:grid-cols-3"
+            >
+              {nextSteps.map((s) => (
+                <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-3">
+                  <span className="relative z-10 inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean font-display text-xl font-semibold text-cream">
+                    {s.n}
+                  </span>
+                  <h3 className="text-xl font-semibold text-ink">{s.title}</h3>
+                  <p className="leading-relaxed text-fog">{s.body}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </section>
     </>

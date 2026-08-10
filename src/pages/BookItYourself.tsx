@@ -16,8 +16,23 @@ import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
 import TiltCard from "../components/TiltCard";
+import ImageCarousel from "../components/ImageCarousel";
+import HeroTravelScene from "../components/HeroTravelScene";
+import HeroPhotoStack from "../components/HeroPhotoStack";
 import { assets, links } from "../lib/assets";
 import { fadeUp, stagger } from "../lib/motion";
+
+// Real, unbranded photography for the hero scene — deliberately no vendor
+// logos so it doesn't play favorites among the sections below. Used by
+// HeroTravelScene, kept here as an easy fallback while HeroPhotoStack (the
+// 3D layered version) is being tried out — swap the imageSlot below to
+// revert.
+const heroSlides = [
+  { src: assets.virginVoyages.shipExterior, alt: "Cruise ship sailing at sea" },
+  { src: assets.virginVoyages.beachClubPool, alt: "Aerial view of a beach club pool" },
+  { src: assets.virginVoyages.beachClubDusk, alt: "Beach club pool at dusk" },
+  { src: assets.virginVoyages.beachClubCabana, alt: "View of the beach from a cabana" },
+];
 
 const bookingTypes = [
   {
@@ -64,6 +79,57 @@ const viatorExamples = [
   },
 ];
 
+const exoticcaSlides = [
+  {
+    src: assets.exoticca.safariBalloon,
+    alt: "Hot air balloon safari over the Serengeti",
+    caption: "Serengeti balloon safari",
+  },
+  {
+    src: assets.exoticca.tajMahal,
+    alt: "The Taj Mahal at sunset",
+    caption: "Taj Mahal at sunset",
+  },
+  {
+    src: assets.exoticca.elephantsWaterhole,
+    alt: "Elephant herd at a waterhole in Africa",
+    caption: "African safari",
+  },
+  {
+    src: assets.exoticca.lakeBirds,
+    alt: "Fishermen on a lake surrounded by birds at sunset",
+    caption: "Golden-hour boat life",
+  },
+];
+
+const virginVoyagesSlides = [
+  {
+    src: assets.virginVoyages.shipExterior,
+    alt: "Scarlet Lady sailing at sea",
+    caption: "Scarlet Lady at sea",
+  },
+  {
+    src: assets.virginVoyages.beachClubPool,
+    alt: "Aerial view of the pool at The Beach Club at Bimini",
+    caption: "The Beach Club at Bimini — Virgin Voyages' private destination",
+  },
+  {
+    src: assets.virginVoyages.beachClubDusk,
+    alt: "Pool at The Beach Club at Bimini at dusk",
+    caption: "Bimini at golden hour",
+  },
+  {
+    src: assets.virginVoyages.seaViewCabin,
+    alt: "Sea View cabin aboard a Virgin Voyages ship",
+    caption: "Sea View cabins",
+  },
+  {
+    src: assets.virginVoyages.nightlife,
+    alt: "Nightlife onboard a Virgin Voyages ship",
+    caption: "Nightlife onboard",
+  },
+];
+
 const projectExpeditionHighlights = [
   {
     icon: Map,
@@ -82,6 +148,24 @@ const projectExpeditionHighlights = [
     title: "Back-to-Ship Guarantee",
     body: "If a shore excursion runs long, they cover getting you back to the ship — no clock-watching on port day.",
     image: assets.img.cruiseTender,
+  },
+];
+
+const projectExpeditionSlides = [
+  {
+    src: assets.img.multiDayTrek,
+    alt: "Multi-day trekking adventure",
+    caption: "Full multi-day itineraries",
+  },
+  {
+    src: assets.img.localGuide,
+    alt: "Local guide leading a small group tour",
+    caption: "Local operators, not a marketplace",
+  },
+  {
+    src: assets.img.cruiseTender,
+    alt: "Cruise tender returning travelers to the ship",
+    caption: "Back-to-Ship Guarantee",
   },
 ];
 
@@ -116,7 +200,7 @@ function ExampleGrid({
 }) {
   return (
     <motion.div
-      variants={stagger(0.1)}
+      variants={stagger(0.15)}
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.15 }}
@@ -132,11 +216,16 @@ function ExampleGrid({
               className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
             >
               <div className="relative h-40 overflow-hidden">
-                <img
-                  src={it.image}
-                  alt=""
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                {/* Nested transforms so the idle Ken Burns drift (on the
+                    img) and the hover zoom (on this wrapper) don't fight
+                    over the same transform property. */}
+                <div className="h-full w-full transition-transform duration-700 group-hover:scale-105">
+                  <img
+                    src={it.image}
+                    alt=""
+                    className="h-full w-full object-cover animate-kenburns"
+                  />
+                </div>
                 {/* Sweeps across the image on hover. */}
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-cream/25 to-transparent transition-transform duration-[900ms] ease-smooth group-hover:translate-x-full" />
               </div>
@@ -169,16 +258,17 @@ export default function BookItYourself() {
   return (
     <>
       <PageHero
-        eyebrow="Independent booking. Backup human included."
-        title="All Your Favorite Booking Sites. One Page."
-        image={assets.img.planning}
-        imageAlt="Traveler planning a journey with maps and travel essentials"
+        eyebrow="The smart way to book it yourself."
+        title="Popular Booking Sites You Know — and Brian Trusts. One Page."
+        imageFrameless
+        imageSlot={<HeroPhotoStack photos={assets.heroDestinations} />}
       >
         <p className="text-lg leading-relaxed text-fog">
-          Search and find the best deals across the web from one place — complete
-          trips, shore excursions, tours, activities, attractions, transfers, and
-          adventures, all from trusted names, no advisor markup. And Brian's
-          always available for questions, no obligation to book through him.
+          A hand-picked lineup of the booking sites Brian actually trusts —
+          cruises, tours, shore excursions, and more — all in one place, at
+          the same prices you'd find booking direct. No hunting through
+          search results wondering which site is legit. And Brian's always
+          around to give pointers, even when you're booking it yourself.
         </p>
         <a href="#booking-types" className="btn-primary w-fit">
           Choose a booking type <ArrowRight size={16} />
@@ -189,7 +279,7 @@ export default function BookItYourself() {
       <section id="booking-types" className="container-px py-20 md:py-28">
         <SectionHeading eyebrow="Start here" title="What are you booking?" />
         <motion.div
-          variants={stagger(0.1)}
+          variants={stagger(0.15)}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
@@ -235,25 +325,34 @@ export default function BookItYourself() {
       {/* Exoticca */}
       <section id="exoticca" className="bg-sand/60">
         <div className="container-px grid items-center gap-10 py-20 md:grid-cols-2 md:py-28">
-          <Reveal className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-lift">
-            <img
-              src={assets.img.resort}
-              alt="Curated international vacation package destination"
-              className="h-full w-full object-cover"
-            />
+          <Reveal>
+            <ImageCarousel slides={exoticcaSlides} />
           </Reveal>
           <div>
-            <span className="eyebrow">Complete vacations</span>
-            <h2 className="mt-3 font-display text-3xl font-semibold text-ink md:text-4xl">
-              Browse Curated Trips
-            </h2>
+            <span className="eyebrow">Complete, multi-destination trips</span>
+            <img
+              src={assets.partnerLogos.exoticca}
+              alt="Exoticca"
+              className="mt-3 h-12 w-auto md:h-14"
+            />
+            <p className="mt-5 leading-relaxed text-fog">
+              Exoticca is an online tour operator, not a marketplace — their
+              own trip designers build each itinerary and personally travel
+              it before it ever goes on sale. A trip bundles flights, hotels,
+              guided tours, transfers, and breakfast into one upfront price,
+              so there's no separate flight search or hotel comparison to do
+              yourself.
+            </p>
             <p className="mt-4 leading-relaxed text-fog">
-              Explore fully planned vacation packages with flights, hotels, tours,
-              and transfers built in — crafted by expert trip designers to exotic
-              destinations worldwide.
+              Most trips run as small guided groups — typically 12 to 15
+              travelers, rarely more than 30 — with free time built into most
+              stops for exploring on your own. Fully self-guided versions are
+              also available for travelers who'd rather skip the group
+              entirely.
             </p>
             <p className="mt-4 text-sm font-medium text-ink">
-              Exoticca · 150+ destinations · Flights, hotels &amp; tours included
+              Exoticca · 300+ itineraries across 60+ countries · Flights,
+              hotels, tours &amp; transfers included
             </p>
             <a
               href={links.exoticca}
@@ -267,79 +366,145 @@ export default function BookItYourself() {
         </div>
       </section>
 
+      {/* Virgin Voyages */}
+      <section id="virgin-voyages" className="container-px py-20 md:py-28">
+        <div className="grid items-center gap-10 md:grid-cols-2">
+          <div>
+            <span className="eyebrow">Adults-only cruising</span>
+            <img
+              src={assets.partnerLogos.virginVoyages}
+              alt="Virgin Voyages"
+              className="mt-3 h-12 w-auto md:h-14"
+            />
+            <p className="mt-5 leading-relaxed text-fog">
+              Virgin Voyages is a cruise line for adults only (18+), sailing
+              four ships — Scarlet, Valiant, Resilient, and Brilliant Lady.
+              Every restaurant onboard is included in the fare across 20-plus
+              eateries, so there's no specialty-dining surcharge to plan
+              around, and WiFi is standard on every sailing.
+            </p>
+            <p className="mt-4 leading-relaxed text-fog">
+              Every Caribbean sailing from Miami stops at The Beach Club at
+              Bimini, Virgin's own private beach — two lagoon-style pools,
+              DJ sets, sunset fire pits, and complimentary food and loungers
+              included in the day.
+            </p>
+            <p className="mt-4 text-sm font-medium text-ink">
+              Virgin Voyages · 4 ships · Dining &amp; WiFi included on every sailing
+            </p>
+            <a
+              href={links.virginVoyages}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="btn-primary mt-6"
+            >
+              Browse Virgin Voyages <ExternalLink size={15} />
+            </a>
+          </div>
+          <Reveal delay={0.05}>
+            <ImageCarousel slides={virginVoyagesSlides} />
+          </Reveal>
+        </div>
+      </section>
+
       {/* Project Expedition */}
-      <section id="project-expedition" className="container-px py-20 md:py-28">
-        <SectionHeading
-          eyebrow="Boutique tours, activities & multi-day trips"
-          title="Project Expedition"
-          intro="A smaller, curated alternative to a giant marketplace — local operators, genuine multi-day itineraries, and cruise shore excursions backed by a guarantee that gets you back to the ship."
-        />
-        <Reveal delay={0.05} className="mt-6">
-          <a
-            href={links.projectExpedition}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
-            className="btn-primary"
+      <section id="project-expedition" className="bg-sand/60">
+        <div className="container-px py-20 md:py-28">
+          <div className="grid items-center gap-10 md:grid-cols-2">
+            <div>
+              <span className="eyebrow">Boutique tours, activities &amp; multi-day trips</span>
+              <img
+                src={assets.partnerLogos.projectExpedition}
+                alt="Project Expedition"
+                className="mt-3 h-12 w-auto md:h-14"
+              />
+              <p className="mt-5 leading-relaxed text-fog">
+                Project Expedition is a smaller, curated alternative to a
+                giant open marketplace — every local operator on the
+                platform is reviewed and approved by their own team before
+                it's bookable, rather than an open listing anyone can join.
+                Founded in 2015, they now cover more than 20,000 tours,
+                activities, and multi-day trips across 150-plus countries.
+              </p>
+              <p className="mt-4 leading-relaxed text-fog">
+                Not going anywhere yet? Search your own city too — it works
+                just as well for a local day trip or a weekend adventure
+                close to home as it does for planning a trip abroad.
+              </p>
+              <p className="mt-4 text-sm font-medium text-ink">
+                Project Expedition · 20,000+ experiences · 150+ countries
+              </p>
+              <a
+                href={links.projectExpedition}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                className="btn-primary mt-6"
+              >
+                Explore Tours &amp; Experiences <ExternalLink size={15} />
+              </a>
+            </div>
+            <Reveal delay={0.05}>
+              <ImageCarousel slides={projectExpeditionSlides} />
+            </Reveal>
+          </div>
+
+          <motion.div
+            variants={stagger(0.15)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            className="mt-14 grid gap-6 md:grid-cols-3"
           >
-            Explore Tours &amp; Experiences <ExternalLink size={15} />
-          </a>
-        </Reveal>
-        <motion.div
-          variants={stagger(0.1)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 grid gap-6 md:grid-cols-3"
-        >
-          {projectExpeditionHighlights.map((h) => {
-            const Icon = h.icon;
-            return (
-              <motion.div key={h.title} variants={fadeUp}>
-                <TiltCard className="rounded-2xl" intensity={7}>
-                  <a
-                    href={links.projectExpedition}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
-                  >
-                    <div className="relative h-40 overflow-hidden">
-                      <img
-                        src={h.image}
-                        alt=""
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-cream/25 to-transparent transition-transform duration-[900ms] ease-smooth group-hover:translate-x-full" />
-                      <span className="absolute -bottom-5 left-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean text-cream shadow-lift transition-transform duration-300 group-hover:rotate-12">
-                        <Icon size={20} />
-                      </span>
-                    </div>
-                    <div
-                      className="flex flex-1 flex-col p-5 pt-8"
-                      style={{ transform: "translateZ(28px)" }}
-                    >
-                      <h3 className="font-display text-lg font-semibold text-ink">
-                        {h.title}
-                      </h3>
-                      <p className="mt-1 text-sm text-fog">{h.body}</p>
-                      <span className="link-underline mt-auto pt-4 text-sm">
-                        Explore Tours &amp; Experiences <ExternalLink size={13} />
-                      </span>
-                    </div>
-                  </a>
-                </TiltCard>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+            {projectExpeditionHighlights.map((h) => {
+              const Icon = h.icon;
+              return (
+                <motion.div
+                  key={h.title}
+                  variants={fadeUp}
+                  className="flex gap-4 rounded-2xl bg-cream p-6"
+                >
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ocean/10 text-ocean">
+                    <Icon size={20} />
+                  </span>
+                  <div>
+                    <h3 className="font-display text-lg font-semibold text-ink">
+                      {h.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-fog">{h.body}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
       </section>
 
       {/* Viator */}
       <section id="viator" className="container-px py-20 md:py-28">
-        <SectionHeading
-          eyebrow="Tours, activities and local experiences"
-          title="Viator"
-          intro="Search tours, attractions, tickets, day trips, transfers, food experiences, cultural activities, outdoor adventures, and memorable things to do around the world."
-        />
+        <div className="max-w-2xl">
+          <span className="eyebrow">Tours, activities and local experiences</span>
+          <img
+            src={assets.partnerLogos.viator}
+            alt="Viator"
+            className="mt-3 h-12 w-auto md:h-14"
+          />
+          <p className="mt-5 text-lg leading-relaxed text-fog">
+            Viator is TripAdvisor's tours-and-activities marketplace — not a
+            single operator, but a booking platform for local guides and
+            operators worldwide, with hundreds of thousands of bookable
+            tours, attractions, tickets, day trips, and transfers across
+            every continent. Every listing carries the same reviews you'd
+            already trust from TripAdvisor itself.
+          </p>
+          <p className="mt-4 leading-relaxed text-fog">
+            At home and looking for an adventure? Check your own area — the
+            same search that finds a Rome food tour also turns up nearby
+            tours, activities, and small day trips right where you live.
+          </p>
+          <p className="mt-4 text-sm font-medium text-ink">
+            Viator · 200,000+ bookable experiences · Backed by TripAdvisor reviews
+          </p>
+        </div>
         <Reveal delay={0.05} className="mt-6">
           <a
             href={links.viator}
@@ -358,11 +523,26 @@ export default function BookItYourself() {
       {/* Shore Excursions */}
       <section id="shore" className="bg-sand/60">
         <div className="container-px py-20 md:py-28">
-          <SectionHeading
-            eyebrow="Cruise shore excursions"
-            title="Shore Excursions Group"
-            intro="Browse port-day experiences matched to cruise destinations worldwide, including smaller-group tours, private options, sightseeing, beaches, wildlife, food, culture, and adventure."
-          />
+          <div className="max-w-2xl">
+            <span className="eyebrow">Cruise shore excursions</span>
+            <img
+              src={assets.partnerLogos.shoreExcursions}
+              alt="Shore Excursions Group"
+              className="mt-3 h-12 w-auto md:h-14"
+            />
+            <p className="mt-5 text-lg leading-relaxed text-fog">
+              Shore Excursions Group does one thing — port-day tours for
+              cruise passengers — at a scale no cruise line's own excursion
+              desk can match: 4,000-plus excursions across 300-plus ports
+              worldwide, run by local operators instead of the ship. Groups
+              stay small by design, averaging around 12 guests per
+              excursion, with private, small-group, and standard formats
+              depending on how much company you want on port day.
+            </p>
+            <p className="mt-4 text-sm font-medium text-ink">
+              Shore Excursions Group · 5.7M+ excursions delivered · 4.7/5 from 56,500+ reviews
+            </p>
+          </div>
           <Reveal delay={0.05} className="mt-6">
             <a
               href={links.shoreExcursions}
@@ -382,6 +562,8 @@ export default function BookItYourself() {
       <div className="container-px py-12">
         <p className="text-sm text-fog">
           <span className="font-semibold text-ink">Booking disclosure:</span>{" "}
+          Paradox Travel Network may earn a commission when you book through
+          the partner links on this page, at no additional cost to you.
           Reservations and payments are completed directly through the
           selected provider, and provider terms and cancellation policies
           apply. Any questions Brian answers about a trip you book yourself

@@ -15,6 +15,19 @@ interface Props {
   image?: string;
   imageAlt?: string;
   imagePosition?: string;
+  /** Custom content for the image slot (e.g. a rotating scene) instead of a
+   *  single static image. Still gets the same entrance + scroll-parallax
+   *  treatment as the default img. */
+  imageSlot?: React.ReactNode;
+  /** Skip the default rounded/clipped/shadow photo-frame around imageSlot —
+   *  for compositions (like a floating photo stack) that want to draw their
+   *  own edges instead of being boxed into one rectangle. Ignored for the
+   *  default single-image case. */
+  imageFrameless?: boolean;
+  /** Override the default 4:3 photo frame — use when a specific photo's own
+   *  proportions would otherwise get cropped away (e.g. a taller portrait
+   *  shot). Ignored for imageSlot compositions, which manage their own shape. */
+  imageAspect?: string;
   children?: React.ReactNode;
 }
 
@@ -33,6 +46,9 @@ export default function PageHero({
   image,
   imageAlt,
   imagePosition = "object-center",
+  imageSlot,
+  imageFrameless = false,
+  imageAspect = "aspect-[4/3]",
   children,
 }: Props) {
   const ref = useRef<HTMLElement>(null);
@@ -70,7 +86,11 @@ export default function PageHero({
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      <div className="container-px relative grid items-center gap-12 pb-16 md:grid-cols-2 md:pb-24">
+      <div
+        className={`container-px relative grid items-center gap-12 pb-16 md:pb-24 ${
+          imageFrameless && imageSlot ? "md:grid-cols-[0.85fr_1.15fr]" : "md:grid-cols-2"
+        }`}
+      >
         <motion.div
           style={reduce ? undefined : { y: copyY, opacity: copyFade }}
           className="flex flex-col gap-6"
@@ -116,23 +136,29 @@ export default function PageHero({
           </motion.div>
         </motion.div>
 
-        {image && (
+        {(image || imageSlot) && (
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 1.04 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, ease: smooth, delay: 0.15 }}
-            className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-lift"
+            className={`relative ${imageAspect} ${
+              imageFrameless && imageSlot ? "" : "overflow-hidden rounded-[2rem] shadow-lift"
+            }`}
           >
             <motion.div
               style={reduce ? undefined : { y: imgY, scale: imgScale }}
-              className="absolute inset-[-8%]"
+              className={
+                imageFrameless && imageSlot ? "absolute inset-0" : "absolute inset-[-8%]"
+              }
             >
-              <img
-                src={image}
-                alt={imageAlt ?? ""}
-                className={`h-full w-full object-cover ${imagePosition}`}
-                loading="eager"
-              />
+              {imageSlot ?? (
+                <img
+                  src={image}
+                  alt={imageAlt ?? ""}
+                  className={`h-full w-full object-cover ${imagePosition}`}
+                  loading="eager"
+                />
+              )}
             </motion.div>
           </motion.div>
         )}

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Mail } from "lucide-react";
 import { footerBlurb, footerLinks } from "../data/site";
-import { business, links } from "../lib/assets";
+import { assets, business, links } from "../lib/assets";
 
 export default function Footer() {
   return (
@@ -19,10 +19,19 @@ export default function Footer() {
             <Mail size={16} />
             {links.email}
           </a>
-          <p className="mt-6 max-w-sm text-xs leading-relaxed text-cream/50">
-            Paradox Travel Network is an independent agency affiliated with
-            WorldVia Travel Network, a Travel Leaders Network Associate.
-          </p>
+          <div className="mt-6 flex max-w-sm items-center gap-3">
+            <span className="flex shrink-0 items-center rounded-md bg-cream px-3 py-3">
+              <img
+                src={assets.worldviaLogo}
+                alt="WorldVia Travel Network"
+                className="h-12 w-auto"
+              />
+            </span>
+            <p className="text-xs leading-relaxed text-cream/50">
+              Paradox Travel Network is an independent agency affiliated with
+              WorldVia Travel Network, a Travel Leaders Network Associate.
+            </p>
+          </div>
         </div>
 
         <nav className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
