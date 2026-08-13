@@ -16,6 +16,11 @@ export default {
                                         DEFAULT: "#F5AB2B",
                                         light: "#F7BC55",
                                         dark: "#D48F16",
+                                        // WCAG-AA-safe shade for gold/clay TEXT on cream —
+                                        // DEFAULT and dark both fail 4.5:1 for small text
+                                        // (1.78:1 / 2.47:1). Backgrounds/decorative uses of
+                                        // clay/gold are unaffected, this is text-only.
+                                        deep: "#8A5A0D",
                             },
                             gold: "#F5AB2B",
                             fog: "#6B6B62",

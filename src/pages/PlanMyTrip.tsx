@@ -6,6 +6,7 @@ import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
 import { submitForm } from "../lib/form";
+import { useHoneypot } from "../components/Honeypot";
 import { links, assets } from "../lib/assets";
 import { stagger, fadeUp, smooth } from "../lib/motion";
 
@@ -76,6 +77,7 @@ export default function PlanMyTrip() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
+  const honeypot = useHoneypot();
 
   const set = (k: keyof typeof empty) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -85,7 +87,7 @@ export default function PlanMyTrip() {
     e.preventDefault();
     if (!consent) return;
     setStatus("sending");
-    const ok = await submitForm("Trip Planning Intake", { ...data, consent });
+    const ok = await submitForm("Trip Planning Intake", { ...data, consent, _hp: honeypot.value });
     setStatus(ok ? "sent" : "error");
     if (ok) window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -157,7 +159,7 @@ export default function PlanMyTrip() {
                 eyebrow="Trip planning inquiry"
                 title="Share the useful details."
               />
-              <div className="mt-4 flex items-start gap-2 rounded-xl bg-clay/10 p-4 text-sm text-clay-dark">
+              <div className="mt-4 flex items-start gap-2 rounded-xl bg-clay/10 p-4 text-sm text-clay-deep">
                 <ShieldAlert size={18} className="mt-0.5 shrink-0" />
                 <span>
                   Do not send passport numbers, payment-card details, medical
@@ -166,10 +168,13 @@ export default function PlanMyTrip() {
               </div>
 
               <form onSubmit={onSubmit} className="mt-8 space-y-5">
+                {honeypot.field}
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className={labelClass}>First name</label>
+                    <label htmlFor="trip-first-name" className={labelClass}>First name</label>
                     <input
+                      id="trip-first-name"
+                      name="firstName"
                       required
                       className={inputClass}
                       value={data.firstName}
@@ -177,8 +182,10 @@ export default function PlanMyTrip() {
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Last name</label>
+                    <label htmlFor="trip-last-name" className={labelClass}>Last name</label>
                     <input
+                      id="trip-last-name"
+                      name="lastName"
                       required
                       className={inputClass}
                       value={data.lastName}
@@ -186,8 +193,10 @@ export default function PlanMyTrip() {
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Email</label>
+                    <label htmlFor="trip-email" className={labelClass}>Email</label>
                     <input
+                      id="trip-email"
+                      name="email"
                       required
                       type="email"
                       className={inputClass}
@@ -196,8 +205,10 @@ export default function PlanMyTrip() {
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Phone</label>
+                    <label htmlFor="trip-phone" className={labelClass}>Phone</label>
                     <input
+                      id="trip-phone"
+                      name="phone"
                       type="tel"
                       className={inputClass}
                       value={data.phone}
@@ -207,10 +218,12 @@ export default function PlanMyTrip() {
                 </div>
 
                 <div>
-                  <label className={labelClass}>
+                  <label htmlFor="trip-destination" className={labelClass}>
                     Where are you thinking about going?
                   </label>
                   <input
+                    id="trip-destination"
+                    name="destination"
                     className={inputClass}
                     placeholder="Destination ideas, or “not sure yet”"
                     value={data.destination}
@@ -220,8 +233,10 @@ export default function PlanMyTrip() {
 
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className={labelClass}>Preferred travel dates</label>
+                    <label htmlFor="trip-dates" className={labelClass}>Preferred travel dates</label>
                     <input
+                      id="trip-dates"
+                      name="dates"
                       className={inputClass}
                       placeholder="Month, season, or exact dates"
                       value={data.dates}
@@ -229,8 +244,10 @@ export default function PlanMyTrip() {
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Number of travelers</label>
+                    <label htmlFor="trip-travelers" className={labelClass}>Number of travelers</label>
                     <input
+                      id="trip-travelers"
+                      name="travelers"
                       className={inputClass}
                       placeholder="Adults, kids, ages"
                       value={data.travelers}
@@ -238,8 +255,10 @@ export default function PlanMyTrip() {
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Estimated trip budget</label>
+                    <label htmlFor="trip-budget" className={labelClass}>Estimated trip budget</label>
                     <select
+                      id="trip-budget"
+                      name="budget"
                       className={inputClass}
                       value={data.budget}
                       onChange={set("budget")}
@@ -253,8 +272,10 @@ export default function PlanMyTrip() {
                     </select>
                   </div>
                   <div>
-                    <label className={labelClass}>Type of trip</label>
+                    <label htmlFor="trip-type" className={labelClass}>Type of trip</label>
                     <select
+                      id="trip-type"
+                      name="tripType"
                       className={inputClass}
                       value={data.tripType}
                       onChange={set("tripType")}
@@ -270,10 +291,12 @@ export default function PlanMyTrip() {
                 </div>
 
                 <div>
-                  <label className={labelClass}>
+                  <label htmlFor="trip-priorities" className={labelClass}>
                     What matters most for this trip?
                   </label>
                   <textarea
+                    id="trip-priorities"
+                    name="priorities"
                     rows={3}
                     className={inputClass}
                     placeholder="Pace, must-dos, dealbreakers, the vibe you're after"
@@ -283,8 +306,10 @@ export default function PlanMyTrip() {
                 </div>
 
                 <div>
-                  <label className={labelClass}>Anything else?</label>
+                  <label htmlFor="trip-notes" className={labelClass}>Anything else?</label>
                   <textarea
+                    id="trip-notes"
+                    name="notes"
                     rows={2}
                     className={inputClass}
                     value={data.notes}
@@ -295,6 +320,7 @@ export default function PlanMyTrip() {
                 <label className="flex items-start gap-3 text-sm text-fog">
                   <input
                     type="checkbox"
+                    name="consent"
                     required
                     checked={consent}
                     onChange={(e) => setConsent(e.target.checked)}
@@ -308,7 +334,7 @@ export default function PlanMyTrip() {
                 </label>
 
                 {status === "error" && (
-                  <p className="text-sm text-clay-dark">
+                  <p className="text-sm text-clay-deep">
                     Something went wrong while sending the form. Please email{" "}
                     <a
                       href={`mailto:${links.email}`}

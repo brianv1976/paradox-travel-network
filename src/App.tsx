@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
@@ -5,18 +6,20 @@ import ScrollProgress from "./components/ScrollProgress";
 import { useLenis } from "./hooks/useLenis";
 import { services } from "./data/services";
 
-import Home from "./pages/Home";
-import BookItYourself from "./pages/BookItYourself";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import PlanMyTrip from "./pages/PlanMyTrip";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import ServicePage from "./pages/ServicePage";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
-import Accessibility from "./pages/Accessibility";
-import NotFound from "./pages/NotFound";
+// Route-level code splitting: each page ships as its own chunk instead of
+// one shared bundle, so visiting one page doesn't download every page.
+const Home = lazy(() => import("./pages/Home"));
+const BookItYourself = lazy(() => import("./pages/BookItYourself"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const PlanMyTrip = lazy(() => import("./pages/PlanMyTrip"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const ServicePage = lazy(() => import("./pages/ServicePage"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Accessibility = lazy(() => import("./pages/Accessibility"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
   useLenis();
@@ -26,31 +29,33 @@ export default function App() {
       <ScrollProgress />
       <ScrollToTop />
       <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/book-it-yourself" element={<BookItYourself />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/plan-my-trip" element={<PlanMyTrip />} />
-          <Route path="/travel-tips" element={<Blog />} />
-          <Route path="/travel-tips/:slug" element={<BlogPost />} />
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/book-it-yourself" element={<BookItYourself />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/plan-my-trip" element={<PlanMyTrip />} />
+            <Route path="/travel-tips" element={<Blog />} />
+            <Route path="/travel-tips/:slug" element={<BlogPost />} />
 
-          {/* Service pages keep their exact top-level URLs */}
-          {services.map((s) => (
-            <Route
-              key={s.slug}
-              path={`/${s.slug}`}
-              element={<ServicePage slug={s.slug} />}
-            />
-          ))}
+            {/* Service pages keep their exact top-level URLs */}
+            {services.map((s) => (
+              <Route
+                key={s.slug}
+                path={`/${s.slug}`}
+                element={<ServicePage slug={s.slug} />}
+              />
+            ))}
 
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/accessibility" element={<Accessibility />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/accessibility" element={<Accessibility />} />
 
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </Layout>
     </>
   );

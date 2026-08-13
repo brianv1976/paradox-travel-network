@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -20,10 +21,11 @@ import {
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { stagger, fadeUp } from "../lib/motion";
-import { assets, links } from "../lib/assets";
+import { assets, links, business } from "../lib/assets";
 import { faqs } from "../data/site";
 import { featuredPosts, getPostImage } from "../data/blog";
-import Globe from "../components/Globe";
+import GlobeFallback from "../components/GlobeFallback";
+import ErrorBoundary from "../components/ErrorBoundary";
 import Parallax from "../components/Parallax";
 import DestinationPlayer from "../components/DestinationPlayer";
 import TiltCard from "../components/TiltCard";
@@ -34,6 +36,10 @@ import Stats from "../components/Stats";
 import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
+
+// Three.js is a heavy dependency only this page's hero needs — lazy-loading
+// it keeps every other route's bundle free of it.
+const Globe = lazy(() => import("../components/Globe"));
 
 const exploreCards = [
   { label: "Cruises", to: "/cruises", image: assets.img.cruise, icon: Ship },
@@ -145,7 +151,17 @@ const traits = [
 export default function Home() {
   useSeo(
     "Dallas-Fort Worth Travel Advisor | Paradox Travel Network",
-    "Personal Dallas-Fort Worth travel advisor planning cruises, all-inclusive resorts, honeymoons, and family vacations - or book trusted resources yourself."
+    "Personal Dallas-Fort Worth travel advisor planning cruises, all-inclusive resorts, honeymoons, and family vacations - or book trusted resources yourself.",
+    {
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        name: business.name,
+        areaServed: business.region,
+        founder: { "@type": "Person", name: business.owner },
+        url: window.location.origin,
+      },
+    }
   );
 
   return (
@@ -212,14 +228,25 @@ export default function Home() {
           </motion.div>
 
           {/* self-start overrides the grid's items-center for this column
-              only, so the globe sits high next to the headline. Explicit
-              width (not max-w) because the grid track itself is narrower
-              than the intended globe size — max-w alone never exceeds the
-              track. Sized big enough that the bottom runs past the section
-              edge — accepted per Brian's call, rather than shrinking it. */}
-          <Parallax speed={5} className="w-[620px] self-start -mt-10 md:-mt-20 md:w-[720px] lg:w-[960px]">
+              only, so the globe sits high next to the headline. Below md the
+              grid stacks to one column, so the globe needs a width that
+              actually fits a phone viewport instead of the desktop-only
+              fixed pixel sizes. From md up, explicit width (not max-w)
+              because the grid track itself is narrower than the intended
+              globe size — max-w alone never exceeds the track. Sized big
+              enough at lg that the bottom runs past the section edge —
+              accepted per Brian's call, rather than shrinking it. */}
+          <Parallax
+            speed={5}
+            className="mx-auto -mt-2 w-full min-w-0 max-w-[380px] self-start sm:max-w-[440px] md:mx-0 md:w-[720px] md:max-w-none md:-mt-20 lg:w-[960px]"
+          >
+
             <div className="relative aspect-square w-full">
-              <Globe />
+              <ErrorBoundary fallback={<GlobeFallback />}>
+                <Suspense fallback={<GlobeFallback />}>
+                  <Globe />
+                </Suspense>
+              </ErrorBoundary>
             </div>
           </Parallax>
         </div>
@@ -312,12 +339,17 @@ export default function Home() {
                     <img
                       src={partner.src}
                       alt={partner.name}
+                      loading="lazy"
                       className="h-14 w-full object-contain"
                     />
                   </a>
                 ))}
               </div>
-              <p className="mt-3 text-xs leading-relaxed text-fog/70">
+              <p className="mt-3 text-xs leading-relaxed text-fog">
+                Paradox Travel Network may earn a commission when you book
+                through these partners, at no extra cost to you.
+              </p>
+              <p className="mt-1.5 text-xs leading-relaxed text-fog/70">
                 Vendor logos displayed on this site are trademarks of their
                 respective owners. Their use identifies them as Paradox
                 Travel Network booking partners and does not imply
@@ -406,7 +438,7 @@ export default function Home() {
                 <motion.div key={card.label} variants={fadeUp}>
                   <TiltCard className="rounded-2xl">
                     <Link to={card.to} className="group relative flex h-64 flex-col justify-end overflow-hidden rounded-2xl p-6 shadow-soft">
-                      <img src={card.image} alt={card.label} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-smooth group-hover:scale-110" />
+                      <img src={card.image} alt={card.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-smooth group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/25 to-transparent" />
                       {/* Lifted off the card face so it floats above the tilt. */}
                       <div className="relative" style={{ transform: "translateZ(38px)" }}>
@@ -454,7 +486,7 @@ export default function Home() {
       <section id="about" className="bg-ocean text-cream">
         <div className="container-px grid items-center gap-12 py-24 md:grid-cols-2 md:py-32">
           <Reveal className="relative aspect-[4/5] max-w-md overflow-hidden rounded-[2rem] shadow-lift">
-            <img src={assets.portrait} alt="Brian Voyles, owner and travel advisor" className="h-full w-full object-cover" />
+            <img src={assets.portrait} alt="Brian Voyles, owner and travel advisor" loading="lazy" className="h-full w-full object-cover" />
           </Reveal>
           <div className="flex flex-col gap-6">
             <Reveal>
@@ -514,9 +546,9 @@ export default function Home() {
             <motion.article key={post.slug} variants={fadeUp}>
               <Link to={`/travel-tips/${post.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft">
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={getPostImage(post)} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean">
-                    {post.category}
+                  <img src={getPostImage(post)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean-dark">
+                    {post.contentType}
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-5">

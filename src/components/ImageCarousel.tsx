@@ -44,6 +44,7 @@ export default function ImageCarousel({ slides }: { slides: Slide[] }) {
             <img
               src={s.src}
               alt={s.alt}
+              loading="lazy"
               className="h-full w-full object-cover animate-kenburns"
             />
           </motion.div>

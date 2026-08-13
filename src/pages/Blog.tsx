@@ -1,94 +1,168 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronDown, Clock, Mail, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Calendar, Clock, Mail, CheckCircle2 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
-import { posts, categories, getPostImage, type Category, type Post } from "../data/blog";
+import {
+  publishedPosts,
+  featuredPosts,
+  contentTypes,
+  getCardImage,
+  getPostCTA,
+  type ContentType,
+  type Post,
+} from "../data/blog";
 import { submitForm } from "../lib/form";
+import { useHoneypot } from "../components/Honeypot";
 import { fadeUp, stagger } from "../lib/motion";
 
-type Filter = "All" | Category;
+type Filter = "All" | ContentType;
 
-function PostRow({ post }: { post: Post }) {
-  const [expanded, setExpanded] = useState(false);
+const TYPE_BADGE: Record<ContentType, string> = {
+  "Destination Spotlight": "bg-clay text-ink",
+  "Travel News": "bg-ocean-dark text-cream",
+  "Travel Tip": "bg-ink text-cream",
+};
+
+const TYPE_EMPTY_COPY: Record<ContentType, string> = {
+  "Destination Spotlight":
+    "No destination spotlights published yet — check back soon.",
+  "Travel News": "No travel news published yet — check back soon.",
+  "Travel Tip": "No travel tips in this view yet.",
+};
+
+function dateLabel(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+function FeaturedArticle({ post }: { post: Post }) {
+  const cta = getPostCTA(post);
+  return (
+    <motion.article
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      className="group overflow-hidden rounded-[2rem] border border-ink/10 bg-cream shadow-soft md:grid md:grid-cols-2 md:items-stretch"
+    >
+      <Link
+        to={`/travel-tips/${post.slug}`}
+        className="relative block aspect-[16/10] overflow-hidden md:aspect-auto"
+      >
+        <img
+          src={getCardImage(post)}
+          alt=""
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        <span
+          className={`absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold ${TYPE_BADGE[post.contentType]}`}
+        >
+          {post.contentType}
+        </span>
+      </Link>
+      <div className="flex flex-col justify-center gap-4 p-8 md:p-10">
+        <div className="flex items-center gap-4 text-sm text-fog">
+          <span className="inline-flex items-center gap-1.5">
+            <Calendar size={13} /> {dateLabel(post.date)}
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Clock size={13} /> {post.readingTime} min
+          </span>
+        </div>
+        <Link to={`/travel-tips/${post.slug}`}>
+          <h2 className="font-display text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-ocean md:text-3xl">
+            {post.title}
+          </h2>
+        </Link>
+        <p className="leading-relaxed text-fog">{post.summary}</p>
+        <div className="flex flex-wrap items-center gap-5 pt-2">
+          <Link
+            to={`/travel-tips/${post.slug}`}
+            className="link-underline inline-flex items-center gap-1.5 text-sm font-semibold"
+          >
+            Read the full story <ArrowRight size={14} />
+          </Link>
+          {cta && (
+            <Link to={cta.to} className="btn-primary">
+              {cta.label} <ArrowRight size={14} />
+            </Link>
+          )}
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+function ArticleCard({ post }: { post: Post }) {
+  const cta = getPostCTA(post);
+  const isSpotlight = post.contentType === "Destination Spotlight";
 
   return (
     <motion.article
       layout
       variants={fadeUp}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
       whileHover={{ y: -4 }}
       exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.25 } }}
-      transition={{ duration: 0.3 }}
-      className="group overflow-hidden rounded-3xl border border-ink/10 bg-cream transition-shadow duration-300 hover:shadow-soft"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-shadow duration-300 hover:shadow-soft"
     >
-      <div className="p-6 pb-0 md:p-8 md:pb-0">
-        <div className="flex items-center gap-1.5 text-sm text-fog">
-          <Clock size={13} /> {post.readingTime} min
+      <Link
+        to={`/travel-tips/${post.slug}`}
+        className={`relative block overflow-hidden ${isSpotlight ? "aspect-[4/5]" : "aspect-[4/3]"}`}
+      >
+        <img
+          src={getCardImage(post)}
+          alt=""
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        <span
+          className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold ${TYPE_BADGE[post.contentType]}`}
+        >
+          {post.contentType}
+        </span>
+      </Link>
+
+      <div className="flex flex-1 flex-col p-6">
+        <div className="flex items-center gap-1.5 text-xs text-fog">
+          {post.contentType === "Travel News" ? (
+            <>
+              <Calendar size={12} />
+              {dateLabel(post.updatedDate ?? post.date)}
+              {post.updatedDate ? " (updated)" : ""}
+            </>
+          ) : (
+            <>
+              <Clock size={12} /> {post.readingTime} min
+            </>
+          )}
         </div>
         <Link to={`/travel-tips/${post.slug}`}>
-          <h3 className="mt-2 font-display text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-ocean md:text-3xl">
+          <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-ocean">
             {post.title}
           </h3>
         </Link>
-      </div>
-
-      <div className="mt-5 flex flex-col md:mt-6 md:flex-row">
-        <Link
-          to={`/travel-tips/${post.slug}`}
-          className="relative block aspect-[4/3] self-start overflow-hidden md:w-[26rem] md:flex-shrink-0"
-        >
-          <img
-            src={getPostImage(post)}
-            alt=""
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-          <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean">
-            {post.category}
-          </span>
-        </Link>
-
-        <div className="flex flex-1 flex-col p-6 md:p-8">
-          <p className="leading-relaxed text-fog">{post.summary}</p>
-
-          <AnimatePresence initial={false}>
-            {expanded && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="overflow-hidden"
-              >
-                <div className="space-y-3 pt-3">
-                  {post.content.map((paragraph, i) => (
-                    <p key={i} className="leading-relaxed text-fog">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-                <Link
-                  to={`/travel-tips/${post.slug}`}
-                  className="link-underline mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-ocean"
-                >
-                  View full article <ArrowRight size={14} />
-                </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <button
-            onClick={() => setExpanded((v) => !v)}
-            className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-ocean"
+        <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-fog">
+          {post.summary}
+        </p>
+        <div className="mt-4 flex flex-wrap items-center gap-4">
+          <Link
+            to={`/travel-tips/${post.slug}`}
+            className="link-underline inline-flex items-center gap-1.5 text-sm font-medium"
           >
-            {expanded ? "Show less" : "Read more"}
-            <ChevronDown
-              size={15}
-              className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
-            />
-          </button>
+            Read more <ArrowRight size={13} />
+          </Link>
+          {cta && (
+            <Link
+              to={cta.to}
+              className="text-sm font-semibold text-clay-deep hover:text-clay-dark"
+            >
+              {cta.label}
+            </Link>
+          )}
         </div>
       </div>
     </motion.article>
@@ -97,25 +171,28 @@ function PostRow({ post }: { post: Post }) {
 
 export default function Blog() {
   useSeo(
-    "Postcards from Paradox | Practical Travel Advice",
-    "Practical travel articles on packing, airports, cruises, resorts, and planning — plus an occasional newsletter with useful reminders."
+    "Postcards from Paradox | Destination Spotlights, Travel News & Tips",
+    "Destination spotlights, travel news, and practical tips from Paradox Travel Network — plus an occasional newsletter with useful reminders."
   );
 
   const [filter, setFilter] = useState<Filter>("All");
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const honeypot = useHoneypot();
 
-  const filtered = useMemo(
-    () => (filter === "All" ? posts : posts.filter((p) => p.category === filter)),
-    [filter]
-  );
+  const featured = featuredPosts[0] ?? publishedPosts[0];
 
-  const filters: Filter[] = ["All", ...categories];
+  const filtered = useMemo(() => {
+    const rest = publishedPosts.filter((p) => p.slug !== featured?.slug);
+    return filter === "All" ? rest : rest.filter((p) => p.contentType === filter);
+  }, [filter, featured]);
+
+  const filters: Filter[] = ["All", ...contentTypes];
 
   const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    await submitForm("Newsletter Signup", { email });
+    await submitForm("Newsletter Signup", { email, _hp: honeypot.value });
     setSubscribed(true);
     setEmail("");
   };
@@ -159,8 +236,8 @@ export default function Blog() {
               variants={fadeUp}
               className="hidden max-w-md text-sm leading-relaxed text-fog sm:block md:max-w-none md:text-base lg:text-xl xl:text-2xl"
             >
-              Practical articles for smoother trips, plus an occasional email
-              with destination notes, booking reminders, and fewer
+              Destination spotlights, travel news, and practical tips — plus
+              an occasional email with booking reminders and fewer
               manufactured emergencies.
             </motion.p>
           </motion.div>
@@ -171,17 +248,32 @@ export default function Blog() {
         </span>
       </section>
 
-      {/* Filters */}
+      <p className="container-px pb-6 pt-6 text-center text-sm leading-relaxed text-fog sm:hidden">
+        Destination spotlights, travel news, and practical tips — plus an
+        occasional email with booking reminders and fewer manufactured
+        emergencies.
+      </p>
+
+      {/* Featured */}
+      {featured && (
+        <section className="container-px pb-12 pt-6">
+          <FeaturedArticle post={featured} />
+        </section>
+      )}
+
+      {/* Filters — "All" is the default, so every type is showcased
+          together in one place; these narrow the view, they don't gate it. */}
       <section className="container-px pb-6">
         <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
           {filters.map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
+              aria-pressed={filter === f}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                 filter === f
-                  ? "bg-ocean text-cream"
-                  : "border border-ink/15 text-ink/80 hover:border-ocean hover:text-ocean"
+                  ? "bg-ocean-dark text-cream"
+                  : "border border-ink/15 text-ink/80 hover:border-ocean-dark hover:text-ocean-dark"
               }`}
             >
               {f}
@@ -190,27 +282,27 @@ export default function Blog() {
         </div>
       </section>
 
-      <p className="container-px pb-6 text-center text-sm leading-relaxed text-fog sm:hidden">
-        Practical articles for smoother trips, plus an occasional email with
-        destination notes, booking reminders, and fewer manufactured
-        emergencies.
-      </p>
-
-      {/* List */}
+      {/* Mixed grid */}
       <section className="container-px pb-24">
-        <motion.div
-          layout
-          variants={stagger(0.08)}
-          initial="hidden"
-          animate="show"
-          className="flex flex-col gap-6"
-        >
-          <AnimatePresence>
-            {filtered.map((post) => (
-              <PostRow key={post.slug} post={post} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {filtered.length === 0 && filter !== "All" ? (
+          <p className="rounded-2xl border border-ink/10 bg-sand/40 p-8 text-center text-fog">
+            {TYPE_EMPTY_COPY[filter]}
+          </p>
+        ) : (
+          <motion.div
+            layout
+            variants={stagger(0.08)}
+            initial="hidden"
+            animate="show"
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            <AnimatePresence>
+              {filtered.map((post) => (
+                <ArticleCard key={post.slug} post={post} />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
       </section>
 
       {/* Newsletter */}
@@ -231,9 +323,15 @@ export default function Blog() {
           ) : (
             <form
               onSubmit={subscribe}
-              className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
+              className="relative mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
             >
+              {honeypot.field}
+              <label htmlFor="newsletter-email" className="sr-only">
+                Email address
+              </label>
               <input
+                id="newsletter-email"
+                name="email"
                 type="email"
                 required
                 value={email}

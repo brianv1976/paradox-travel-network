@@ -1,10 +1,22 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Clock, User } from "lucide-react";
-import { getPost, posts, getPostImage } from "../data/blog";
+import {
+  getPost,
+  publishedPosts,
+  getPostImage,
+  getPostCTA,
+  type ContentType,
+} from "../data/blog";
 import { useSeo } from "../hooks/useSeo";
 import CTASection from "../components/CTASection";
 import { fadeUp, stagger } from "../lib/motion";
+
+const TYPE_BADGE: Record<ContentType, string> = {
+  "Destination Spotlight": "bg-clay/10 text-clay-deep",
+  "Travel News": "bg-ocean/10 text-ocean-dark",
+  "Travel Tip": "bg-ink/10 text-ink",
+};
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -12,22 +24,42 @@ export default function BlogPost() {
 
   useSeo(
     post ? `${post.title} | Postcards from Paradox` : "",
-    post?.seoDescription
+    post?.seoDescription,
+    post
+      ? {
+          image: getPostImage(post),
+          structuredData: {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: post.title,
+            description: post.seoDescription,
+            author: { "@type": "Person", name: post.author },
+            datePublished: post.date,
+            dateModified: post.updatedDate ?? post.date,
+          },
+        }
+      : undefined
   );
 
   if (!post) return <Navigate to="/404" replace />;
 
-  const related = posts
-    .filter((p) => p.slug !== post.slug && p.category === post.category)
-    .slice(0, 3);
-  const fallback = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
-  const suggestions = related.length ? related : fallback;
+  const sameType = publishedPosts.filter(
+    (p) => p.slug !== post.slug && p.contentType === post.contentType
+  );
+  const sameTopic = publishedPosts.filter(
+    (p) => p.slug !== post.slug && post.category && p.category === post.category
+  );
+  const fallback = publishedPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const suggestions = (sameTopic.length ? sameTopic : sameType.length ? sameType : fallback).slice(0, 3);
 
-  const dateLabel = new Date(post.date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  const dateLabel = formatDate(post.date);
+  const cta = getPostCTA(post);
 
   return (
     <>
@@ -35,7 +67,7 @@ export default function BlogPost() {
         <div className="container-px">
           <Link
             to="/travel-tips"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-fog transition-colors hover:text-ocean"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-fog transition-colors hover:text-ocean-dark"
           >
             <ArrowLeft size={15} /> All Postcards
           </Link>
@@ -46,12 +78,18 @@ export default function BlogPost() {
             animate="show"
             className="mx-auto mt-6 max-w-3xl"
           >
-            <motion.span
-              variants={fadeUp}
-              className="inline-block rounded-full bg-ocean/10 px-3 py-1 text-xs font-semibold text-ocean"
-            >
-              {post.category}
-            </motion.span>
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-2">
+              <span
+                className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${TYPE_BADGE[post.contentType]}`}
+              >
+                {post.contentType}
+              </span>
+              {post.category && (
+                <span className="inline-block rounded-full bg-sand px-3 py-1 text-xs font-semibold text-fog">
+                  {post.category}
+                </span>
+              )}
+            </motion.div>
             <motion.h1
               variants={fadeUp}
               className="mt-4 font-display text-3xl font-semibold leading-[1.12] text-ink md:text-5xl"
@@ -69,6 +107,11 @@ export default function BlogPost() {
                 <Clock size={14} /> {post.readingTime} min read
               </span>
               <span>{dateLabel}</span>
+              {post.updatedDate && (
+                <span className="text-clay-deep">
+                  Updated {formatDate(post.updatedDate)}
+                </span>
+              )}
             </motion.div>
           </motion.div>
 
@@ -88,7 +131,7 @@ export default function BlogPost() {
 
         <div className="container-px">
           <div className="mx-auto mt-12 max-w-2xl">
-            <p className="font-display text-xl italic leading-relaxed text-ocean">
+            <p className="font-display text-xl italic leading-relaxed text-ocean-dark">
               {post.summary}
             </p>
             <div className="mt-8 space-y-6">
@@ -98,6 +141,11 @@ export default function BlogPost() {
                 </p>
               ))}
             </div>
+            {cta && (
+              <Link to={cta.to} className="btn-primary mt-10 w-fit">
+                {cta.label} <ArrowRight size={16} />
+              </Link>
+            )}
           </div>
         </div>
       </article>
@@ -118,18 +166,19 @@ export default function BlogPost() {
                 <img
                   src={getPostImage(p)}
                   alt=""
+                  loading="lazy"
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-1 flex-col p-5">
-                <span className="text-xs font-semibold text-clay">
-                  {p.category}
+                <span className="text-xs font-semibold text-clay-deep">
+                  {p.contentType}
                 </span>
                 <h3 className="mt-2 font-display text-base font-semibold leading-snug text-ink">
                   {p.title}
                 </h3>
                 <span className="link-underline mt-auto pt-4 text-sm">
-                  Read tip <ArrowRight size={13} />
+                  Read more <ArrowRight size={13} />
                 </span>
               </div>
             </Link>

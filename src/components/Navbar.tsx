@@ -33,7 +33,7 @@ export default function Navbar() {
       <nav className="container-px flex items-center justify-between py-5 md:py-6">
         <Link
           to="/"
-          className="flex items-center gap-2 outline-none focus:outline-none focus-visible:ring-0"
+          className="flex items-center gap-2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ocean-dark focus-visible:ring-offset-2"
           aria-label={business.name}
         >
           <img
@@ -59,9 +59,9 @@ export default function Navbar() {
                 to={link.to}
                 end={link.to === "/"}
                 className={({ isActive }) =>
-                  `text-sm font-medium transition-colors hover:text-ocean ${
+                  `text-sm font-medium transition-colors hover:text-ocean-dark ${
                     isActive && link.to !== "/#explore"
-                      ? "text-ocean"
+                      ? "text-ocean-dark"
                       : "text-ink/80"
                   }`
                 }

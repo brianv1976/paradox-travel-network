@@ -21,8 +21,11 @@ export default function Accessibility() {
       <p>
         We work toward the WCAG 2.1 AA guidelines: readable color contrast,
         keyboard-navigable menus and forms, descriptive links and labels, and
-        respect for reduced-motion preferences. Animations across the site are
-        disabled automatically when your device requests reduced motion.
+        respect for reduced-motion preferences. Most animations across the
+        site — including scroll reveals, entrance effects, and the homepage
+        globe's motion — are reduced or disabled automatically when your
+        device requests reduced motion. We're still closing gaps in a few
+        remaining spots.
       </p>
       <h2>Ongoing work</h2>
       <p>
@@ -33,7 +36,7 @@ export default function Accessibility() {
       <h2>Contact</h2>
       <p>
         Email{" "}
-        <a href={`mailto:${links.email}`} className="font-semibold text-ocean underline">
+        <a href={`mailto:${links.email}`} className="font-semibold text-ocean-dark underline">
           {links.email}
         </a>{" "}
         with the page and the issue, and we'll work to fix it.
