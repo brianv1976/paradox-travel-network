@@ -68,9 +68,6 @@ export default function ConciergeBot() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const launcherRef = useRef<HTMLButtonElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const endpoint = import.meta.env.VITE_CONCIERGE_ENDPOINT as string | undefined;
 
@@ -80,41 +77,6 @@ export default function ConciergeBot() {
       behavior: "smooth",
     });
   }, [messages, loading, open]);
-
-  // Dialog focus management: move focus into the panel on open, trap Tab
-  // inside it while open, close on Escape, and hand focus back to the
-  // launcher button on close — a floating chat panel with no route of its
-  // own needs to behave like a real dialog for keyboard/screen-reader users.
-  useEffect(() => {
-    if (!open) return;
-    inputRef.current?.focus();
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        setOpen(false);
-        launcherRef.current?.focus();
-        return;
-      }
-      if (e.key !== "Tab" || !panelRef.current) return;
-      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [open]);
 
   const send = async (text: string) => {
     const clean = text.trim();
@@ -157,14 +119,11 @@ export default function ConciergeBot() {
     <>
       {/* Launcher */}
       <motion.button
-        ref={launcherRef}
         onClick={() => setOpen((v) => !v)}
         className="fixed bottom-5 right-5 z-[60] inline-flex h-14 w-14 items-center justify-center rounded-full bg-ocean text-cream shadow-lift transition-colors hover:bg-ocean-dark"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label={open ? "Close concierge" : "Open travel concierge"}
-        aria-expanded={open}
-        aria-controls="concierge-panel"
       >
         <AnimatePresence mode="wait">
           <motion.span
@@ -182,11 +141,6 @@ export default function ConciergeBot() {
       <AnimatePresence>
         {open && (
           <motion.div
-            ref={panelRef}
-            id="concierge-panel"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Paradox Concierge chat"
             initial={{ opacity: 0, y: 24, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
@@ -254,7 +208,7 @@ export default function ConciergeBot() {
                     <button
                       key={s}
                       onClick={() => send(s)}
-                      className="rounded-full border border-ocean/25 px-3 py-1.5 text-xs font-medium text-ocean-dark transition-colors hover:bg-ocean-dark hover:text-cream"
+                      className="rounded-full border border-ocean/25 px-3 py-1.5 text-xs font-medium text-ocean transition-colors hover:bg-ocean hover:text-cream"
                     >
                       {s}
                     </button>
@@ -271,13 +225,7 @@ export default function ConciergeBot() {
               }}
               className="flex items-center gap-2 border-t border-ink/10 bg-cream px-3 py-3"
             >
-              <label htmlFor="concierge-input" className="sr-only">
-                Ask the travel concierge a question
-              </label>
               <input
-                ref={inputRef}
-                id="concierge-input"
-                name="message"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about a trip…"

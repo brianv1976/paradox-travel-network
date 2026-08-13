@@ -1,25 +1,5 @@
 import { assets } from "../lib/assets";
 
-/** Primary, visitor-facing organization — what a card's type badge shows
- *  and what the page's top-level filters group by. */
-export type ContentType = "Destination Spotlight" | "Travel News" | "Travel Tip";
-
-export const contentTypes: ContentType[] = [
-  "Destination Spotlight",
-  "Travel News",
-  "Travel Tip",
-];
-
-/** Fallback hero/card art when a post has no `category` (a Destination
- *  Spotlight or Travel News post may not have one) and no explicit image. */
-export const contentTypeImage: Record<ContentType, string> = {
-  "Destination Spotlight": assets.img.beach,
-  "Travel News": assets.img.airportConnection,
-  "Travel Tip": assets.img.planning,
-};
-
-/** The original tip categories — kept as an optional secondary topic
- *  rather than the primary organization (see ContentType above). */
 export type Category =
   | "Packing"
   | "Airports"
@@ -31,26 +11,15 @@ export type Category =
 export interface Post {
   slug: string;
   title: string;
-  contentType: ContentType;
-  category?: Category;
+  category: Category;
   summary: string;
   content: string[];
   seoDescription: string;
   author: string;
-  date: string; // ISO, publication date
-  updatedDate?: string; // ISO — set when a Travel News post gets refreshed
+  date: string; // ISO
   readingTime: number;
   featured: boolean;
   image?: string;
-  /** Card-specific crop, if it should differ from the hero image. */
-  cardImage?: string;
-  ctaLabel?: string;
-  ctaTo?: string;
-  /** Flags a Travel News post whose facts are expected to age — the page
-   *  affordance is just showing the date prominently, not auto-expiring it. */
-  timeSensitive?: boolean;
-  /** Unpublished layout-testing placeholder — never shown outside dev. */
-  draft?: boolean;
 }
 
 export const categoryImage: Record<Category, string> = {
@@ -58,24 +27,12 @@ export const categoryImage: Record<Category, string> = {
   Airports: assets.img.airportConnection,
   Cruises: assets.img.cruise,
   Resorts: assets.img.resort,
-  // Distinct from Packing's assets.img.planning — three published posts
-  // (one Packing, two Planning) were otherwise showing the identical photo.
-  Planning: assets.img.localGuide,
+  Planning: assets.img.planning,
   General: assets.img.beach,
 };
 
 export const getPostImage = (post: Post): string =>
-  post.image ?? (post.category ? categoryImage[post.category] : contentTypeImage[post.contentType]);
-
-export const getCardImage = (post: Post): string => post.cardImage ?? getPostImage(post);
-
-export const getPostCTA = (post: Post): { label: string; to: string } | null => {
-  if (post.ctaLabel && post.ctaTo) return { label: post.ctaLabel, to: post.ctaTo };
-  if (post.contentType === "Destination Spotlight") {
-    return { label: "Plan This Trip With Brian", to: "/plan-my-trip" };
-  }
-  return null;
-};
+  post.image ?? categoryImage[post.category];
 
 export const categories: Category[] = [
   "Packing",
@@ -89,7 +46,6 @@ export const categories: Category[] = [
 export const posts: Post[] = [
   {
     slug: "if-the-suitcase-needs-a-wrestling-match",
-    contentType: "Travel Tip",
     title: "If the Suitcase Needs a Wrestling Match, You Packed Too Much",
     category: "Packing",
     summary:
@@ -109,7 +65,6 @@ export const posts: Post[] = [
   },
   {
     slug: "six-minute-connection-is-a-dare",
-    contentType: "Travel Tip",
     title: "A Six-Minute Connection Is Not an Itinerary. It Is a Dare.",
     category: "Airports",
     summary:
@@ -130,7 +85,6 @@ export const posts: Post[] = [
   },
   {
     slug: "arrive-before-cruise-embarkation-day",
-    contentType: "Travel Tip",
     title: "Arrive Before Embarkation Day When the Schedule Matters",
     category: "Cruises",
     summary:
@@ -150,7 +104,6 @@ export const posts: Post[] = [
   },
   {
     slug: "cheapest-flight-can-cost-more",
-    contentType: "Travel Tip",
     title: "The Cheapest Flight Can Become the Most Expensive Bad Decision",
     category: "Airports",
     summary:
@@ -172,7 +125,6 @@ export const posts: Post[] = [
   },
   {
     slug: "cruise-cabin-location-matters",
-    contentType: "Travel Tip",
     title: "Your Cruise Cabin Is a Room and Also a Location Decision",
     category: "Cruises",
     summary:
@@ -191,7 +143,6 @@ export const posts: Post[] = [
   },
   {
     slug: "all-inclusive-does-not-mean-everything-matters",
-    contentType: "Travel Tip",
     title: "All-Inclusive Does Not Mean Every Inclusion Matters to You",
     category: "Resorts",
     summary:
@@ -210,7 +161,6 @@ export const posts: Post[] = [
   },
   {
     slug: "check-resort-transfer-time",
-    contentType: "Travel Tip",
     title: "The Resort Is Not Close Because the Brochure Used the Word Convenient",
     category: "Resorts",
     summary:
@@ -229,7 +179,6 @@ export const posts: Post[] = [
   },
   {
     slug: "check-passport-rules-early",
-    contentType: "Travel Tip",
     title: "Check Passport Rules Before the Countdown Becomes Emotional",
     category: "Planning",
     summary:
@@ -249,7 +198,6 @@ export const posts: Post[] = [
   },
   {
     slug: "family-room-layout-matters",
-    contentType: "Travel Tip",
     title: "A Family Hotel Room Is Not Bigger Because Everyone Is Optimistic",
     category: "Planning",
     summary:
@@ -268,7 +216,6 @@ export const posts: Post[] = [
   },
   {
     slug: "do-not-overschedule-the-vacation",
-    contentType: "Travel Tip",
     title: "Do Not Schedule Your Vacation So Tightly That It Feels Like Another Job",
     category: "General",
     summary:
@@ -287,7 +234,6 @@ export const posts: Post[] = [
   },
   {
     slug: "save-travel-documents-offline",
-    contentType: "Travel Tip",
     title: "Save the Documents Before the Airport Wi-Fi Begins Its Rebellion",
     category: "General",
     summary:
@@ -306,12 +252,5 @@ export const posts: Post[] = [
   },
 ];
 
-/** `posts` includes drafts (for local layout testing); everything the site
- *  actually shows visitors should go through this instead. */
-export const publishedPosts = posts.filter((p) => !p.draft);
-
-export const getPost = (slug: string) => {
-  const post = posts.find((p) => p.slug === slug);
-  return post && !post.draft ? post : undefined;
-};
-export const featuredPosts = publishedPosts.filter((p) => p.featured);
+export const getPost = (slug: string) => posts.find((p) => p.slug === slug);
+export const featuredPosts = posts.filter((p) => p.featured);

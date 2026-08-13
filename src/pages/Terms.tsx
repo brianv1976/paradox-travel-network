@@ -49,7 +49,7 @@ export default function Terms() {
       <h2>Contact</h2>
       <p>
         Questions about these terms? Email{" "}
-        <a href={`mailto:${links.email}`} className="font-semibold text-ocean-dark underline">
+        <a href={`mailto:${links.email}`} className="font-semibold text-ocean underline">
           {links.email}
         </a>
         .

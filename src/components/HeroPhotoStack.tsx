@@ -90,20 +90,9 @@ export default function HeroPhotoStack({ photos }: Props) {
     ).matches;
   }, []);
 
-  // Warm the browser cache for the whole pool up front — small (6-8 photo)
-  // pool, so this is cheap, and it means a card rotating in a photo it
-  // hasn't shown yet never flashes blank while the image loads.
-  useEffect(() => {
-    photos.forEach((p) => {
-      const img = new Image();
-      img.src = p.src;
-    });
-  }, [photos]);
-
   useEffect(() => {
     if (len < 3 || reduce) return;
-
-    const advance = () => {
+    const id = setInterval(() => {
       setCards((prev) =>
         prev.map((card) => {
           const wasFront = card.role === "front";
@@ -117,28 +106,8 @@ export default function HeroPhotoStack({ photos }: Props) {
           };
         })
       );
-    };
-
-    // Paused while the tab is hidden — no point animating (or burning
-    // cycles) a shuffle nobody can see, and clearing/re-arming the interval
-    // on return means it resumes with a full SHUFFLE_MS instead of firing
-    // a backlog of missed ticks all at once.
-    let id: ReturnType<typeof setInterval> | undefined;
-    const start = () => {
-      if (id === undefined) id = setInterval(advance, SHUFFLE_MS);
-    };
-    const stop = () => {
-      clearInterval(id);
-      id = undefined;
-    };
-    const onVisibility = () => (document.hidden ? stop() : start());
-
-    start();
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => {
-      stop();
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
+    }, SHUFFLE_MS);
+    return () => clearInterval(id);
   }, [len, reduce]);
 
   // Single persistent rAF loop — started once, reads current roles from

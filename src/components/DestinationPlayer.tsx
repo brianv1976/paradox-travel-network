@@ -192,7 +192,7 @@ export default function DestinationPlayer() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5, ease: smooth, delay: 0.35 }}
-              className="absolute left-6 top-6 rounded-full bg-cream/90 px-4 py-1.5 text-xs font-semibold tracking-wide text-ocean-dark backdrop-blur-sm md:left-9 md:top-9"
+              className="absolute left-6 top-6 rounded-full bg-cream/90 px-4 py-1.5 text-xs font-semibold tracking-wide text-ocean backdrop-blur-sm md:left-9 md:top-9"
             >
               {active.region}
             </motion.span>

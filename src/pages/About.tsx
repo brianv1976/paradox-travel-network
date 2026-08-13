@@ -7,7 +7,7 @@ import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
 import { stagger, fadeUp } from "../lib/motion";
-import { assets, business } from "../lib/assets";
+import { assets } from "../lib/assets";
 
 const traits = [
   {
@@ -27,17 +27,7 @@ const traits = [
 export default function About() {
   useSeo(
     "About Brian Voyles | Dallas–Fort Worth Travel Advisor",
-    "Meet Brian Voyles, owner of Paradox Travel Network and a personal travel advisor serving Dallas–Fort Worth and beyond.",
-    {
-      image: assets.portrait,
-      structuredData: {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: business.owner,
-        jobTitle: business.role,
-        worksFor: { "@type": "TravelAgency", name: business.name },
-      },
-    }
+    "Meet Brian Voyles, owner of Paradox Travel Network and a personal travel advisor serving Dallas–Fort Worth and beyond."
   );
 
   return (
@@ -76,7 +66,7 @@ export default function About() {
               variants={fadeUp}
               className="rounded-2xl border border-ink/10 bg-cream p-7"
             >
-              <h3 className="text-xl font-semibold text-ocean-dark">{t.title}</h3>
+              <h3 className="text-xl font-semibold text-ocean">{t.title}</h3>
               <p className="mt-2 leading-relaxed text-fog">{t.body}</p>
             </motion.div>
           ))}

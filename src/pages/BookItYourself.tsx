@@ -4,7 +4,6 @@ import {
   ArrowRight,
   ExternalLink,
   Ship,
-  Anchor,
   Compass,
   Plane,
   HelpCircle,
@@ -43,12 +42,6 @@ const bookingTypes = [
     href: "#exoticca",
   },
   {
-    icon: Anchor,
-    title: "Cruises",
-    body: "Browse sailings and find the right ship and cabin.",
-    href: "#virgin-voyages",
-  },
-  {
     icon: Compass,
     title: "Tours & Activities",
     body: "Find memorable things to do almost anywhere.",
@@ -67,14 +60,14 @@ const viatorExamples = [
     place: "Rome · Ancient History",
     title: "Colosseum & Ancient Rome",
     blurb: "Tour the Colosseum, Roman Forum, and Palatine Hill with a guide.",
-    image: assets.img.romeColosseum,
+    image: assets.img.adventure,
     href: "https://www.viator.com/tours/Rome/Colosseum-and-Ancient-Rome-Tour-with-Roman-Forum-and-Palatine-Hill/d511-3731COLOSSEUM?pid=P00003200&uid=U00747481&mcid=58086&currency=USD",
   },
   {
     place: "Cancún · Water Adventure",
     title: "Speedboat & Snorkel",
     blurb: "Drive a speedboat through Nichupté Lagoon, then snorkel Punta Nizuc.",
-    image: assets.img.cancunSpeedboat,
+    image: assets.img.beach,
     href: "https://www.viator.com/tours/Cancun/Cancun-Jungle-Tour-Adventure-Speed-Boat-and-Snorkeling/d631-19032P1?pid=P00003200&uid=U00747481&mcid=58086&currency=USD",
   },
   {
@@ -230,7 +223,6 @@ function ExampleGrid({
                   <img
                     src={it.image}
                     alt=""
-                    loading="lazy"
                     className="h-full w-full object-cover animate-kenburns"
                   />
                 </div>
@@ -291,7 +283,7 @@ export default function BookItYourself() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-12 grid gap-6 md:grid-cols-3"
         >
           {bookingTypes.map((b) => {
             const Icon = b.icon;
@@ -341,7 +333,6 @@ export default function BookItYourself() {
             <img
               src={assets.partnerLogos.exoticca}
               alt="Exoticca"
-              loading="lazy"
               className="mt-3 h-12 w-auto md:h-14"
             />
             <p className="mt-5 leading-relaxed text-fog">
@@ -371,10 +362,6 @@ export default function BookItYourself() {
             >
               Browse Curated Trips <ExternalLink size={15} />
             </a>
-            <p className="mt-3 text-xs text-fog/70">
-              Paradox may earn a commission if you book through this link, at
-              no extra cost to you.
-            </p>
           </div>
         </div>
       </section>
@@ -387,7 +374,6 @@ export default function BookItYourself() {
             <img
               src={assets.partnerLogos.virginVoyages}
               alt="Virgin Voyages"
-              loading="lazy"
               className="mt-3 h-12 w-auto md:h-14"
             />
             <p className="mt-5 leading-relaxed text-fog">
@@ -414,10 +400,6 @@ export default function BookItYourself() {
             >
               Browse Virgin Voyages <ExternalLink size={15} />
             </a>
-            <p className="mt-3 text-xs text-fog/70">
-              Paradox may earn a commission if you book through this link, at
-              no extra cost to you.
-            </p>
           </div>
           <Reveal delay={0.05}>
             <ImageCarousel slides={virginVoyagesSlides} />
@@ -434,7 +416,6 @@ export default function BookItYourself() {
               <img
                 src={assets.partnerLogos.projectExpedition}
                 alt="Project Expedition"
-                loading="lazy"
                 className="mt-3 h-12 w-auto md:h-14"
               />
               <p className="mt-5 leading-relaxed text-fog">
@@ -461,10 +442,6 @@ export default function BookItYourself() {
               >
                 Explore Tours &amp; Experiences <ExternalLink size={15} />
               </a>
-              <p className="mt-3 text-xs text-fog/70">
-                Paradox may earn a commission if you book through this link,
-                at no extra cost to you.
-              </p>
             </div>
             <Reveal delay={0.05}>
               <ImageCarousel slides={projectExpeditionSlides} />
@@ -509,7 +486,6 @@ export default function BookItYourself() {
           <img
             src={assets.partnerLogos.viator}
             alt="Viator"
-            loading="lazy"
             className="mt-3 h-12 w-auto md:h-14"
           />
           <p className="mt-5 text-lg leading-relaxed text-fog">
@@ -539,10 +515,6 @@ export default function BookItYourself() {
             Browse all Viator experiences <ExternalLink size={15} />
           </a>
         </Reveal>
-        <p className="mt-3 text-xs text-fog/70">
-          Paradox may earn a commission if you book through this link, at no
-          extra cost to you.
-        </p>
         <div className="mt-12">
           <ExampleGrid items={viatorExamples} />
         </div>
@@ -556,7 +528,6 @@ export default function BookItYourself() {
             <img
               src={assets.partnerLogos.shoreExcursions}
               alt="Shore Excursions Group"
-              loading="lazy"
               className="mt-3 h-12 w-auto md:h-14"
             />
             <p className="mt-5 text-lg leading-relaxed text-fog">
@@ -582,10 +553,6 @@ export default function BookItYourself() {
               Browse all shore excursions <ExternalLink size={15} />
             </a>
           </Reveal>
-          <p className="mt-3 text-xs text-fog/70">
-            Paradox may earn a commission if you book through this link, at
-            no extra cost to you.
-          </p>
           <div className="mt-12">
             <ExampleGrid items={shoreExamples} />
           </div>

@@ -33,10 +33,6 @@ export const assets = {
       "https://images.pexels.com/photos/7010194/pexels-photo-7010194.jpeg?auto=compress&cs=tinysrgb&w=1600",
     desertSafari:
       "https://images.pexels.com/photos/2867769/pexels-photo-2867769.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    romeColosseum:
-      "https://images.pexels.com/photos/27541217/pexels-photo-27541217.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cancunSpeedboat:
-      "https://images.pexels.com/photos/37718127/pexels-photo-37718127.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   // Virgin Voyages First Mate marketing library (agent-usable assets),
   // sourced 2026-08-07. Self-hosted, not hotlinked from Canto.

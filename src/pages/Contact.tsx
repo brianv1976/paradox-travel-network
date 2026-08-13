@@ -6,7 +6,6 @@ import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
 import { submitForm } from "../lib/form";
-import { useHoneypot } from "../components/Honeypot";
 import { links } from "../lib/assets";
 
 // Fields lift and glow on focus so the active one is unmistakable.
@@ -29,7 +28,6 @@ export default function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
-  const honeypot = useHoneypot();
 
   const set = (k: keyof typeof data) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,7 +36,7 @@ export default function Contact() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
-    const ok = await submitForm("General Contact Inquiry", { ...data, _hp: honeypot.value });
+    const ok = await submitForm("General Contact Inquiry", data);
     setStatus(ok ? "sent" : "error");
   };
 
@@ -55,7 +53,7 @@ export default function Contact() {
         </p>
         <a
           href={`mailto:${links.email}`}
-          className="inline-flex w-fit items-center gap-2 font-semibold text-ocean-dark hover:text-clay-deep"
+          className="inline-flex w-fit items-center gap-2 font-semibold text-ocean hover:text-clay"
         >
           <Mail size={16} /> {links.email}
         </a>
@@ -95,12 +93,9 @@ export default function Contact() {
                   intro="Submitting this form starts a conversation. It does not create a booking or charge."
                 />
                 <form onSubmit={onSubmit} className="mt-8 space-y-5">
-                  {honeypot.field}
                   <div>
-                    <label htmlFor="contact-name" className={labelClass}>Name</label>
+                    <label className={labelClass}>Name</label>
                     <input
-                      id="contact-name"
-                      name="name"
                       required
                       className={inputClass}
                       value={data.name}
@@ -108,10 +103,8 @@ export default function Contact() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-email" className={labelClass}>Email</label>
+                    <label className={labelClass}>Email</label>
                     <input
-                      id="contact-email"
-                      name="email"
                       required
                       type="email"
                       className={inputClass}
@@ -120,20 +113,16 @@ export default function Contact() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-subject" className={labelClass}>Subject</label>
+                    <label className={labelClass}>Subject</label>
                     <input
-                      id="contact-subject"
-                      name="subject"
                       className={inputClass}
                       value={data.subject}
                       onChange={set("subject")}
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-message" className={labelClass}>Message</label>
+                    <label className={labelClass}>Message</label>
                     <textarea
-                      id="contact-message"
-                      name="message"
                       required
                       rows={5}
                       className={inputClass}
@@ -149,7 +138,7 @@ export default function Contact() {
                     before sending this form.
                   </p>
                   {status === "error" && (
-                    <p className="text-sm text-clay-deep">
+                    <p className="text-sm text-clay-dark">
                       Something went wrong. Please email{" "}
                       <a
                         href={`mailto:${links.email}`}

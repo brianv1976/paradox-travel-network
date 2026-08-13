@@ -61,7 +61,7 @@ export default function Reviews() {
                   “{r.quote}”
                 </p>
                 <footer className="mt-2">
-                  <div className="font-semibold text-ocean-dark">{r.name}</div>
+                  <div className="font-semibold text-ocean">{r.name}</div>
                   <div className="text-sm text-fog">{r.detail}</div>
                 </footer>
               </motion.blockquote>

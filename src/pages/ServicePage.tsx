@@ -36,7 +36,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
                   href={v.href}
                   target="_blank"
                   rel="noopener noreferrer sponsored"
-                  className="font-semibold text-ocean-dark hover:text-clay-deep"
+                  className="font-semibold text-ocean hover:text-clay"
                 >
                   {v.name}
                 </a>{" "}
@@ -45,10 +45,6 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
             ))}
           </ul>
           <p className="mt-3 text-sm italic text-fog">{service.selfBookNote}</p>
-          <p className="mt-3 text-xs text-fog/70">
-            Paradox may earn a commission if you book through these links, at
-            no extra cost to you.
-          </p>
         </div>
 
         <p className="text-lg leading-relaxed text-fog">{service.intro}</p>
@@ -80,7 +76,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
               variants={fadeUp}
               className="group rounded-2xl border border-ink/10 bg-cream p-7 transition-all duration-300 hover:border-ocean/30 hover:shadow-soft"
             >
-              <span className="font-display text-3xl font-semibold text-clay-deep">
+              <span className="font-display text-3xl font-semibold text-clay">
                 {item.n}
               </span>
               <h3 className="mt-4 text-xl font-semibold text-ink">
@@ -168,7 +164,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
         Not sure which planning option fits? Email{" "}
         <a
           href="mailto:hello@paradoxtravelnetwork.com"
-          className="font-semibold text-ocean-dark hover:text-clay-deep"
+          className="font-semibold text-ocean hover:text-clay"
         >
           hello@paradoxtravelnetwork.com
         </a>{" "}
@@ -177,7 +173,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
           href={links.calendly}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 font-semibold text-ocean-dark hover:text-clay-deep"
+          className="inline-flex items-center gap-1 font-semibold text-ocean hover:text-clay"
         >
           schedule a call <ExternalLink size={13} />
         </a>

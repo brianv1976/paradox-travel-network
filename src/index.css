@@ -48,32 +48,25 @@
     @apply mx-auto w-full max-w-container px-6 md:px-10;
   }
 
-  /* text-clay-deep, not text-clay: DEFAULT gold is only 1.78:1 on cream,
-     fails WCAG AA for text this small (see tailwind.config.js). */
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.22em] text-clay-deep;
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-clay;
   }
 
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ease-smooth;
   }
-  /* bg-ocean-dark, not bg-ocean: cream text on the lighter DEFAULT teal is
-     only 3.77:1, fails AA at this text size. ocean-dark clears 6:1. */
   .btn-primary {
-    @apply btn bg-ocean-dark text-cream hover:shadow-lift;
+    @apply btn bg-ocean text-cream hover:bg-ocean-dark hover:shadow-lift;
   }
-  /* Dark ink text instead of cream: no shade of the gold/clay family is
-     dark enough to pass AA with light text on it without leaving the brand
-     hue, so the label goes dark instead of the fill. */
   .btn-accent {
-    @apply btn bg-clay text-ink hover:bg-clay-dark hover:shadow-lift;
+    @apply btn bg-clay text-cream hover:bg-clay-dark hover:shadow-lift;
   }
   .btn-ghost {
-    @apply btn border border-ink/15 bg-transparent text-ink hover:border-ocean-dark hover:text-ocean-dark;
+    @apply btn border border-ink/15 bg-transparent text-ink hover:border-ocean hover:text-ocean;
   }
 
   .link-underline {
-    @apply relative inline-flex items-center gap-1 font-semibold text-ocean-dark transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-ocean-dark after:transition-all after:duration-300 hover:after:w-full;
+    @apply relative inline-flex items-center gap-1 font-semibold text-ocean transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-ocean after:transition-all after:duration-300 hover:after:w-full;
   }
 }
 

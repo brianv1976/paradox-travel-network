@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { decodeLandRings } from "../data/worldLand";
-import GlobeFallback from "./GlobeFallback";
 
 /**
  * Interactive 3D globe — the hero centerpiece.
@@ -16,21 +15,6 @@ import GlobeFallback from "./GlobeFallback";
  * Camera distance is derived from radius + FOV, so the globe can never clip
  * its container at any aspect ratio.
  */
-
-/** Cheap, side-effect-free check — a canvas that can't get a WebGL context
- *  means Three.js has no chance, so skip straight to the fallback instead
- *  of letting the renderer constructor throw. */
-function isWebGLAvailable() {
-  try {
-    const canvas = document.createElement("canvas");
-    return !!(
-      window.WebGLRenderingContext &&
-      (canvas.getContext("webgl2") || canvas.getContext("webgl"))
-    );
-  } catch {
-    return false;
-  }
-}
 
 const OCEAN = "#0e5f7d";
 const OCEAN_DEEP = "#0a4a63";
@@ -249,427 +233,376 @@ function glowTexture(hex: number) {
   return tex;
 }
 
-/**
- * All Three.js setup/teardown lives in this standalone function rather than
- * directly in the effect, so a construction-time failure can be caught by
- * the caller with a plain try/catch around the call. `onFail` covers the
- * failure modes a try/catch can't: an error thrown later inside the
- * requestAnimationFrame loop, or the GPU context dying mid-session — both
- * happen asynchronously, after `mountGlobe` has already returned normally.
- */
-function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void): () => void {
-  const scene = new THREE.Scene();
-  const fov = 42;
-  const camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 100);
-  const baseDist = (RADIUS * 1.22) / Math.tan((fov / 2) * (Math.PI / 180));
-  camera.position.z = baseDist;
-
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  mount.appendChild(renderer.domElement);
-  renderer.domElement.style.cursor = "grab";
-  renderer.domElement.style.touchAction = "pan-y";
-
-  // Arrival labels ("landing" callouts) live in a plain DOM layer on top
-  // of the canvas — cheaper than sprite-based text and easier to read.
-  mount.style.position = "relative";
-  const labelLayer = document.createElement("div");
-  labelLayer.style.position = "absolute";
-  labelLayer.style.inset = "0";
-  labelLayer.style.overflow = "hidden";
-  labelLayer.style.pointerEvents = "none";
-  mount.appendChild(labelLayer);
-
-  const system = new THREE.Group();
-  system.rotation.z = 0.22;
-  scene.add(system);
-
-  const globe = new THREE.Group();
-  system.add(globe);
-
-  // --- Earth --------------------------------------------------------------
-  const earthTex = buildEarthTexture();
-  const earthGeo = new THREE.SphereGeometry(RADIUS, 96, 96);
-  const earthMat = new THREE.MeshBasicMaterial({ map: earthTex });
-  globe.add(new THREE.Mesh(earthGeo, earthMat));
-
-  // --- Atmosphere ---------------------------------------------------------
-  const atmoGeo = new THREE.SphereGeometry(RADIUS * 1.2, 64, 64);
-  const atmoMat = new THREE.ShaderMaterial({
-    uniforms: { glowColor: { value: new THREE.Color(ATMOSPHERE) } },
-    vertexShader: `
-      varying vec3 vNormal;
-      void main() {
-        vNormal = normalize(normalMatrix * normal);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: `
-      uniform vec3 glowColor;
-      varying vec3 vNormal;
-      void main() {
-        float intensity = pow(0.6 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.6);
-        gl_FragColor = vec4(glowColor, 1.0) * intensity;
-      }
-    `,
-    side: THREE.BackSide,
-    blending: THREE.AdditiveBlending,
-    transparent: true,
-    depthWrite: false,
-  });
-  system.add(new THREE.Mesh(atmoGeo, atmoMat));
-
-  // --- Destination markers ------------------------------------------------
-  const markerTex = glowTexture(0xffd166);
-  const points = DESTINATIONS.map((d) => latLngToVec3(d.lat, d.lng, RADIUS * 1.008));
-  const markers: {
-    sprite: THREE.Sprite;
-    base: number;
-    phase: number;
-    point: THREE.Vector3;
-    labelEl?: HTMLDivElement;
-    peakFacing: number;
-  }[] = [];
-
-  points.forEach((p, i) => {
-    const isHome = i === 0;
-    const sprite = new THREE.Sprite(
-      new THREE.SpriteMaterial({
-        map: markerTex,
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      })
-    );
-    sprite.position.copy(p);
-    const base = isHome ? 0.3 : 0.19;
-    sprite.scale.setScalar(base);
-    globe.add(sprite);
-
-    // Solid pin dot so the location reads even against bright land.
-    const dot = new THREE.Mesh(
-      new THREE.SphereGeometry(isHome ? 0.022 : 0.015, 12, 12),
-      new THREE.MeshBasicMaterial({ color: isHome ? 0xff8a5b : 0xfff3d6 })
-    );
-    dot.position.copy(p);
-    globe.add(dot);
-
-    // Every destination but the home hub gets a callout that fades in
-    // when it rotates into view near the front of the globe.
-    let labelEl: HTMLDivElement | undefined;
-    if (!isHome) {
-      labelEl = document.createElement("div");
-      labelEl.textContent = DESTINATIONS[i].name;
-      labelEl.style.position = "absolute";
-      labelEl.style.left = "0";
-      labelEl.style.top = "0";
-      labelEl.style.padding = "5px 12px";
-      labelEl.style.borderRadius = "999px";
-      labelEl.style.background = "rgba(14,31,38,0.85)";
-      labelEl.style.color = "#fdf6e8";
-      labelEl.style.fontSize = "12px";
-      labelEl.style.fontWeight = "600";
-      labelEl.style.letterSpacing = "0.04em";
-      labelEl.style.whiteSpace = "nowrap";
-      labelEl.style.opacity = "0";
-      labelEl.style.willChange = "transform, opacity";
-      labelLayer.appendChild(labelEl);
-    }
-
-    markers.push({ sprite, base, phase: i * 0.8, point: p, labelEl, peakFacing: 0.05 });
-  });
-
-  // --- Routes + aircraft --------------------------------------------------
-  const arcs: {
-    line: THREE.Line;
-    total: number;
-    curve: THREE.QuadraticBezierCurve3;
-    plane?: THREE.Group;
-    offset: number;
-  }[] = [];
-
-  ROUTES.forEach(([a, b], i) => {
-    const start = points[a];
-    const end = points[b];
-    const mid = start.clone().add(end).multiplyScalar(0.5);
-    const lift = 1 + start.distanceTo(end) * 0.36;
-    mid.normalize().multiplyScalar(RADIUS * lift);
-    const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-    const pts = curve.getPoints(110);
-
-    const color = ARC_COLORS[i % ARC_COLORS.length];
-    const geo = new THREE.BufferGeometry().setFromPoints(pts);
-    geo.setDrawRange(0, 0);
-    const line = new THREE.Line(
-      geo,
-      new THREE.LineBasicMaterial({
-        color,
-        transparent: true,
-        opacity: 0.85,
-        depthWrite: false,
-      })
-    );
-    globe.add(line);
-
-    let plane: THREE.Group | undefined;
-    if (FLOWN.includes(i)) {
-      plane = buildAircraft(color);
-      plane.visible = false;
-      globe.add(plane);
-    }
-
-    arcs.push({ line, total: pts.length, curve, plane, offset: i / ROUTES.length });
-  });
-
-  // --- Interaction --------------------------------------------------------
-  let dragging = false;
-  let lastX = 0;
-  let lastY = 0;
-  let spinVel = 0;
-  const targetTilt = { x: 0.1 };
-  const currentTilt = { x: 0.1 };
-
-  const onPointerDown = (e: PointerEvent) => {
-    dragging = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    renderer.domElement.style.cursor = "grabbing";
-    renderer.domElement.setPointerCapture(e.pointerId);
-  };
-  const onPointerUp = (e: PointerEvent) => {
-    dragging = false;
-    renderer.domElement.style.cursor = "grab";
-    try {
-      renderer.domElement.releasePointerCapture(e.pointerId);
-    } catch {
-      /* already released */
-    }
-  };
-  const onPointerMove = (e: PointerEvent) => {
-    if (dragging) {
-      const dx = e.clientX - lastX;
-      const dy = e.clientY - lastY;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      globe.rotation.y += dx * 0.005;
-      spinVel = dx * 0.005;
-      targetTilt.x = Math.max(-0.55, Math.min(0.55, currentTilt.x + dy * 0.004));
-    } else {
-      const rect = mount.getBoundingClientRect();
-      const ny = (e.clientY - rect.top) / rect.height - 0.5;
-      targetTilt.x = 0.1 + ny * 0.24;
-    }
-  };
-
-  renderer.domElement.addEventListener("pointerdown", onPointerDown);
-  window.addEventListener("pointerup", onPointerUp);
-  window.addEventListener("pointermove", onPointerMove);
-
-  // WebGL context loss (GPU reset, driver crash, too many contexts open) is
-  // reported via this event, not a thrown exception — without listening for
-  // it the canvas would just go permanently blank while the rAF loop keeps
-  // silently spinning.
-  let contextLost = false;
-  const onContextLost = (e: Event) => {
-    e.preventDefault();
-    contextLost = true;
-    cancelAnimationFrame(raf);
-    onFail();
-  };
-  renderer.domElement.addEventListener("webglcontextlost", onContextLost);
-
-  // --- Loop ---------------------------------------------------------------
-  let raf = 0;
-  let t = 0;
-  const clock = new THREE.Clock();
-  const fwd = new THREE.Vector3();
-  const up = new THREE.Vector3();
-  const right = new THREE.Vector3();
-  const trueUp = new THREE.Vector3();
-  const basis = new THREE.Matrix4();
-  const worldPos = new THREE.Vector3();
-  const outward = new THREE.Vector3();
-  const viewDir = new THREE.Vector3();
-  const ndc = new THREE.Vector3();
-  // Fraction of a destination's own tracked peak facing value it needs
-  // to reach before its callout starts fading in (see note below).
-  const FRONT_THRESHOLD = 0.82;
-  const FRONT_RANGE = 0.14;
-
-  const animate = () => {
-    const dt = Math.min(clock.getDelta(), 0.05);
-    t += dt;
-
-    if (!reduce) {
-      if (dragging) {
-        /* user driving */
-      } else if (Math.abs(spinVel) > 0.0004) {
-        globe.rotation.y += spinVel;
-        spinVel *= 0.94;
-      } else {
-        globe.rotation.y += dt * 0.075;
-      }
-    }
-
-    currentTilt.x += (targetTilt.x - currentTilt.x) * 0.06;
-    globe.rotation.x = currentTilt.x;
-    globe.updateWorldMatrix(true, false);
-
-    markers.forEach((m) => {
-      const s = m.base * (1 + Math.sin(t * 1.5 + m.phase) * 0.2);
-      m.sprite.scale.setScalar(reduce ? m.base : s);
-
-      // Callout fades in as a destination rotates through the front of
-      // the globe, and out again as it turns away — no plane required.
-      // Triggered relative to each destination's OWN best-ever facing
-      // value rather than a fixed dot-product: at this globe's gentle
-      // idle tilt, a high-latitude spot like Reykjavík can only ever
-      // reach a shallow facing value (~0.24) versus ~0.98 for something
-      // near the equator, so a single absolute threshold would either
-      // flood the screen with equatorial labels or never show the poles.
-      if (m.labelEl) {
-        worldPos.copy(m.point);
-        globe.localToWorld(worldPos);
-        outward.copy(worldPos).normalize();
-        viewDir.copy(camera.position).sub(worldPos).normalize();
-        const facing = outward.dot(viewDir);
-        m.peakFacing = Math.max(m.peakFacing, facing);
-        const ratio = facing / m.peakFacing;
-        const strength = Math.max(0, (ratio - FRONT_THRESHOLD) / FRONT_RANGE);
-        const eased = Math.min(1, strength * strength);
-
-        if (eased > 0.01) {
-          ndc.copy(worldPos).project(camera);
-          const mw = mount.clientWidth || 1;
-          const mh = mount.clientHeight || 1;
-          const sx = (ndc.x * 0.5 + 0.5) * mw;
-          const sy = (-ndc.y * 0.5 + 0.5) * mh;
-          m.labelEl.style.transform = `translate(${sx}px, ${sy}px) translate(-50%, -170%)`;
-          m.labelEl.style.opacity = String(eased);
-        } else {
-          m.labelEl.style.opacity = "0";
-        }
-      }
-    });
-
-    arcs.forEach((a) => {
-      const cycle = (t * 0.13 + a.offset) % 1;
-      const draw = Math.min(1, cycle / 0.5);
-      a.line.geometry.setDrawRange(0, Math.floor(draw * a.total));
-
-      if (a.plane) {
-        if (draw >= 1) {
-          const p = (cycle - 0.5) / 0.5;
-          const pos = a.curve.getPoint(p);
-          const ahead = a.curve.getPoint(Math.min(1, p + 0.015));
-
-          a.plane.visible = true;
-          a.plane.position.copy(pos);
-
-          // Orient: nose along the tangent, belly toward the planet.
-          fwd.subVectors(ahead, pos).normalize();
-          up.copy(pos).normalize();
-          right.crossVectors(up, fwd).normalize();
-          trueUp.crossVectors(fwd, right).normalize();
-          basis.makeBasis(right, trueUp, fwd);
-          a.plane.quaternion.setFromRotationMatrix(basis);
-
-          // Fade in/out at the ends of the run.
-          const edge = Math.min(1, Math.sin(p * Math.PI) * 3);
-          a.plane.scale.setScalar(0.85 + edge * 0.35);
-        } else {
-          a.plane.visible = false;
-        }
-      }
-    });
-
-    // A render-time failure here (e.g. context loss slipping through before
-    // the event fires) is caught rather than left to crash the rAF chain —
-    // it's reported once and the loop stops instead of throwing every frame.
-    try {
-      renderer.render(scene, camera);
-    } catch (err) {
-      if (!contextLost) {
-        console.error("Globe render failed, falling back to static view:", err);
-        onFail();
-      }
-      return;
-    }
-    raf = requestAnimationFrame(animate);
-  };
-
-  const resize = () => {
-    const w = mount.clientWidth;
-    const h = mount.clientHeight;
-    if (!w || !h) return;
-    renderer.setSize(w, h);
-    camera.aspect = w / h;
-    const fit = Math.min(1, camera.aspect);
-    camera.position.z = baseDist / Math.max(0.6, fit);
-    camera.updateProjectionMatrix();
-  };
-  resize();
-  animate();
-
-  const ro = new ResizeObserver(resize);
-  ro.observe(mount);
-
-  return () => {
-    cancelAnimationFrame(raf);
-    ro.disconnect();
-    renderer.domElement.removeEventListener("pointerdown", onPointerDown);
-    renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
-    window.removeEventListener("pointerup", onPointerUp);
-    window.removeEventListener("pointermove", onPointerMove);
-
-    earthGeo.dispose();
-    earthMat.dispose();
-    earthTex.dispose();
-    atmoGeo.dispose();
-    atmoMat.dispose();
-    markerTex.dispose();
-    markers.forEach((m) => (m.sprite.material as THREE.SpriteMaterial).dispose());
-    arcs.forEach((a) => {
-      a.line.geometry.dispose();
-      (a.line.material as THREE.Material).dispose();
-      a.plane?.traverse((o) => {
-        if (o instanceof THREE.Mesh) {
-          o.geometry.dispose();
-          (o.material as THREE.Material).dispose();
-        }
-      });
-    });
-    renderer.dispose();
-    if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
-    if (mount.contains(labelLayer)) mount.removeChild(labelLayer);
-  };
-}
-
 export default function Globe() {
   const mountRef = useRef<HTMLDivElement>(null);
-  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const mount = mountRef.current;
-    if (!mount || !isWebGLAvailable()) {
-      if (mount) setFailed(true);
-      return;
-    }
+    if (!mount) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let cleanup: (() => void) | undefined;
 
-    try {
-      cleanup = mountGlobe(mount, reduce, () => setFailed(true));
-    } catch (err) {
-      console.error("Globe failed to initialize, falling back to static view:", err);
-      setFailed(true);
-    }
+    const scene = new THREE.Scene();
+    const fov = 42;
+    const camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 100);
+    const baseDist = (RADIUS * 1.22) / Math.tan((fov / 2) * (Math.PI / 180));
+    camera.position.z = baseDist;
 
-    return () => cleanup?.();
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    mount.appendChild(renderer.domElement);
+    renderer.domElement.style.cursor = "grab";
+    renderer.domElement.style.touchAction = "pan-y";
+
+    // Arrival labels ("landing" callouts) live in a plain DOM layer on top
+    // of the canvas — cheaper than sprite-based text and easier to read.
+    mount.style.position = "relative";
+    const labelLayer = document.createElement("div");
+    labelLayer.style.position = "absolute";
+    labelLayer.style.inset = "0";
+    labelLayer.style.overflow = "hidden";
+    labelLayer.style.pointerEvents = "none";
+    mount.appendChild(labelLayer);
+
+    const system = new THREE.Group();
+    system.rotation.z = 0.22;
+    scene.add(system);
+
+    const globe = new THREE.Group();
+    system.add(globe);
+
+    // --- Earth --------------------------------------------------------------
+    const earthTex = buildEarthTexture();
+    const earthGeo = new THREE.SphereGeometry(RADIUS, 96, 96);
+    const earthMat = new THREE.MeshBasicMaterial({ map: earthTex });
+    globe.add(new THREE.Mesh(earthGeo, earthMat));
+
+    // --- Atmosphere ---------------------------------------------------------
+    const atmoGeo = new THREE.SphereGeometry(RADIUS * 1.2, 64, 64);
+    const atmoMat = new THREE.ShaderMaterial({
+      uniforms: { glowColor: { value: new THREE.Color(ATMOSPHERE) } },
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 glowColor;
+        varying vec3 vNormal;
+        void main() {
+          float intensity = pow(0.6 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.6);
+          gl_FragColor = vec4(glowColor, 1.0) * intensity;
+        }
+      `,
+      side: THREE.BackSide,
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+      depthWrite: false,
+    });
+    system.add(new THREE.Mesh(atmoGeo, atmoMat));
+
+    // --- Destination markers ------------------------------------------------
+    const markerTex = glowTexture(0xffd166);
+    const points = DESTINATIONS.map((d) => latLngToVec3(d.lat, d.lng, RADIUS * 1.008));
+    const markers: {
+      sprite: THREE.Sprite;
+      base: number;
+      phase: number;
+      point: THREE.Vector3;
+      labelEl?: HTMLDivElement;
+      peakFacing: number;
+    }[] = [];
+
+    points.forEach((p, i) => {
+      const isHome = i === 0;
+      const sprite = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: markerTex,
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        })
+      );
+      sprite.position.copy(p);
+      const base = isHome ? 0.3 : 0.19;
+      sprite.scale.setScalar(base);
+      globe.add(sprite);
+
+      // Solid pin dot so the location reads even against bright land.
+      const dot = new THREE.Mesh(
+        new THREE.SphereGeometry(isHome ? 0.022 : 0.015, 12, 12),
+        new THREE.MeshBasicMaterial({ color: isHome ? 0xff8a5b : 0xfff3d6 })
+      );
+      dot.position.copy(p);
+      globe.add(dot);
+
+      // Every destination but the home hub gets a callout that fades in
+      // when it rotates into view near the front of the globe.
+      let labelEl: HTMLDivElement | undefined;
+      if (!isHome) {
+        labelEl = document.createElement("div");
+        labelEl.textContent = DESTINATIONS[i].name;
+        labelEl.style.position = "absolute";
+        labelEl.style.left = "0";
+        labelEl.style.top = "0";
+        labelEl.style.padding = "5px 12px";
+        labelEl.style.borderRadius = "999px";
+        labelEl.style.background = "rgba(14,31,38,0.85)";
+        labelEl.style.color = "#fdf6e8";
+        labelEl.style.fontSize = "12px";
+        labelEl.style.fontWeight = "600";
+        labelEl.style.letterSpacing = "0.04em";
+        labelEl.style.whiteSpace = "nowrap";
+        labelEl.style.opacity = "0";
+        labelEl.style.willChange = "transform, opacity";
+        labelLayer.appendChild(labelEl);
+      }
+
+      markers.push({ sprite, base, phase: i * 0.8, point: p, labelEl, peakFacing: 0.05 });
+    });
+
+    // --- Routes + aircraft --------------------------------------------------
+    const arcs: {
+      line: THREE.Line;
+      total: number;
+      curve: THREE.QuadraticBezierCurve3;
+      plane?: THREE.Group;
+      offset: number;
+    }[] = [];
+
+    ROUTES.forEach(([a, b], i) => {
+      const start = points[a];
+      const end = points[b];
+      const mid = start.clone().add(end).multiplyScalar(0.5);
+      const lift = 1 + start.distanceTo(end) * 0.36;
+      mid.normalize().multiplyScalar(RADIUS * lift);
+      const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+      const pts = curve.getPoints(110);
+
+      const color = ARC_COLORS[i % ARC_COLORS.length];
+      const geo = new THREE.BufferGeometry().setFromPoints(pts);
+      geo.setDrawRange(0, 0);
+      const line = new THREE.Line(
+        geo,
+        new THREE.LineBasicMaterial({
+          color,
+          transparent: true,
+          opacity: 0.85,
+          depthWrite: false,
+        })
+      );
+      globe.add(line);
+
+      let plane: THREE.Group | undefined;
+      if (FLOWN.includes(i)) {
+        plane = buildAircraft(color);
+        plane.visible = false;
+        globe.add(plane);
+      }
+
+      arcs.push({ line, total: pts.length, curve, plane, offset: i / ROUTES.length });
+    });
+
+    // --- Interaction --------------------------------------------------------
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+    let spinVel = 0;
+    const targetTilt = { x: 0.1 };
+    const currentTilt = { x: 0.1 };
+
+    const onPointerDown = (e: PointerEvent) => {
+      dragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      renderer.domElement.style.cursor = "grabbing";
+      renderer.domElement.setPointerCapture(e.pointerId);
+    };
+    const onPointerUp = (e: PointerEvent) => {
+      dragging = false;
+      renderer.domElement.style.cursor = "grab";
+      try {
+        renderer.domElement.releasePointerCapture(e.pointerId);
+      } catch {
+        /* already released */
+      }
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      if (dragging) {
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        globe.rotation.y += dx * 0.005;
+        spinVel = dx * 0.005;
+        targetTilt.x = Math.max(-0.55, Math.min(0.55, currentTilt.x + dy * 0.004));
+      } else {
+        const rect = mount.getBoundingClientRect();
+        const ny = (e.clientY - rect.top) / rect.height - 0.5;
+        targetTilt.x = 0.1 + ny * 0.24;
+      }
+    };
+
+    renderer.domElement.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointermove", onPointerMove);
+
+    // --- Loop ---------------------------------------------------------------
+    let raf = 0;
+    let t = 0;
+    const clock = new THREE.Clock();
+    const fwd = new THREE.Vector3();
+    const up = new THREE.Vector3();
+    const right = new THREE.Vector3();
+    const trueUp = new THREE.Vector3();
+    const basis = new THREE.Matrix4();
+    const worldPos = new THREE.Vector3();
+    const outward = new THREE.Vector3();
+    const viewDir = new THREE.Vector3();
+    const ndc = new THREE.Vector3();
+    // Fraction of a destination's own tracked peak facing value it needs
+    // to reach before its callout starts fading in (see note below).
+    const FRONT_THRESHOLD = 0.82;
+    const FRONT_RANGE = 0.14;
+
+    const animate = () => {
+      const dt = Math.min(clock.getDelta(), 0.05);
+      t += dt;
+
+      if (!reduce) {
+        if (dragging) {
+          /* user driving */
+        } else if (Math.abs(spinVel) > 0.0004) {
+          globe.rotation.y += spinVel;
+          spinVel *= 0.94;
+        } else {
+          globe.rotation.y += dt * 0.075;
+        }
+      }
+
+      currentTilt.x += (targetTilt.x - currentTilt.x) * 0.06;
+      globe.rotation.x = currentTilt.x;
+      globe.updateWorldMatrix(true, false);
+
+      markers.forEach((m) => {
+        const s = m.base * (1 + Math.sin(t * 1.5 + m.phase) * 0.2);
+        m.sprite.scale.setScalar(reduce ? m.base : s);
+
+        // Callout fades in as a destination rotates through the front of
+        // the globe, and out again as it turns away — no plane required.
+        // Triggered relative to each destination's OWN best-ever facing
+        // value rather than a fixed dot-product: at this globe's gentle
+        // idle tilt, a high-latitude spot like Reykjavík can only ever
+        // reach a shallow facing value (~0.24) versus ~0.98 for something
+        // near the equator, so a single absolute threshold would either
+        // flood the screen with equatorial labels or never show the poles.
+        if (m.labelEl) {
+          worldPos.copy(m.point);
+          globe.localToWorld(worldPos);
+          outward.copy(worldPos).normalize();
+          viewDir.copy(camera.position).sub(worldPos).normalize();
+          const facing = outward.dot(viewDir);
+          m.peakFacing = Math.max(m.peakFacing, facing);
+          const ratio = facing / m.peakFacing;
+          const strength = Math.max(0, (ratio - FRONT_THRESHOLD) / FRONT_RANGE);
+          const eased = Math.min(1, strength * strength);
+
+          if (eased > 0.01) {
+            ndc.copy(worldPos).project(camera);
+            const mw = mount.clientWidth || 1;
+            const mh = mount.clientHeight || 1;
+            const sx = (ndc.x * 0.5 + 0.5) * mw;
+            const sy = (-ndc.y * 0.5 + 0.5) * mh;
+            m.labelEl.style.transform = `translate(${sx}px, ${sy}px) translate(-50%, -170%)`;
+            m.labelEl.style.opacity = String(eased);
+          } else {
+            m.labelEl.style.opacity = "0";
+          }
+        }
+      });
+
+      arcs.forEach((a) => {
+        const cycle = (t * 0.13 + a.offset) % 1;
+        const draw = Math.min(1, cycle / 0.5);
+        a.line.geometry.setDrawRange(0, Math.floor(draw * a.total));
+
+        if (a.plane) {
+          if (draw >= 1) {
+            const p = (cycle - 0.5) / 0.5;
+            const pos = a.curve.getPoint(p);
+            const ahead = a.curve.getPoint(Math.min(1, p + 0.015));
+
+            a.plane.visible = true;
+            a.plane.position.copy(pos);
+
+            // Orient: nose along the tangent, belly toward the planet.
+            fwd.subVectors(ahead, pos).normalize();
+            up.copy(pos).normalize();
+            right.crossVectors(up, fwd).normalize();
+            trueUp.crossVectors(fwd, right).normalize();
+            basis.makeBasis(right, trueUp, fwd);
+            a.plane.quaternion.setFromRotationMatrix(basis);
+
+            // Fade in/out at the ends of the run.
+            const edge = Math.min(1, Math.sin(p * Math.PI) * 3);
+            a.plane.scale.setScalar(0.85 + edge * 0.35);
+          } else {
+            a.plane.visible = false;
+          }
+        }
+      });
+
+      renderer.render(scene, camera);
+      raf = requestAnimationFrame(animate);
+    };
+
+    const resize = () => {
+      const w = mount.clientWidth;
+      const h = mount.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      const fit = Math.min(1, camera.aspect);
+      camera.position.z = baseDist / Math.max(0.6, fit);
+      camera.updateProjectionMatrix();
+    };
+    resize();
+    animate();
+
+    const ro = new ResizeObserver(resize);
+    ro.observe(mount);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      renderer.domElement.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointermove", onPointerMove);
+
+      earthGeo.dispose();
+      earthMat.dispose();
+      earthTex.dispose();
+      atmoGeo.dispose();
+      atmoMat.dispose();
+      markerTex.dispose();
+      markers.forEach((m) => (m.sprite.material as THREE.SpriteMaterial).dispose());
+      arcs.forEach((a) => {
+        a.line.geometry.dispose();
+        (a.line.material as THREE.Material).dispose();
+        a.plane?.traverse((o) => {
+          if (o instanceof THREE.Mesh) {
+            o.geometry.dispose();
+            (o.material as THREE.Material).dispose();
+          }
+        });
+      });
+      renderer.dispose();
+      if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
+      if (mount.contains(labelLayer)) mount.removeChild(labelLayer);
+    };
   }, []);
-
-  if (failed) return <GlobeFallback />;
 
   return <div ref={mountRef} className="h-full w-full" aria-hidden="true" />;
 }
