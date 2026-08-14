@@ -102,6 +102,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "Practical packing advice for lighter luggage, avoiding overweight baggage fees, repeatable outfits, and room for souvenirs.",
+    image: "/assets/If your suitcase needs a wrestling match.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 2,
@@ -165,6 +166,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "How to compare total flight cost, including baggage fees, seats, connection risk, family seating rules, and refund protections.",
+    image: "/assets/The cheapest flight can become the most expensive.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 4,
@@ -184,6 +186,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "Why cruise cabin deck, location, motion sensitivity, nearby venues, and accessibility matter when choosing a room.",
+    image: "/assets/Your Cruise Cabin.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 3,
@@ -203,6 +206,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "What to compare when choosing an all-inclusive resort, including hidden fees, dining, rooms, beaches, and transfers.",
+    image: "/assets/All Inclusive Does not mean.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 3,
@@ -222,6 +226,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "How to evaluate real airport transfer time, shared shuttle stops, and arrival logistics before booking a resort.",
+    image: "/assets/The Resort Is Not Close.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 3,
@@ -242,6 +247,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "A practical checklist for the passport six-month rule, renewal processing times, visas, and destination entry requirements.",
+    image: "/assets/Check Passport Rules.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 3,
@@ -261,6 +267,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "What families should confirm about hotel occupancy limits, connecting rooms, beds, bathrooms, and sleeping arrangements.",
+    image: "/assets/A Family Hotel Room.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 3,
@@ -280,6 +287,7 @@ export const posts: Post[] = [
     ],
     seoDescription:
       "How to avoid vacation overscheduling and trip-planning stress by prioritizing key experiences and leaving room for rest.",
+    image: "/assets/Do Not Schedule Your Vacation.png",
     author: "Brian Voyles",
     date: "2026-07-13",
     readingTime: 3,
