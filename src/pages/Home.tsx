@@ -82,17 +82,17 @@ const diyReasons = [
   {
     icon: Compass,
     title: "You're in control",
-    body: "Compare, choose, and book on your own schedule — no one hovering over the decision.",
+    body: "Compare, choose, and book on your own schedule.",
   },
   {
     icon: LayoutGrid,
     title: "Trusted sites, already gathered",
-    body: "No hunting across a dozen different tabs — the good ones are linked right here.",
+    body: "Skip the search-engine hunt — Brian has gathered his selected booking partners in one place.",
   },
   {
     icon: CalendarPlus,
-    title: "Already booked? Add to it",
-    body: "Trip locked in somewhere else? Browse excursions, tours, and activities to round it out.",
+    title: "Already booked elsewhere? Add to it",
+    body: "Browse excursions, tours, and activities to round out a trip you booked somewhere else.",
   },
 ];
 
@@ -100,7 +100,7 @@ const advisorReasons = [
   {
     icon: MessageCircle,
     title: "No job is too small",
-    body: "Need a hotel for two nights? A flight and a hotel for a quick trip? Call me, tell me what you need, and it's done — like having a personal assistant on speed dial.",
+    body: "Need a hotel for two nights? A flight and hotel for a quick trip? Tell me what you need, and I'll research the options and help get it booked.",
   },
   {
     icon: Clock,
@@ -109,8 +109,8 @@ const advisorReasons = [
   },
   {
     icon: SearchCheck,
-    title: "A concierge, not a coupon",
-    body: "The value isn't a secret discount code — it's someone who vets the hotel, catches the resort fee buried in fine print, and steers you away from what looks great in photos and isn't. Deals and upgrades happen along the way, but they're the bonus, not the pitch.",
+    title: "Real guidance, not more choices",
+    body: "I compare the details, vet the hotel, catch fees buried in the fine print, and help you avoid options that look better in photos than they are.",
   },
   {
     icon: LifeBuoy,
@@ -120,7 +120,7 @@ const advisorReasons = [
   {
     icon: Puzzle,
     title: "Smooth, even when it isn't",
-    body: "Weather delays, flight cancellations, a missed connection — sometimes I'm fixing it in the background before you even know there was a problem. You just get the version where the trip still went fine.",
+    body: "Weather delays, flight cancellations, a missed connection — when something goes sideways, you've got someone actively working it with you, not a hold-music loop.",
   },
 ];
 
@@ -132,13 +132,13 @@ const steps = [
   },
   {
     n: "2",
-    title: "Review practical options",
-    body: "Compare choices that match the goal instead of hundreds of nearly identical listings.",
+    title: "Review personalized options",
+    body: "Brian researches the choices and narrows them down to what actually fits — not hundreds of nearly identical listings.",
   },
   {
     n: "3",
-    title: "Refine and move forward",
-    body: "Adjust the details and keep the plan understandable from inquiry through departure.",
+    title: "Finalize and book",
+    body: "Once you choose the right option, Brian handles the booking and confirmations and remains your point of contact if the plans need attention.",
   },
 ];
 
@@ -150,14 +150,15 @@ const traits = [
 
 export default function Home() {
   useSeo(
-    "Dallas-Fort Worth Travel Advisor | Paradox Travel Network",
-    "Personal Dallas-Fort Worth travel advisor planning cruises, all-inclusive resorts, honeymoons, and family vacations - or book trusted resources yourself.",
+    "DFW Travel Advisor Serving Nationwide | Paradox Travel Network",
+    "Based in Dallas-Fort Worth and serving travelers nationwide, Brian Voyles personally plans and books cruises, resorts, honeymoons, family trips, and more - or book through trusted travel partners.",
     {
       structuredData: {
         "@context": "https://schema.org",
         "@type": "TravelAgency",
         name: business.name,
-        areaServed: business.region,
+        location: { "@type": "Place", name: business.region },
+        areaServed: ["United States", business.region],
         founder: { "@type": "Person", name: business.owner },
         url: window.location.origin,
       },
@@ -193,34 +194,29 @@ export default function Home() {
               variants={fadeUp}
               className="max-w-xl text-lg leading-relaxed text-fog"
             >
-              Paradox Travel Network isn't just a booking page, and it isn't a
-              traditional travel agency either. It's a real travel business
-              built on one idea: you shouldn't have to choose between a
-              massive marketplace and a single advisor's phone number. Find
-              destination inspiration, browse cruises, resorts, hotels,
-              vacation packages, tours, and activities, and book directly
-              through popular, trusted booking partners.
+              Some travelers want the freedom to browse and book on their
+              own. Others want a travel advisor to research the options,
+              make recommendations, and handle the booking. Paradox Travel
+              Network is built for both.
             </motion.p>
             <motion.p
               variants={fadeUp}
               className="max-w-xl text-lg leading-relaxed text-fog"
             >
-              Prefer to handle the booking yourself? You're already in the
-              right place. Want an experienced second opinion — or the whole
-              trip planned and handled? Founder and travel advisor Brian
-              Voyles picks up from there. Two clear paths, one place, and it's
-              your call which one fits this trip.
+              Work directly with Brian for personal planning, booking, and
+              support, or explore trusted booking partners and book at your
+              own pace. Two clear paths — and you choose what fits this trip.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
               <Magnetic strength={8}>
-                <Link to="/book-it-yourself" className="btn-ghost">
-                  Book It Yourself
+                <Link to="/plan-my-trip" className="btn-primary">
+                  Plan With Brian
                   <ArrowRight size={16} />
                 </Link>
               </Magnetic>
               <Magnetic strength={8}>
-                <Link to="/plan-my-trip" className="btn-primary">
-                  Plan With Brian
+                <Link to="/book-it-yourself" className="btn-ghost">
+                  Book It Yourself
                   <ArrowRight size={16} />
                 </Link>
               </Magnetic>
@@ -270,7 +266,7 @@ export default function Home() {
         <SectionHeading
           eyebrow="Your Trip, Your Way"
           title="Choose the help that fits."
-          intro="Some travelers want control. Others want the details handled. Both paths stay clear and easy to find."
+          intro="Browse and book through trusted partners, or work directly with Brian to plan and book the trip. Choose what fits this trip."
         />
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
           <Reveal className="group flex flex-col rounded-[2rem] border border-ink/10 bg-cream p-8 transition-shadow duration-300 hover:shadow-soft md:p-10">
@@ -283,10 +279,10 @@ export default function Home() {
               </Link>
             </div>
             <p className="mt-3 leading-relaxed text-fog">
-              Popular booking sites you've probably already used — gathered
-              in one place so you can easily compare prices, navigate, and
-              book activities at your destination. No account required, no
-              sales pitch, just the same booking flow you already know.
+              Trusted sites for cruises, complete vacation packages, guided
+              trips, tours, shore excursions, and activities — gathered in
+              one place so you can browse and book directly, on your own
+              schedule.
             </p>
             <ul className="mt-6 space-y-4">
               {diyReasons.map((r) => {
@@ -360,10 +356,8 @@ export default function Home() {
               Explore self-booking <ArrowRight size={15} />
             </Link>
             <p className="mt-4 text-sm text-fog">
-              Booking it yourself doesn't mean you're on your own — Brian's
-              still around for questions along the way. He wants you to have
-              a great trip, whether he's planning it or just helping you book
-              it right.
+              Want help choosing or prefer to have Brian handle the booking?
+              Start with Plan With Brian before you reserve.
             </p>
           </Reveal>
 
@@ -388,11 +382,10 @@ export default function Home() {
               </div>
             </div>
             <p className="mt-4 leading-relaxed text-cream/80">
-              This is where I stop being modest. I've planned trips
-              complicated enough to make an airline hold desk cry, and simple
-              ones where the only real ask was "don't let this be boring."
-              Either way, I'm the one on the phone when something needs
-              fixing — not you.
+              I'm Brian, the owner and travel advisor behind Paradox. I plan
+              complicated trips and simple ones where the only real request
+              is "don't let this be boring." Either way, you work directly
+              with me — from the first idea through the trip.
             </p>
             <ul className="mt-6 space-y-4">
               {advisorReasons.map((r) => {
@@ -423,7 +416,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="Explore travel"
             title="Start with the kind of trip."
-            intro="Pick a direction. The details can become civilized afterward."
+            intro="Browse by trip type for ideas, then book through trusted partners or ask Brian to turn the idea into a complete plan."
           />
           <motion.div
             variants={stagger(0.09)}
@@ -457,7 +450,7 @@ export default function Home() {
 
       {/* HOW PLANNING WORKS */}
       <section className="container-px py-24 md:py-32">
-        <SectionHeading eyebrow="How planning works" title="Three clear steps." />
+        <SectionHeading eyebrow="How planning works" title="From idea to booked in three steps." />
         <motion.div
           variants={stagger(0.12)}
           initial="hidden"
@@ -499,10 +492,17 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-lg leading-relaxed text-cream/80">
-                Brian works like a personal concierge, not a one-time booking
-                clerk — there from the first conversation through the last day of
-                the trip. Something goes wrong mid-trip — and eventually something
-                always does — you've got his number. That's kind of the whole point.
+                Brian is the travel advisor behind Paradox, not a one-time
+                booking clerk. When he plans your trip, he stays involved
+                from the first conversation through the last day of travel.
+                If something goes wrong mid-trip, you've got his number.
+                That's kind of the whole point.
+              </p>
+            </Reveal>
+            <Reveal delay={0.12}>
+              <p className="text-sm text-cream/70">
+                Based in the Dallas–Fort Worth area and helping travelers
+                nationwide.
               </p>
             </Reveal>
             <motion.div
@@ -604,11 +604,11 @@ export default function Home() {
       <CTASection
         eyebrow="Ready when the idea is"
         title="Turn we should take a trip into an actual plan."
-        body="Share the basics. The first step is an inquiry, not a booking or a charge."
-        primaryLabel="Plan My Trip"
+        body="Share the basics to start planning with Brian, or head to the self-booking page if you'd rather handle the reservation yourself."
+        primaryLabel="Plan With Brian"
         primaryTo="/plan-my-trip"
-        secondaryLabel="Or send a general message"
-        secondaryTo="/contact"
+        secondaryLabel="Book It Yourself"
+        secondaryTo="/book-it-yourself"
       />
     </>
   );

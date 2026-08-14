@@ -38,11 +38,11 @@ export interface Faq {
 export const faqs: Faq[] = [
   {
     q: "Can I book on my own?",
-    a: "Yes. The self-booking path is for travelers who want direct control and trusted resources without full planning support.",
+    a: "Yes. The Book It Yourself page gathers trusted booking partners in one place so you can browse and book directly, on your own schedule.",
   },
   {
     q: "What kinds of trips can Brian help plan?",
-    a: "Cruises, all-inclusive resorts, honeymoons and romantic escapes, family vacations, guided adventures, and other personalized trips.",
+    a: "Everything from simple hotel stays and quick getaways to cruises, all-inclusive resorts, honeymoons, family vacations, and guided adventures.",
   },
   {
     q: "Does submitting the form create a booking?",
