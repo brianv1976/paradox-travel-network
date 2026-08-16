@@ -17,10 +17,7 @@
  * Bolt's hosting supports it or the project moves to a host that does.
  *
  * SITE_URL: the base origin used for canonical/OG/sitemap URLs. Defaults to
- * the live Bolt host because paradoxtravelnetwork.com does not currently
- * resolve — see the matching note in robots.txt and sitemap.xml. Once the
- * custom domain is live, rebuild with SITE_URL=https://paradoxtravelnetwork.com
- * and update robots.txt / sitemap.xml to match.
+ * the live branded domain; override with SITE_URL for local/staging builds.
  */
 import { build } from "esbuild";
 import { writeFile, mkdir, readFile, rm } from "node:fs/promises";
@@ -30,7 +27,7 @@ import os from "node:os";
 
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, "dist");
-const SITE_URL = process.env.SITE_URL || "https://brianv1976-paradox-t-0mv8.bolt.host";
+const SITE_URL = process.env.SITE_URL || "https://paradoxtravelnetwork.com";
 const SITE_NAME = "Paradox Travel Network";
 const DEFAULT_IMAGE = "/social-share.jpg";
 

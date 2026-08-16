@@ -1,10 +1,4 @@
 User-agent: *
 Allow: /
 
-# NOTE: paradoxtravelnetwork.com and www.paradoxtravelnetwork.com do not
-# currently resolve (DNS not configured / no working host behind them yet).
-# This points at the live Bolt deployment instead, since a sitemap pointing
-# at a domain that doesn't resolve is actively harmful for crawling. Once
-# the custom domain is live and serving the site, switch this back to it
-# (and see the matching note in sitemap.xml and scripts/prerender-seo.mjs).
-Sitemap: https://brianv1976-paradox-t-0mv8.bolt.host/sitemap.xml
+Sitemap: https://paradoxtravelnetwork.com/sitemap.xml
