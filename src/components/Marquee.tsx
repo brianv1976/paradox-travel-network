@@ -24,7 +24,7 @@ const DESTINATIONS = [
 export default function Marquee() {
   const row = [...DESTINATIONS, ...DESTINATIONS];
   return (
-    <div className="relative overflow-hidden border-y border-ink/10 bg-ocean py-5">
+    <div className="relative overflow-hidden border-y border-ink/10 bg-ocean-dark py-5">
       <style>{`
         @keyframes ptn-marquee {
           from { transform: translateX(0); }
@@ -38,7 +38,7 @@ export default function Marquee() {
         {row.map((d, i) => (
           <span
             key={i}
-            className="flex items-center gap-2 font-display text-lg text-cream/80"
+            className="flex items-center gap-2 font-display text-lg text-cream"
           >
             <MapPin size={16} className="text-gold" />
             {d}

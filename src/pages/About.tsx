@@ -27,7 +27,7 @@ const traits = [
 export default function About() {
   useSeo(
     "About Brian Voyles | Dallas–Fort Worth Travel Advisor",
-    "Meet Brian Voyles, owner of Paradox Travel Network and a personal travel advisor serving Dallas–Fort Worth and beyond.",
+    "Meet Brian Voyles, owner of Paradox Travel Network — based in Dallas–Fort Worth, personally planning trips for travelers nationwide.",
     {
       image: assets.portrait,
       structuredData: {
@@ -106,7 +106,7 @@ export default function About() {
                 what I wanted to do with the time I had.
               </p>
               <p>
-                The oilfield schedule gave me 14 days off every month and I
+                The oilfield schedule gave me 14 days off between hitches and I
                 used every one of them. Cruises, scuba, adventure travel,
                 destinations I had to actually research to find. I got
                 obsessed. My wife will confirm this.

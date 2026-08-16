@@ -5,10 +5,12 @@ interface SeoOptions {
   image?: string;
   /** JSON-LD structured data object(s) to inject as <script type="application/ld+json">. */
   structuredData?: object | object[];
+  /** Set true on pages (404, etc.) that should not be indexed. */
+  noindex?: boolean;
 }
 
 const SITE_NAME = "Paradox Travel Network";
-const DEFAULT_IMAGE = "/Web Logo.png";
+const DEFAULT_IMAGE = "/social-share.jpg";
 
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let tag = document.querySelector(`meta[${attr}="${key}"]`);
@@ -49,6 +51,11 @@ export function useSeo(title: string, description?: string, options?: SeoOptions
 
     if (description) upsertMeta("name", "description", description);
     upsertLink("canonical", url);
+    if (options?.noindex) {
+      upsertMeta("name", "robots", "noindex, follow");
+    } else {
+      document.querySelector('meta[name="robots"]')?.remove();
+    }
 
     upsertMeta("property", "og:title", title);
     upsertMeta("property", "og:type", "website");
@@ -71,5 +78,5 @@ export function useSeo(title: string, description?: string, options?: SeoOptions
       script.textContent = JSON.stringify(options.structuredData);
       document.head.appendChild(script);
     }
-  }, [title, description, options?.image, options?.structuredData]);
+  }, [title, description, options?.image, options?.structuredData, options?.noindex]);
 }

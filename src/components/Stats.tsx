@@ -1,10 +1,14 @@
 import { motion } from "framer-motion";
 import { stagger, fadeUp } from "../lib/motion";
 import Counter from "./Counter";
+import { assets } from "../lib/assets";
+import { destinations } from "../data/destinations";
 
+// Every value here is something this site can actually verify about itself —
+// no unsourced claims like "the average traveler spends 16h planning."
 const STATS = [
-  { value: 16, suffix: "h", label: "the average traveler spends planning one trip" },
-  { value: 3, suffix: "", label: "trusted booking partners, gathered on one page" },
+  { value: destinations.length, suffix: "", label: "hand-picked destinations to start exploring" },
+  { value: Object.keys(assets.partnerLogos).length, suffix: "", label: "trusted booking partners, gathered on one page" },
   { value: 6, suffix: "", label: "kinds of trips, each planned around you" },
   { value: 0, suffix: "", label: "sales pressure — self-book or plan together" },
 ];

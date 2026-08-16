@@ -54,7 +54,7 @@ export const services: ServicePage[] = [
     navLabel: "Cruises",
     metaTitle: "Cruise Travel Agent | Dallas–Fort Worth Advisor",
     metaDescription:
-      "Work with a Dallas–Fort Worth cruise travel agent to choose the right cruise line, ship, itinerary, and cabin for your next vacation.",
+      "Work with a Dallas–Fort Worth-based cruise travel agent, serving travelers nationwide, to choose the right cruise line, ship, itinerary, and cabin for your next vacation.",
     eyebrow: "Cruise travel",
     h1: "The ship matters. So does everything around it.",
     intro:
@@ -62,8 +62,14 @@ export const services: ServicePage[] = [
     image: assets.img.cruise,
     imageAlt: "Cruise ship sailing on open water",
     selfBookIntro:
-      "Looking to book it yourself? Here's where cruisers go for shore excursions:",
+      "Looking to book it yourself? Here's where cruisers go to book the sailing itself, plus shore excursions:",
     vendors: [
+      {
+        name: "Virgin Voyages",
+        href: links.virginVoyages,
+        blurb:
+          "Adult-focused sailings with included Wi-Fi, gratuities, and dining — book the cabin directly.",
+      },
       {
         name: "Shore Excursions Group",
         href: links.shoreExcursions,
@@ -72,7 +78,7 @@ export const services: ServicePage[] = [
       },
     ],
     selfBookNote:
-      "Brian's also happy to help for free, even if you're booking the cruise yourself.",
+      "Want Brian's take before you book? Just ask — he's happy to weigh in beforehand.",
     fitTriad: {
       eyebrow: "A better fit",
       heading: "Start with how the trip should feel.",
@@ -137,7 +143,7 @@ export const services: ServicePage[] = [
     navLabel: "All-Inclusive",
     metaTitle: "All-Inclusive Resort Planning | Dallas–Fort Worth Advisor",
     metaDescription:
-      "Find the right all-inclusive resort with a Dallas–Fort Worth travel advisor matching your budget, travel style, and vacation priorities.",
+      "Find the right all-inclusive resort with a Dallas–Fort Worth-based travel advisor, serving travelers nationwide, matching your budget, travel style, and vacation priorities.",
     eyebrow: "All-inclusive resorts",
     h1: "Easy should still fit the people traveling.",
     intro:
@@ -159,7 +165,7 @@ export const services: ServicePage[] = [
       },
     ],
     selfBookNote:
-      "Brian's also happy to help for free, even if you're booking it yourself.",
+      "Want Brian's take before you book? Just ask — he's happy to weigh in beforehand.",
     fitTriad: {
       eyebrow: "Find the right atmosphere",
       heading: "Relaxing means different things to different humans.",
@@ -224,7 +230,7 @@ export const services: ServicePage[] = [
     navLabel: "Romance",
     metaTitle: "Honeymoon Travel Agent | Dallas–Fort Worth Advisor",
     metaDescription:
-      "Plan honeymoons, destination weddings, and romantic getaways with a Dallas–Fort Worth travel advisor built around your style and budget.",
+      "Plan honeymoons, destination weddings, and romantic getaways with a Dallas–Fort Worth-based travel advisor serving couples nationwide, built around your style and budget.",
     eyebrow: "Romance and honeymoons",
     h1: "Romantic should feel like the two people taking the trip.",
     intro:
@@ -246,7 +252,7 @@ export const services: ServicePage[] = [
       },
     ],
     selfBookNote:
-      "Brian's also happy to help for free, even if you're booking it yourself.",
+      "Want Brian's take before you book? Just ask — he's happy to weigh in beforehand.",
     fitTriad: {
       eyebrow: "Start with the couple",
       heading: "Build around shared priorities.",
@@ -311,7 +317,7 @@ export const services: ServicePage[] = [
     navLabel: "Family Travel",
     metaTitle: "Family Vacation Travel Agent | Dallas–Fort Worth",
     metaDescription:
-      "A Dallas–Fort Worth family vacation planner balancing ages, interests, logistics, comfort, and budget for stress-free family trips.",
+      "A Dallas–Fort Worth-based family vacation planner serving travelers nationwide, balancing ages, interests, logistics, comfort, and budget for stress-free family trips.",
     eyebrow: "Family travel",
     h1: "A family trip should work for the family actually taking it.",
     intro:
@@ -333,7 +339,7 @@ export const services: ServicePage[] = [
       },
     ],
     selfBookNote:
-      "Brian's also happy to help for free, even if you're booking it yourself.",
+      "Want Brian's take before you book? Just ask — he's happy to weigh in beforehand.",
     fitTriad: {
       eyebrow: "Plan for real life",
       heading: "Comfort and pacing are part of the destination.",
@@ -398,7 +404,7 @@ export const services: ServicePage[] = [
     navLabel: "Adventure",
     metaTitle: "Adventure & Guided Travel Planning | Dallas–Fort Worth",
     metaDescription:
-      "Explore guided tours and adventure travel with a Dallas–Fort Worth advisor offering thoughtful pacing, support, and destination planning.",
+      "Explore guided tours and adventure travel with a Dallas–Fort Worth-based advisor serving travelers nationwide, offering thoughtful pacing, support, and destination planning.",
     eyebrow: "Adventure and guided travel",
     h1: "See more without turning the trip into punishment.",
     intro:
@@ -420,7 +426,7 @@ export const services: ServicePage[] = [
       },
     ],
     selfBookNote:
-      "Brian's also happy to help for free, even if you're booking it yourself.",
+      "Want Brian's take before you book? Just ask — he's happy to weigh in beforehand.",
     fitTriad: {
       eyebrow: "Match the pace",
       heading: "Adventure is not one difficulty setting.",

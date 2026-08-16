@@ -4,7 +4,7 @@ import { ArrowRight, Compass } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 
 export default function NotFound() {
-  useSeo("Page not found | Paradox Travel Network");
+  useSeo("Page not found | Paradox Travel Network", undefined, { noindex: true });
   return (
     <section className="container-px flex min-h-[70vh] flex-col items-center justify-center py-32 text-center">
       <motion.div

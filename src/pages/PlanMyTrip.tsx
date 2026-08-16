@@ -74,9 +74,9 @@ export default function PlanMyTrip() {
   const reduce = useReducedMotion();
   const [data, setData] = useState(empty);
   const [consent, setConsent] = useState(false);
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "sent" | "unavailable" | "error"
+  >("idle");
   const honeypot = useHoneypot();
 
   const set = (k: keyof typeof empty) => (
@@ -87,9 +87,9 @@ export default function PlanMyTrip() {
     e.preventDefault();
     if (!consent) return;
     setStatus("sending");
-    const ok = await submitForm("Trip Planning Intake", { ...data, consent, _hp: honeypot.value });
-    setStatus(ok ? "sent" : "error");
-    if (ok) window.scrollTo({ top: 0, behavior: "smooth" });
+    const result = await submitForm("Trip Planning Intake", { ...data, consent, _hp: honeypot.value });
+    setStatus(result);
+    if (result !== "error") window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -142,6 +142,27 @@ export default function PlanMyTrip() {
             <p className="mt-3 text-fog">
               Brian received your trip details and will follow up after reviewing
               them. Want to discuss it sooner?
+            </p>
+            <a
+              href={links.calendly}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary mt-6"
+            >
+              <CalendarClock size={16} /> Choose a Time
+            </a>
+          </Reveal>
+        ) : status === "unavailable" ? (
+          <Reveal className="mx-auto max-w-2xl rounded-[2rem] border border-clay-deep/20 bg-cream p-10 text-center shadow-soft">
+            <h2 className="font-display text-3xl font-semibold text-ink">
+              This form isn't connected yet.
+            </h2>
+            <p className="mt-3 text-fog">
+              Nothing was sent. Please email{" "}
+              <a href={`mailto:${links.email}`} className="font-semibold text-ocean-dark hover:text-clay-deep">
+                {links.email}
+              </a>{" "}
+              directly, or schedule a call below.
             </p>
             <a
               href={links.calendly}
@@ -364,7 +385,7 @@ export default function PlanMyTrip() {
 
             {/* Sidebar: schedule a call */}
             <aside className="lg:pt-16">
-              <div className="sticky top-24 overflow-hidden rounded-[2rem] bg-ocean p-8 text-cream transition-transform duration-300 hover:-translate-y-1">
+              <div className="sticky top-24 overflow-hidden rounded-[2rem] bg-ocean-dark p-8 text-cream transition-transform duration-300 hover:-translate-y-1">
                 <motion.div
                   aria-hidden="true"
                   className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gold/20 blur-3xl"
@@ -388,7 +409,7 @@ export default function PlanMyTrip() {
                   <h3 className="mt-4 text-xl font-semibold">
                     Prefer to talk it through first?
                   </h3>
-                  <p className="mt-3 leading-relaxed text-cream/80">
+                  <p className="mt-3 leading-relaxed text-cream">
                     Use the call to discuss trip ideas, destination questions,
                     dates, budget, and the type of planning help you may need.
                   </p>

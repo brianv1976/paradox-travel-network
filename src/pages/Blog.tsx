@@ -189,10 +189,13 @@ export default function Blog() {
 
   const filters: Filter[] = ["All", ...contentTypes];
 
+  const [subscribeResult, setSubscribeResult] = useState<"sent" | "unavailable" | null>(null);
+
   const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    await submitForm("Newsletter Signup", { email, _hp: honeypot.value });
+    const result = await submitForm("Newsletter Signup", { email, _hp: honeypot.value });
+    setSubscribeResult(result === "error" ? "unavailable" : result);
     setSubscribed(true);
     setEmail("");
   };
@@ -306,20 +309,30 @@ export default function Blog() {
       </section>
 
       {/* Newsletter */}
-      <section className="bg-ocean text-cream">
+      <section className="bg-ocean-dark text-cream">
         <div className="container-px py-20 text-center md:py-28">
           <Mail className="mx-auto text-gold" size={32} />
           <h2 className="mx-auto mt-5 max-w-2xl font-display text-3xl font-semibold md:text-4xl">
             Postcards, not spam.
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-cream/80">
+          <p className="mx-auto mt-3 max-w-xl text-cream">
             An occasional email with destination notes, booking reminders, and
             practical tips. No manufactured emergencies.
           </p>
           {subscribed ? (
-            <p className="mt-8 inline-flex items-center gap-2 text-gold">
-              <CheckCircle2 size={18} /> You're on the list — talk soon.
-            </p>
+            subscribeResult === "sent" ? (
+              <p className="mt-8 inline-flex items-center gap-2 text-cream">
+                <CheckCircle2 size={18} /> You're on the list — talk soon.
+              </p>
+            ) : (
+              <p className="mx-auto mt-8 max-w-md text-cream">
+                Newsletter signup isn't connected yet — email{" "}
+                <a href="mailto:hello@paradoxtravelnetwork.com" className="font-semibold underline hover:text-cream/80">
+                  hello@paradoxtravelnetwork.com
+                </a>{" "}
+                to be added manually for now.
+              </p>
+            )
           ) : (
             <form
               onSubmit={subscribe}

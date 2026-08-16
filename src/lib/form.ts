@@ -14,16 +14,19 @@
  * Route trip-planning submissions to trips@paradoxtravelnetwork.com and general
  * contact submissions to hello@paradoxtravelnetwork.com in your backend config.
  */
+export type SubmitResult = "sent" | "unavailable" | "error";
+
 export async function submitForm(
   formName: string,
   data: Record<string, unknown>
-): Promise<boolean> {
+): Promise<SubmitResult> {
   // Honeypot: forms include a hidden field real visitors never see or fill
   // in (see the `_hp` input in each form). A bot that fills every field it
   // finds trips this, and gets a fake "success" with nothing actually sent —
-  // no backend or CAPTCHA required for basic spam filtering.
+  // no backend or CAPTCHA required for basic spam filtering. This is the one
+  // place a false "sent" is intentional — it's shown to a bot, never a person.
   if (typeof data._hp === "string" && data._hp.trim() !== "") {
-    return true;
+    return "sent";
   }
   const { _hp: _discard, ...payload } = data;
 
@@ -39,17 +42,18 @@ export async function submitForm(
         },
         body: JSON.stringify({ form: formName, ...payload }),
       });
-      return res.ok;
+      return res.ok ? "sent" : "error";
     } catch {
-      return false;
+      return "error";
     }
   }
 
-  // No endpoint configured yet. Never log the submitted payload — it's real
+  // No endpoint configured yet — nothing was sent or stored anywhere.
+  // Never claim otherwise, and never log the submitted payload; it's real
   // visitor contact/trip data (names, emails, phone numbers, budgets) and
   // has no reason to end up in a browser console.
   await new Promise((r) => setTimeout(r, 700));
   // eslint-disable-next-line no-console
   console.info(`[PTN] ${formName} submitted (no endpoint configured yet)`);
-  return true;
+  return "unavailable";
 }

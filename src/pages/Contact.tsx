@@ -26,9 +26,9 @@ export default function Contact() {
     subject: "",
     message: "",
   });
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "sent" | "unavailable" | "error"
+  >("idle");
   const honeypot = useHoneypot();
 
   const set = (k: keyof typeof data) => (
@@ -38,8 +38,8 @@ export default function Contact() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
-    const ok = await submitForm("General Contact Inquiry", { ...data, _hp: honeypot.value });
-    setStatus(ok ? "sent" : "error");
+    const result = await submitForm("General Contact Inquiry", { ...data, _hp: honeypot.value });
+    setStatus(result);
   };
 
   return (
@@ -77,6 +77,27 @@ export default function Contact() {
                 <p className="mt-3 text-fog">
                   Brian received your message and will review it. Want to choose a
                   time now?
+                </p>
+                <a
+                  href={links.calendly}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary mt-6"
+                >
+                  <CalendarClock size={16} /> Schedule a Call
+                </a>
+              </Reveal>
+            ) : status === "unavailable" ? (
+              <Reveal className="rounded-[2rem] border border-clay-deep/20 bg-cream p-10 text-center shadow-soft">
+                <h2 className="font-display text-2xl font-semibold text-ink">
+                  This form isn't connected yet.
+                </h2>
+                <p className="mt-3 text-fog">
+                  Nothing was sent. Please email{" "}
+                  <a href={`mailto:${links.email}`} className="font-semibold text-ocean-dark hover:text-clay-deep">
+                    {links.email}
+                  </a>{" "}
+                  directly, or schedule a call below.
                 </p>
                 <a
                   href={links.calendly}
@@ -175,12 +196,12 @@ export default function Contact() {
 
           <aside className="lg:pt-4">
             <div className="sticky top-24 space-y-6">
-              <div className="rounded-[2rem] bg-ocean p-8 text-cream">
+              <div className="rounded-[2rem] bg-ocean-dark p-8 text-cream">
                 <CalendarClock className="text-gold" />
                 <h3 className="mt-4 text-xl font-semibold">
                   Need to talk through a trip idea?
                 </h3>
-                <p className="mt-3 leading-relaxed text-cream/80">
+                <p className="mt-3 leading-relaxed text-cream">
                   Use the call for trip ideas, destination questions, logistics,
                   or figuring out which planning path makes sense.
                 </p>

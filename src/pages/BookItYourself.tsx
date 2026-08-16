@@ -273,10 +273,9 @@ export default function BookItYourself() {
       >
         <p className="text-lg leading-relaxed text-fog">
           A hand-picked lineup of the booking sites Brian actually trusts —
-          cruises, tours, shore excursions, and more — all in one place, at
-          the same prices you'd find booking direct. No hunting through
-          search results wondering which site is legit. And Brian's always
-          around to give pointers, even when you're booking it yourself.
+          cruises, tours, shore excursions, and more — all in one place. No
+          hunting through search results wondering which site is legit. And
+          Brian's happy to weigh in before you book — just ask.
         </p>
         <a href="#booking-types" className="btn-primary w-fit">
           Choose a booking type <ArrowRight size={16} />
@@ -321,10 +320,10 @@ export default function BookItYourself() {
             <HelpCircle className="shrink-0 text-clay" size={32} />
             <p className="text-ink/90">
               <span className="font-semibold">Stuck? Overthinking a price?</span>{" "}
-              Ask Brian. He wants you to have the best vacation — even if you're
-              booking it yourself. He'll answer for free, help you weigh options,
-              or even help you plan it yourself. No strings, no pressure to book
-              through him.
+              Ask Brian before you book — he's happy to help you weigh options
+              or think it through. Once you book directly with one of these
+              partners, that reservation is between you and them; Paradox
+              can't manage or service it after the fact.
             </p>
           </div>
         </Reveal>
@@ -346,8 +345,8 @@ export default function BookItYourself() {
             />
             <p className="mt-5 leading-relaxed text-fog">
               Exoticca is an online tour operator, not a marketplace — their
-              own trip designers build each itinerary and personally travel
-              it before it ever goes on sale. A trip bundles flights, hotels,
+              own trip designers build each itinerary in-house. A trip
+              bundles flights, hotels,
               guided tours, transfers, and breakfast into one upfront price,
               so there's no separate flight search or hotel comparison to do
               yourself.

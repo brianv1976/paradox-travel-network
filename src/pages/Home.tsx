@@ -274,9 +274,10 @@ export default function Home() {
               <Link to="/book-it-yourself">
                 <h3 className="text-2xl font-semibold text-ink">Book It Yourself</h3>
               </Link>
-              <Link to="/book-it-yourself">
-                <ArrowUpRight className="text-ocean transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Link>
+              <ArrowUpRight
+                aria-hidden="true"
+                className="text-ocean transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
             </div>
             <p className="mt-3 leading-relaxed text-fog">
               Trusted sites for cruises, complete vacation packages, guided
@@ -361,14 +362,15 @@ export default function Home() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.1} className="group flex flex-col rounded-[2rem] bg-ocean p-8 text-cream transition-shadow duration-300 hover:shadow-lift md:p-10">
+          <Reveal delay={0.1} className="group flex flex-col rounded-[2rem] bg-ocean-dark p-8 text-cream transition-shadow duration-300 hover:shadow-lift md:p-10">
             <div className="flex items-start justify-between">
               <Link to="/plan-my-trip">
                 <h3 className="text-2xl font-semibold">Plan With Brian</h3>
               </Link>
-              <Link to="/plan-my-trip">
-                <Sparkles className="text-gold transition-transform duration-300 group-hover:scale-110" />
-              </Link>
+              <Sparkles
+                aria-hidden="true"
+                className="text-gold transition-transform duration-300 group-hover:scale-110"
+              />
             </div>
             <div className="mt-4 flex w-fit items-center gap-3 rounded-2xl bg-cream/10 p-3 pr-5 ring-1 ring-cream/15 backdrop-blur-sm">
               <img
@@ -378,10 +380,10 @@ export default function Home() {
               />
               <div>
                 <div className="text-sm font-semibold text-cream">Brian Voyles</div>
-                <div className="text-xs text-cream/70">Founder &amp; Travel Advisor</div>
+                <div className="text-xs text-cream/90">Founder &amp; Travel Advisor</div>
               </div>
             </div>
-            <p className="mt-4 leading-relaxed text-cream/80">
+            <p className="mt-4 leading-relaxed text-cream">
               I'm Brian, the owner and travel advisor behind Paradox. I plan
               complicated trips and simple ones where the only real request
               is "don't let this be boring." Either way, you work directly
@@ -397,13 +399,13 @@ export default function Home() {
                     </span>
                     <div>
                       <div className="text-sm font-semibold text-cream">{r.title}</div>
-                      <p className="text-sm leading-relaxed text-cream/80">{r.body}</p>
+                      <p className="text-sm leading-relaxed text-cream/90">{r.body}</p>
                     </div>
                   </li>
                 );
               })}
             </ul>
-            <Link to="/plan-my-trip" className="mt-8 inline-flex items-center gap-1 pt-2 font-semibold text-gold hover:text-cream">
+            <Link to="/plan-my-trip" className="mt-8 inline-flex items-center gap-1 pt-2 font-semibold text-cream/90 hover:text-cream">
               Start planning <ArrowRight size={15} />
             </Link>
           </Reveal>
@@ -476,14 +478,14 @@ export default function Home() {
       </section>
 
       {/* ABOUT TEASER */}
-      <section id="about" className="bg-ocean text-cream">
+      <section id="about" className="bg-ocean-dark text-cream">
         <div className="container-px grid items-center gap-12 py-24 md:grid-cols-2 md:py-32">
           <Reveal className="relative aspect-[4/5] max-w-md overflow-hidden rounded-[2rem] shadow-lift">
             <img src={assets.portrait} alt="Brian Voyles, owner and travel advisor" loading="lazy" className="h-full w-full object-cover" />
           </Reveal>
           <div className="flex flex-col gap-6">
             <Reveal>
-              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-gold">
+              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-cream">
                 A real person behind the plan
               </span>
             </Reveal>
@@ -491,7 +493,7 @@ export default function Home() {
               <h2 className="text-3xl font-semibold leading-[1.1] md:text-4xl">Real advice. No sales voice.</h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="text-lg leading-relaxed text-cream/80">
+              <p className="text-lg leading-relaxed text-cream">
                 Brian is the travel advisor behind Paradox, not a one-time
                 booking clerk. When he plans your trip, he stays involved
                 from the first conversation through the last day of travel.
@@ -500,7 +502,7 @@ export default function Home() {
               </p>
             </Reveal>
             <Reveal delay={0.12}>
-              <p className="text-sm text-cream/70">
+              <p className="text-sm text-cream/90">
                 Based in the Dallas–Fort Worth area and helping travelers
                 nationwide.
               </p>
@@ -510,17 +512,17 @@ export default function Home() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="mt-2 grid gap-4 sm:grid-cols-3"
+              className="mt-2 grid gap-4 lg:grid-cols-3"
             >
               {traits.map((t) => (
                 <motion.div key={t.title} variants={fadeUp} className="rounded-2xl bg-ocean-dark/60 p-5">
-                  <div className="font-semibold text-gold">{t.title}</div>
-                  <div className="mt-1 text-sm text-cream/75">{t.body}</div>
+                  <div className="font-semibold text-cream">{t.title}</div>
+                  <div className="mt-1 text-sm text-cream/90">{t.body}</div>
                 </motion.div>
               ))}
             </motion.div>
             <Reveal delay={0.15}>
-              <Link to="/about" className="inline-flex items-center gap-1 font-semibold text-gold hover:text-cream">
+              <Link to="/about" className="inline-flex items-center gap-1 font-semibold text-cream/90 hover:text-cream">
                 Meet Brian <ArrowRight size={15} />
               </Link>
             </Reveal>
@@ -603,7 +605,7 @@ export default function Home() {
       {/* FINAL CTA */}
       <CTASection
         eyebrow="Ready when the idea is"
-        title="Turn we should take a trip into an actual plan."
+        title="Turn “we should take a trip” into an actual plan."
         body="Share the basics to start planning with Brian, or head to the self-booking page if you'd rather handle the reservation yourself."
         primaryLabel="Plan With Brian"
         primaryTo="/plan-my-trip"

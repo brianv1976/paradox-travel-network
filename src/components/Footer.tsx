@@ -11,10 +11,10 @@ export default function Footer() {
           <span className="font-display text-2xl font-semibold tracking-tight">
             {business.name}
           </span>
-          <p className="mt-4 text-cream/70">{footerBlurb}</p>
+          <p className="mt-4 text-cream/90">{footerBlurb}</p>
           <a
             href={`mailto:${links.email}`}
-            className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gold transition-colors hover:text-cream"
+            className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-cream transition-colors hover:text-cream/80"
           >
             <Mail size={16} />
             {links.email}
@@ -27,7 +27,7 @@ export default function Footer() {
                 className="h-12 w-auto"
               />
             </span>
-            <p className="text-xs leading-relaxed text-cream/50">
+            <p className="text-xs leading-relaxed text-cream/90">
               Paradox Travel Network is an independent agency affiliated with
               WorldVia Travel Network, a Travel Leaders Network Associate.
             </p>
@@ -39,7 +39,7 @@ export default function Footer() {
             <Link
               key={link.label}
               to={link.to}
-              className="text-cream/75 transition-colors hover:text-cream"
+              className="text-cream/90 transition-colors hover:text-cream"
             >
               {link.label}
             </Link>
@@ -48,8 +48,8 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-cream/10">
-        <div className="container-px flex flex-col items-start justify-between gap-2 py-6 text-sm text-cream/60 md:flex-row md:items-center">
-          <span className="font-display italic text-cream/80">
+        <div className="container-px flex flex-col items-start justify-between gap-2 py-6 text-sm text-cream/90 md:flex-row md:items-center">
+          <span className="font-display italic text-cream">
             {business.tagline}
           </span>
           <span>

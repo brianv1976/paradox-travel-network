@@ -233,7 +233,7 @@ export default function DestinationPlayer() {
                       these decide how they book it. */}
                   <Link
                     to="/plan-my-trip"
-                    className="btn bg-clay text-cream hover:bg-clay-dark"
+                    className="btn bg-clay text-ink hover:bg-clay-dark"
                   >
                     Plan With Brian
                     <ArrowRight size={16} />

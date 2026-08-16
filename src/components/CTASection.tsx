@@ -24,12 +24,12 @@ export default function CTASection({
 }: Props) {
   return (
     <section className="container-px py-24 md:py-32">
-      <Reveal className="relative overflow-hidden rounded-[2rem] bg-ocean px-8 py-16 text-cream shadow-lift md:px-16 md:py-24">
+      <Reveal className="relative overflow-hidden rounded-[2rem] bg-ocean-dark px-8 py-16 text-cream shadow-lift md:px-16 md:py-24">
         <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-clay/25 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-gold/15 blur-3xl" />
         <div className="relative flex max-w-2xl flex-col gap-5">
           {eyebrow && (
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-gold">
+            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-cream">
               {eyebrow}
             </span>
           )}
@@ -37,11 +37,11 @@ export default function CTASection({
             {title}
           </h2>
           {body && (
-            <p className="text-lg leading-relaxed text-cream/80">{body}</p>
+            <p className="text-lg leading-relaxed text-cream">{body}</p>
           )}
           <div className="mt-4 flex flex-wrap gap-4">
             <Magnetic strength={9}>
-              <Link to={primaryTo} className="btn bg-clay text-cream hover:bg-clay-dark">
+              <Link to={primaryTo} className="btn bg-clay text-ink hover:bg-clay-dark">
                 {primaryLabel}
                 <ArrowRight size={16} />
               </Link>
