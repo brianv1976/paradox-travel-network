@@ -3,8 +3,9 @@
  *
  * Set VITE_FORM_ENDPOINT to a form backend (Formspree, Web3Forms, a Supabase
  * Edge Function, etc.) and every form on the site posts there as JSON.
- * Until then, submissions resolve as "sent" so the UX is complete in preview
- * and the payload is logged to the console.
+ * Until then, submitForm() resolves "unavailable" and nothing is sent,
+ * stored, or logged — callers are expected to show an honest "not connected
+ * yet" state rather than a fake success screen. See SubmitResult below.
  *
  * Recommended (free) options:
  *  - Web3Forms:  https://web3forms.com  → set endpoint to https://api.web3forms.com/submit
@@ -54,6 +55,6 @@ export async function submitForm(
   // has no reason to end up in a browser console.
   await new Promise((r) => setTimeout(r, 700));
   // eslint-disable-next-line no-console
-  console.info(`[PTN] ${formName} submitted (no endpoint configured yet)`);
+  console.info(`[PTN] ${formName}: submission attempted; no endpoint configured, nothing was sent`);
   return "unavailable";
 }

@@ -301,7 +301,7 @@ export default function BookItYourself() {
                 href={b.href}
                 className="group rounded-2xl border border-ink/10 bg-cream p-8 transition-all duration-300 hover:border-ocean/30 hover:shadow-soft"
               >
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean/10 text-ocean">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean/10 text-ocean-dark">
                   <Icon size={22} />
                 </span>
                 <h3 className="mt-5 text-xl font-semibold text-ink">{b.title}</h3>
@@ -485,7 +485,7 @@ export default function BookItYourself() {
                   variants={fadeUp}
                   className="flex gap-4 rounded-2xl bg-cream p-6"
                 >
-                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ocean/10 text-ocean">
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ocean/10 text-ocean-dark">
                     <Icon size={20} />
                   </span>
                   <div>

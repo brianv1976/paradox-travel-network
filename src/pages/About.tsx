@@ -84,10 +84,10 @@ export default function About() {
       </section>
 
       {/* Story */}
-      <section className="bg-ocean text-cream">
+      <section className="bg-ocean-dark text-cream">
         <div className="container-px py-20 md:py-28">
           <Reveal>
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-gold">
+            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-cream">
               How this started
             </span>
           </Reveal>
@@ -97,7 +97,7 @@ export default function About() {
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="mt-6 max-w-3xl space-y-5 text-lg leading-relaxed text-cream/80">
+            <div className="mt-6 max-w-3xl space-y-5 text-lg leading-relaxed text-cream">
               <p>
                 I got my first taste of travel in my late twenties — a few
                 cruises that did something to me I couldn't quite explain at

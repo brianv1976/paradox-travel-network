@@ -65,10 +65,12 @@ const empty = {
   notes: "",
 };
 
+const formAvailable = Boolean(import.meta.env.VITE_FORM_ENDPOINT);
+
 export default function PlanMyTrip() {
   useSeo(
-    "Plan My Trip | Dallas–Fort Worth Travel Advisor",
-    "Tell a Dallas–Fort Worth travel advisor about your trip, budget, dates, and style to begin personalized vacation planning."
+    "Plan My Trip | DFW Travel Advisor Serving Nationwide",
+    "Tell a Dallas–Fort Worth-based travel advisor serving travelers nationwide about your trip, budget, dates, and style to begin personalized vacation planning."
   );
 
   const reduce = useReducedMotion();
@@ -123,6 +125,9 @@ export default function PlanMyTrip() {
         <a href="#intake" className="btn-primary w-fit">
           Let's Get It Booked <ArrowRight size={16} />
         </a>
+        <p className="text-sm text-fog">
+          Based in Dallas–Fort Worth, working with travelers nationwide.
+        </p>
       </PageHero>
 
       <section id="intake" className="container-px py-20 md:py-28">
@@ -152,13 +157,13 @@ export default function PlanMyTrip() {
               <CalendarClock size={16} /> Choose a Time
             </a>
           </Reveal>
-        ) : status === "unavailable" ? (
+        ) : !formAvailable || status === "unavailable" ? (
           <Reveal className="mx-auto max-w-2xl rounded-[2rem] border border-clay-deep/20 bg-cream p-10 text-center shadow-soft">
             <h2 className="font-display text-3xl font-semibold text-ink">
               This form isn't connected yet.
             </h2>
             <p className="mt-3 text-fog">
-              Nothing was sent. Please email{" "}
+              Nothing you type here would be sent. Please email{" "}
               <a href={`mailto:${links.email}`} className="font-semibold text-ocean-dark hover:text-clay-deep">
                 {links.email}
               </a>{" "}
@@ -450,7 +455,7 @@ export default function PlanMyTrip() {
             >
               {nextSteps.map((s) => (
                 <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-3">
-                  <span className="relative z-10 inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean font-display text-xl font-semibold text-cream">
+                  <span className="relative z-10 inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean-dark font-display text-xl font-semibold text-cream">
                     {s.n}
                   </span>
                   <h3 className="text-xl font-semibold text-ink">{s.title}</h3>

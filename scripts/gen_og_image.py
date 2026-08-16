@@ -14,7 +14,7 @@ draw.rectangle([0, 0, W, 10], fill=ocean_dark)
 draw.rectangle([0, 0, int(W * 0.35), 10], fill=gold)
 
 logo = Image.open("public/Web Logo.png").convert("RGBA")
-logo_w = 620
+logo_w = 550
 logo_h = int(logo.height * (logo_w / logo.width))
 logo = logo.resize((logo_w, logo_h), Image.LANCZOS)
 lx = (W - logo_w) // 2

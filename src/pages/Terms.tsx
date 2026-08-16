@@ -42,9 +42,10 @@ export default function Terms() {
       </p>
       <h2>Affiliate relationships</h2>
       <p>
-        Some outbound links are affiliate or referral links. A booking made
-        through them may earn a commission at no additional cost to you. This does
-        not change the price you pay the provider.
+        Some outbound links are affiliate or referral links. Paradox Travel
+        Network may earn a commission when a booking is made through one of
+        these links. Pricing is set by the provider, not by Paradox Travel
+        Network.
       </p>
       <h2>Contact</h2>
       <p>

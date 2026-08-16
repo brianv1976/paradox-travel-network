@@ -112,7 +112,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
                 variants={fadeUp}
                 className="flex items-start gap-3 rounded-xl bg-cream px-5 py-4 shadow-sm"
               >
-                <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ocean/10 text-ocean">
+                <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ocean/10 text-ocean-dark">
                   <Check size={14} />
                 </span>
                 <span className="font-medium text-ink">{item}</span>
@@ -145,10 +145,10 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
             <motion.div
               key={card.title}
               variants={fadeUp}
-              className="rounded-2xl bg-ocean p-7 text-cream"
+              className="rounded-2xl bg-ocean-dark p-7 text-cream"
             >
               <h3 className="text-xl font-semibold">{card.title}</h3>
-              <p className="mt-3 leading-relaxed text-cream/80">{card.body}</p>
+              <p className="mt-3 leading-relaxed text-cream">{card.body}</p>
             </motion.div>
           ))}
         </motion.div>

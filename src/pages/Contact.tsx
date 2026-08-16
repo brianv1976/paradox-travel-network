@@ -14,10 +14,12 @@ const inputClass =
   "w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink outline-none transition-all duration-300 ease-smooth focus:-translate-y-0.5 focus:border-ocean focus:shadow-soft focus:ring-2 focus:ring-ocean/20 hover:border-ink/25 placeholder:text-fog/60";
 const labelClass = "mb-1.5 block text-sm font-medium text-ink";
 
+const formAvailable = Boolean(import.meta.env.VITE_FORM_ENDPOINT);
+
 export default function Contact() {
   useSeo(
-    "Contact a Dallas–Fort Worth Travel Advisor | Paradox Travel Network",
-    "Contact Brian Voyles, a Dallas–Fort Worth travel advisor, to ask a travel question, discuss a vacation, or find the right planning path."
+    "Contact a DFW Travel Advisor Serving Nationwide | Paradox Travel Network",
+    "Contact Brian Voyles, a Dallas–Fort Worth-based travel advisor serving travelers nationwide, to ask a travel question, discuss a vacation, or find the right planning path."
   );
 
   const [data, setData] = useState({
@@ -63,6 +65,9 @@ export default function Contact() {
           Do not email payment-card details, passport numbers, medical records,
           or confidential identity documents.
         </p>
+        <p className="text-sm text-fog">
+          Based in Dallas–Fort Worth, working with travelers nationwide.
+        </p>
       </PageHero>
 
       <section className="container-px py-20 md:py-28">
@@ -87,13 +92,13 @@ export default function Contact() {
                   <CalendarClock size={16} /> Schedule a Call
                 </a>
               </Reveal>
-            ) : status === "unavailable" ? (
+            ) : !formAvailable || status === "unavailable" ? (
               <Reveal className="rounded-[2rem] border border-clay-deep/20 bg-cream p-10 text-center shadow-soft">
                 <h2 className="font-display text-2xl font-semibold text-ink">
                   This form isn't connected yet.
                 </h2>
                 <p className="mt-3 text-fog">
-                  Nothing was sent. Please email{" "}
+                  Nothing you type here would be sent. Please email{" "}
                   <a href={`mailto:${links.email}`} className="font-semibold text-ocean-dark hover:text-clay-deep">
                     {links.email}
                   </a>{" "}

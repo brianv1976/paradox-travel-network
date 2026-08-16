@@ -19,17 +19,21 @@ export default function Privacy() {
       </p>
       <h2>What we collect</h2>
       <p>
-        When you submit the contact or trip-planning form, we collect the details
-        you choose to provide — such as your name, email, phone, travel dates,
-        destinations, budget range, and trip preferences. We do not ask for, and
-        you should never submit, passport numbers, payment-card details, medical
+        The contact and trip-planning forms on this site are not yet connected
+        to a backend. Right now, submitting a form does not send or store any
+        information anywhere — nothing you type is transmitted, retained, or
+        seen by anyone. Once form delivery is enabled, this policy will be
+        updated first to name what is collected and how it is handled, and
+        this section will describe that in detail. We do not ask for, and you
+        should never submit, passport numbers, payment-card details, medical
         records, or other confidential identity documents through this site.
       </p>
       <h2>How we use it</h2>
       <p>
-        Information is used only to respond to your inquiry and help plan or
-        advise on travel. Submitting a form starts a conversation; it is not a
-        booking and does not create a charge.
+        When form delivery is active, information submitted through a form will
+        be used only to respond to your inquiry and help plan or advise on
+        travel. Submitting a form starts a conversation; it is not a booking and
+        does not create a charge.
       </p>
       <h2>Third-party booking partners</h2>
       <p>
@@ -41,9 +45,11 @@ export default function Privacy() {
       </p>
       <h2>Data retention &amp; contact</h2>
       <p>
-        Inquiry details are kept only as long as needed to assist you. To ask
-        what we hold, or to request deletion, email{" "}
-        <a href={`mailto:${links.email}`} className="font-semibold text-ocean underline">
+        As of this writing, no inquiry details are retained through this
+        website, since form delivery is not yet connected. Once it is, details
+        will be kept only as long as needed to assist you. To ask what we
+        hold, or to request deletion, email{" "}
+        <a href={`mailto:${links.email}`} className="font-semibold text-ocean-dark underline">
           {links.email}
         </a>
         .

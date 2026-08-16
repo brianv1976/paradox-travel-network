@@ -18,6 +18,8 @@ import { fadeUp, stagger } from "../lib/motion";
 
 type Filter = "All" | ContentType;
 
+const formAvailable = Boolean(import.meta.env.VITE_FORM_ENDPOINT);
+
 const TYPE_BADGE: Record<ContentType, string> = {
   "Destination Spotlight": "bg-clay text-ink",
   "Travel News": "bg-ocean-dark text-cream",
@@ -74,7 +76,7 @@ function FeaturedArticle({ post }: { post: Post }) {
           </span>
         </div>
         <Link to={`/travel-tips/${post.slug}`}>
-          <h2 className="font-display text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-ocean md:text-3xl">
+          <h2 className="font-display text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-ocean-dark md:text-3xl">
             {post.title}
           </h2>
         </Link>
@@ -141,7 +143,7 @@ function ArticleCard({ post }: { post: Post }) {
           )}
         </div>
         <Link to={`/travel-tips/${post.slug}`}>
-          <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-ocean">
+          <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-ocean-dark">
             {post.title}
           </h3>
         </Link>
@@ -177,7 +179,6 @@ export default function Blog() {
 
   const [filter, setFilter] = useState<Filter>("All");
   const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
   const honeypot = useHoneypot();
 
   const featured = featuredPosts[0] ?? publishedPosts[0];
@@ -189,15 +190,14 @@ export default function Blog() {
 
   const filters: Filter[] = ["All", ...contentTypes];
 
-  const [subscribeResult, setSubscribeResult] = useState<"sent" | "unavailable" | null>(null);
+  const [subscribeResult, setSubscribeResult] = useState<"sent" | "unavailable" | "error" | null>(null);
 
   const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
     const result = await submitForm("Newsletter Signup", { email, _hp: honeypot.value });
-    setSubscribeResult(result === "error" ? "unavailable" : result);
-    setSubscribed(true);
-    setEmail("");
+    setSubscribeResult(result);
+    if (result === "sent") setEmail("");
   };
 
   return (
@@ -319,20 +319,26 @@ export default function Blog() {
             An occasional email with destination notes, booking reminders, and
             practical tips. No manufactured emergencies.
           </p>
-          {subscribed ? (
-            subscribeResult === "sent" ? (
-              <p className="mt-8 inline-flex items-center gap-2 text-cream">
-                <CheckCircle2 size={18} /> You're on the list — talk soon.
-              </p>
-            ) : (
-              <p className="mx-auto mt-8 max-w-md text-cream">
-                Newsletter signup isn't connected yet — email{" "}
-                <a href="mailto:hello@paradoxtravelnetwork.com" className="font-semibold underline hover:text-cream/80">
-                  hello@paradoxtravelnetwork.com
-                </a>{" "}
-                to be added manually for now.
-              </p>
-            )
+          {subscribeResult === "sent" ? (
+            <p className="mt-8 inline-flex items-center gap-2 text-cream">
+              <CheckCircle2 size={18} /> You're on the list — talk soon.
+            </p>
+          ) : !formAvailable || subscribeResult === "unavailable" ? (
+            <p className="mx-auto mt-8 max-w-md text-cream">
+              Newsletter signup isn't connected yet — email{" "}
+              <a href="mailto:hello@paradoxtravelnetwork.com" className="font-semibold underline hover:text-cream/80">
+                hello@paradoxtravelnetwork.com
+              </a>{" "}
+              to be added manually for now.
+            </p>
+          ) : subscribeResult === "error" ? (
+            <p className="mx-auto mt-8 max-w-md text-cream">
+              Something went wrong. Please email{" "}
+              <a href="mailto:hello@paradoxtravelnetwork.com" className="font-semibold underline hover:text-cream/80">
+                hello@paradoxtravelnetwork.com
+              </a>{" "}
+              directly instead.
+            </p>
           ) : (
             <form
               onSubmit={subscribe}

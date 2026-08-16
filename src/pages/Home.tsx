@@ -276,7 +276,7 @@ export default function Home() {
               </Link>
               <ArrowUpRight
                 aria-hidden="true"
-                className="text-ocean transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="text-ocean-dark transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             </div>
             <p className="mt-3 leading-relaxed text-fog">
@@ -462,7 +462,7 @@ export default function Home() {
         >
           {steps.map((s) => (
             <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-4">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean font-display text-xl font-semibold text-cream">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean-dark font-display text-xl font-semibold text-cream">
                 {s.n}
               </span>
               <h3 className="text-xl font-semibold text-ink">{s.title}</h3>

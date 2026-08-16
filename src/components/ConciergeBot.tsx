@@ -159,7 +159,7 @@ export default function ConciergeBot() {
       <motion.button
         ref={launcherRef}
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-5 right-5 z-[60] inline-flex h-14 w-14 items-center justify-center rounded-full bg-ocean text-cream shadow-lift transition-colors hover:bg-ocean-dark"
+        className="fixed bottom-5 right-5 z-[60] inline-flex h-14 w-14 items-center justify-center rounded-full bg-ocean-dark text-cream shadow-lift transition-colors hover:bg-ocean"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label={open ? "Close concierge" : "Open travel concierge"}
@@ -194,13 +194,13 @@ export default function ConciergeBot() {
             className="fixed bottom-24 right-5 z-[60] flex h-[540px] max-h-[75vh] w-[92vw] max-w-[380px] flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10"
           >
             {/* Header */}
-            <div className="flex items-center gap-3 bg-ocean px-5 py-4 text-cream">
+            <div className="flex items-center gap-3 bg-ocean-dark px-5 py-4 text-cream">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-cream/15">
                 <Compass size={18} />
               </span>
               <div>
                 <div className="text-sm font-semibold">Paradox Concierge</div>
-                <div className="text-xs text-cream/70">
+                <div className="text-xs text-cream/90">
                   Travel questions, answered
                 </div>
               </div>
@@ -221,7 +221,7 @@ export default function ConciergeBot() {
                   <div
                     className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                       m.role === "user"
-                        ? "bg-ocean text-cream"
+                        ? "bg-ocean-dark text-cream"
                         : "bg-sand text-ink"
                     }`}
                   >
@@ -286,7 +286,7 @@ export default function ConciergeBot() {
               <button
                 type="submit"
                 disabled={!input.trim() || loading}
-                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ocean text-cream transition-colors hover:bg-ocean-dark disabled:opacity-40"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ocean-dark text-cream transition-colors hover:bg-ocean disabled:opacity-40"
                 aria-label="Send"
               >
                 <Send size={16} />
