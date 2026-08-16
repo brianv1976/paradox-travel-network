@@ -238,7 +238,7 @@ function ExampleGrid({
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-cream/25 to-transparent transition-transform duration-[900ms] ease-smooth group-hover:translate-x-full" />
               </div>
               <div className="flex flex-1 flex-col p-5" style={{ transform: "translateZ(28px)" }}>
-                <span className="text-xs font-semibold uppercase tracking-wide text-clay">
+                <span className="text-xs font-semibold uppercase tracking-wide text-clay-deep">
                   {it.place}
                 </span>
                 <h4 className="mt-1 font-display text-lg font-semibold text-ink">

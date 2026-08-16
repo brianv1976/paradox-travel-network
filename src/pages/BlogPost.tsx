@@ -85,7 +85,7 @@ export default function BlogPost() {
                 {post.contentType}
               </span>
               {post.category && (
-                <span className="inline-block rounded-full bg-sand px-3 py-1 text-xs font-semibold text-fog">
+                <span className="inline-block rounded-full bg-sand px-3 py-1 text-xs font-semibold text-ink/70">
                   {post.category}
                 </span>
               )}
