@@ -292,7 +292,7 @@ export default function ConciergeBot() {
                 <Send size={16} />
               </button>
             </form>
-            <p className="bg-cream px-4 pb-3 text-center text-[10px] text-fog/70">
+            <p className="bg-cream px-4 pb-3 text-center text-[10px] text-fog">
               Automated assistant · not a booking. Ask{" "}
               <a href={`mailto:${links.email}`} className="underline">
                 Brian

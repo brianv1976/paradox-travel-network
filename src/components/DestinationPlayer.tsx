@@ -280,7 +280,7 @@ export default function DestinationPlayer() {
                   className={`mt-2 block truncate text-[11px] font-medium transition-colors md:text-xs ${
                     isActive
                       ? "text-cream"
-                      : "text-cream/40 group-hover:text-cream/75"
+                      : "text-cream/60 group-hover:text-cream/75"
                   }`}
                 >
                   {d.name}

@@ -45,7 +45,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
             ))}
           </ul>
           <p className="mt-3 text-sm italic text-fog">{service.selfBookNote}</p>
-          <p className="mt-3 text-xs text-fog/70">
+          <p className="mt-3 text-xs text-fog">
             Paradox may earn a commission if you book through these links, at
             no extra cost to you.
           </p>

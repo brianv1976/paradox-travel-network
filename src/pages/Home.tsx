@@ -346,7 +346,7 @@ export default function Home() {
                 Paradox Travel Network may earn a commission when you book
                 through these partners, at no extra cost to you.
               </p>
-              <p className="mt-1.5 text-xs leading-relaxed text-fog/70">
+              <p className="mt-1.5 text-xs leading-relaxed text-fog">
                 Vendor logos displayed on this site are trademarks of their
                 respective owners. Their use identifies them as Paradox
                 Travel Network booking partners and does not imply
