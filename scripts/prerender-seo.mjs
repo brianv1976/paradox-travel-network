@@ -31,6 +31,44 @@ const SITE_URL = process.env.SITE_URL || "https://paradoxtravelnetwork.com";
 const SITE_NAME = "Paradox Travel Network";
 const DEFAULT_IMAGE = "/social-share.jpg";
 
+/**
+ * Content-Security-Policy, mirrored from public/_headers.
+ *
+ * Injected into the built HTML (not into the source index.html) so it applies
+ * even if the static host ignores _headers, while leaving `vite dev` — which
+ * serves the source index.html and needs an unrestricted HMR websocket —
+ * completely unaffected.
+ *
+ * `frame-ancestors` is deliberately absent: browsers ignore it in a meta tag,
+ * so the anti-framing protection is carried by _headers alone.
+ *
+ * Keep this in sync with public/_headers when adding a third-party origin.
+ */
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com",
+  "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://assets.mailerlite.com",
+  "frame-src 'none'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "upgrade-insecure-requests",
+].join("; ");
+
+function injectCsp(html) {
+  if (html.includes('http-equiv="Content-Security-Policy"')) return html;
+  const tag = `<meta http-equiv="Content-Security-Policy" content="${CSP}" />`;
+  // Insert after <meta charset> so the charset declaration stays within the
+  // first bytes of <head>, where the parser expects it.
+  const charset = /<meta\s+charset=["'][^"']*["']\s*\/?>/i;
+  return charset.test(html)
+    ? html.replace(charset, (m) => `${m}\n    ${tag}`)
+    : html.replace(/<head>/i, `<head>\n    ${tag}`);
+}
+
 async function loadData() {
   const tmp = path.join(os.tmpdir(), `ptn-seo-data-${Date.now()}.mjs`);
   const result = await build({
@@ -90,7 +128,7 @@ async function main() {
     console.error("dist/ not found — run `vite build` first.");
     process.exit(1);
   }
-  const template = await readFile(path.join(DIST, "index.html"), "utf-8");
+  const template = injectCsp(await readFile(path.join(DIST, "index.html"), "utf-8"));
   const { routes } = await loadData();
 
   let written = 0;

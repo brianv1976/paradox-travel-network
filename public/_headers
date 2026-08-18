@@ -1,0 +1,25 @@
+# Security response headers for the static build.
+#
+# Consumed by Netlify-class static hosts (Netlify, Cloudflare Pages, Bolt's
+# static hosting), which read this file out of the publish directory. Vite
+# copies everything in public/ to dist/ verbatim, so this lands at dist/_headers.
+#
+# The Content-Security-Policy below is duplicated as a <meta http-equiv> in
+# index.html so the script/connect restrictions still apply if a host ignores
+# this file. `frame-ancestors` is only honoured as a real header, which is why
+# the anti-framing protection lives here rather than in the meta tag.
+#
+# Allow-listed origins are exactly the third parties the site already uses:
+#   - www.googletagmanager.com / www.google-analytics.com  -> GA4 (index.html)
+#   - fonts.googleapis.com / fonts.gstatic.com             -> web fonts
+#   - assets.mailerlite.com                                -> newsletter signup
+# If you add a third-party embed or set VITE_CONCIERGE_ENDPOINT to an endpoint
+# on another origin, add that origin to script-src / connect-src here AND in
+# the matching meta tag in index.html, or the browser will block it.
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://assets.mailerlite.com; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
