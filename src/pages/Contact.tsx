@@ -124,7 +124,7 @@ export default function Contact() {
       <section className="container-px py-20 md:py-28">
         <SectionHeading
           eyebrow="What happens next"
-          title="No forms, no runaround."
+          title="Straightforward, start to finish."
         />
         <motion.div
           variants={stagger(0.12)}

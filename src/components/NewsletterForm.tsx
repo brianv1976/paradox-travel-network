@@ -25,7 +25,13 @@ export default function NewsletterForm({ variant = "card" }: Props) {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (company) return; // honeypot tripped, silently drop
+    // Honeypot tripped: drop the submission but show success anyway, so a
+    // scripted bot has no signal that it was caught and no reason to retry
+    // with a mutated payload.
+    if (company) {
+      setStatus("success");
+      return;
+    }
 
     setStatus("loading");
     const body = new URLSearchParams({

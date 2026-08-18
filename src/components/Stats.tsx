@@ -14,7 +14,7 @@ const STATS = [
     hasCitation: true,
   },
   { value: 50, suffix: "", label: "states served — nationwide planning, not just DFW" },
-  { value: 1, suffix: "", label: "point of contact, start to finish — never a call center" },
+  { value: 1, suffix: "", label: "advisor with you from the first idea to the last day" },
   { value: 0, suffix: "", label: "sales pressure — self-book or plan together" },
 ];
 

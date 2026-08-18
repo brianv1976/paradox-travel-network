@@ -7,8 +7,7 @@ type Slide = { src: string; alt: string; caption: string };
 
 const HOLD_MS = 4500;
 
-/** Autoplaying image carousel — crossfade + caption, dot nav, arrows.
- *  Modeled on Reviews.tsx's rotation pattern but for full-bleed photos. */
+/** Autoplaying image carousel — crossfade + caption, dot nav, arrows. */
 export default function ImageCarousel({ slides }: { slides: Slide[] }) {
   const [index, setIndex] = useState(0);
 

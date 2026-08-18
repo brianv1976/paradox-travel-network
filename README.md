@@ -2,8 +2,8 @@
 
 A clean, modern rebuild of paradoxtravelnetwork.com: **Vite + React + TypeScript +
 Tailwind**, with Framer Motion animation, a pure-three.js interactive globe,
-animated reviews, an AI travel concierge, and a data-driven blog. Built to be
-imported into [Bolt.new](https://bolt.new) and grown from there.
+an AI travel concierge, and a data-driven blog. Built to be imported into
+[Bolt.new](https://bolt.new) and grown from there.
 
 ---
 
@@ -30,12 +30,18 @@ npm run dev      # http://localhost:5173
 npm run build    # production build → dist/
 ```
 
-## Finish the wiring (env vars — both optional)
+## How forms work
+There's no generic form backend — each channel goes straight to where it needs
+to be:
+- **General questions** → `mailto:hello@paradoxtravelnetwork.com` (Contact page).
+- **Existing-client support** → `mailto:support@paradoxtravelnetwork.com`.
+- **Trip planning** → links out to a Tern-hosted intake form (`PlanMyTrip.tsx`),
+  which creates the trip in Tern's CRM directly.
+- **Newsletter signup** → `NewsletterForm.tsx` posts directly to MailerLite's
+  subscribe API (see `src/lib/assets.ts` for the endpoint/form IDs).
+
+## Finish the wiring (env vars — optional)
 Copy `.env.example` to `.env`:
-- `VITE_FORM_ENDPOINT` — connect the contact + trip forms to a backend
-  (Formspree, Web3Forms, or a Supabase function). Route trip-planning to
-  **trips@paradoxtravelnetwork.com** and general contact to
-  **hello@paradoxtravelnetwork.com**.
 - `VITE_CONCIERGE_ENDPOINT` — optional LLM endpoint for the AI concierge. It
   already works without one via a built-in responder.
 
@@ -56,16 +62,13 @@ Copy `.env.example` to `.env`:
 | Blog posts | `src/data/blog.ts` |
 | Service pages | `src/data/services.ts` |
 | Nav / footer / FAQ | `src/data/site.ts` |
-| Reviews (⚠ replace placeholders) | `src/data/reviews.ts` |
+| Newsletter signup form | `src/components/NewsletterForm.tsx` |
 | Global rules for Bolt's AI | `.bolt/prompt.md` |
 
 ## Before you go live — checklist
-- [ ] Replace placeholder reviews in `src/data/reviews.ts` with real ones.
-- [ ] Set `VITE_FORM_ENDPOINT` and test both forms.
-- [ ] Download the brand images from the Webflow CDN into `/public/assets` and
-      update `src/lib/assets.ts` (so the site no longer depends on Webflow).
 - [ ] Review the starter Privacy / Terms / Accessibility pages.
 - [ ] Point the domain, publish.
 
-See **PTN-MASTER-SPEC.md** for the full content + brand reference (and the
-Webflow rebuild fallback).
+All images are self-hosted (no Webflow CDN dependency), and there are no
+placeholder reviews on the site — see **PTN-MASTER-SPEC.md** for the full
+content + brand reference.

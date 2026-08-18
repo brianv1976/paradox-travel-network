@@ -103,7 +103,9 @@ trip, "What matters most", Anything else, required consent checkbox.
 
 **Newsletter** (blog): email only.
 
-Wiring: all go through `src/lib/form.ts` → set `VITE_FORM_ENDPOINT`.
+Wiring: general contact is `mailto:` only (no form), trip planning links out
+to a Tern-hosted intake form, and the newsletter posts directly to MailerLite
+via `src/components/NewsletterForm.tsx`.
 Scheduling link (all CTAs): `https://calendly.com/paradoxtravelnetwork/30min`.
 
 **Privacy rule (keep on forms):** never request passport numbers, payment-card
@@ -172,7 +174,6 @@ concept is retired.)
 
 - **Interactive 3D globe** hero (pure three.js) with animated arcs + cursor parallax
 - **Scroll-progress bar**, **infinite destination ticker**, **animated count-up stats**
-- **Animated reviews carousel** (`src/data/reviews.ts` — replace placeholders)
 - **AI travel concierge** chat widget — works out of the box; upgrade with `VITE_CONCIERGE_ENDPOINT`
 - Smooth scrolling (Lenis), scroll-reveal motion throughout, full mobile nav
 - Everything content-driven for easy edits; reduced-motion respected for accessibility
