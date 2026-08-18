@@ -42,7 +42,7 @@ export default function NewsletterForm({ variant = "card" }: Props) {
       // "success").
       const res = await fetch(MAILERLITE_ENDPOINT, { method: "POST", body });
       const data = await res.json();
-      if (data.success === false) throw new Error("mailerlite rejected");
+      if (!res.ok || data.success === false) throw new Error("mailerlite rejected");
       trackEvent("newsletter_signup");
       setStatus("success");
     } catch {
@@ -58,7 +58,9 @@ export default function NewsletterForm({ variant = "card" }: Props) {
       onChange={(e) => setCompany(e.target.value)}
       tabIndex={-1}
       autoComplete="off"
-      className="hidden"
+      // Off-screen rather than display:none — bots that specifically check
+      // for and skip display:none fields to evade honeypots still fill this.
+      className="absolute left-[-9999px] h-px w-px overflow-hidden opacity-0"
       aria-hidden="true"
     />
   );

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, CalendarClock, Mail } from "lucide-react";
+import { ArrowRight, CalendarClock } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";

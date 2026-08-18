@@ -199,14 +199,12 @@ function buildEarthTexture() {
   return tex;
 }
 
-/** Extrudes a flat planform (swept/tapered outline) into a thin airfoil slab.
- *  Shape is drawn in XY with +Y toward the nose; the result lies in the XZ
- *  plane with +Z forward, so it can be used directly as a wing or stabilizer. */
-function buildFoil(
-  outline: [number, number][],
-  thickness: number,
-  material: THREE.Material
-) {
+/** Extrudes a flat planform (swept/tapered outline) into a thin airfoil slab's
+ *  geometry. Shape is drawn in XY with +Y toward the nose; the result lies in
+ *  the XZ plane with +Z forward, so it can be used directly as a wing or
+ *  stabilizer. Returns bare geometry (not a Mesh) so callers can share one
+ *  instance across many aircraft. */
+function buildFoilGeometry(outline: [number, number][], thickness: number) {
   const shape = new THREE.Shape();
   outline.forEach(([x, y], i) =>
     i === 0 ? shape.moveTo(x, y) : shape.lineTo(x, y)
@@ -221,65 +219,92 @@ function buildFoil(
   geo.rotateX(Math.PI / 2);
   geo.translate(0, thickness / 2, 0);
   geo.computeVertexNormals();
-  return new THREE.Mesh(geo, material);
+  return geo;
 }
 
-/** Boeing 747 built from primitives: long slender hull, the signature upper-deck
- *  hump behind the cockpit, four underslung engines and a tall swept fin. Lit
- *  with standard materials; the surrounding globe uses unlit ones and is
- *  unaffected by the scene lights. */
-function buildAircraft(color: number) {
-  const g = new THREE.Group();
-  const body = new THREE.MeshStandardMaterial({
-    color: 0xfdf6e8,
-    roughness: 0.5,
-    metalness: 0.15,
-  });
-  const accent = new THREE.MeshStandardMaterial({
-    color,
-    roughness: 0.45,
-    metalness: 0.2,
-  });
-  const engineMat = new THREE.MeshStandardMaterial({
-    color: 0x6b7280,
-    roughness: 0.4,
-    metalness: 0.5,
-  });
-
-  // Fuselage runs along +Z, which is the direction we orient to the tangent.
-  const fuselage = new THREE.Mesh(
-    new THREE.CapsuleGeometry(0.0082, 0.135, 6, 16),
-    body
-  );
-  fuselage.rotation.x = Math.PI / 2;
-  g.add(fuselage);
-
-  // Upper-deck hump — the feature that makes a 747 read as a 747. Sits high and
-  // well forward, tapering back into the spine.
-  const hump = new THREE.Mesh(
-    new THREE.CapsuleGeometry(0.0055, 0.042, 4, 12),
-    body
-  );
-  hump.rotation.x = Math.PI / 2;
-  hump.position.set(0, 0.0082, 0.038);
-  hump.scale.set(1, 0.78, 1);
-  g.add(hump);
-
-  // Blunt, slightly drooped 747 nose rather than a sharp spike.
-  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.0082, 0.026, 16), body);
-  nose.rotation.x = Math.PI / 2;
-  nose.position.z = 0.079;
-  g.add(nose);
-
-  // Main wings: slender and high-aspect like the real thing — chord stays small
-  // relative to span, so heavy sweep reads as a swept wing, not a delta.
+/** Every 747 flies the same airframe — only the tail/engine accent colour
+ *  changes per route. Geometries and the two colour-invariant materials are
+ *  built once and shared across every aircraft instance, since the globe can
+ *  render several of these at once. */
+function buildAircraftKit() {
   const wingOutline: [number, number][] = [
     [0.009, 0.015],
     [0.084, -0.016],
     [0.084, -0.023],
     [0.009, -0.011],
   ];
-  const rightWing = buildFoil(wingOutline, 0.0032, body);
+  const stabOutline: [number, number][] = [
+    [0.005, 0.01],
+    [0.038, -0.012],
+    [0.038, -0.018],
+    [0.005, -0.008],
+  ];
+  const finOutline: [number, number][] = [
+    [0.0, 0.014],
+    [0.05, -0.014],
+    [0.05, -0.028],
+    [0.0, -0.028],
+  ];
+
+  return {
+    body: new THREE.MeshStandardMaterial({
+      color: 0xfdf6e8,
+      roughness: 0.5,
+      metalness: 0.15,
+    }),
+    engineMat: new THREE.MeshStandardMaterial({
+      color: 0x6b7280,
+      roughness: 0.4,
+      metalness: 0.5,
+    }),
+    fuselageGeo: new THREE.CapsuleGeometry(0.0082, 0.135, 6, 16),
+    humpGeo: new THREE.CapsuleGeometry(0.0055, 0.042, 4, 12),
+    noseGeo: new THREE.ConeGeometry(0.0082, 0.026, 16),
+    wingGeo: buildFoilGeometry(wingOutline, 0.0032),
+    stabGeo: buildFoilGeometry(stabOutline, 0.003),
+    finGeo: buildFoilGeometry(finOutline, 0.0032),
+    nacelleGeo: new THREE.CapsuleGeometry(0.0052, 0.015, 4, 10),
+    intakeGeo: new THREE.CylinderGeometry(0.0054, 0.0054, 0.0035, 10),
+    pylonGeo: new THREE.BoxGeometry(0.003, 0.008, 0.012),
+  };
+}
+
+/** Boeing 747 built from a shared kit: long slender hull, the signature
+ *  upper-deck hump behind the cockpit, four underslung engines and a tall
+ *  swept fin. Only the accent material (tail/engine colour) is built fresh
+ *  per call — geometry and the body/engine materials come from the kit. Lit
+ *  with standard materials; the surrounding globe uses unlit ones and is
+ *  unaffected by the scene lights. */
+function buildAircraft(kit: ReturnType<typeof buildAircraftKit>, color: number) {
+  const g = new THREE.Group();
+  const accent = new THREE.MeshStandardMaterial({
+    color,
+    roughness: 0.45,
+    metalness: 0.2,
+  });
+
+  // Fuselage runs along +Z, which is the direction we orient to the tangent.
+  const fuselage = new THREE.Mesh(kit.fuselageGeo, kit.body);
+  fuselage.rotation.x = Math.PI / 2;
+  g.add(fuselage);
+
+  // Upper-deck hump — the feature that makes a 747 read as a 747. Sits high and
+  // well forward, tapering back into the spine.
+  const hump = new THREE.Mesh(kit.humpGeo, kit.body);
+  hump.rotation.x = Math.PI / 2;
+  hump.position.set(0, 0.0082, 0.038);
+  hump.scale.set(1, 0.78, 1);
+  g.add(hump);
+
+  // Blunt, slightly drooped 747 nose rather than a sharp spike.
+  const nose = new THREE.Mesh(kit.noseGeo, kit.body);
+  nose.rotation.x = Math.PI / 2;
+  nose.position.z = 0.079;
+  g.add(nose);
+
+  // Main wings: slender and high-aspect like the real thing — chord stays small
+  // relative to span, so heavy sweep reads as a swept wing, not a delta.
+  const rightWing = new THREE.Mesh(kit.wingGeo, kit.body);
   rightWing.position.y = -0.004;
   // Slight dihedral — tips sit above the root, as on the real wing.
   rightWing.rotation.z = 0.07;
@@ -291,54 +316,38 @@ function buildAircraft(color: number) {
 
   // Four underslung engines — inboard pair and outboard pair, each hung forward
   // of the swept leading edge on a short pylon.
-  const nacelleGeo = new THREE.CapsuleGeometry(0.0052, 0.015, 4, 10);
-  const intakeGeo = new THREE.CylinderGeometry(0.0054, 0.0054, 0.0035, 10);
-  const pylonGeo = new THREE.BoxGeometry(0.003, 0.008, 0.012);
   const engines: [number, number][] = [
     [0.03, 0.009],
     [0.054, -0.011],
   ];
   for (const side of [1, -1]) {
     for (const [ex, ez] of engines) {
-      const nacelle = new THREE.Mesh(nacelleGeo, accent);
+      const nacelle = new THREE.Mesh(kit.nacelleGeo, accent);
       nacelle.rotation.x = Math.PI / 2;
       nacelle.position.set(side * ex, -0.012, ez);
       g.add(nacelle);
 
-      const intake = new THREE.Mesh(intakeGeo, engineMat);
+      const intake = new THREE.Mesh(kit.intakeGeo, kit.engineMat);
       intake.rotation.x = Math.PI / 2;
       intake.position.set(side * ex, -0.012, ez + 0.0135);
       g.add(intake);
 
-      const pylon = new THREE.Mesh(pylonGeo, body);
+      const pylon = new THREE.Mesh(kit.pylonGeo, kit.body);
       pylon.position.set(side * ex, -0.0075, ez - 0.002);
       g.add(pylon);
     }
   }
 
-  // Horizontal stabilizers — same planform logic, swept and much smaller.
-  const stabOutline: [number, number][] = [
-    [0.005, 0.01],
-    [0.038, -0.012],
-    [0.038, -0.018],
-    [0.005, -0.008],
-  ];
-  const rightStab = buildFoil(stabOutline, 0.003, body);
+  // Horizontal stabilizers — same planform, swept and much smaller.
+  const rightStab = new THREE.Mesh(kit.stabGeo, kit.body);
   rightStab.position.set(0, 0.002, -0.06);
   g.add(rightStab);
   const leftStab = rightStab.clone();
   leftStab.scale.x = -1;
   g.add(leftStab);
 
-  // Tall swept fin, carrying the route colour like a tail livery. Same planform
-  // helper — "span" here becomes fin height once stood upright.
-  const finOutline: [number, number][] = [
-    [0.0, 0.014],
-    [0.05, -0.014],
-    [0.05, -0.028],
-    [0.0, -0.028],
-  ];
-  const fin = buildFoil(finOutline, 0.0032, accent);
+  // Tall swept fin, carrying the route colour like a tail livery.
+  const fin = new THREE.Mesh(kit.finGeo, accent);
   fin.rotation.z = Math.PI / 2;
   fin.position.set(0, 0.008, -0.054);
   g.add(fin);
@@ -511,6 +520,9 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
     offset: number;
   }[] = [];
 
+  // Built once, shared by every buildAircraft() call below.
+  const aircraftKit = FLOWN.length > 0 ? buildAircraftKit() : null;
+
   ROUTES.forEach(([a, b], i) => {
     const start = points[a];
     const end = points[b];
@@ -535,8 +547,8 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
     globe.add(line);
 
     let plane: THREE.Group | undefined;
-    if (FLOWN.includes(i)) {
-      plane = buildAircraft(color);
+    if (FLOWN.includes(i) && aircraftKit) {
+      plane = buildAircraft(aircraftKit, color);
       plane.visible = false;
       globe.add(plane);
     }
@@ -752,16 +764,23 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
     atmoMat.dispose();
     markerTex.dispose();
     markers.forEach((m) => (m.sprite.material as THREE.SpriteMaterial).dispose());
+    // Aircraft share geometry/materials from aircraftKit across every plane,
+    // so collect into Sets and dispose each unique resource once rather than
+    // once per mesh that references it.
+    const planeGeos = new Set<THREE.BufferGeometry>();
+    const planeMats = new Set<THREE.Material>();
     arcs.forEach((a) => {
       a.line.geometry.dispose();
       (a.line.material as THREE.Material).dispose();
       a.plane?.traverse((o) => {
         if (o instanceof THREE.Mesh) {
-          o.geometry.dispose();
-          (o.material as THREE.Material).dispose();
+          planeGeos.add(o.geometry);
+          planeMats.add(o.material as THREE.Material);
         }
       });
     });
+    planeGeos.forEach((g) => g.dispose());
+    planeMats.forEach((m) => m.dispose());
     renderer.dispose();
     if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
     if (mount.contains(labelLayer)) mount.removeChild(labelLayer);
