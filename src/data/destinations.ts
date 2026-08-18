@@ -80,9 +80,3 @@ export const destinations: Destination[] = [
     to: "/romance-travel",
   },
 ];
-
-/** Wide shot used as the section's full-bleed closing panel. */
-export const featuredDestination = {
-  name: "The Caribbean",
-  image: px("5287936", 2000),
-};

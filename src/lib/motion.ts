@@ -12,16 +12,6 @@ export const fadeUp: Variants = {
   },
 };
 
-export const fadeIn: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 1.1, ease: smooth } },
-};
-
-export const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.9 },
-  show: { opacity: 1, scale: 1, transition: { duration: 1, ease: smooth } },
-};
-
 // --- Bigger, more cinematic entrances -------------------------------------
 // Used where a section should feel like it *arrives* rather than just appears.
 

@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowRight, CalendarClock } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
+import NumberedSteps from "../components/NumberedSteps";
 import { assets, links } from "../lib/assets";
-import { stagger, fadeUp } from "../lib/motion";
 
 const nextSteps = [
   {
@@ -126,23 +125,7 @@ export default function Contact() {
           eyebrow="What happens next"
           title="Straightforward, start to finish."
         />
-        <motion.div
-          variants={stagger(0.12)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 grid gap-8 md:grid-cols-3"
-        >
-          {nextSteps.map((s) => (
-            <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-3">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean-dark font-display text-xl font-semibold text-cream">
-                {s.n}
-              </span>
-              <h3 className="text-xl font-semibold text-ink">{s.title}</h3>
-              <p className="leading-relaxed text-fog">{s.body}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+        <NumberedSteps steps={nextSteps} gap="gap-3" />
       </section>
 
       {/* Support — a different audience (already booked) from the general inquiry above */}

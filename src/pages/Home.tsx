@@ -38,6 +38,7 @@ import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
 import NewsletterForm from "../components/NewsletterForm";
+import NumberedSteps from "../components/NumberedSteps";
 
 // Three.js is a heavy dependency only this page's hero needs — lazy-loading
 // it keeps every other route's bundle free of it.
@@ -573,23 +574,7 @@ export default function Home() {
           call, right before the closing FAQ/CTA. */}
       <section className="container-px py-24 md:py-32">
         <SectionHeading eyebrow="How planning works" title="From idea to booked in three steps." />
-        <motion.div
-          variants={stagger(0.12)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 grid gap-8 md:grid-cols-3"
-        >
-          {steps.map((s) => (
-            <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-4">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean-dark font-display text-xl font-semibold text-cream">
-                {s.n}
-              </span>
-              <h3 className="text-xl font-semibold text-ink">{s.title}</h3>
-              <p className="leading-relaxed text-fog">{s.body}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+        <NumberedSteps steps={steps} gap="gap-4" />
         <Reveal delay={0.1} className="mt-10">
           <Link to="/plan-my-trip" className="btn-primary">
             Send the trip details <ArrowRight size={16} />

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { CheckCircle2, Send } from "lucide-react";
 import { trackEvent } from "../lib/analytics";
 
@@ -15,20 +15,26 @@ type Props = {
   variant?: "card" | "inline";
 };
 
+type Status = "idle" | "loading" | "success" | "error";
+
 export default function NewsletterForm({ variant = "card" }: Props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [company, setCompany] = useState(""); // honeypot
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<Status>("idle");
+  // Uncontrolled — only read once at submit, so no need to re-render this
+  // component on every keystroke a bot makes into the honeypot.
+  const honeypotRef = useRef<HTMLInputElement>(null);
+  // Unique per instance (footer + a page's inline form can both be mounted
+  // at once) so autofill/password-manager heuristics don't see two fields
+  // with the same name on the page.
+  const idPrefix = variant === "inline" ? "newsletter-inline" : "newsletter";
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     // Honeypot tripped: drop the submission but show success anyway, so a
     // scripted bot has no signal that it was caught and no reason to retry
     // with a mutated payload.
-    if (company) {
+    if (honeypotRef.current?.value) {
       setStatus("success");
       return;
     }
@@ -56,30 +62,12 @@ export default function NewsletterForm({ variant = "card" }: Props) {
     }
   }
 
-  const honeypotField = (
-    <input
-      type="text"
-      name="company"
-      value={company}
-      onChange={(e) => setCompany(e.target.value)}
-      tabIndex={-1}
-      autoComplete="off"
-      // Off-screen rather than display:none — bots that specifically check
-      // for and skip display:none fields to evade honeypots still fill this.
-      className="absolute left-[-9999px] h-px w-px overflow-hidden opacity-0"
-      aria-hidden="true"
-    />
-  );
-
   if (status === "success") {
-    if (variant === "inline") {
-      return (
-        <p className="mt-8 inline-flex items-center gap-2 text-cream">
-          <CheckCircle2 size={18} /> You're on the list — talk soon.
-        </p>
-      );
-    }
-    return (
+    return variant === "inline" ? (
+      <p className="mt-8 inline-flex items-center gap-2 text-cream">
+        <CheckCircle2 size={18} /> You're on the list — talk soon.
+      </p>
+    ) : (
       <div className="rounded-2xl bg-cream/10 p-5 text-sm text-cream">
         <p className="font-semibold">You're on the list.</p>
         <p className="mt-1 text-cream/80">
@@ -90,6 +78,33 @@ export default function NewsletterForm({ variant = "card" }: Props) {
     );
   }
 
+  const honeypotField = (
+    <input
+      ref={honeypotRef}
+      type="text"
+      name={`${idPrefix}-company`}
+      defaultValue=""
+      tabIndex={-1}
+      autoComplete="off"
+      // Off-screen rather than display:none — bots that specifically check
+      // for and skip display:none fields to evade honeypots still fill this.
+      className="absolute left-[-9999px] h-px w-px overflow-hidden opacity-0"
+      aria-hidden="true"
+    />
+  );
+
+  const errorMessage = status === "error" && (
+    <p
+      className={
+        variant === "inline"
+          ? "absolute -bottom-6 left-0 text-xs text-clay-light"
+          : "text-xs text-clay-light"
+      }
+    >
+      Something went wrong — please try again in a moment.
+    </p>
+  );
+
   if (variant === "inline") {
     return (
       <form
@@ -97,11 +112,11 @@ export default function NewsletterForm({ variant = "card" }: Props) {
         className="relative mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
       >
         {honeypotField}
-        <label htmlFor="newsletter-inline-name" className="sr-only">
+        <label htmlFor={`${idPrefix}-name`} className="sr-only">
           Name
         </label>
         <input
-          id="newsletter-inline-name"
+          id={`${idPrefix}-name`}
           type="text"
           placeholder="Name"
           value={name}
@@ -109,11 +124,11 @@ export default function NewsletterForm({ variant = "card" }: Props) {
           autoComplete="given-name"
           className="rounded-full bg-cream px-5 py-3 text-ink outline-none placeholder:text-fog/60 focus:ring-2 focus:ring-gold sm:w-36"
         />
-        <label htmlFor="newsletter-inline-email" className="sr-only">
+        <label htmlFor={`${idPrefix}-email`} className="sr-only">
           Email address
         </label>
         <input
-          id="newsletter-inline-email"
+          id={`${idPrefix}-email`}
           type="email"
           required
           value={email}
@@ -129,11 +144,7 @@ export default function NewsletterForm({ variant = "card" }: Props) {
         >
           {status === "loading" ? "Joining…" : "Join the newsletter"}
         </button>
-        {status === "error" && (
-          <p className="absolute -bottom-6 left-0 text-xs text-clay-light">
-            Something went wrong — please try again in a moment.
-          </p>
-        )}
+        {errorMessage}
       </form>
     );
   }
@@ -149,11 +160,11 @@ export default function NewsletterForm({ variant = "card" }: Props) {
       </p>
       <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-2">
         {honeypotField}
-        <label htmlFor="newsletter-name" className="sr-only">
+        <label htmlFor={`${idPrefix}-name`} className="sr-only">
           Name
         </label>
         <input
-          id="newsletter-name"
+          id={`${idPrefix}-name`}
           type="text"
           placeholder="Name"
           value={name}
@@ -161,11 +172,11 @@ export default function NewsletterForm({ variant = "card" }: Props) {
           autoComplete="given-name"
           className={inputClass}
         />
-        <label htmlFor="newsletter-email" className="sr-only">
+        <label htmlFor={`${idPrefix}-email`} className="sr-only">
           Email
         </label>
         <input
-          id="newsletter-email"
+          id={`${idPrefix}-email`}
           type="email"
           required
           placeholder="Email"
@@ -182,11 +193,7 @@ export default function NewsletterForm({ variant = "card" }: Props) {
           {status === "loading" ? "Subscribing..." : "Subscribe"}
           <Send size={14} />
         </button>
-        {status === "error" && (
-          <p className="text-xs text-clay-light">
-            Something went wrong — please try again in a moment.
-          </p>
-        )}
+        {errorMessage}
       </form>
     </div>
   );
