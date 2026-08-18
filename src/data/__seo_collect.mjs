@@ -39,7 +39,7 @@ const staticPages = [
     title: "About Brian Voyles | Dallas–Fort Worth Travel Advisor",
     description:
       "Meet Brian Voyles, owner of Paradox Travel Network — based in Dallas–Fort Worth, personally planning trips for travelers nationwide.",
-    image: "/assets/portrait.jpg",
+    image: "/assets/portrait.webp",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Person",

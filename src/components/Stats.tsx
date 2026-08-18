@@ -1,15 +1,20 @@
 import { motion } from "framer-motion";
 import { stagger, fadeUp } from "../lib/motion";
 import Counter from "./Counter";
-import { assets } from "../lib/assets";
-import { destinations } from "../data/destinations";
 
-// Every value here is something this site can actually verify about itself —
-// no unsourced claims like "the average traveler spends 16h planning."
+// The 16h figure is real, cited research (Priceline, "Average Traveler
+// Spends Two Full Work Days To Plan and Book Trips") — it was previously
+// removed for being an uncredited-looking claim, not because it was made up.
+// Restoring it WITH the citation resolves that instead of dropping it.
 const STATS = [
-  { value: destinations.length, suffix: "", label: "hand-picked destinations to start exploring" },
-  { value: Object.keys(assets.partnerLogos).length, suffix: "", label: "trusted booking partners, gathered on one page" },
-  { value: 6, suffix: "", label: "kinds of trips, each planned around you" },
+  {
+    value: 16,
+    suffix: "h",
+    label: "the average traveler spends planning and booking a trip",
+    hasCitation: true,
+  },
+  { value: 50, suffix: "", label: "states served — nationwide planning, not just DFW" },
+  { value: 1, suffix: "", label: "point of contact, start to finish — never a call center" },
   { value: 0, suffix: "", label: "sales pressure — self-book or plan together" },
 ];
 
@@ -58,10 +63,23 @@ export default function Stats() {
             </motion.div>
             <p className="mx-auto mt-3 max-w-[15rem] text-sm leading-relaxed text-fog">
               {s.label}
+              {s.hasCitation && <sup className="ml-0.5">*</sup>}
             </p>
           </motion.div>
         ))}
       </motion.div>
+      <p className="mx-auto mt-4 max-w-3xl text-center text-xs text-fog/70">
+        *{" "}
+        <a
+          href="https://press.priceline.com/new-priceline-research-finds-average-traveler-spends-two-full-work-days-to-plan-and-book-trips/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-fog"
+        >
+          Priceline research
+        </a>
+        , "Average Traveler Spends Two Full Work Days To Plan and Book Trips."
+      </p>
     </section>
   );
 }

@@ -199,32 +199,148 @@ function buildEarthTexture() {
   return tex;
 }
 
-/** Small aircraft built from primitives — cheap, and reads clearly at size. */
+/** Extrudes a flat planform (swept/tapered outline) into a thin airfoil slab.
+ *  Shape is drawn in XY with +Y toward the nose; the result lies in the XZ
+ *  plane with +Z forward, so it can be used directly as a wing or stabilizer. */
+function buildFoil(
+  outline: [number, number][],
+  thickness: number,
+  material: THREE.Material
+) {
+  const shape = new THREE.Shape();
+  outline.forEach(([x, y], i) =>
+    i === 0 ? shape.moveTo(x, y) : shape.lineTo(x, y)
+  );
+  shape.closePath();
+
+  const geo = new THREE.ExtrudeGeometry(shape, {
+    depth: thickness,
+    bevelEnabled: false,
+  });
+  // Shape XY → XZ (+Y becomes +Z), extrusion depth becomes vertical thickness.
+  geo.rotateX(Math.PI / 2);
+  geo.translate(0, thickness / 2, 0);
+  geo.computeVertexNormals();
+  return new THREE.Mesh(geo, material);
+}
+
+/** Boeing 747 built from primitives: long slender hull, the signature upper-deck
+ *  hump behind the cockpit, four underslung engines and a tall swept fin. Lit
+ *  with standard materials; the surrounding globe uses unlit ones and is
+ *  unaffected by the scene lights. */
 function buildAircraft(color: number) {
   const g = new THREE.Group();
-  const body = new THREE.MeshBasicMaterial({ color: 0xfdf6e8 });
-  const accent = new THREE.MeshBasicMaterial({ color });
+  const body = new THREE.MeshStandardMaterial({
+    color: 0xfdf6e8,
+    roughness: 0.5,
+    metalness: 0.15,
+  });
+  const accent = new THREE.MeshStandardMaterial({
+    color,
+    roughness: 0.45,
+    metalness: 0.2,
+  });
+  const engineMat = new THREE.MeshStandardMaterial({
+    color: 0x6b7280,
+    roughness: 0.4,
+    metalness: 0.5,
+  });
 
   // Fuselage runs along +Z, which is the direction we orient to the tangent.
-  const fuselage = new THREE.Mesh(new THREE.CapsuleGeometry(0.016, 0.075, 4, 10), body);
+  const fuselage = new THREE.Mesh(
+    new THREE.CapsuleGeometry(0.0082, 0.135, 6, 16),
+    body
+  );
   fuselage.rotation.x = Math.PI / 2;
   g.add(fuselage);
 
-  // Nose cone
-  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.016, 0.04, 12), body);
+  // Upper-deck hump — the feature that makes a 747 read as a 747. Sits high and
+  // well forward, tapering back into the spine.
+  const hump = new THREE.Mesh(
+    new THREE.CapsuleGeometry(0.0055, 0.042, 4, 12),
+    body
+  );
+  hump.rotation.x = Math.PI / 2;
+  hump.position.set(0, 0.0082, 0.038);
+  hump.scale.set(1, 0.78, 1);
+  g.add(hump);
+
+  // Blunt, slightly drooped 747 nose rather than a sharp spike.
+  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.0082, 0.026, 16), body);
   nose.rotation.x = Math.PI / 2;
-  nose.position.z = 0.072;
+  nose.position.z = 0.079;
   g.add(nose);
 
-  const wing = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.005, 0.032), accent);
-  g.add(wing);
+  // Main wings: slender and high-aspect like the real thing — chord stays small
+  // relative to span, so heavy sweep reads as a swept wing, not a delta.
+  const wingOutline: [number, number][] = [
+    [0.009, 0.015],
+    [0.084, -0.016],
+    [0.084, -0.023],
+    [0.009, -0.011],
+  ];
+  const rightWing = buildFoil(wingOutline, 0.0032, body);
+  rightWing.position.y = -0.004;
+  // Slight dihedral — tips sit above the root, as on the real wing.
+  rightWing.rotation.z = 0.07;
+  g.add(rightWing);
+  const leftWing = rightWing.clone();
+  leftWing.scale.x = -1;
+  leftWing.rotation.z = -0.07;
+  g.add(leftWing);
 
-  const tailplane = new THREE.Mesh(new THREE.BoxGeometry(0.062, 0.004, 0.018), accent);
-  tailplane.position.z = -0.055;
-  g.add(tailplane);
+  // Four underslung engines — inboard pair and outboard pair, each hung forward
+  // of the swept leading edge on a short pylon.
+  const nacelleGeo = new THREE.CapsuleGeometry(0.0052, 0.015, 4, 10);
+  const intakeGeo = new THREE.CylinderGeometry(0.0054, 0.0054, 0.0035, 10);
+  const pylonGeo = new THREE.BoxGeometry(0.003, 0.008, 0.012);
+  const engines: [number, number][] = [
+    [0.03, 0.009],
+    [0.054, -0.011],
+  ];
+  for (const side of [1, -1]) {
+    for (const [ex, ez] of engines) {
+      const nacelle = new THREE.Mesh(nacelleGeo, accent);
+      nacelle.rotation.x = Math.PI / 2;
+      nacelle.position.set(side * ex, -0.012, ez);
+      g.add(nacelle);
 
-  const fin = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.032, 0.024), accent);
-  fin.position.set(0, 0.016, -0.055);
+      const intake = new THREE.Mesh(intakeGeo, engineMat);
+      intake.rotation.x = Math.PI / 2;
+      intake.position.set(side * ex, -0.012, ez + 0.0135);
+      g.add(intake);
+
+      const pylon = new THREE.Mesh(pylonGeo, body);
+      pylon.position.set(side * ex, -0.0075, ez - 0.002);
+      g.add(pylon);
+    }
+  }
+
+  // Horizontal stabilizers — same planform logic, swept and much smaller.
+  const stabOutline: [number, number][] = [
+    [0.005, 0.01],
+    [0.038, -0.012],
+    [0.038, -0.018],
+    [0.005, -0.008],
+  ];
+  const rightStab = buildFoil(stabOutline, 0.003, body);
+  rightStab.position.set(0, 0.002, -0.06);
+  g.add(rightStab);
+  const leftStab = rightStab.clone();
+  leftStab.scale.x = -1;
+  g.add(leftStab);
+
+  // Tall swept fin, carrying the route colour like a tail livery. Same planform
+  // helper — "span" here becomes fin height once stood upright.
+  const finOutline: [number, number][] = [
+    [0.0, 0.014],
+    [0.05, -0.014],
+    [0.05, -0.028],
+    [0.0, -0.028],
+  ];
+  const fin = buildFoil(finOutline, 0.0032, accent);
+  fin.rotation.z = Math.PI / 2;
+  fin.position.set(0, 0.008, -0.054);
   g.add(fin);
 
   return g;
@@ -279,6 +395,13 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
   labelLayer.style.overflow = "hidden";
   labelLayer.style.pointerEvents = "none";
   mount.appendChild(labelLayer);
+
+  // Only the aircraft use lit materials; the earth, atmosphere and markers are
+  // unlit and ignore these entirely.
+  scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+  const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+  keyLight.position.set(0.6, 0.9, 1.4);
+  scene.add(keyLight);
 
   const system = new THREE.Group();
   system.rotation.z = 0.22;
@@ -576,7 +699,7 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
 
           // Fade in/out at the ends of the run.
           const edge = Math.min(1, Math.sin(p * Math.PI) * 3);
-          a.plane.scale.setScalar(0.85 + edge * 0.35);
+          a.plane.scale.setScalar(0.6 + edge * 0.25);
         } else {
           a.plane.visible = false;
         }

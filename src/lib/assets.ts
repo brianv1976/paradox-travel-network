@@ -11,8 +11,8 @@
 export const assets = {
   logo: "/Web Logo.png",
   headshot: "/assets/Headshot.png",
-  halfBody: "/assets/Half body Shot.jpg",
-  portrait: "/assets/portrait.jpg",
+  halfBody: "/assets/Half body Shot.webp",
+  portrait: "/assets/portrait.webp",
   img: {
     cruise: "/assets/cruise.jpg",
     resort: "/assets/resort.jpg",
@@ -129,6 +129,7 @@ export const links = {
     "https://www.virginvoyages.com/book/voyage-planner/find-a-voyage?cabins=1&currencyCode=USD&agentId=235470&agencyId=589&bookingChannel=FMLINK",
   calendly: "https://calendly.com/paradoxtravelnetwork/30min",
   email: "hello@paradoxtravelnetwork.com",
+  supportEmail: "support@paradoxtravelnetwork.com",
 };
 
 export const business = {

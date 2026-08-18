@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Calendar, Clock, Mail, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Calendar, Clock, Mail } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import {
   publishedPosts,
@@ -12,13 +12,10 @@ import {
   type ContentType,
   type Post,
 } from "../data/blog";
-import { submitForm } from "../lib/form";
-import { useHoneypot } from "../components/Honeypot";
+import NewsletterForm from "../components/NewsletterForm";
 import { fadeUp, stagger } from "../lib/motion";
 
 type Filter = "All" | ContentType;
-
-const formAvailable = Boolean(import.meta.env.VITE_FORM_ENDPOINT);
 
 const TYPE_BADGE: Record<ContentType, string> = {
   "Destination Spotlight": "bg-clay text-ink",
@@ -178,8 +175,6 @@ export default function Blog() {
   );
 
   const [filter, setFilter] = useState<Filter>("All");
-  const [email, setEmail] = useState("");
-  const honeypot = useHoneypot();
 
   const featured = featuredPosts[0] ?? publishedPosts[0];
 
@@ -190,22 +185,12 @@ export default function Blog() {
 
   const filters: Filter[] = ["All", ...contentTypes];
 
-  const [subscribeResult, setSubscribeResult] = useState<"sent" | "unavailable" | "error" | null>(null);
-
-  const subscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-    const result = await submitForm("Newsletter Signup", { email, _hp: honeypot.value });
-    setSubscribeResult(result);
-    if (result === "sent") setEmail("");
-  };
-
   return (
     <>
       <section className="bg-cream pt-32 md:pt-40">
         <div className="relative aspect-[16/9] w-full overflow-hidden">
           <img
-            src="/assets/Useful Advice. Minimal inspirational fog V3.png"
+            src="/assets/Useful Advice. Minimal inspirational fog V3.webp"
             alt="Brian pointing toward the Postcards from Paradox intro, standing beside a bookshelf with travel mementos, a cork board of destination photos, and a packed bag"
             className="h-full w-full object-cover"
           />
@@ -308,8 +293,9 @@ export default function Blog() {
         )}
       </section>
 
-      {/* Newsletter */}
-      <section className="bg-ocean-dark text-cream">
+      {/* Newsletter — bg-ink (not bg-ocean-dark) so this doesn't visually
+          merge into the ocean-dark Footer immediately below it. */}
+      <section className="bg-ink text-cream">
         <div className="container-px py-20 text-center md:py-28">
           <Mail className="mx-auto text-gold" size={32} />
           <h2 className="mx-auto mt-5 max-w-2xl font-display text-3xl font-semibold md:text-4xl">
@@ -319,50 +305,7 @@ export default function Blog() {
             An occasional email with destination notes, booking reminders, and
             practical tips. No manufactured emergencies.
           </p>
-          {subscribeResult === "sent" ? (
-            <p className="mt-8 inline-flex items-center gap-2 text-cream">
-              <CheckCircle2 size={18} /> You're on the list — talk soon.
-            </p>
-          ) : !formAvailable || subscribeResult === "unavailable" ? (
-            <p className="mx-auto mt-8 max-w-md text-cream">
-              Newsletter signup isn't connected yet — email{" "}
-              <a href="mailto:hello@paradoxtravelnetwork.com" className="font-semibold underline hover:text-cream/80">
-                hello@paradoxtravelnetwork.com
-              </a>{" "}
-              to be added manually for now.
-            </p>
-          ) : subscribeResult === "error" ? (
-            <p className="mx-auto mt-8 max-w-md text-cream">
-              Something went wrong. Please email{" "}
-              <a href="mailto:hello@paradoxtravelnetwork.com" className="font-semibold underline hover:text-cream/80">
-                hello@paradoxtravelnetwork.com
-              </a>{" "}
-              directly instead.
-            </p>
-          ) : (
-            <form
-              onSubmit={subscribe}
-              className="relative mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
-            >
-              {honeypot.field}
-              <label htmlFor="newsletter-email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="newsletter-email"
-                name="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@email.com"
-                className="flex-1 rounded-full bg-cream px-5 py-3 text-ink outline-none placeholder:text-fog/60 focus:ring-2 focus:ring-gold"
-              />
-              <button type="submit" className="btn bg-gold text-ink hover:bg-cream">
-                Join the newsletter
-              </button>
-            </form>
-          )}
+          <NewsletterForm variant="inline" />
         </div>
       </section>
     </>

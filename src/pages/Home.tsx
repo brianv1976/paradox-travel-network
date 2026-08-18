@@ -18,6 +18,7 @@ import {
   SearchCheck,
   LifeBuoy,
   MessageCircle,
+  Mail,
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { stagger, fadeUp } from "../lib/motion";
@@ -36,6 +37,7 @@ import Stats from "../components/Stats";
 import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
+import NewsletterForm from "../components/NewsletterForm";
 
 // Three.js is a heavy dependency only this page's hero needs — lazy-loading
 // it keeps every other route's bundle free of it.
@@ -412,7 +414,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* EXPLORE */}
+      {/* EXPLORE — stays right after Choose Path so the momentum from
+          "which path fits" flows straight into "browse by trip type" before
+          any detour into blog/newsletter content. */}
       <section id="explore" className="bg-sand/60">
         <div className="container-px py-24 md:py-32">
           <SectionHeading
@@ -450,31 +454,66 @@ export default function Home() {
         </div>
       </section>
 
-      {/* HOW PLANNING WORKS */}
-      <section className="container-px py-24 md:py-32">
-        <SectionHeading eyebrow="How planning works" title="From idea to booked in three steps." />
+      {/* POSTCARDS — up from the bottom of the page per Brian's call, but
+          placed after Explore rather than blocking it, so the trip-type
+          gallery isn't buried behind a blog/newsletter detour. */}
+      <section id="tips" className="container-px py-24 md:py-32">
+        <SectionHeading
+          eyebrow="Postcards from Paradox"
+          title="Useful advice. Minimal inspirational fog."
+          intro="Practical articles for smoother trips, plus an occasional email with destination notes, booking reminders, and fewer manufactured emergencies."
+        />
         <motion.div
-          variants={stagger(0.12)}
+          variants={stagger(0.1)}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 grid gap-8 md:grid-cols-3"
+          viewport={{ once: true, amount: 0.15 }}
+          className="mt-12 grid gap-5 md:grid-cols-3"
         >
-          {steps.map((s) => (
-            <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-4">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean-dark font-display text-xl font-semibold text-cream">
-                {s.n}
-              </span>
-              <h3 className="text-xl font-semibold text-ink">{s.title}</h3>
-              <p className="leading-relaxed text-fog">{s.body}</p>
-            </motion.div>
+          {featuredPosts.map((post) => (
+            <motion.article key={post.slug} variants={fadeUp}>
+              <Link to={`/travel-tips/${post.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img src={getPostImage(post)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean-dark">
+                    {post.contentType}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <h3 className="font-display text-lg font-semibold leading-snug text-ink">{post.title}</h3>
+                  <span className="link-underline mt-auto pt-4 text-sm">
+                    Read tip <ArrowRight size={14} />
+                  </span>
+                </div>
+              </Link>
+            </motion.article>
           ))}
         </motion.div>
-        <Reveal delay={0.1} className="mt-10">
-          <Link to="/plan-my-trip" className="btn-primary">
-            Send the trip details <ArrowRight size={16} />
+      </section>
+
+      {/* Newsletter — the "join" half of Postcards from Paradox, not a
+          separate topic, so it sits directly under the articles with no
+          divider between them. */}
+      <section className="bg-ocean-dark text-cream">
+        <div className="container-px py-20 text-center md:py-28">
+          <Mail className="mx-auto text-gold" size={32} />
+          <h2 className="mx-auto mt-5 max-w-2xl font-display text-3xl font-semibold md:text-4xl">
+            The email worth opening.
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-cream">
+            Fare drops before they're gone, destination ideas worth stealing,
+            and the occasional deal too good to sit on. No daily noise, no
+            manufactured urgency — just what's actually worth your inbox
+            space.
+          </p>
+          <NewsletterForm variant="inline" />
+          <Link
+            to="/travel-tips"
+            className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-cream/80 hover:text-cream"
+          >
+            Or just read the tips first <ArrowRight size={14} />
           </Link>
-        </Reveal>
+        </div>
       </section>
 
       {/* ABOUT TEASER */}
@@ -530,42 +569,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* POSTCARDS */}
-      <section id="tips" className="container-px py-24 md:py-32">
-        <SectionHeading
-          eyebrow="Postcards from Paradox"
-          title="Useful advice. Minimal inspirational fog."
-          intro="Practical articles for smoother trips, plus an occasional email with destination notes, booking reminders, and fewer manufactured emergencies."
-        />
+      {/* HOW PLANNING WORKS — moved to the bottom of the page per Brian's
+          call, right before the closing FAQ/CTA. */}
+      <section className="container-px py-24 md:py-32">
+        <SectionHeading eyebrow="How planning works" title="From idea to booked in three steps." />
         <motion.div
-          variants={stagger(0.1)}
+          variants={stagger(0.12)}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-          className="mt-12 grid gap-5 md:grid-cols-3"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-12 grid gap-8 md:grid-cols-3"
         >
-          {featuredPosts.map((post) => (
-            <motion.article key={post.slug} variants={fadeUp}>
-              <Link to={`/travel-tips/${post.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={getPostImage(post)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean-dark">
-                    {post.contentType}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="font-display text-lg font-semibold leading-snug text-ink">{post.title}</h3>
-                  <span className="link-underline mt-auto pt-4 text-sm">
-                    Read tip <ArrowRight size={14} />
-                  </span>
-                </div>
-              </Link>
-            </motion.article>
+          {steps.map((s) => (
+            <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-4">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean-dark font-display text-xl font-semibold text-cream">
+                {s.n}
+              </span>
+              <h3 className="text-xl font-semibold text-ink">{s.title}</h3>
+              <p className="leading-relaxed text-fog">{s.body}</p>
+            </motion.div>
           ))}
         </motion.div>
         <Reveal delay={0.1} className="mt-10">
-          <Link to="/travel-tips" className="btn-ghost">
-            Read tips & join the newsletter <ArrowRight size={16} />
+          <Link to="/plan-my-trip" className="btn-primary">
+            Send the trip details <ArrowRight size={16} />
           </Link>
         </Reveal>
       </section>

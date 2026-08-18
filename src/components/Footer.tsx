@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Mail } from "lucide-react";
 import { footerBlurb, footerLinks } from "../data/site";
 import { assets, business, links } from "../lib/assets";
+import NewsletterForm from "./NewsletterForm";
 
 export default function Footer() {
   return (
@@ -34,17 +35,21 @@ export default function Footer() {
           </div>
         </div>
 
-        <nav className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
-          {footerLinks.map((link) => (
-            <Link
-              key={link.label}
-              to={link.to}
-              className="text-cream/90 transition-colors hover:text-cream"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="flex flex-col gap-8">
+          <nav className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+            {footerLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.to}
+                className="text-cream/90 transition-colors hover:text-cream"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <NewsletterForm />
+        </div>
       </div>
 
       <div className="border-t border-cream/10">

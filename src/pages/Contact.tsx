@@ -1,20 +1,30 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarClock, CheckCircle2, Mail } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, CalendarClock, Mail } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
-import { submitForm } from "../lib/form";
-import { useHoneypot } from "../components/Honeypot";
-import { links } from "../lib/assets";
+import { assets, links } from "../lib/assets";
+import { stagger, fadeUp } from "../lib/motion";
 
-// Fields lift and glow on focus so the active one is unmistakable.
-const inputClass =
-  "w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink outline-none transition-all duration-300 ease-smooth focus:-translate-y-0.5 focus:border-ocean focus:shadow-soft focus:ring-2 focus:ring-ocean/20 hover:border-ink/25 placeholder:text-fog/60";
-const labelClass = "mb-1.5 block text-sm font-medium text-ink";
-
-const formAvailable = Boolean(import.meta.env.VITE_FORM_ENDPOINT);
+const nextSteps = [
+  {
+    n: "1",
+    title: "Send the email",
+    body: "One line or ten — whatever gets the question across.",
+  },
+  {
+    n: "2",
+    title: "Brian replies personally",
+    body: "Usually within a business day, straight from his own inbox.",
+  },
+  {
+    n: "3",
+    title: "Go from there",
+    body: "A quick answer, a call, or a hand-off to the full trip form — whatever the question needs.",
+  },
+];
 
 export default function Contact() {
   useSeo(
@@ -22,217 +32,141 @@ export default function Contact() {
     "Contact Brian Voyles, a Dallas–Fort Worth-based travel advisor serving travelers nationwide, to ask a travel question, discuss a vacation, or find the right planning path."
   );
 
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [status, setStatus] = useState<
-    "idle" | "sending" | "sent" | "unavailable" | "error"
-  >("idle");
-  const honeypot = useHoneypot();
-
-  const set = (k: keyof typeof data) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => setData((d) => ({ ...d, [k]: e.target.value }));
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("sending");
-    const result = await submitForm("General Contact Inquiry", { ...data, _hp: honeypot.value });
-    setStatus(result);
-  };
-
   return (
     <>
       <PageHero
         eyebrow="Contact Brian"
         title="Ask the question. Start the conversation."
+        image={assets.portrait}
+        imageAlt="Brian Voyles, travel advisor"
+        imagePosition="object-top"
       >
         <p className="text-lg leading-relaxed text-fog">
-          Use the general contact form for questions that are not ready for the
-          full trip-planning inquiry. For a specific trip, the planning form
+          Got a quick question that isn't ready for the full trip-planning
+          inquiry? Email works best. For a specific trip, the planning form
           collects more useful details.
         </p>
-        <a
-          href={`mailto:${links.email}`}
-          className="inline-flex w-fit items-center gap-2 font-semibold text-ocean-dark hover:text-clay-deep"
-        >
-          <Mail size={16} /> {links.email}
-        </a>
-        <p className="text-sm text-fog">
-          Do not email payment-card details, passport numbers, medical records,
-          or confidential identity documents.
-        </p>
-        <p className="text-sm text-fog">
-          Based in Dallas–Fort Worth, working with travelers nationwide.
-        </p>
+        <div className="mt-4 flex flex-col gap-1.5">
+          <p className="text-sm text-fog">
+            Do not email payment-card details, passport numbers, medical
+            records, or confidential identity documents.
+          </p>
+          <p className="text-sm text-fog">
+            Based in Dallas–Fort Worth, working with travelers nationwide.
+          </p>
+        </div>
       </PageHero>
 
-      <section className="container-px py-20 md:py-28">
-        <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
-          <div>
-            {status === "sent" ? (
-              <Reveal className="rounded-[2rem] border border-ocean/20 bg-cream p-10 text-center shadow-soft">
-                <CheckCircle2 className="mx-auto text-ocean" size={44} />
-                <h2 className="mt-4 font-display text-2xl font-semibold text-ink">
-                  Thanks — message received.
-                </h2>
-                <p className="mt-3 text-fog">
-                  Brian received your message and will review it. Want to choose a
-                  time now?
-                </p>
-                <a
-                  href={links.calendly}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary mt-6"
-                >
-                  <CalendarClock size={16} /> Schedule a Call
-                </a>
-              </Reveal>
-            ) : !formAvailable || status === "unavailable" ? (
-              <Reveal className="rounded-[2rem] border border-clay-deep/20 bg-cream p-10 text-center shadow-soft">
-                <h2 className="font-display text-2xl font-semibold text-ink">
-                  This form isn't connected yet.
-                </h2>
-                <p className="mt-3 text-fog">
-                  Nothing you type here would be sent. Please email{" "}
-                  <a href={`mailto:${links.email}`} className="font-semibold text-ocean-dark hover:text-clay-deep">
-                    {links.email}
-                  </a>{" "}
-                  directly, or schedule a call below.
-                </p>
-                <a
-                  href={links.calendly}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary mt-6"
-                >
-                  <CalendarClock size={16} /> Schedule a Call
-                </a>
-              </Reveal>
-            ) : (
-              <>
-                <SectionHeading
-                  eyebrow="General inquiry"
-                  title="Send a message."
-                  intro="Submitting this form starts a conversation. It does not create a booking or charge."
+      {/* Full-bleed band — the page's one real moment, not a stack of boxes */}
+      <section className="relative overflow-hidden bg-ocean-dark text-cream">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-gold/10 blur-3xl"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-32 -left-16 h-80 w-80 rounded-full bg-cream/5 blur-3xl"
+        />
+        <div className="container-px relative py-20 md:py-28">
+          <Reveal>
+            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-cream/70">
+              General inquiry
+            </span>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h2 className="mt-4 max-w-2xl font-display text-3xl font-semibold leading-[1.1] md:text-4xl">
+              The fastest way to reach me is email.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <a
+              href={`mailto:${links.email}`}
+              className="group mt-8 inline-flex flex-wrap items-center gap-3 font-display text-3xl font-semibold text-cream transition-colors hover:text-gold md:text-5xl"
+            >
+              {links.email}
+              <ArrowRight
+                size={32}
+                className="transition-transform duration-300 group-hover:translate-x-2"
+              />
+            </a>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-cream/15 pt-8">
+              <a
+                href={links.calendly}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 font-semibold text-cream transition-colors hover:text-gold"
+              >
+                <CalendarClock size={18} className="text-gold" />
+                Prefer to talk it through? Schedule a call
+                <ArrowRight
+                  size={15}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
                 />
-                <form onSubmit={onSubmit} className="mt-8 space-y-5">
-                  {honeypot.field}
-                  <div>
-                    <label htmlFor="contact-name" className={labelClass}>Name</label>
-                    <input
-                      id="contact-name"
-                      name="name"
-                      required
-                      className={inputClass}
-                      value={data.name}
-                      onChange={set("name")}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-email" className={labelClass}>Email</label>
-                    <input
-                      id="contact-email"
-                      name="email"
-                      required
-                      type="email"
-                      className={inputClass}
-                      value={data.email}
-                      onChange={set("email")}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-subject" className={labelClass}>Subject</label>
-                    <input
-                      id="contact-subject"
-                      name="subject"
-                      className={inputClass}
-                      value={data.subject}
-                      onChange={set("subject")}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-message" className={labelClass}>Message</label>
-                    <textarea
-                      id="contact-message"
-                      name="message"
-                      required
-                      rows={5}
-                      className={inputClass}
-                      value={data.message}
-                      onChange={set("message")}
-                    />
-                  </div>
-                  <p className="text-xs text-fog">
-                    Please review the{" "}
-                    <Link to="/privacy" className="underline">
-                      Privacy Policy
-                    </Link>{" "}
-                    before sending this form.
-                  </p>
-                  {status === "error" && (
-                    <p className="text-sm text-clay-deep">
-                      Something went wrong. Please email{" "}
-                      <a
-                        href={`mailto:${links.email}`}
-                        className="font-semibold underline"
-                      >
-                        {links.email}
-                      </a>{" "}
-                      directly.
-                    </p>
-                  )}
-                  <button
-                    type="submit"
-                    disabled={status === "sending"}
-                    className="btn-primary disabled:opacity-50"
-                  >
-                    {status === "sending" ? "Sending…" : "Send Message"}
-                    <ArrowRight size={16} />
-                  </button>
-                </form>
-              </>
-            )}
-          </div>
-
-          <aside className="lg:pt-4">
-            <div className="sticky top-24 space-y-6">
-              <div className="rounded-[2rem] bg-ocean-dark p-8 text-cream">
-                <CalendarClock className="text-gold" />
-                <h3 className="mt-4 text-xl font-semibold">
-                  Need to talk through a trip idea?
-                </h3>
-                <p className="mt-3 leading-relaxed text-cream">
-                  Use the call for trip ideas, destination questions, logistics,
-                  or figuring out which planning path makes sense.
-                </p>
-                <a
-                  href={links.calendly}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn mt-6 w-full bg-gold text-ink hover:bg-cream"
-                >
-                  Schedule a Call
-                </a>
-              </div>
-              <div className="rounded-[2rem] border border-ink/10 bg-cream p-8">
-                <h3 className="text-xl font-semibold text-ink">
-                  Already planning a trip?
-                </h3>
-                <p className="mt-3 leading-relaxed text-fog">
-                  Dates, travelers, destination ideas, budget, and priorities
-                  help Brian understand the request before following up.
-                </p>
-                <Link to="/plan-my-trip" className="link-underline mt-5">
-                  Plan My Trip <ArrowRight size={15} />
-                </Link>
-              </div>
+              </a>
+              <Link
+                to="/plan-my-trip"
+                className="group inline-flex items-center gap-2 font-semibold text-cream transition-colors hover:text-gold"
+              >
+                Already planning a trip? Use the trip form
+                <ArrowRight
+                  size={15}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </Link>
             </div>
-          </aside>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* What happens next — plain, numbered, no card chrome */}
+      <section className="container-px py-20 md:py-28">
+        <SectionHeading
+          eyebrow="What happens next"
+          title="No forms, no runaround."
+        />
+        <motion.div
+          variants={stagger(0.12)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-12 grid gap-8 md:grid-cols-3"
+        >
+          {nextSteps.map((s) => (
+            <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-3">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean-dark font-display text-xl font-semibold text-cream">
+                {s.n}
+              </span>
+              <h3 className="text-xl font-semibold text-ink">{s.title}</h3>
+              <p className="leading-relaxed text-fog">{s.body}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* Support — a different audience (already booked) from the general inquiry above */}
+      <section className="border-t border-ink/10">
+        <div className="container-px py-20 md:py-28">
+          <Reveal className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div className="max-w-xl">
+              <span className="eyebrow">Already booked with me?</span>
+              <h2 className="mt-4 font-display text-2xl font-semibold leading-tight text-ink md:text-3xl">
+                Trip support goes to a different inbox.
+              </h2>
+              <p className="mt-3 leading-relaxed text-fog">
+                Something come up with a booking, a Supplier, or a trip in
+                progress? Support gets to it faster than the general inbox.
+              </p>
+            </div>
+            <a
+              href={`mailto:${links.supportEmail}`}
+              className="link-underline shrink-0 text-lg"
+            >
+              {links.supportEmail}
+              <ArrowRight size={16} />
+            </a>
+          </Reveal>
         </div>
       </section>
     </>

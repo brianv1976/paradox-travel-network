@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import {
   AnimatePresence,
   motion,
@@ -8,7 +7,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { ArrowRight, Pause, Play } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 import { destinations } from "../data/destinations";
 import { smooth } from "../lib/motion";
 
@@ -63,14 +62,6 @@ export default function DestinationPlayer() {
     mx.set(0);
     my.set(0);
   };
-
-  /** Sends people to the Book It Yourself / Plan With Brian decision that
-   *  already lives further down the home page, rather than a separate route. */
-  const scrollToChoosePath = useCallback(() => {
-    document
-      .getElementById("choose-path")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
 
   const go = useCallback((next: number) => {
     setIndex(((next % destinations.length) + destinations.length) % destinations.length);
@@ -222,29 +213,6 @@ export default function DestinationPlayer() {
                 >
                   {active.blurb}
                 </motion.p>
-                <motion.div
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.6, ease: smooth, delay: 0.55 }}
-                  className="mt-5 flex flex-wrap items-center gap-3"
-                >
-                  {/* Both paths, equally weighted — the reel sells the place,
-                      these decide how they book it. */}
-                  <Link
-                    to="/plan-my-trip"
-                    className="btn bg-clay text-ink hover:bg-clay-dark"
-                  >
-                    Plan With Brian
-                    <ArrowRight size={16} />
-                  </Link>
-                  <button
-                    onClick={scrollToChoosePath}
-                    className="btn border border-cream/35 text-cream hover:bg-cream/10"
-                  >
-                    Book It Yourself
-                  </button>
-                </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>
