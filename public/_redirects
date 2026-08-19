@@ -1,0 +1,16 @@
+# SPA fallback for Netlify-class static hosting.
+#
+# Without this file, the host may fall back to serving dist/index.html for
+# every path regardless of whether a matching prerendered file exists (e.g.
+# dist/about/index.html, dist/travel-tips/<slug>/index.html) — which is what
+# was happening in production: every route showed the homepage's title/
+# description/OG tags to crawlers, even though prerender-seo.mjs generates a
+# correct file per route at build time.
+#
+# This rule only catches paths with NO matching static file. Netlify's static
+# asset resolution checks for a real file at the exact path first (that's
+# default behavior, not something this file controls), so an existing
+# dist/about/index.html is still served for /about — this line only supplies
+# the fallback for genuinely unknown routes, so React Router can render the
+# client-side NotFound page instead of a bare host 404.
+/*   /index.html   200
