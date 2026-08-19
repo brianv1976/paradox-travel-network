@@ -18,25 +18,15 @@ export const assets = {
     resort: "/assets/resort.jpg",
     beach: "/assets/beach.jpg",
     adventure: "/assets/adventure.jpg",
-    familyTravel:
-      "https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    airportConnection:
-      "https://images.pexels.com/photos/12717357/pexels-photo-12717357.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    multiDayTrek:
-      "https://images.pexels.com/photos/34833709/pexels-photo-34833709.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    localGuide:
-      "https://images.pexels.com/photos/36465268/pexels-photo-36465268.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cruiseTender:
-      "https://images.pexels.com/photos/745737/pexels-photo-745737.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    // Replaces the corrupted local planning.jpg (truncated at 512KB).
-    planning:
-      "https://images.pexels.com/photos/7010194/pexels-photo-7010194.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    desertSafari:
-      "https://images.pexels.com/photos/2867769/pexels-photo-2867769.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    romeColosseum:
-      "https://images.pexels.com/photos/27541217/pexels-photo-27541217.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cancunSpeedboat:
-      "https://images.pexels.com/photos/37718127/pexels-photo-37718127.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    familyTravel: "/assets/stock/family-travel.jpg",
+    airportConnection: "/assets/stock/airport-connection.jpg",
+    multiDayTrek: "/assets/stock/multi-day-trek.jpg",
+    localGuide: "/assets/stock/local-guide.jpg",
+    cruiseTender: "/assets/stock/cruise-tender.jpg",
+    planning: "/assets/stock/planning.jpg",
+    desertSafari: "/assets/stock/desert-safari.jpg",
+    romeColosseum: "/assets/stock/rome-colosseum.jpg",
+    cancunSpeedboat: "/assets/stock/cancun-speedboat.jpg",
   },
   // Virgin Voyages First Mate marketing library (agent-usable assets),
   // sourced 2026-08-07. Self-hosted, not hotlinked from Canto.
@@ -51,8 +41,8 @@ export const assets = {
   },
   // Real, logo-free destination/adventure photography for the Book It
   // Yourself hero's photo stack — deliberately not tied to any one vendor
-  // section below it. Mix of self-hosted Virgin Voyages shots and Pexels
-  // stock (same hotlinking convention as assets.img.*).
+  // section below it. Mix of self-hosted Virgin Voyages shots and self-hosted
+  // Pexels-sourced stock (downloaded, not hotlinked — see /public/assets/stock).
   heroDestinations: [
     {
       src: "/assets/virgin-voyages/ship-exterior-1.jpg",
@@ -67,23 +57,23 @@ export const assets = {
       alt: "View of the beach from a cabana",
     },
     {
-      src: "https://images.pexels.com/photos/15532995/pexels-photo-15532995.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      src: "/assets/stock/santorini-church.jpg",
       alt: "Blue-domed church overlooking the sea in Santorini, Greece",
     },
     {
-      src: "https://images.pexels.com/photos/6702772/pexels-photo-6702772.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      src: "/assets/stock/tropical-beach-aerial.jpg",
       alt: "Aerial view of clear turquoise water and palm trees on a tropical beach",
     },
     {
-      src: "https://images.pexels.com/photos/37885473/pexels-photo-37885473.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      src: "/assets/stock/machu-picchu.jpg",
       alt: "Scenic view of Machu Picchu in Cusco, Peru",
     },
     {
-      src: "https://images.pexels.com/photos/15763649/pexels-photo-15763649.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      src: "/assets/stock/scuba-diver.jpg",
       alt: "Scuba diver near a coral reef",
     },
     {
-      src: "https://images.pexels.com/photos/1043574/pexels-photo-1043574.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      src: "/assets/stock/hikers-ridge.jpg",
       alt: "Hikers climbing a mountain ridge",
     },
   ],
