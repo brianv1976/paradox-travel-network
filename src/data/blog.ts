@@ -297,7 +297,7 @@ export const posts: Post[] = [
     slug: "save-travel-documents-offline",
     contentType: "Travel Tip",
     title: "Save the Documents Before the Airport Wi-Fi Begins Its Rebellion",
-    category: "Airports",
+    category: "General",
     summary:
       "Keep offline copies of confirmations, addresses, insurance details, and important contact information before departure.",
     content: [

@@ -1,71 +1,11 @@
 import { motion, useReducedMotion } from "framer-motion";
-import {
-  ArrowRight,
-  CalendarClock,
-  ClipboardList,
-  Search,
-  Phone,
-  Scale,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, CalendarClock, ClipboardList } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
 import { links, assets } from "../lib/assets";
 import { stagger, fadeUp, smooth } from "../lib/motion";
-
-const valueCase = [
-  {
-    icon: Search,
-    title: "What Planning With Brian Actually Means",
-    body: [
-      "When you ask me to help plan your trip, I'm not just running a quick search and sending you the first thing that looks decent.",
-      "I'm comparing suppliers, resorts, hotels, room categories, flights, packages, transfers, and current promotions to find the combination that actually fits what you told me you want.",
-      "That experience matters. I've learned where to look, which suppliers tend to offer the strongest value, how to compare promotions, and when something that looks like a deal really isn't.",
-      "I'm not a coupon code, and the value of working with a travel advisor shouldn't come down to whether I can shave a few dollars off a price you found online.",
-      "You're getting the research, the comparisons, the recommendations, the details, and an actual person who already knows your trip.",
-      "That said, knowing where to look has its advantages.",
-      "Sometimes, I can find a better deal than what you're seeing on your own. That might come from package pricing, supplier promotions, advisor-only offers, better room-category value, or simply comparing options most travelers would never know were worth checking.",
-      "Sometimes the win is a lower price. Sometimes it's getting more for about the same money.",
-      "Because the cheapest-looking price on the internet has a funny habit of becoming less impressive once you discover what it doesn't include.",
-    ],
-  },
-  {
-    icon: Phone,
-    title: "You Get a Real Person in Your Corner",
-    body: [
-      "From the time we start planning until you return home, you have someone who knows your trip.",
-      "If something changes, a flight gets moved, a supplier needs to be contacted, or you simply have a question, you aren't starting over with a customer-service maze and a hold-music playlist designed to test your character.",
-      "I already know the reservation, the destination, and what we were trying to accomplish.",
-      "That matters when everything goes smoothly, and it matters even more when it doesn't.",
-    ],
-  },
-  {
-    icon: Scale,
-    title: "Better Value, Not Just a Lower Number",
-    body: [
-      "Will I always beat every price you can find online?",
-      "No.",
-      "Anyone promising that probably also has a bridge to sell you.",
-      "But I do often find better pricing, better packages, or better overall value because I'm comparing multiple suppliers and promotions instead of relying on one website.",
-      "And price is only part of the equation.",
-      "A slightly cheaper room in the wrong location, a package missing transfers, a restrictive fare, or a resort that looks much better in photos than it does in reality can turn a “deal” into something else pretty quickly.",
-      "My job is to look at the whole picture and help you make the smartest choice for your trip, not just chase the lowest number on a screen.",
-    ],
-  },
-  {
-    icon: Sparkles,
-    title: "A Few Extra Touches",
-    body: [
-      "Before you travel, I may also reach out to your hotel, resort, or cruise line to ask about available amenities, upgrades, celebrations, or other extras.",
-      "Those perks are never guaranteed, but I believe travel planning should feel more personal than receiving an automated confirmation email and being wished the very best by an inbox.",
-      "Sometimes the little things work out.",
-      "Sometimes they don't.",
-      "But I'll ask.",
-    ],
-  },
-];
 
 const TERN_INTAKE_URL =
   "https://app.tern.travel/public/forms/cYqOChO8qaDXeYhB7blD0w/responses/new";
@@ -131,44 +71,6 @@ export default function PlanMyTrip() {
           Based in Dallas–Fort Worth, working with travelers nationwide.
         </p>
       </PageHero>
-
-      {/* The full value case — why plan with Brian instead of booking it
-          yourself. Long-form by design; this is the page's actual sales
-          case, not a teaser. */}
-      <section className="container-px py-20 md:py-28">
-        <SectionHeading
-          eyebrow="Why plan with Brian"
-          title="The value isn't a discount code. It's everything around it."
-        />
-        <motion.div
-          variants={stagger(0.15)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          className="mt-12 flex flex-col gap-14"
-        >
-          {valueCase.map((v) => {
-            const Icon = v.icon;
-            return (
-              <motion.div key={v.title} variants={fadeUp} className="flex gap-5 md:gap-7">
-                <span className="mt-1 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-ocean/10 text-ocean-dark">
-                  <Icon size={22} />
-                </span>
-                <div className="max-w-2xl">
-                  <h3 className="font-display text-xl font-semibold text-ink md:text-2xl">
-                    {v.title}
-                  </h3>
-                  <div className="mt-3 space-y-4 leading-relaxed text-fog">
-                    {v.body.map((p, i) => (
-                      <p key={i}>{p}</p>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </section>
 
       <section id="intake" className="container-px py-20 md:py-28">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">

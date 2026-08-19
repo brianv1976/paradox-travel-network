@@ -26,7 +26,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
             name: service.navLabel,
             description: service.metaDescription,
             provider: { "@type": "TravelAgency", name: business.name },
-            areaServed: business.areaServed,
+            areaServed: ["United States", business.region],
           },
         }
       : undefined
