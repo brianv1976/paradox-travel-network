@@ -19,8 +19,8 @@ const traits = [
     body: "The plan is shaped around the people taking the trip, not whichever package is easiest to advertise.",
   },
   {
-    title: "Flexible",
-    body: "Travelers can use self-booking resources or ask Brian to help handle the planning.",
+    title: "Resourceful",
+    body: "Years of comparing suppliers, room categories, and package pricing mean less guessing and fewer surprises for you.",
   },
 ];
 
@@ -125,6 +125,70 @@ export default function About() {
             </blockquote>
           </Reveal>
         </div>
+      </section>
+
+      {/* Why work with me — connects the personal story above to the
+          professional case: what that obsession actually turned into. */}
+      <section className="container-px py-20 md:py-28">
+        <SectionHeading eyebrow="Why work with me" title="I'm not a coupon code." />
+        <Reveal delay={0.1} className="mt-8 max-w-3xl space-y-5 text-lg leading-relaxed text-fog">
+          <p>
+            Planning travel well takes more than finding a hotel and clicking
+            “reserve.”
+          </p>
+          <p>
+            I spend time comparing resorts, room categories, flights,
+            packages, promotions, and suppliers to figure out what actually
+            makes sense for the person taking the trip.
+          </p>
+          <p>That means looking past the headline price and asking the questions that usually matter more:</p>
+          <div className="space-y-1 font-medium text-ink">
+            <p>What's actually included?</p>
+            <p>Is this room category worth the upgrade?</p>
+            <p>Is there a better package?</p>
+            <p>Is this promotion really a promotion?</p>
+            <p>
+              Is this resort actually a good fit, or does it just have
+              excellent photography?
+            </p>
+          </div>
+          <p>That last one gets people more often than you'd think.</p>
+          <p>
+            I'm not here to pretend I'll always have the absolute cheapest
+            price on the internet. I'm also not a coupon code.
+          </p>
+          <p>
+            The real value is knowing where to look, what to compare, what to
+            avoid, and how to put the pieces together around the way you
+            actually want to travel.
+          </p>
+          <p>
+            And yes, sometimes that experience means I can find better
+            pricing or better overall value than what you'll find searching
+            on your own. Package rates, supplier promotions, advisor offers,
+            and different booking channels can make a real difference.
+          </p>
+          <p>Sometimes the savings are obvious.</p>
+          <p>Sometimes the better deal is simply getting more for the same money.</p>
+          <p>Either way, I'm looking at the entire trip, not just one number.</p>
+          <p>I also believe the job goes beyond making the reservation.</p>
+          <p>
+            When possible, I'll reach out to hotels, resorts, and cruise
+            lines before you travel to ask about available upgrades,
+            amenities, celebrations, or special touches. Nothing is
+            guaranteed, but it never hurts to ask, and occasionally being a
+            polite nuisance has its rewards.
+          </p>
+          <p>
+            Most importantly, if something changes or goes wrong, you have a
+            real person who already knows your trip and your reservation.
+          </p>
+          <p>
+            That's the kind of travel service I want Paradox Travel Network
+            to provide: practical advice, clear choices, honest
+            recommendations, and someone in your corner when you need them.
+          </p>
+        </Reveal>
       </section>
 
       {/* Postcards */}
