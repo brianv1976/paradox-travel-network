@@ -1,33 +1,35 @@
 /**
- * Post-build step: writes a route-specific index.html for every known public
- * route, so the FIRST HTML byte a crawler/social-scraper sees already has the
- * right <title>, meta description, canonical, Open Graph/Twitter tags, and
- * JSON-LD — not just the homepage's, which is all `dist/index.html` alone
- * provides. React still mounts and re-applies the same values client-side
- * via useSeo() once JS runs (redundant, harmless), so this changes nothing
- * about how the app behaves — it only changes what a non-JS request sees.
+ * Vite plugin: writes a route-specific index.html for every known public
+ * route as part of `vite build` itself, so the FIRST HTML byte a crawler/
+ * social-scraper sees already has the right <title>, meta description,
+ * canonical, Open Graph/Twitter tags, and JSON-LD — not just the homepage's,
+ * which is all a bare `dist/index.html` alone provides. React still mounts
+ * and re-applies the same values client-side via useSeo() once JS runs
+ * (redundant, harmless), so this changes nothing about how the app behaves —
+ * it only changes what a non-JS request sees.
+ *
+ * This runs from the `closeBundle` hook so it's baked into `vite build`
+ * itself rather than a separate `&& node scripts/...` step in package.json —
+ * some hosts (confirmed: Bolt's Publish pipeline) invoke `vite build`
+ * directly and never run a project's own `npm run build` script, which
+ * silently skipped this entire step and meant every non-homepage route was
+ * served the homepage's metadata in production. A plugin hook can't be
+ * skipped that way since it's part of the one build command every host runs.
  *
  * This only helps IF the static host serves e.g. `dist/about/index.html` for
  * a request to `/about` (the standard "clean URL" convention most static
- * hosts, including Netlify/Vercel/GitHub Pages, support out of the box).
- * Whether Bolt's static hosting does this has NOT been independently
- * confirmed as of writing — verify with a raw curl against the live URL
- * after deploying, and if Bolt always falls back to the SPA's index.html
- * regardless, this step is inert (harmless, but not doing anything) until
- * Bolt's hosting supports it or the project moves to a host that does.
+ * hosts, including Netlify/Vercel/GitHub Pages, support out of the box) —
+ * paired with the public/_redirects SPA-fallback rule so unmatched routes
+ * still fall back to the root index.html instead of a bare 404.
  *
  * SITE_URL: the base origin used for canonical/OG/sitemap URLs. Defaults to
  * the live branded domain; override with SITE_URL for local/staging builds.
  */
 import { build } from "esbuild";
 import { writeFile, mkdir, readFile, rm } from "node:fs/promises";
-import { existsSync } from "node:fs";
 import path from "node:path";
 import os from "node:os";
 
-const ROOT = process.cwd();
-const DIST = path.join(ROOT, "dist");
-const SITE_URL = process.env.SITE_URL || "https://paradoxtravelnetwork.com";
 const SITE_NAME = "Paradox Travel Network";
 const DEFAULT_IMAGE = "/social-share.jpg";
 
@@ -61,18 +63,16 @@ const CSP = [
 function injectCsp(html) {
   if (html.includes('http-equiv="Content-Security-Policy"')) return html;
   const tag = `<meta http-equiv="Content-Security-Policy" content="${CSP}" />`;
-  // Insert after <meta charset> so the charset declaration stays within the
-  // first bytes of <head>, where the parser expects it.
   const charset = /<meta\s+charset=["'][^"']*["']\s*\/?>/i;
   return charset.test(html)
     ? html.replace(charset, (m) => `${m}\n    ${tag}`)
     : html.replace(/<head>/i, `<head>\n    ${tag}`);
 }
 
-async function loadData() {
+async function loadRoutes(root) {
   const tmp = path.join(os.tmpdir(), `ptn-seo-data-${Date.now()}.mjs`);
   const result = await build({
-    entryPoints: [path.join(ROOT, "src/data/__seo_collect.mjs")],
+    entryPoints: [path.join(root, "src/data/__seo_collect.mjs")],
     bundle: true,
     format: "esm",
     platform: "node",
@@ -81,17 +81,17 @@ async function loadData() {
   await writeFile(tmp, result.outputFiles[0].text);
   const mod = await import(`file://${tmp}`);
   await rm(tmp, { force: true });
-  return mod;
+  return mod.routes;
 }
 
 function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;");
 }
 
-function buildHead(template, { title, description, path: routePath, image, structuredData }) {
-  const url = SITE_URL + routePath;
+function buildHead(template, siteUrl, { title, description, path: routePath, image, structuredData }) {
+  const url = siteUrl + routePath;
   const resolvedImage = image || DEFAULT_IMAGE;
-  const img = /^https?:\/\//.test(resolvedImage) ? resolvedImage : SITE_URL + resolvedImage;
+  const img = /^https?:\/\//.test(resolvedImage) ? resolvedImage : siteUrl + resolvedImage;
   let html = template;
 
   html = html.replace(/<title>.*?<\/title>/s, `<title>${escapeAttr(title)}</title>`);
@@ -123,27 +123,33 @@ function buildHead(template, { title, description, path: routePath, image, struc
   return html;
 }
 
-async function main() {
-  if (!existsSync(DIST)) {
-    console.error("dist/ not found — run `vite build` first.");
-    process.exit(1);
-  }
-  const template = injectCsp(await readFile(path.join(DIST, "index.html"), "utf-8"));
-  const { routes } = await loadData();
+export default function prerenderSeoPlugin() {
+  let root;
+  let outDir;
+  return {
+    name: "prerender-seo",
+    apply: "build",
+    configResolved(config) {
+      root = config.root;
+      outDir = path.isAbsolute(config.build.outDir)
+        ? config.build.outDir
+        : path.join(root, config.build.outDir);
+    },
+    async closeBundle() {
+      const siteUrl = process.env.SITE_URL || "https://paradoxtravelnetwork.com";
+      const templatePath = path.join(outDir, "index.html");
+      const template = injectCsp(await readFile(templatePath, "utf-8"));
+      const routes = await loadRoutes(root);
 
-  let written = 0;
-  for (const route of routes) {
-    const html = buildHead(template, route);
-    const outDir =
-      route.path === "/" ? DIST : path.join(DIST, route.path.replace(/^\//, ""));
-    await mkdir(outDir, { recursive: true });
-    await writeFile(path.join(outDir, "index.html"), html);
-    written++;
-  }
-  console.log(`prerender-seo: wrote ${written} route-specific index.html files under dist/`);
+      let written = 0;
+      for (const route of routes) {
+        const html = buildHead(template, siteUrl, route);
+        const dir = route.path === "/" ? outDir : path.join(outDir, route.path.replace(/^\//, ""));
+        await mkdir(dir, { recursive: true });
+        await writeFile(path.join(dir, "index.html"), html);
+        written++;
+      }
+      this.info(`prerender-seo: wrote ${written} route-specific index.html files under ${path.relative(root, outDir)}/`);
+    },
+  };
 }
-
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
