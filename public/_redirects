@@ -13,4 +13,11 @@
 # dist/about/index.html is still served for /about — this line only supplies
 # the fallback for genuinely unknown routes, so React Router can render the
 # client-side NotFound page instead of a bare host 404.
-/*   /index.html   200
+#
+# Status 404 (not 200): Netlify's _redirects lets a rewrite still serve the
+# SPA shell while returning a real HTTP status other than 200 — confirmed via
+# curl that every genuinely unknown path was returning 200 OK (a soft-404),
+# which search engines can index as if it were real content. Every legitimate
+# route already has its own prerendered file matched before this rule is ever
+# reached, so there's no route that needs the 200 behavior.
+/*   /index.html   404

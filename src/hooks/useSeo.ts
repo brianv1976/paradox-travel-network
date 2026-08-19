@@ -3,6 +3,10 @@ import { useEffect } from "react";
 interface SeoOptions {
   /** Overrides the default og:image / twitter:image for this page. */
   image?: string;
+  /** og:type — defaults to "website"; blog articles pass "article". Keep in
+   *  sync with the same route's entry in src/data/__seo_collect.mjs so the
+   *  prerendered and client-applied values never diverge. */
+  ogType?: string;
   /** JSON-LD structured data object(s) to inject as <script type="application/ld+json">. */
   structuredData?: object | object[];
   /** Set true on pages (404, etc.) that should not be indexed. */
@@ -58,7 +62,7 @@ export function useSeo(title: string, description?: string, options?: SeoOptions
     }
 
     upsertMeta("property", "og:title", title);
-    upsertMeta("property", "og:type", "website");
+    upsertMeta("property", "og:type", options?.ogType ?? "website");
     upsertMeta("property", "og:url", url);
     upsertMeta("property", "og:site_name", SITE_NAME);
     upsertMeta("property", "og:image", image);
@@ -78,5 +82,5 @@ export function useSeo(title: string, description?: string, options?: SeoOptions
       script.textContent = JSON.stringify(options.structuredData);
       document.head.appendChild(script);
     }
-  }, [title, description, options?.image, options?.structuredData, options?.noindex]);
+  }, [title, description, options?.image, options?.ogType, options?.structuredData, options?.noindex]);
 }

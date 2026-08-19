@@ -4,8 +4,10 @@
 // runtime. Bundled and imported from scripts/prerender-seo.mjs — not part
 // of the shipped app bundle.
 import { services } from "./services.ts";
-import { publishedPosts } from "./blog.ts";
+import { publishedPosts, getPostImage } from "./blog.ts";
 import { business } from "../lib/assets.ts";
+
+const SITE_URL = process.env.SITE_URL || "https://paradoxtravelnetwork.com";
 
 const staticPages = [
   {
@@ -94,19 +96,32 @@ const servicePages = services.map((s) => ({
   },
 }));
 
-const blogPages = publishedPosts.map((p) => ({
-  path: `/travel-tips/${p.slug}`,
-  title: `${p.title} | Postcards from Paradox`,
-  description: p.seoDescription,
-  structuredData: {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: p.title,
+const blogPages = publishedPosts.map((p) => {
+  const image = getPostImage(p);
+  const url = `${SITE_URL}/travel-tips/${p.slug}`;
+  return {
+    path: `/travel-tips/${p.slug}`,
+    title: `${p.title} | Postcards from Paradox`,
     description: p.seoDescription,
-    author: { "@type": "Person", name: p.author },
-    datePublished: p.date,
-    dateModified: p.updatedDate ?? p.date,
-  },
-}));
+    image,
+    ogType: "article",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: p.title,
+      description: p.seoDescription,
+      image: /^https?:\/\//.test(image) ? image : SITE_URL + image,
+      author: { "@type": "Person", name: p.author },
+      datePublished: p.date,
+      dateModified: p.updatedDate ?? p.date,
+      mainEntityOfPage: { "@type": "WebPage", "@id": url },
+      publisher: {
+        "@type": "TravelAgency",
+        name: business.name,
+        logo: { "@type": "ImageObject", url: `${SITE_URL}/Web%20Logo.png` },
+      },
+    },
+  };
+});
 
 export const routes = [...staticPages, ...servicePages, ...blogPages];

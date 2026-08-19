@@ -88,7 +88,7 @@ function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;");
 }
 
-function buildHead(template, siteUrl, { title, description, path: routePath, image, structuredData }) {
+function buildHead(template, siteUrl, { title, description, path: routePath, image, ogType, structuredData }) {
   const url = siteUrl + routePath;
   const resolvedImage = image || DEFAULT_IMAGE;
   const img = /^https?:\/\//.test(resolvedImage) ? resolvedImage : siteUrl + resolvedImage;
@@ -103,7 +103,7 @@ function buildHead(template, siteUrl, { title, description, path: routePath, ima
   const extraTags = [
     `<link rel="canonical" href="${url}" />`,
     `<meta property="og:title" content="${escapeAttr(title)}" />`,
-    `<meta property="og:type" content="website" />`,
+    `<meta property="og:type" content="${ogType || "website"}" />`,
     `<meta property="og:url" content="${url}" />`,
     `<meta property="og:site_name" content="${SITE_NAME}" />`,
     `<meta property="og:image" content="${img}" />`,
@@ -115,7 +115,7 @@ function buildHead(template, siteUrl, { title, description, path: routePath, ima
   ];
   if (structuredData) {
     extraTags.push(
-      `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`
+      `<script type="application/ld+json" id="seo-structured-data">${JSON.stringify(structuredData)}</script>`
     );
   }
 

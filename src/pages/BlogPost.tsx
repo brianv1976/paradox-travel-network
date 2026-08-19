@@ -11,6 +11,7 @@ import {
 import { useSeo } from "../hooks/useSeo";
 import CTASection from "../components/CTASection";
 import { fadeUp, stagger } from "../lib/motion";
+import { business } from "../lib/assets";
 
 const TYPE_BADGE: Record<ContentType, string> = {
   "Destination Spotlight": "bg-clay/10 text-clay-deep",
@@ -28,14 +29,28 @@ export default function BlogPost() {
     post
       ? {
           image: getPostImage(post),
+          ogType: "article",
           structuredData: {
             "@context": "https://schema.org",
             "@type": "Article",
             headline: post.title,
             description: post.seoDescription,
+            image: window.location.origin + getPostImage(post),
             author: { "@type": "Person", name: post.author },
             datePublished: post.date,
             dateModified: post.updatedDate ?? post.date,
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": window.location.origin + window.location.pathname,
+            },
+            publisher: {
+              "@type": "TravelAgency",
+              name: business.name,
+              logo: {
+                "@type": "ImageObject",
+                url: `${window.location.origin}/Web%20Logo.png`,
+              },
+            },
           },
         }
       : undefined

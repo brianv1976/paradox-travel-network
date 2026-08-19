@@ -64,11 +64,11 @@ export default function NewsletterForm({ variant = "card" }: Props) {
 
   if (status === "success") {
     return variant === "inline" ? (
-      <p className="mt-8 inline-flex items-center gap-2 text-cream">
+      <p role="status" className="mt-8 inline-flex items-center gap-2 text-cream">
         <CheckCircle2 size={18} /> You're on the list — talk soon.
       </p>
     ) : (
-      <div className="rounded-2xl bg-cream/10 p-5 text-sm text-cream">
+      <div role="status" className="rounded-2xl bg-cream/10 p-5 text-sm text-cream">
         <p className="font-semibold">You're on the list.</p>
         <p className="mt-1 text-cream/80">
           Watch your inbox for destination ideas and the occasional deal
@@ -95,6 +95,7 @@ export default function NewsletterForm({ variant = "card" }: Props) {
 
   const errorMessage = status === "error" && (
     <p
+      role="status"
       className={
         variant === "inline"
           ? "absolute -bottom-6 left-0 text-xs text-clay-light"
