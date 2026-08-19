@@ -161,7 +161,7 @@ export default function Home() {
         "@type": "TravelAgency",
         name: business.name,
         location: { "@type": "Place", name: business.region },
-        areaServed: ["United States", business.region],
+        areaServed: business.areaServed,
         founder: { "@type": "Person", name: business.owner },
         url: window.location.origin,
       },
