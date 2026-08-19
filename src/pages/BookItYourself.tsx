@@ -11,6 +11,8 @@ import {
   Users,
   Map,
   ShieldCheck,
+  RotateCcw,
+  CreditCard,
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
@@ -106,6 +108,24 @@ const exoticcaSlides = [
     src: assets.exoticca.lakeBirds,
     alt: "Fishermen on a lake surrounded by birds at sunset",
     caption: "Golden-hour boat life",
+  },
+];
+
+const exoticcaHighlights = [
+  {
+    icon: RotateCcw,
+    title: "Flex Cancellation",
+    body: "Add Flex Cancellation at booking (from $99–$149 per person) and cancel for any reason up to 30 days before departure — refunded as Exoticca travel credit that never expires.",
+  },
+  {
+    icon: CreditCard,
+    title: "Book now, pay over time",
+    body: "A deposit reserves your trip, with the balance due before departure — plus fixed installment plans available through PayPal and Affirm if you'd rather spread out the cost.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "In-house trip designers, ASTA member",
+    body: "Every itinerary is built by Exoticca's own trip designers rather than stitched together from third-party listings, and Exoticca is a member of ASTA.",
   },
 ];
 
@@ -331,50 +351,81 @@ export default function BookItYourself() {
 
       {/* Exoticca */}
       <section id="exoticca" className="bg-sand/60">
-        <div className="container-px grid items-center gap-10 py-20 md:grid-cols-2 md:py-28">
-          <Reveal>
-            <ImageCarousel slides={exoticcaSlides} />
-          </Reveal>
-          <div>
-            <span className="eyebrow">Complete, multi-destination trips</span>
-            <img
-              src={assets.partnerLogos.exoticca}
-              alt="Exoticca"
-              loading="lazy"
-              className="mt-3 h-12 w-auto md:h-14"
-            />
-            <p className="mt-5 leading-relaxed text-fog">
-              Exoticca is an online tour operator, not a marketplace — their
-              own trip designers build each itinerary in-house. A trip
-              bundles flights, hotels,
-              guided tours, transfers, and breakfast into one upfront price,
-              so there's no separate flight search or hotel comparison to do
-              yourself.
-            </p>
-            <p className="mt-4 leading-relaxed text-fog">
-              Most trips run as small guided groups — typically 12 to 15
-              travelers, rarely more than 30 — with free time built into most
-              stops for exploring on your own. Fully self-guided versions are
-              also available for travelers who'd rather skip the group
-              entirely.
-            </p>
-            <p className="mt-4 text-sm font-medium text-ink">
-              Exoticca · 300+ itineraries across 60+ countries · Flights,
-              hotels, tours &amp; transfers included
-            </p>
-            <a
-              href={links.exoticca}
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="btn-primary mt-6"
-            >
-              Browse Curated Trips <ExternalLink size={15} />
-            </a>
-            <p className="mt-3 text-xs text-fog">
-              Paradox may earn a commission if you book through this link, at
-              no extra cost to you.
-            </p>
+        <div className="container-px py-20 md:py-28">
+          <div className="grid items-center gap-10 md:grid-cols-2">
+            <Reveal>
+              <ImageCarousel slides={exoticcaSlides} />
+            </Reveal>
+            <div>
+              <span className="eyebrow">Complete, multi-destination trips</span>
+              <img
+                src={assets.partnerLogos.exoticca}
+                alt="Exoticca"
+                loading="lazy"
+                className="mt-3 h-12 w-auto md:h-14"
+              />
+              <p className="mt-5 leading-relaxed text-fog">
+                Exoticca is an online tour operator, not a marketplace — their
+                own trip designers build each itinerary in-house. A trip
+                bundles flights, hotels,
+                guided tours, transfers, and breakfast into one upfront price,
+                so there's no separate flight search or hotel comparison to do
+                yourself.
+              </p>
+              <p className="mt-4 leading-relaxed text-fog">
+                Most trips run as small guided groups — typically 12 to 15
+                travelers, rarely more than 30 — with free time built into
+                most stops for exploring on your own. Fully self-guided
+                versions are also available for travelers who'd rather skip
+                the group entirely.
+              </p>
+              <p className="mt-4 text-sm font-medium text-ink">
+                Exoticca · 300+ itineraries across 60+ countries · Flights,
+                hotels, tours &amp; transfers included
+              </p>
+              <a
+                href={links.exoticca}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                className="btn-primary mt-6"
+              >
+                Browse Curated Trips <ExternalLink size={15} />
+              </a>
+              <p className="mt-3 text-xs text-fog">
+                Paradox may earn a commission if you book through this link,
+                at no extra cost to you.
+              </p>
+            </div>
           </div>
+
+          <motion.div
+            variants={stagger(0.15)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            className="mt-14 grid gap-6 md:grid-cols-3"
+          >
+            {exoticcaHighlights.map((h) => {
+              const Icon = h.icon;
+              return (
+                <motion.div
+                  key={h.title}
+                  variants={fadeUp}
+                  className="flex gap-4 rounded-2xl bg-cream p-6"
+                >
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ocean/10 text-ocean-dark">
+                    <Icon size={20} />
+                  </span>
+                  <div>
+                    <h3 className="font-display text-lg font-semibold text-ink">
+                      {h.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-fog">{h.body}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
         </div>
       </section>
 
