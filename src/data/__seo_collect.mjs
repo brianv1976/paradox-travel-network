@@ -84,6 +84,14 @@ const servicePages = services.map((s) => ({
   title: s.metaTitle,
   description: s.metaDescription,
   image: s.image,
+  structuredData: {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: s.navLabel,
+    description: s.metaDescription,
+    provider: { "@type": "TravelAgency", name: business.name },
+    areaServed: ["United States", business.region],
+  },
 }));
 
 const blogPages = publishedPosts.map((p) => ({

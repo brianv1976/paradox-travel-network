@@ -8,14 +8,29 @@ import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
 import { stagger, fadeUp } from "../lib/motion";
-import { links } from "../lib/assets";
+import { links, business } from "../lib/assets";
 
 export default function ServicePage({ slug: slugProp }: { slug?: string }) {
   const params = useParams();
   const slug = slugProp ?? params.slug;
   const service = slug ? getService(slug) : undefined;
 
-  useSeo(service?.metaTitle ?? "", service?.metaDescription);
+  useSeo(
+    service?.metaTitle ?? "",
+    service?.metaDescription,
+    service
+      ? {
+          structuredData: {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: service.navLabel,
+            description: service.metaDescription,
+            provider: { "@type": "TravelAgency", name: business.name },
+            areaServed: ["United States", business.region],
+          },
+        }
+      : undefined
+  );
 
   if (!service) return <Navigate to="/404" replace />;
 
