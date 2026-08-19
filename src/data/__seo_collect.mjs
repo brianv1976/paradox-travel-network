@@ -20,7 +20,7 @@ const staticPages = [
       "@type": "TravelAgency",
       name: business.name,
       location: { "@type": "Place", name: business.region },
-      areaServed: ["United States", business.region],
+      areaServed: business.areaServed,
       founder: { "@type": "Person", name: business.owner },
     },
   },
@@ -92,7 +92,7 @@ const servicePages = services.map((s) => ({
     name: s.navLabel,
     description: s.metaDescription,
     provider: { "@type": "TravelAgency", name: business.name },
-    areaServed: ["United States", business.region],
+    areaServed: business.areaServed,
   },
 }));
 

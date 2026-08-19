@@ -137,4 +137,11 @@ export const business = {
   tagline: "Travel Beyond Expectations.",
   region: "Dallas–Fort Worth",
   year: new Date().getFullYear(),
+  // Locked schema areaServed list — do not expand with suburbs, counties,
+  // or extra cities for keyword coverage. Deliberately conservative: no
+  // Google Business Profile (Brian's client contact is too occasional to
+  // meet Google's eligibility bar), so this only needs to describe the
+  // real, honest service area for structured data, not chase local-SEO
+  // keyword coverage the way a GBP service-area list would.
+  areaServed: ["United States", "Dallas–Fort Worth Metroplex", "Dallas", "Fort Worth"],
 };
