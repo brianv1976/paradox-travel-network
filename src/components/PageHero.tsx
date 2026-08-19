@@ -122,7 +122,7 @@ export default function PageHero({
             </motion.span>
           </motion.div>
 
-          <h1 className="text-4xl font-semibold leading-[1.05] text-ink md:text-5xl lg:text-6xl">
+          <h1 className="text-3xl font-semibold leading-[1.1] text-ink md:text-5xl lg:text-6xl">
             <AnimatedHeadline immediate delay={0.2} text={title} />
           </h1>
 

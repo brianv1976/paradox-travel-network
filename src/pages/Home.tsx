@@ -186,7 +186,7 @@ export default function Home() {
             <motion.span variants={fadeUp} className="eyebrow">
               Travel On Your Terms
             </motion.span>
-            <h1 className="text-4xl font-semibold leading-[1.03] text-ink md:text-5xl lg:text-[3.5rem]">
+            <h1 className="text-3xl font-semibold leading-[1.08] text-ink md:text-5xl lg:text-[3.5rem]">
               <AnimatedHeadline
                 immediate
                 delay={0.15}
