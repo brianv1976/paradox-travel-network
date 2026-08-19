@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { smooth } from "../lib/motion";
 
-type Photo = { src: string; alt: string };
+type Photo = { src: string; alt: string; label: string };
 type Role = "front" | "backLeft" | "backRight";
 
 interface Props {
@@ -262,15 +262,20 @@ export default function HeroPhotoStack({ photos }: Props) {
                   className="h-full w-full object-cover"
                 />
                 {card.role === "front" && (
-                  <div
-                    ref={sheenRef}
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                      background:
-                        "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.16), transparent 55%)",
-                      backgroundSize: "160% 160%",
-                    }}
-                  />
+                  <>
+                    <div
+                      ref={sheenRef}
+                      className="pointer-events-none absolute inset-0"
+                      style={{
+                        background:
+                          "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.16), transparent 55%)",
+                        backgroundSize: "160% 160%",
+                      }}
+                    />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent p-4 pt-10">
+                      <span className="text-sm font-semibold text-cream">{photo.label}</span>
+                    </div>
+                  </>
                 )}
               </div>
             </motion.div>

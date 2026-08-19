@@ -181,7 +181,7 @@ export default function Home() {
             variants={stagger(0.1)}
             initial="hidden"
             animate="show"
-            className="flex flex-col gap-6"
+            className="order-2 flex flex-col gap-6 md:order-none"
           >
             <motion.span variants={fadeUp} className="eyebrow">
               Travel On Your Terms
@@ -237,7 +237,7 @@ export default function Home() {
               accepted per Brian's call, rather than shrinking it. */}
           <Parallax
             speed={5}
-            className="mx-auto -mt-2 w-full min-w-0 max-w-[380px] self-start sm:max-w-[440px] md:mx-0 md:w-[720px] md:max-w-none md:-mt-20 lg:w-[960px]"
+            className="order-1 mx-auto w-full min-w-0 max-w-[380px] self-start sm:max-w-[440px] md:order-none md:mx-0 md:-mt-20 md:w-[720px] md:max-w-none lg:w-[960px]"
           >
 
             <div className="relative aspect-square w-full">

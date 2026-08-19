@@ -47,34 +47,42 @@ export const assets = {
     {
       src: "/assets/virgin-voyages/ship-exterior-1.jpg",
       alt: "Cruise ship sailing at sea",
+      label: "Cruises",
     },
     {
       src: "/assets/virgin-voyages/beach-club-pool.jpg",
       alt: "Aerial view of a beach club pool",
+      label: "Beach clubs",
     },
     {
       src: "/assets/virgin-voyages/beach-club-cabana.jpg",
       alt: "View of the beach from a cabana",
+      label: "Private cabanas",
     },
     {
       src: "/assets/stock/santorini-church.jpg",
       alt: "Blue-domed church overlooking the sea in Santorini, Greece",
+      label: "Santorini, Greece",
     },
     {
       src: "/assets/stock/tropical-beach-aerial.jpg",
       alt: "Aerial view of clear turquoise water and palm trees on a tropical beach",
+      label: "All-inclusive resorts",
     },
     {
       src: "/assets/stock/machu-picchu.jpg",
       alt: "Scenic view of Machu Picchu in Cusco, Peru",
+      label: "Machu Picchu, Peru",
     },
     {
       src: "/assets/stock/scuba-diver.jpg",
       alt: "Scuba diver near a coral reef",
+      label: "Guided excursions",
     },
     {
       src: "/assets/stock/hikers-ridge.jpg",
       alt: "Hikers climbing a mountain ridge",
+      label: "Adventure travel",
     },
   ],
   // Exoticca-branded landscape photography, sourced 2026-08-09 from the
