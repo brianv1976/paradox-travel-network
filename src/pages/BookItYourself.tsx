@@ -381,7 +381,7 @@ export default function BookItYourself() {
       {/* Virgin Voyages */}
       <section id="virgin-voyages" className="container-px py-20 md:py-28">
         <div className="grid items-center gap-10 md:grid-cols-2">
-          <div>
+          <div className="order-2 md:order-none">
             <span className="eyebrow">Adults-only cruising</span>
             <img
               src={assets.partnerLogos.virginVoyages}
@@ -418,7 +418,7 @@ export default function BookItYourself() {
               no extra cost to you.
             </p>
           </div>
-          <Reveal delay={0.05}>
+          <Reveal delay={0.05} className="order-1 md:order-none">
             <ImageCarousel slides={virginVoyagesSlides} />
           </Reveal>
         </div>
@@ -428,7 +428,7 @@ export default function BookItYourself() {
       <section id="project-expedition" className="bg-sand/60">
         <div className="container-px py-20 md:py-28">
           <div className="grid items-center gap-10 md:grid-cols-2">
-            <div>
+            <div className="order-2 md:order-none">
               <span className="eyebrow">Boutique tours, activities &amp; multi-day trips</span>
               <img
                 src={assets.partnerLogos.projectExpedition}
@@ -465,7 +465,7 @@ export default function BookItYourself() {
                 at no extra cost to you.
               </p>
             </div>
-            <Reveal delay={0.05}>
+            <Reveal delay={0.05} className="order-1 md:order-none">
               <ImageCarousel slides={projectExpeditionSlides} />
             </Reveal>
           </div>

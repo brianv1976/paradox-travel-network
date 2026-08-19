@@ -93,7 +93,7 @@ export default function PageHero({
       >
         <motion.div
           style={reduce ? undefined : { y: copyY, opacity: copyFade }}
-          className="flex flex-col gap-6"
+          className="order-2 flex flex-col gap-6 md:order-none"
         >
           <motion.div
             initial="hidden"
@@ -141,7 +141,7 @@ export default function PageHero({
             initial={{ opacity: 0, y: 40, scale: 1.04 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, ease: smooth, delay: 0.15 }}
-            className={`relative ${imageAspect} ${
+            className={`relative order-1 ${imageAspect} md:order-none ${
               imageFrameless && imageSlot ? "" : "overflow-hidden rounded-[2rem] shadow-lift"
             }`}
           >

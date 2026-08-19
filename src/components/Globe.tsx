@@ -650,6 +650,14 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
     globe.rotation.x = currentTilt.x;
     globe.updateWorldMatrix(true, false);
 
+    // Caps how many callouts can be on screen at once. Without a cap,
+    // geographically clustered destinations (the Caribbean list is dense)
+    // reach their own peak-facing together and their pills overlap — worse
+    // the narrower the viewport, since there's less horizontal room for
+    // pills to spread out without colliding. Tighter on mobile than desktop.
+    const maxVisibleLabels = (mount.clientWidth || 0) < 480 ? 3 : 6;
+    const candidates: { m: (typeof markers)[number]; eased: number; sx: number; sy: number }[] = [];
+
     markers.forEach((m) => {
       const s = m.base * (1 + Math.sin(t * 1.5 + m.phase) * 0.2);
       m.sprite.scale.setScalar(reduce ? m.base : s);
@@ -677,13 +685,28 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
           ndc.copy(worldPos).project(camera);
           const mw = mount.clientWidth || 1;
           const mh = mount.clientHeight || 1;
-          const sx = (ndc.x * 0.5 + 0.5) * mw;
-          const sy = (-ndc.y * 0.5 + 0.5) * mh;
-          m.labelEl.style.transform = `translate(${sx}px, ${sy}px) translate(-50%, -170%)`;
-          m.labelEl.style.opacity = String(eased);
+          candidates.push({
+            m,
+            eased,
+            sx: (ndc.x * 0.5 + 0.5) * mw,
+            sy: (-ndc.y * 0.5 + 0.5) * mh,
+          });
         } else {
           m.labelEl.style.opacity = "0";
         }
+      }
+    });
+
+    // Only the strongest N callouts actually render — everything past the
+    // cap fades out even though it individually cleared the threshold above.
+    candidates.sort((a, b) => b.eased - a.eased);
+    candidates.forEach(({ m, eased, sx, sy }, rank) => {
+      if (!m.labelEl) return;
+      if (rank < maxVisibleLabels) {
+        m.labelEl.style.transform = `translate(${sx}px, ${sy}px) translate(-50%, -170%)`;
+        m.labelEl.style.opacity = String(eased);
+      } else {
+        m.labelEl.style.opacity = "0";
       }
     });
 
