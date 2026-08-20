@@ -46,6 +46,18 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
         image={service.image}
         imageAlt={service.imageAlt}
       >
+        <p className="text-lg leading-relaxed text-fog">{service.intro}</p>
+
+        <div>
+          <Link to="/plan-my-trip" className="btn-primary">
+            Plan a Trip
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        {/* Self-book option comes after the case for planning with Brian —
+            someone landing here from search should see why Paradox is worth
+            staying on before being handed links off the site. */}
         <div className="rounded-2xl border border-ink/10 bg-white/60 p-5">
           <p className="text-sm font-medium text-ink">{service.selfBookIntro}</p>
           <ul className="mt-3 space-y-2">
@@ -68,15 +80,6 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
             Paradox may earn a commission if you book through these links, at
             no extra cost to you.
           </p>
-        </div>
-
-        <p className="text-lg leading-relaxed text-fog">{service.intro}</p>
-
-        <div>
-          <Link to="/plan-my-trip" className="btn-primary">
-            Plan a Trip
-            <ArrowRight size={16} />
-          </Link>
         </div>
       </PageHero>
 
