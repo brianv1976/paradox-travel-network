@@ -40,13 +40,16 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-smooth ${
+      className={`fixed inset-x-0 top-0 z-50 flex max-h-[100dvh] flex-col transition-all duration-300 ease-smooth ${
         scrolled || open
           ? "bg-cream/95 shadow-soft backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
-      <nav className="container-px flex items-center justify-between py-5 md:py-6">
+      {/* shrink-0: the row itself (logo + toggle) never gets squeezed by the
+          flex-column's max-height cap below -- only the menu panel should
+          give up space, never this. */}
+      <nav className="container-px flex shrink-0 items-center justify-between py-5 md:py-6">
         <Link
           to="/"
           className="flex items-center gap-2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ocean-dark focus-visible:ring-offset-2"
@@ -113,7 +116,14 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="max-h-[calc(100vh-72px)] overflow-y-auto overflow-x-hidden border-t border-ink/10 bg-cream xl:hidden"
+            // min-h-0 overrides the flex default (min-height: auto, sized to
+            // content) that would otherwise let this panel push the header
+            // taller than the viewport instead of scrolling internally --
+            // the classic flexbox scroll-child gotcha. No header-height
+            // constant to guess or get wrong: the flex column above sizes
+            // this to whatever space is actually left under the nav row, at
+            // any breakpoint.
+            className="min-h-0 overflow-y-auto overflow-x-hidden border-t border-ink/10 bg-cream xl:hidden"
           >
             <div className="container-px flex flex-col gap-1 py-5">
               {navLinks.map((link) =>
