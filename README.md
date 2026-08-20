@@ -1,25 +1,19 @@
-# Paradox Travel Network — Bolt.new build
+# Paradox Travel Network
 
-A clean, modern rebuild of paradoxtravelnetwork.com: **Vite + React + TypeScript +
+A clean, modern build of paradoxtravelnetwork.com: **Vite + React + TypeScript +
 Tailwind**, with Framer Motion animation, a pure-three.js interactive globe,
-an AI travel concierge, and a data-driven blog. Built to be imported into
-[Bolt.new](https://bolt.new) and grown from there.
+an AI travel concierge, and a data-driven blog.
 
----
+**Production architecture:** this GitHub repo (`brianv1976/paradox-travel-network`,
+`main` branch) is the source of truth. **Netlify** watches it and auto-deploys
+every push — no manual publish step. See `PTN-Services-and-Access-Map.md` in
+the SharePoint handover folder for the full connected-services list.
 
-## Get it into Bolt.new (two ways)
-
-### Option A — GitHub (recommended)
-1. Push this folder to a new GitHub repo (public is easiest).
-2. In Bolt.new, click the GitHub icon → **Import from URL** → paste the repo URL.
-   (Or just prefix the repo URL with `bolt.new/` in your browser.)
-3. Bolt loads the project and runs `npm install` automatically.
-
-### Option B — Upload
-1. Zip this folder (a ready-made `ptn-bolt.zip` was delivered alongside it).
-2. In Bolt.new, start a project and drag the files in, or upload the zip.
-
-Either way, Bolt reads `.bolt/prompt.md` so its AI already knows the brand rules.
+> This project previously ran on Bolt.new (2026-06 through 2026-08-20). It was
+> migrated off after Bolt's platform repeatedly auto-pushed its own stale state
+> back to GitHub and silently reverted real work. The `.bolt/` directory is
+> legacy and safe to ignore or remove — nothing in the live deploy path reads
+> from it anymore.
 
 ---
 
@@ -46,10 +40,9 @@ Copy `.env.example` to `.env`:
   already works without one via a built-in responder.
 
 ## Deploy
-- **Bolt hosting:** click Deploy → get a `*.bolt.host` URL. Connect
-  `paradoxtravelnetwork.com` under the hosting/domain settings (paste the DNS
-  records Bolt shows into your registrar).
-- **Or Netlify/Vercel:** `npm run build` and deploy the `dist/` folder.
+Push to `main` — Netlify auto-builds (`npm run build`) and deploys. No manual
+step. Domain DNS lives at Porkbun (registrar and DNS authority); Netlify's
+domain settings show the exact records if that ever needs to change.
 
 ---
 
@@ -63,12 +56,10 @@ Copy `.env.example` to `.env`:
 | Service pages | `src/data/services.ts` |
 | Nav / footer / FAQ | `src/data/site.ts` |
 | Newsletter signup form | `src/components/NewsletterForm.tsx` |
-| Global rules for Bolt's AI | `.bolt/prompt.md` |
-
-## Before you go live — checklist
-- [ ] Review the starter Privacy / Terms / Accessibility pages.
-- [ ] Point the domain, publish.
 
 All images are self-hosted (no Webflow CDN dependency), and there are no
 placeholder reviews on the site — see **PTN-MASTER-SPEC.md** for the full
-content + brand reference.
+content + brand reference, and **PTN-Services-and-Access-Map.md** /
+**PTN-AI-Operating-Notes.md** for everything connected to this project
+(hosting, DNS, CRM, SEO tooling, etc.) — all three live in the
+`Website & Digital / Website AI Memory Logs and Handover` SharePoint folder.

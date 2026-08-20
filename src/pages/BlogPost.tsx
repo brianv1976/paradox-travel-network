@@ -36,7 +36,11 @@ export default function BlogPost() {
             headline: post.title,
             description: post.seoDescription,
             image: window.location.origin + getPostImage(post),
-            author: { "@type": "Person", name: post.author },
+            author: {
+              "@type": "Person",
+              name: post.author,
+              url: `${window.location.origin}/about`,
+            },
             datePublished: post.date,
             dateModified: post.updatedDate ?? post.date,
             mainEntityOfPage: {
@@ -115,9 +119,12 @@ export default function BlogPost() {
               variants={fadeUp}
               className="mt-5 flex flex-wrap items-center gap-5 text-sm text-fog"
             >
-              <span className="flex items-center gap-1.5">
+              <Link
+                to="/about"
+                className="flex items-center gap-1.5 transition-colors hover:text-ocean-dark"
+              >
                 <User size={14} /> {post.author}
-              </span>
+              </Link>
               <span className="flex items-center gap-1.5">
                 <Clock size={14} /> {post.readingTime} min read
               </span>
