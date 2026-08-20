@@ -39,11 +39,25 @@ export default function ImageCarousel({ slides }: { slides: Slide[] }) {
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.8, ease: smooth }}
             className="absolute inset-0"
+            // touchAction: "pan-y" lets normal vertical page scroll pass
+            // through untouched -- the browser only hands this element the
+            // gesture once a horizontal drag is clearly intended, instead of
+            // swallowing every touch on the carousel.
+            style={{ touchAction: "pan-y" }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.65}
+            onDragEnd={(_e, info) => {
+              const SWIPE_THRESHOLD = 50;
+              if (info.offset.x < -SWIPE_THRESHOLD) go(index + 1);
+              else if (info.offset.x > SWIPE_THRESHOLD) go(index - 1);
+            }}
           >
             <img
               src={s.src}
               alt={s.alt}
               loading="lazy"
+              draggable={false}
               className="h-full w-full object-cover animate-kenburns"
             />
           </motion.div>

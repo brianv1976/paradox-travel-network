@@ -59,8 +59,12 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-7 lg:flex">
+        {/* Desktop nav. Switches at xl (1280px), not lg (1024px) --
+            measured zero gap between logo and nav at 1024-1100px with all
+            seven items + gap-7, only comfortable breathing room from
+            ~1180px up. Keep hamburger through the cramped intermediate
+            range rather than let it touch. */}
+        <div className="hidden items-center gap-7 xl:flex">
           {navLinks.map((link) =>
             link.cta ? (
               <Magnetic key={link.to} strength={6}>
@@ -91,7 +95,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           ref={toggleRef}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink lg:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink xl:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -109,7 +113,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-t border-ink/10 bg-cream lg:hidden"
+            className="max-h-[calc(100vh-72px)] overflow-y-auto overflow-x-hidden border-t border-ink/10 bg-cream xl:hidden"
           >
             <div className="container-px flex flex-col gap-1 py-5">
               {navLinks.map((link) =>
