@@ -33,6 +33,14 @@ export interface Post {
   title: string;
   contentType: ContentType;
   category?: Category;
+  /** Which service-page slug(s) this post is genuinely useful supporting
+   *  content for (e.g. "cruises", "family-travel") — drives the "Helpful
+   *  Guides" section on ServicePage.tsx. Deliberately curated per post, not
+   *  auto-derived from `category` (which serves a different, blog-only
+   *  purpose) — leave unset rather than force a weak match. Most posts have
+   *  none; that's correct, not a bug, until more genre-specific content
+   *  exists. */
+  genres?: string[];
   summary: string;
   content: string[];
   seoDescription: string;
@@ -134,6 +142,7 @@ export const posts: Post[] = [
     contentType: "Travel Tip",
     title: "Arrive Before Embarkation Day When the Schedule Matters",
     category: "Cruises",
+    genres: ["cruises"],
     summary:
       "Flying in before a cruise reduces the risk that one delay leaves the ship without you.",
     content: [
@@ -148,6 +157,8 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 3,
     featured: true,
+    ctaLabel: "See the Cruise Travel Guide",
+    ctaTo: "/cruises",
   },
   {
     slug: "cheapest-flight-can-cost-more",
@@ -177,6 +188,7 @@ export const posts: Post[] = [
     contentType: "Travel Tip",
     title: "Your Cruise Cabin Is a Room and Also a Location Decision",
     category: "Cruises",
+    genres: ["cruises"],
     summary:
       "Cabin category, deck, nearby venues, motion, elevators, and accessibility can affect the entire sailing.",
     content: [
@@ -191,12 +203,15 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 3,
     featured: false,
+    ctaLabel: "See the Cruise Travel Guide",
+    ctaTo: "/cruises",
   },
   {
     slug: "all-inclusive-does-not-mean-everything-matters",
     contentType: "Travel Tip",
     title: "All-Inclusive Does Not Mean Every Inclusion Matters to You",
     category: "Resorts",
+    genres: ["all-inclusive-resorts"],
     summary:
       "Compare dining, rooms, beach conditions, transfers, activities, and extra charges instead of stopping at the label.",
     content: [
@@ -211,12 +226,15 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 3,
     featured: false,
+    ctaLabel: "See the All-Inclusive Guide",
+    ctaTo: "/all-inclusive-resorts",
   },
   {
     slug: "check-resort-transfer-time",
     contentType: "Travel Tip",
     title: "The Resort Is Not Close Because the Brochure Used the Word Convenient",
     category: "Resorts",
+    genres: ["all-inclusive-resorts"],
     summary:
       "Check the actual airport transfer distance, route, transportation type, and arrival timing before choosing a resort.",
     content: [
@@ -231,6 +249,8 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 3,
     featured: false,
+    ctaLabel: "See the All-Inclusive Guide",
+    ctaTo: "/all-inclusive-resorts",
   },
   {
     slug: "check-passport-rules-early",
@@ -258,6 +278,7 @@ export const posts: Post[] = [
     contentType: "Travel Tip",
     title: "A Family Hotel Room Is Not Bigger Because Everyone Is Optimistic",
     category: "Planning",
+    genres: ["family-travel"],
     summary:
       "Confirm beds, bathrooms, privacy, connecting-room guarantees, storage, and sleeping arrangements before booking family lodging.",
     content: [
@@ -272,6 +293,8 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 3,
     featured: false,
+    ctaLabel: "See the Family Travel Guide",
+    ctaTo: "/family-travel",
   },
   {
     slug: "do-not-overschedule-the-vacation",
@@ -323,3 +346,10 @@ export const getPost = (slug: string) => {
   return post && !post.draft ? post : undefined;
 };
 export const featuredPosts = publishedPosts.filter((p) => p.featured);
+
+/** Posts curated as genuinely useful supporting content for a given service
+ *  page's genre slug. Returns an empty array for genres with no matching
+ *  content yet (e.g. romance-travel, adventure-guided-travel) — that's
+ *  correct and expected, not a bug to work around. */
+export const getPostsForGenre = (genreSlug: string): Post[] =>
+  publishedPosts.filter((p) => p.genres?.includes(genreSlug));

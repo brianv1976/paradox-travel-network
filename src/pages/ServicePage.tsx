@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Check, ExternalLink, MapPin } from "lucide-react";
 import { getService } from "../data/services";
 import { getTripsForGenre } from "../data/trips";
+import { getPostsForGenre, getPostImage } from "../data/blog";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
@@ -37,6 +38,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
   if (!service) return <Navigate to="/404" replace />;
 
   const trips = getTripsForGenre(service.slug);
+  const guides = getPostsForGenre(service.slug);
 
   return (
     <>
@@ -247,6 +249,53 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
           ))}
         </motion.div>
       </section>
+
+      {/* Helpful Guides — supporting Postcards articles curated for this
+          genre. Renders nothing when there aren't any yet (Romance and
+          Adventure currently have none), same pattern as Featured Trips. */}
+      {guides.length > 0 && (
+        <section className="bg-sand/60">
+          <div className="container-px py-20 md:py-28">
+            <SectionHeading
+              eyebrow="Worth reading first"
+              title={`Helpful ${service.navLabel.toLowerCase()} guides from Postcards.`}
+            />
+            <motion.div
+              variants={stagger(0.1)}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.2 }}
+              className="mt-12 grid gap-6 md:grid-cols-3"
+            >
+              {guides.map((post) => (
+                <motion.div key={post.slug} variants={fadeUp}>
+                  <Link
+                    to={`/travel-tips/${post.slug}`}
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <img
+                        src={getPostImage(post)}
+                        alt=""
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col p-5">
+                      <h3 className="font-display text-lg font-semibold leading-snug text-ink">
+                        {post.title}
+                      </h3>
+                      <span className="link-underline mt-auto pt-4 text-sm">
+                        Read the guide <ArrowRight size={14} />
+                      </span>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       <CTASection
         eyebrow="Ready to narrow it down?"
