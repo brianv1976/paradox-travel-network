@@ -63,6 +63,22 @@ const staticPages = [
       "Destination spotlights, travel news, and practical tips from Paradox Travel Network — plus an occasional newsletter with useful reminders.",
   },
   {
+    path: "/explore-travel",
+    title: "Explore Travel Types | Paradox Travel Network",
+    description:
+      "Browse cruises, all-inclusive resorts, honeymoons, family trips, adventure travel, and custom vacations — with real planning guidance for each, from a Dallas–Fort Worth travel advisor serving travelers nationwide.",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: services.map((s, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${SITE_URL}/${s.slug}`,
+        name: s.navLabel,
+      })),
+    },
+  },
+  {
     path: "/privacy",
     title: "Privacy Policy | Paradox Travel Network",
     description:

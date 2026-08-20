@@ -4,13 +4,16 @@ export interface NavLink {
   cta?: boolean;
 }
 
-// Primary navigation. "Explore Travel" points at the homepage #explore anchor.
+// Primary navigation. "Explore Travel" is its own hub page (/explore-travel)
+// as of 2026-08-20 — it used to jump-link to a homepage section (#explore),
+// but the site outgrew that shortcut once genre pages, Postcards, and the
+// trips architecture existed for it to actually connect together.
 export const navLinks: NavLink[] = [
   { label: "Home", to: "/" },
   { label: "Book It Yourself", to: "/book-it-yourself" },
   { label: "Plan With Brian", to: "/plan-my-trip", cta: true },
   { label: "Postcards from Paradox", to: "/travel-tips" },
-  { label: "Explore Travel", to: "/#explore" },
+  { label: "Explore Travel", to: "/explore-travel" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];

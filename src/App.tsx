@@ -16,6 +16,7 @@ const PlanMyTrip = lazy(() => import("./pages/PlanMyTrip"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const ServicePage = lazy(() => import("./pages/ServicePage"));
+const ExploreTravel = lazy(() => import("./pages/ExploreTravel"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
@@ -38,6 +39,7 @@ export default function App() {
             <Route path="/plan-my-trip" element={<PlanMyTrip />} />
             <Route path="/travel-tips" element={<Blog />} />
             <Route path="/travel-tips/:slug" element={<BlogPost />} />
+            <Route path="/explore-travel" element={<ExploreTravel />} />
 
             {/* Service pages keep their exact top-level URLs */}
             {services.map((s) => (

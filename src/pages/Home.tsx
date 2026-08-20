@@ -417,13 +417,15 @@ export default function Home() {
 
       {/* EXPLORE — stays right after Choose Path so the momentum from
           "which path fits" flows straight into "browse by trip type" before
-          any detour into blog/newsletter content. */}
+          any detour into blog/newsletter content. Trimmed to a preview as of
+          2026-08-20 — the full experience (with related Postcards and real
+          trips per genre, as they exist) now lives at /explore-travel. */}
       <section id="explore" className="bg-sand/60">
         <div className="container-px py-24 md:py-32">
           <SectionHeading
             eyebrow="Explore travel"
             title="Start with the kind of trip."
-            intro="Browse by trip type for ideas, then book through trusted partners or ask Brian to turn the idea into a complete plan."
+            intro="A quick preview by trip type — the full guide has more on each, plus related planning tips."
           />
           <motion.div
             variants={stagger(0.09)}
@@ -452,6 +454,14 @@ export default function Home() {
               );
             })}
           </motion.div>
+          <Reveal delay={0.1}>
+            <Link
+              to="/explore-travel"
+              className="link-underline mt-8 inline-flex items-center gap-1.5 text-base font-semibold"
+            >
+              See the full Explore Travel guide <ArrowRight size={16} />
+            </Link>
+          </Reveal>
         </div>
       </section>
 
