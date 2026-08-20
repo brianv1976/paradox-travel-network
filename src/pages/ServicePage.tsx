@@ -258,7 +258,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
           <div className="container-px py-20 md:py-28">
             <SectionHeading
               eyebrow="Worth reading first"
-              title={`Helpful ${service.navLabel.toLowerCase()} guides from Postcards.`}
+              title={`Helpful guides for ${service.navLabel.toLowerCase()}, from Postcards.`}
             />
             <motion.div
               variants={stagger(0.1)}
