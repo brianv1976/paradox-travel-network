@@ -1,14 +1,12 @@
 import { Navigate, useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, ExternalLink, MapPin } from "lucide-react";
+import { ArrowRight, Check, ExternalLink } from "lucide-react";
 import { getService } from "../data/services";
-import { getTripsForGenre } from "../data/trips";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
-import TiltCard from "../components/TiltCard";
 import { stagger, fadeUp } from "../lib/motion";
 import { links, business } from "../lib/assets";
 
@@ -35,8 +33,6 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
   );
 
   if (!service) return <Navigate to="/404" replace />;
-
-  const trips = getTripsForGenre(service.slug);
 
   return (
     <>
@@ -110,78 +106,6 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
           ))}
         </motion.div>
       </section>
-
-      {/* Featured trips — real, priced, bookable itineraries for this trip
-          type. Renders nothing at all when empty (no "coming soon" filler),
-          so the page looks exactly as it does today until real trips exist. */}
-      {trips.length > 0 && (
-        <section className="container-px py-20 md:py-28">
-          <SectionHeading
-            eyebrow="Real trips, not just ideas"
-            title={`Featured ${service.navLabel.toLowerCase()} trips.`}
-          />
-          <motion.div
-            variants={stagger(0.15)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {trips.map((trip) => (
-              <motion.div key={trip.slug} variants={fadeUp}>
-                <TiltCard className="rounded-2xl" intensity={7}>
-                  <a
-                    href={trip.bookingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={trip.image}
-                        alt={trip.imageAlt}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <span className="absolute left-3 top-3 rounded-full bg-cream/95 px-3 py-1 text-xs font-semibold text-ink">
-                        Operated by {trip.operator}
-                      </span>
-                    </div>
-                    <div
-                      className="flex flex-1 flex-col p-6"
-                      style={{ transform: "translateZ(28px)" }}
-                    >
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-clay-deep">
-                        <MapPin size={12} /> {trip.destination}
-                      </span>
-                      <h3 className="mt-1 font-display text-lg font-semibold text-ink">
-                        {trip.title}
-                      </h3>
-                      <p className="mt-1 text-sm text-fog">
-                        {trip.duration} · From {trip.startingPrice}/person
-                      </p>
-                      <ul className="mt-3 space-y-1">
-                        {trip.highlights.slice(0, 3).map((h) => (
-                          <li key={h} className="text-sm text-fog">
-                            · {h}
-                          </li>
-                        ))}
-                      </ul>
-                      <span className="link-underline mt-auto pt-4 text-sm">
-                        See this trip <ExternalLink size={13} />
-                      </span>
-                    </div>
-                  </a>
-                </TiltCard>
-              </motion.div>
-            ))}
-          </motion.div>
-          <p className="mt-6 text-xs text-fog">
-            Paradox may earn a commission if you book through these links, at
-            no extra cost to you.
-          </p>
-        </section>
-      )}
 
       {/* Checklist */}
       <section className="bg-sand/60">
