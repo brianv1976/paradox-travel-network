@@ -168,6 +168,32 @@ export default function BlogPost() {
                 {cta.label} <ArrowRight size={16} />
               </Link>
             )}
+
+            {/* Sources -- only on posts with specific regulatory/statistical
+                claims (see src/data/blog.ts). Deliberately quiet: not every
+                post needs one, and this isn't meant to read as a citation
+                wall. */}
+            {post.sources && post.sources.length > 0 && (
+              <div className="mt-10 border-t border-ink/10 pt-6">
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-fog">
+                  Sources &amp; Further Reading
+                </h2>
+                <ul className="mt-3 space-y-1.5">
+                  {post.sources.map((s) => (
+                    <li key={s.href}>
+                      <a
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-ocean-dark hover:text-clay-deep hover:underline"
+                      >
+                        {s.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </article>

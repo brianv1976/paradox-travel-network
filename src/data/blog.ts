@@ -54,6 +54,10 @@ export interface Post {
   cardImage?: string;
   ctaLabel?: string;
   ctaTo?: string;
+  /** Primary-source citations for posts that make specific regulatory or
+   *  statistical claims -- deliberately not on every post. Rendered as a
+   *  quiet "Sources & Further Reading" block at the bottom of the article. */
+  sources?: { label: string; href: string }[];
   /** Flags a Travel News post whose facts are expected to age — the page
    *  affordance is just showing the date prominently, not auto-expiring it. */
   timeSensitive?: boolean;
@@ -104,7 +108,7 @@ export const posts: Post[] = [
       "Pack around repeatable outfits, real weather, and what cannot be replaced easily.",
     content: [
       "Start with the weather, the activities you will actually do, and a small group of clothes that work together. Shoes and bulky just-in-case items consume luggage faster than almost anything else.",
-      "The extra weight has a price tag, not just a wrinkle in your dignity. Most U.S. airlines cap checked bags around 50 pounds, and every pound past that gets billed separately, cheerfully, at the counter. Overweight fees typically run $50 to $100 for a bag up to 20 pounds over the limit, and $150 to $200 or more once it climbs higher — Frontier's overweight fee alone jumped to $129 in 2026, which is a lot to pay for the privilege of packing indecisively. A suitcase padded with two backup outfits and a just-in-case rain jacket is not a packing choice, it is a fee waiting to introduce itself.",
+      "The extra weight has a price tag, not just a wrinkle in your dignity. Most U.S. airlines cap checked bags around 50 pounds, and every pound past that gets billed separately, cheerfully, at the counter. Frontier, for example, charges $75 for a bag that lands 41 to 50 pounds and $129 once it crosses into the 51-to-99.99-pound range — a lot to pay for the privilege of packing indecisively. A suitcase padded with two backup outfits and a just-in-case rain jacket is not a packing choice, it is a fee waiting to introduce itself.",
       "Leave room for souvenirs, dirty-clothes organization, and the basic dignity of closing the suitcase without sitting on it.",
       "A bathroom scale at home takes thirty seconds and tells you exactly what the airline's scale will say later, in front of a line of people. Weigh the bag before you leave, not after an agent weighs it for you.",
     ],
@@ -115,6 +119,9 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 2,
     featured: true,
+    sources: [
+      { label: "Frontier Airlines — Optional Services (baggage fees)", href: "https://www.flyfrontier.com/optional-services" },
+    ],
   },
   {
     slug: "six-minute-connection-is-a-dare",
@@ -125,8 +132,8 @@ export const posts: Post[] = [
       "Connection time should account for airport size, terminals, customs, mobility, and delay risk.",
     content: [
       "The shortest connection is not automatically the best connection. Consider airport layout, terminal changes, security, customs, mobility, family travel, and what happens if the inbound flight is late.",
-      "The risk is not hypothetical, it is arithmetic. A 30-minute delay on the inbound flight is enough to make roughly 40% of connecting passengers watch their gate close from a distance, and U.S. transportation data tied more than 127,000 missed domestic connections in a single quarter of 2025 to international arrivals running behind schedule. Airports are not in the business of generous margins, either — official minimum connection times range from a brisk 20 minutes at some airports to well over two hours anywhere immigration and customs get a vote.",
-      "A workable buffer looks closer to 90 minutes for a same-terminal domestic connection, two hours when connecting from an international arrival to a domestic flight, and two and a half to three hours anywhere customs is involved. The airline's published minimum is the legal floor, not a promise, and no one from the airline will be jogging alongside you to close the gap.",
+      "Minimum connection times are real industry standards, not comfort margins. IATA defines a minimum connecting time as the official shortest interval an airport allows to transfer a passenger and their luggage between flights, and it varies by airport, airline, terminal, connection type, and whether customs and immigration are involved — official minimums range from a brisk 20-some minutes at some airports to well over two hours anywhere a border gets a vote.",
+      "Brian's own planning buffer runs more conservative than the legal floor: closer to 90 minutes for a same-terminal domestic connection, two hours from an international arrival into a domestic flight, and two and a half to three hours anywhere customs is involved. That is professional judgment, not an official minimum — the airline's published number is the shortest interval allowed, not a promise, and no one from the airline will be jogging alongside you to close the gap.",
       "A slightly longer layover can cost less than a missed flight, overnight hotel, and the fascinating emotional collapse that follows.",
     ],
     seoDescription:
@@ -136,6 +143,10 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 3,
     featured: true,
+    sources: [
+      { label: "IATA — Minimum Connecting Time standard", href: "https://www.iata.org/en/publications/manuals/station-standard-minimum-connecting-time-mct/" },
+      { label: "OAG — Minimum Connection Times explained", href: "https://www.oag.com/minimum-connection-times" },
+    ],
   },
   {
     slug: "arrive-before-cruise-embarkation-day",
@@ -147,7 +158,7 @@ export const posts: Post[] = [
       "Flying in before a cruise reduces the risk that one delay leaves the ship without you.",
     content: [
       "When practical, arrive in the embarkation city at least one day before the cruise. Weather, mechanical delays, baggage problems, and missed connections do not care what time the ship leaves.",
-      "This holds even when the cruise line booked the flight. A common assumption is that the ship will wait for passengers on cruise-line-arranged air — it will not. Ships run on a schedule, not a search party. Miss the cutoff and the standard outcome is a no-show flag, denied boarding, and a forfeited fare, with the traveler responsible for arranging and paying for their own way home, from the pier, waving. In rare cases a cruise line may help a passenger meet the ship at the next port, but it is never guaranteed, and depends on the itinerary, immigration requirements, and how quickly everyone involved can move.",
+      "This holds even when the cruise line booked the flight. A common assumption is that the ship will wait for passengers on cruise-line-arranged air — it generally will not. Ships run on a schedule, not a search party. If you miss embarkation, what happens next depends on the cruise line, the itinerary, your documentation, how the airfare was arranged, and whether you bought travel protection: you may need to arrange and pay your own way to meet the ship at a later permissible port, or you may miss the sailing entirely. Royal Caribbean, for one, explicitly recommends arriving the day before and says a traveler who misses embarkation due to travel delays may in some circumstances be able to join at a later port — usually at their own expense, never guaranteed.",
       "A hotel night can feel unnecessary until it becomes the cheapest insurance against watching the vacation depart from the pier.",
     ],
     seoDescription:
@@ -159,6 +170,9 @@ export const posts: Post[] = [
     featured: true,
     ctaLabel: "See the Cruise Travel Guide",
     ctaTo: "/cruises",
+    sources: [
+      { label: "Royal Caribbean — What if I miss my ship's departure time?", href: "https://www.royalcaribbean.com/faq/questions/miss-departure-time" },
+    ],
   },
   {
     slug: "cheapest-flight-can-cost-more",
@@ -171,7 +185,7 @@ export const posts: Post[] = [
       "The first fare in the search results is only the starting number. Compare the trip you will actually buy: carry-on and checked-bag fees, seat selection, parking or rideshare, hotel and meal costs during a long layover, and transportation from a farther-out airport. U.S. airlines collected $7.4 billion in baggage fees in 2025 alone, according to the Bureau of Transportation Statistics, so those small extras are not exactly decorative.",
       "Then price the schedule itself. A lower fare can become more expensive when it requires a predawn departure, a distant airport, an overnight connection, a risky layover, or an arrival time that wipes out the first day of the trip. A ticket that saves $80 but adds $60 in fees, $40 in ground transportation, and half a vacation day did not save $80. It simply hid the rest of the bill.",
       "Look closely at how the itinerary is built. If separate tickets or a self-transfer are involved, confirm what happens to the second flight if the first one runs late. Compare connection times, terminal changes, baggage rules, and whether the schedule leaves any margin for the delays that show up on ordinary travel days.",
-      "Families should also check seating rules instead of assuming the cheapest fare keeps everyone together. Only a handful of airlines currently guarantee fee-free family seating, and the Department of Transportation is actively working on a rule to ban seating fees that separate children from the adults traveling with them — which tells you exactly how often a parent has landed to find their seven-year-old assigned a middle seat, solo, three rows back, among strangers.",
+      "Families should also check seating rules instead of assuming the cheapest fare keeps everyone together. Several airlines now guarantee adjacent seating for young children and an accompanying adult at no additional cost, while others still do not — and a federal rule that would require it industry-wide remains proposed, not final, which tells you exactly how often a parent has landed to find their seven-year-old assigned a middle seat, solo, three rows back, among strangers.",
       "Finally, know what happens if the airline changes the deal after purchase. When a flight is canceled or significantly changed and the passenger declines the new option, federal rules now require an automatic cash refund, issued without a form, a phone call, or a hold-music tour of a call center. Fees for extras like seat selection or checked baggage must be refunded too, if the airline fails to deliver what was paid for.",
       "Compare the full door-to-door cost, the usable vacation time, and the risk built into the schedule. The cheapest flight is the one that is still cheapest after reality checks the receipt.",
     ],
@@ -182,6 +196,11 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 4,
     featured: false,
+    sources: [
+      { label: "Bureau of Transportation Statistics — 2025 airline financial data", href: "https://www.bts.gov/newsroom/us-airlines-profited-60-billion-2025-decrease-over-2024" },
+      { label: "DOT — Automatic Refund Rule for flight cancellations/changes", href: "https://www.transportation.gov/airconsumer/refundsfinalruleapril2024" },
+      { label: "DOT — Airline Family Seating Dashboard", href: "https://www.transportation.gov/airconsumer/airline-family-seating-dashboard" },
+    ],
   },
   {
     slug: "cruise-cabin-location-matters",
@@ -193,7 +212,7 @@ export const posts: Post[] = [
       "Cabin category, deck, nearby venues, motion, elevators, and accessibility can affect the entire sailing.",
     content: [
       "Do not choose a cruise cabin by category alone. Check the deck plan, nearby elevators, theaters, pools, kitchens, nightclubs, connecting doors, and the distance to the places you expect to use most.",
-      "Motion sensitivity is a real factor in that decision, not a superstition. The most stable part of a ship is low and midship, close to the vessel's center of gravity — cabins roughly in the middle third of the ship, on lower decks, feel meaningfully less rocking and swaying than cabins at the front, back, or top, which can pitch like a mechanical bull with an ocean view. Anyone prone to seasickness should treat that stretch of the deck plan as the starting point, not an afterthought, and book it early, since everyone else who has ever been seasick had this same idea first.",
+      "Motion sensitivity is a real factor in that decision, not a superstition. Travelers who are sensitive to motion generally do better away from the parts of the ship that move the most — health guidance for cruise travelers specifically calls out avoiding locations of maximum motion, like the bow. Midship cabins, particularly on lower decks, are commonly preferred for that reason; cabins at the front, back, or top can pitch like a mechanical bull with an ocean view. Anyone prone to seasickness should treat that stretch of the deck plan as the starting point, not an afterthought, and book it early, since everyone else who has ever been seasick had this same idea first.",
       "A beautiful cabin directly beneath the 6 a.m. chair-dragging championships may not feel like an upgrade.",
     ],
     seoDescription:
@@ -205,6 +224,9 @@ export const posts: Post[] = [
     featured: false,
     ctaLabel: "See the Cruise Travel Guide",
     ctaTo: "/cruises",
+    sources: [
+      { label: "CDC Yellow Book — Motion Sickness", href: "https://www.cdc.gov/yellow-book/hcp/travel-air-sea/motion-sickness.html" },
+    ],
   },
   {
     slug: "all-inclusive-does-not-mean-everything-matters",
@@ -216,7 +238,7 @@ export const posts: Post[] = [
       "Compare dining, rooms, beach conditions, transfers, activities, and extra charges instead of stopping at the label.",
     content: [
       "Two all-inclusive resorts can offer completely different experiences. Compare atmosphere, food, room category, beach, pools, entertainment, transfers, premium areas, and what still costs extra.",
-      "\"All-inclusive\" is doing less work than it sounds like. Premium liquor, specialty restaurants, motorized watersports, spa treatments, and gratuities are commonly billed on top of the base rate — a specialty dinner alone can run $25 to $50 per person, and a single spa treatment can add another $80 to $300. A federal rule that took effect in 2025 now forces resorts to show mandatory fees in the advertised price, which helps, but optional upgrades and add-ons remain exactly as easy to get talked into as ever, usually by someone extremely pleasant holding a clipboard.",
+      "\"All-inclusive\" is doing less work than it sounds like. Premium liquor, specialty restaurants, motorized watersports, spa treatments, and gratuities are commonly billed on top of the base rate — optional specialty dining, premium drinks, spa treatments, excursions, and other upgrades can still increase the final cost substantially. A federal rule effective in 2025 requires businesses advertising covered short-term lodging to disclose the total price including mandatory fees upfront, which helps, but optional upgrades and add-ons remain exactly as easy to get talked into as ever, usually by someone extremely pleasant holding a clipboard.",
       "The right resort is the one whose inclusions match the travelers, not the one with the longest list of things nobody planned to use.",
     ],
     seoDescription:
@@ -228,6 +250,9 @@ export const posts: Post[] = [
     featured: false,
     ctaLabel: "See the All-Inclusive Guide",
     ctaTo: "/all-inclusive-resorts",
+    sources: [
+      { label: "FTC — Rule on Unfair or Deceptive Fees (FAQ)", href: "https://www.ftc.gov/business-guidance/resources/rule-unfair-or-deceptive-fees-frequently-asked-questions" },
+    ],
   },
   {
     slug: "check-resort-transfer-time",
@@ -261,8 +286,8 @@ export const posts: Post[] = [
       "Review expiration, name, blank-page, visa, and destination entry rules early in the planning process.",
     content: [
       "Check passport validity, exact traveler names, blank-page requirements, visas, and destination entry rules well before departure. Some destinations require validity beyond the return date.",
-      "The most common trip-ending mistake is the six-month rule: many countries require a passport to stay valid for at least six months past the return date, and airline check-in counters enforce it just as strictly as border agents do, even when the passport is not technically expired — a distinction the gate agent will not find nearly as interesting as you do. Renewing once there are twelve months of validity left, rather than waiting until it is nearly out, avoids the problem entirely.",
-      "Processing time is the other piece to plan around. As of 2026, routine passport renewal runs four to six weeks and expedited service runs two to three weeks, and that window only counts time at a passport agency — add roughly a week on each end for mail. A trip booked eight weeks out is not a reason to panic, but it is a reason to start today, before \"next month\" turns into a very specific kind of regret.",
+      "One of the easiest passport problems to miss is the six-month rule: many countries require a passport to stay valid for at least six months past the return date, and airline check-in counters enforce it just as strictly as border agents do, even when the passport is not technically expired — a distinction the gate agent will not find nearly as interesting as you do. If international travel is likely, checking validity when you're within about a year of expiration gives you plenty of room to renew before the rule becomes a problem.",
+      "Processing time is the other piece to plan around. As of 2026, routine passport renewal runs four to six weeks and expedited service runs two to three weeks, and that window only counts time at a passport agency — the State Department says to plan for up to two additional weeks for your application to arrive, and up to two more weeks for the finished passport to reach you afterward. A trip booked eight weeks out is not a reason to panic, but it is a reason to start today, before \"next month\" turns into a very specific kind of regret.",
       "Rules can change, so confirm them through official government and destination sources rather than relying on a screenshot from someone's cousin.",
     ],
     seoDescription:
@@ -272,6 +297,10 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 3,
     featured: false,
+    sources: [
+      { label: "U.S. State Department — Passport FAQ", href: "https://travel.state.gov/en/passports/contact-support/faq.html" },
+      { label: "U.S. State Department — Passport Processing Times", href: "https://travel.state.gov/en/passports/apply/help/processing-time.html" },
+    ],
   },
   {
     slug: "family-room-layout-matters",
