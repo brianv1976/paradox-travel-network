@@ -122,7 +122,16 @@ export default function PageHero({
             </motion.span>
           </motion.div>
 
-          <h1 className="text-3xl font-semibold leading-[1.1] text-ink md:text-5xl lg:text-6xl">
+          {/* Delayed ramp to the largest sizes: at md (768px) the layout
+              also switches to two columns, so the copy column is only
+              ~280-300px wide there -- jumping straight to text-5xl (48px)
+              at that exact breakpoint wraps longer titles (e.g. Book It
+              Yourself, Family Travel) across 6-7 lines. text-4xl holds
+              through the cramped md/lg range; the bigger sizes wait for
+              lg/xl where the column has real room. Measured 834px width,
+              294px copy column: text-5xl wrapped 7 lines, confirmed via
+              real viewport testing before this change. */}
+          <h1 className="text-3xl font-semibold leading-[1.1] text-ink md:text-4xl lg:text-5xl xl:text-6xl">
             <AnimatedHeadline immediate delay={0.2} text={title} />
           </h1>
 
