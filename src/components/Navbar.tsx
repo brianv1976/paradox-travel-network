@@ -83,9 +83,7 @@ export default function Navbar() {
                 end={link.to === "/"}
                 className={({ isActive }) =>
                   `text-sm font-medium transition-colors hover:text-ocean-dark ${
-                    isActive && link.to !== "/#explore"
-                      ? "text-ocean-dark"
-                      : "text-ink/80"
+                    isActive ? "text-ocean-dark" : "text-ink/80"
                   }`
                 }
               >
