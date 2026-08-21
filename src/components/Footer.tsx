@@ -1,10 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Mail } from "lucide-react";
 import { footerBlurb, footerLinks } from "../data/site";
 import { assets, business, links } from "../lib/assets";
 import NewsletterForm from "./NewsletterForm";
 
 export default function Footer() {
+  // Travel Tips already ends with its own dedicated newsletter CTA right
+  // above the footer -- showing a second signup form immediately after felt
+  // repetitive, so skip the footer's copy here specifically.
+  const { pathname } = useLocation();
+  const showNewsletter = pathname !== "/travel-tips";
+
   return (
     <footer className="bg-ocean-dark text-cream">
       <div className="container-px grid gap-12 py-16 md:grid-cols-[1.4fr_1fr] md:py-20">
@@ -48,7 +54,7 @@ export default function Footer() {
             ))}
           </nav>
 
-          <NewsletterForm />
+          {showNewsletter && <NewsletterForm />}
         </div>
       </div>
 

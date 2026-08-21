@@ -81,28 +81,31 @@ export default function ImageCarousel({ slides }: { slides: Slide[] }) {
           <button
             onClick={() => go(index - 1)}
             aria-label="Previous photo"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-cream/90 text-ink transition-colors hover:bg-cream"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-cream text-ink shadow-soft transition-colors hover:bg-cream/90"
           >
-            <ChevronLeft size={16} />
+            <ChevronLeft size={18} />
           </button>
           <button
             onClick={() => go(index + 1)}
             aria-label="Next photo"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-cream/90 text-ink transition-colors hover:bg-cream"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-cream text-ink shadow-soft transition-colors hover:bg-cream/90"
           >
-            <ChevronRight size={16} />
+            <ChevronRight size={18} />
           </button>
         </div>
       </div>
 
+      {/* Slightly larger, higher-contrast than the original thin dots --
+          flagged as too subtle to notice on mobile, especially the
+          low-opacity inactive dots. */}
       <div className="absolute bottom-5 right-5 flex gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => go(i)}
             aria-label={`Show photo ${i + 1}`}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === index ? "w-6 bg-cream" : "w-1.5 bg-cream/50 hover:bg-cream/80"
+            className={`h-2 rounded-full shadow-soft transition-all duration-300 ${
+              i === index ? "w-7 bg-cream" : "w-2 bg-cream/75 hover:bg-cream"
             }`}
           />
         ))}

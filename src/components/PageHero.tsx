@@ -88,12 +88,17 @@ export default function PageHero({
 
       <div
         className={`container-px relative grid items-center gap-12 pb-16 md:pb-24 ${
-          imageFrameless && imageSlot ? "md:grid-cols-[0.85fr_1.15fr]" : "md:grid-cols-2"
+          // Two-column split waits for lg (1024px), not md (768px) -- the
+          // tablet range (768-1023) was giving longer headlines (e.g.
+          // "Romantic should feel like the two people taking the trip.")
+          // a half-width column to wrap into, forcing 4-6 lines. Full width
+          // through md, then split at lg where there's real room.
+          imageFrameless && imageSlot ? "lg:grid-cols-[0.85fr_1.15fr]" : "lg:grid-cols-2"
         }`}
       >
         <motion.div
           style={reduce ? undefined : { y: copyY, opacity: copyFade }}
-          className="order-2 flex flex-col gap-6 md:order-none"
+          className="order-2 flex flex-col gap-6 lg:order-none"
         >
           <motion.div
             initial="hidden"
@@ -150,7 +155,7 @@ export default function PageHero({
             initial={{ opacity: 0, y: 40, scale: 1.04 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, ease: smooth, delay: 0.15 }}
-            className={`relative order-1 ${imageAspect} md:order-none ${
+            className={`relative order-1 ${imageAspect} lg:order-none ${
               imageFrameless && imageSlot ? "" : "overflow-hidden rounded-[2rem] shadow-lift"
             }`}
           >

@@ -212,9 +212,7 @@ export default function Blog() {
               <span className="sm:hidden">
                 Useful advice.
                 <br />
-                Minimal
-                <br />
-                inspirational fog.
+                Minimal inspirational fog.
               </span>
               <span className="hidden sm:inline">
                 Useful advice. Minimal inspirational fog.

@@ -237,7 +237,7 @@ export default function Home() {
               accepted per Brian's call, rather than shrinking it. */}
           <Parallax
             speed={5}
-            className="order-1 mx-auto w-full min-w-0 max-w-[380px] self-start sm:max-w-[440px] md:order-none md:mx-0 md:-mt-20 md:w-[720px] md:max-w-none lg:w-[960px]"
+            className="order-1 mx-auto w-full min-w-0 max-w-[260px] self-start landscape:max-w-[160px] sm:max-w-[320px] md:order-none md:mx-0 md:-mt-20 md:landscape:max-w-none md:w-[720px] md:max-w-none lg:w-[960px]"
           >
 
             <div className="relative aspect-square w-full">
