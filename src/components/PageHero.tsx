@@ -155,7 +155,14 @@ export default function PageHero({
             initial={{ opacity: 0, y: 40, scale: 1.04 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, ease: smooth, delay: 0.15 }}
-            className={`relative order-1 ${imageAspect} lg:order-none ${
+            // landscape:max-h caps the image's height on short-viewport
+            // landscape phones (e.g. 667x375) -- the aspect-ratio class
+            // alone would size it from the full stacked-column width,
+            // which on a landscape phone pushes the page title/CTA past
+            // 650px+ before any text is visible. lg:max-h-none restores
+            // the normal aspect-ratio sizing once the two-column layout
+            // kicks in, where this isn't a problem.
+            className={`relative order-1 ${imageAspect} landscape:max-h-[38vh] lg:order-none lg:max-h-none ${
               imageFrameless && imageSlot ? "" : "overflow-hidden rounded-[2rem] shadow-lift"
             }`}
           >

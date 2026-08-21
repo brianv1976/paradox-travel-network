@@ -9,7 +9,7 @@ export default function Footer() {
   // above the footer -- showing a second signup form immediately after felt
   // repetitive, so skip the footer's copy here specifically.
   const { pathname } = useLocation();
-  const showNewsletter = pathname !== "/travel-tips";
+  const showNewsletter = pathname.replace(/\/$/, "") !== "/travel-tips";
 
   return (
     <footer className="bg-ocean-dark text-cream">

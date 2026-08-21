@@ -80,12 +80,12 @@ export default function Contact() {
           <Reveal delay={0.1}>
             <a
               href={`mailto:${links.email}`}
-              className="group mt-8 inline-flex flex-wrap items-center gap-3 font-display text-3xl font-semibold text-cream transition-colors hover:text-gold md:text-5xl"
+              className="group mt-8 inline-flex flex-wrap items-center gap-3 break-all font-display text-xl font-semibold text-cream transition-colors hover:text-gold sm:text-3xl md:text-5xl"
             >
               {links.email}
               <ArrowRight
                 size={32}
-                className="transition-transform duration-300 group-hover:translate-x-2"
+                className="hidden transition-transform duration-300 group-hover:translate-x-2 sm:block"
               />
             </a>
           </Reveal>
