@@ -17,6 +17,13 @@
     font-feature-settings: "kern", "liga", "calt";
   }
 
+  /* Navbar toggles this while the mobile nav panel is open -- the
+     concierge launcher/panel float at the same z-index as the header and
+     was visibly overlapping the open panel on short screens. */
+  body.mobile-nav-open .concierge-launcher {
+    display: none;
+  }
+
   h1,
   h2,
   h3,

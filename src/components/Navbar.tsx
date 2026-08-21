@@ -23,6 +23,19 @@ export default function Navbar() {
     setOpen(false);
   }, [pathname]);
 
+  // Lock background scroll while the panel is open (it was previously
+  // possible to scroll the page behind it, producing a confusing
+  // double-scroll feel), and flag <body> so ConciergeBot can hide itself --
+  // it was floating on top of the open panel on short landscape screens.
+  useEffect(() => {
+    document.body.classList.toggle("mobile-nav-open", open);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.classList.remove("mobile-nav-open");
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   // Simple disclosure pattern, not a modal — page content behind the panel
   // stays interactive, so no focus trap. Escape still closes it and hands
   // focus back to the toggle, matching the pattern ConciergeBot uses.

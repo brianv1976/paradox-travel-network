@@ -70,7 +70,12 @@ export default function PageHero({
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden bg-cream pt-32 md:pt-40"
+      // Short-landscape override (phones in landscape, height <=500px --
+      // deliberately NOT just `landscape:`, since that would also catch
+      // landscape tablets/desktops with plenty of vertical room) cuts the
+      // top padding way down so the compact side-by-side layout below
+      // doesn't waste the little height it has.
+      className="relative overflow-hidden bg-cream pt-32 [@media(orientation:landscape)_and_(max-height:500px)]:pt-24 md:pt-40"
     >
       {/* Ambient blobs drift slowly and independently. */}
       <motion.div
@@ -87,7 +92,7 @@ export default function PageHero({
       />
 
       <div
-        className={`container-px relative grid items-center gap-12 pb-16 md:pb-24 ${
+        className={`container-px relative grid items-center gap-12 pb-16 [@media(orientation:landscape)_and_(max-height:500px)]:grid-cols-[1.3fr_1fr] [@media(orientation:landscape)_and_(max-height:500px)]:gap-4 [@media(orientation:landscape)_and_(max-height:500px)]:pb-6 md:pb-24 ${
           // Two-column split waits for lg (1024px), not md (768px) -- the
           // tablet range (768-1023) was giving longer headlines (e.g.
           // "Romantic should feel like the two people taking the trip.")
@@ -98,12 +103,18 @@ export default function PageHero({
       >
         <motion.div
           style={reduce ? undefined : { y: copyY, opacity: copyFade }}
-          className="order-2 flex flex-col gap-6 lg:order-none"
+          // Short-landscape: real side-by-side, not a stacked page with a
+          // squashed image on top. Text goes first/left (order-1) and gets
+          // tighter internal spacing (gap-2) since there's so little
+          // vertical room to work with.
+          className="order-2 flex flex-col gap-6 [@media(orientation:landscape)_and_(max-height:500px)]:order-1 [@media(orientation:landscape)_and_(max-height:500px)]:gap-2 lg:order-none"
         >
           <motion.div
             initial="hidden"
             animate="show"
-            className="flex items-center gap-3"
+            // Eyebrow is decorative -- drop it in short landscape to save
+            // vertical room for the title/CTA, which matter more there.
+            className="flex items-center gap-3 [@media(orientation:landscape)_and_(max-height:500px)]:hidden"
           >
             <motion.span
               variants={{
@@ -136,7 +147,7 @@ export default function PageHero({
               lg/xl where the column has real room. Measured 834px width,
               294px copy column: text-5xl wrapped 7 lines, confirmed via
               real viewport testing before this change. */}
-          <h1 className="text-3xl font-semibold leading-[1.1] text-ink md:text-4xl lg:text-5xl xl:text-6xl">
+          <h1 className="text-3xl font-semibold leading-[1.1] text-ink [@media(orientation:landscape)_and_(max-height:500px)]:text-xl md:text-4xl lg:text-5xl xl:text-6xl">
             <AnimatedHeadline immediate delay={0.2} text={title} />
           </h1>
 
@@ -144,7 +155,7 @@ export default function PageHero({
             variants={stagger(0.1, 0.45)}
             initial="hidden"
             animate="show"
-            className="flex flex-col gap-5"
+            className="flex flex-col gap-5 [@media(orientation:landscape)_and_(max-height:500px)]:gap-2"
           >
             <motion.div variants={fadeUp}>{children}</motion.div>
           </motion.div>
@@ -155,14 +166,23 @@ export default function PageHero({
             initial={{ opacity: 0, y: 40, scale: 1.04 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, ease: smooth, delay: 0.15 }}
-            // landscape:max-h caps the image's height on short-viewport
-            // landscape phones (e.g. 667x375) -- the aspect-ratio class
-            // alone would size it from the full stacked-column width,
-            // which on a landscape phone pushes the page title/CTA past
-            // 650px+ before any text is visible. lg:max-h-none restores
-            // the normal aspect-ratio sizing once the two-column layout
-            // kicks in, where this isn't a problem.
-            className={`relative order-1 ${imageAspect} landscape:max-h-[38vh] lg:order-none lg:max-h-none ${
+            // Short landscape gets a real side-by-side layout (see the grid
+            // above): image sits in its own narrower grid column as a small
+            // photo next to the text, ordered after it, rather than a
+            // full-width banner squashed by max-height alone. Regular
+            // landscape:max-h-[38vh] still applies for taller landscape
+            // views (e.g. a landscape tablet just under lg) where the grid
+            // hasn't split into two columns yet.
+            //
+            // md:max-h caps the tablet-portrait single-column range
+            // (768-1023, full container width) -- a page using a tall
+            // aspect ratio (Plan My Trip's aspect-[4/5]) was rendering an
+            // 840px-tall image that pushed the title to ~1089px, well past
+            // the first screen. This also tightens the more ordinary
+            // "image dominates the tablet fold" pattern flagged on other
+            // pages. lg:max-h-none restores full aspect-ratio sizing once
+            // the two-column layout has real side-by-side room.
+            className={`relative order-1 ${imageAspect} landscape:max-h-[38vh] [@media(orientation:landscape)_and_(max-height:500px)]:order-2 [@media(orientation:landscape)_and_(max-height:500px)]:aspect-square [@media(orientation:landscape)_and_(max-height:500px)]:max-h-[220px] md:max-h-[420px] lg:order-none lg:max-h-none ${
               imageFrameless && imageSlot ? "" : "overflow-hidden rounded-[2rem] shadow-lift"
             }`}
           >

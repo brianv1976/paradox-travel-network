@@ -95,19 +95,25 @@ export default function ImageCarousel({ slides }: { slides: Slide[] }) {
         </div>
       </div>
 
-      {/* Slightly larger, higher-contrast than the original thin dots --
-          flagged as too subtle to notice on mobile, especially the
-          low-opacity inactive dots. */}
-      <div className="absolute bottom-5 right-5 flex gap-2">
+      {/* Higher-contrast than the original thin dots, and each button now
+          has a 32px padded hit area around the small visible mark -- the
+          dot itself stays small by design, but the previous version made
+          the visible mark and the clickable area the same ~8px size,
+          which is well under a comfortable touch target. */}
+      <div className="absolute bottom-3 right-3 flex">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => go(i)}
             aria-label={`Show photo ${i + 1}`}
-            className={`h-2 rounded-full shadow-soft transition-all duration-300 ${
-              i === index ? "w-7 bg-cream" : "w-2 bg-cream/75 hover:bg-cream"
-            }`}
-          />
+            className="flex h-8 w-8 items-center justify-center"
+          >
+            <span
+              className={`h-2 rounded-full shadow-soft transition-all duration-300 ${
+                i === index ? "w-7 bg-cream" : "w-2 bg-cream/75 hover:bg-cream"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>

@@ -159,7 +159,7 @@ export default function ConciergeBot() {
       <motion.button
         ref={launcherRef}
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-5 right-5 z-[60] inline-flex h-14 w-14 items-center justify-center rounded-full bg-ocean-dark text-cream shadow-lift transition-colors hover:bg-ocean"
+        className="concierge-launcher fixed bottom-5 right-5 z-[60] inline-flex h-14 w-14 items-center justify-center rounded-full bg-ocean-dark text-cream shadow-lift transition-colors hover:bg-ocean"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label={open ? "Close concierge" : "Open travel concierge"}
@@ -191,7 +191,7 @@ export default function ConciergeBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-24 right-5 z-[60] flex h-[540px] max-h-[75vh] w-[92vw] max-w-[380px] flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10"
+            className="concierge-launcher fixed bottom-24 right-5 z-[60] flex h-[540px] max-h-[75vh] w-[92vw] max-w-[380px] flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10"
           >
             {/* Header */}
             <div className="flex items-center gap-3 bg-ocean-dark px-5 py-4 text-cream">
