@@ -41,6 +41,21 @@ export default function DestinationPlayer() {
   const active = destinations[index];
   const running = !paused && !focused && !reduce;
 
+  // Nothing previously stopped a new transition from starting while the
+  // last one was still animating (photo wipe + headline slide run ~1.1-1.4s).
+  // Clicking the rail fast enough -- or a click landing right as autoplay
+  // fires -- stacked multiple in-flight transitions on top of each other:
+  // two photos visibly sliced together, a stale region label, a headline
+  // frozen mid-slide showing a stray glyph. Locking index changes out until
+  // the current transition's animations have actually finished removes the
+  // overlap at the source instead of trying to patch each layer's timing.
+  const transitioningRef = useRef(false);
+  // Photo exit (0.9s) now fully finishes before the next photo's enter
+  // (1.4s swoop) starts -- see the photo AnimatePresence's mode="wait"
+  // below -- so the lock has to cover the full sequential total, not just
+  // one leg of it.
+  const TRANSITION_MS = 2400;
+
   // --- Cursor parallax: photo, ghost type and copy each track the pointer at
   // a different depth, so the stage has real dimensionality on hover. ------
   const stageRef = useRef<HTMLDivElement>(null);
@@ -63,20 +78,29 @@ export default function DestinationPlayer() {
     my.set(0);
   };
 
-  const go = useCallback((next: number) => {
-    setIndex(((next % destinations.length) + destinations.length) % destinations.length);
+  const changeIndex = useCallback((next: number) => {
+    if (transitioningRef.current) return;
+    transitioningRef.current = true;
+    setIndex(next);
+    window.setTimeout(() => {
+      transitioningRef.current = false;
+    }, TRANSITION_MS);
   }, []);
+
+  const go = useCallback((next: number) => {
+    changeIndex(((next % destinations.length) + destinations.length) % destinations.length);
+  }, [changeIndex]);
 
   useEffect(() => {
     if (!running) return;
     timerRef.current = window.setTimeout(
-      () => setIndex((i) => (i + 1) % destinations.length),
+      () => changeIndex((index + 1) % destinations.length),
       HOLD_MS
     );
     return () => {
       if (timerRef.current) window.clearTimeout(timerRef.current);
     };
-  }, [index, running]);
+  }, [index, running, changeIndex]);
 
   // Don't advance in a hidden tab.
   useEffect(() => {
@@ -120,8 +144,18 @@ export default function DestinationPlayer() {
         >
           {/* Photo layer: clip-path wipe on the outside, swoop + cursor
               parallax on the inside, Ken Burns push on the image itself.
-              Separate nodes so the transforms never fight. */}
-          <AnimatePresence initial={false}>
+              Separate nodes so the transforms never fight.
+              mode="wait": without it the outgoing and incoming photo sat in
+              the DOM simultaneously for the whole transition (that's how the
+              wipe-reveal look works) -- two full-bleed images each running
+              their own clip-path, scale/rotate spring, and independent CSS
+              Ken Burns animation, composited at once. On mobile GPUs that
+              combination corrupted a frame right as the new photo finished
+              wiping in -- worse for some destination pairs than others
+              (Kyoto's portrait crop vs. the rest, mainly) but never fully
+              predictable. Sequencing exit-then-enter instead of overlapping
+              them removes the double-layer composite entirely. */}
+          <AnimatePresence initial={false} mode="wait">
             <motion.div
               key={active.name}
               className="absolute inset-0"

@@ -102,6 +102,14 @@ export default function PlanMyTrip() {
         eyebrow="Book it right the first time."
         title="Let Me Be Your Personal Travel Assistant — Even on the Fly."
         imageAspect="aspect-[4/5]"
+        // Below md this box had no height cap at all -- aspect-[4/5] at a
+        // 320px-wide phone renders a 400px-tall portrait, pushing the
+        // headline to ~553px, almost the entire first screen (568px tall).
+        // Capping it here mirrors the same md:max-h-[420px] pattern already
+        // proven on this page for tablet. 240px still left the (long) H1
+        // ending at 604px, past a 568px-tall screen -- 190px clears it with
+        // a little margin.
+        imageMobileMaxH="max-h-[190px]"
         imageSlot={
           <motion.div
             className="absolute inset-0"

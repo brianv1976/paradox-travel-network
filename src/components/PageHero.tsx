@@ -28,6 +28,12 @@ interface Props {
    *  proportions would otherwise get cropped away (e.g. a taller portrait
    *  shot). Ignored for imageSlot compositions, which manage their own shape. */
   imageAspect?: string;
+  /** Extra mobile-only max-height class (e.g. "max-h-[260px]"), applied
+   *  below md. Only needed for tall imageAspect overrides like aspect-[4/5]
+   *  — the default aspect-[4/3] never grows tall enough at narrow phone
+   *  widths to push the headline off the first screen, so leave unset for
+   *  every other page. */
+  imageMobileMaxH?: string;
   children?: React.ReactNode;
 }
 
@@ -49,6 +55,7 @@ export default function PageHero({
   imageSlot,
   imageFrameless = false,
   imageAspect = "aspect-[4/3]",
+  imageMobileMaxH,
   children,
 }: Props) {
   const ref = useRef<HTMLElement>(null);
@@ -191,7 +198,7 @@ export default function PageHero({
             // that's simply cropped shorter. w-full forces the box back to
             // full column width regardless; object-cover on the img inside
             // still handles the actual cropping.
-            className={`relative order-1 w-full ${imageAspect} landscape:max-h-[38vh] [@media(orientation:landscape)_and_(max-height:500px)]:order-2 [@media(orientation:landscape)_and_(max-height:500px)]:aspect-square [@media(orientation:landscape)_and_(max-height:500px)]:max-h-[220px] [@media(orientation:landscape)_and_(max-height:500px)]:w-auto md:max-h-[420px] lg:order-none lg:max-h-none ${
+            className={`relative order-1 w-full ${imageAspect} ${imageMobileMaxH ?? ""} landscape:max-h-[38vh] [@media(orientation:landscape)_and_(max-height:500px)]:order-2 [@media(orientation:landscape)_and_(max-height:500px)]:aspect-square [@media(orientation:landscape)_and_(max-height:500px)]:max-h-[220px] [@media(orientation:landscape)_and_(max-height:500px)]:w-auto md:max-h-[420px] lg:order-none lg:max-h-none ${
               imageFrameless && imageSlot ? "" : "overflow-hidden rounded-[2rem] shadow-lift"
             }`}
           >
