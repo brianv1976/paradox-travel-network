@@ -90,7 +90,15 @@ export default function Contact() {
               // break-all: a comfortable fit doesn't need it, and it's
               // safer to let a genuine unexpected overflow show than to
               // mid-word-break an email address.
-              className="group mt-8 inline-flex flex-wrap items-center gap-3 font-display text-sm font-semibold text-cream transition-colors hover:text-gold sm:text-3xl md:text-5xl"
+              //
+              // md:text-5xl jumped too early: at exactly 768px (the low
+              // end of the md range) the container is only ~688px, and
+              // text-5xl (48px) rendered the address at ~830px wide --
+              // same silent-clipping failure, this time ~54-80px off
+              // screen. Holding at text-3xl through the whole md range and
+              // only jumping to text-5xl at lg (1024px, real room) fixes
+              // it without needing another in-between size step.
+              className="group mt-8 inline-flex flex-wrap items-center gap-3 font-display text-sm font-semibold text-cream transition-colors hover:text-gold sm:text-3xl lg:text-5xl"
             >
               {links.email}
               <ArrowRight
