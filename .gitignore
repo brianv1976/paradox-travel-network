@@ -4,3 +4,6 @@ dist/
 lighthouse-report.json
 lighthouse-prod.json
 .claude/
+playwright-report/
+test-results/
+debug.log
