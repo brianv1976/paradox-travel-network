@@ -226,7 +226,12 @@ export default function DestinationPlayer() {
               <button
                 key={d.name}
                 onClick={() => go(i)}
-                className="group text-left"
+                // min-h-11 (44px) gives each button a real touch target --
+                // the visible content (thin bar + small label) previously
+                // was the only thing determining the button's height,
+                // landing around 28px. justify-center keeps the compact
+                // visual look centered in the taller hit area.
+                className="group flex min-h-11 flex-col justify-center text-left"
                 aria-label={`Show ${d.name}`}
                 aria-current={isActive}
               >

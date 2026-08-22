@@ -80,7 +80,15 @@ export default function Contact() {
           <Reveal delay={0.1}>
             <a
               href={`mailto:${links.email}`}
-              className="group mt-8 inline-flex flex-wrap items-center gap-3 break-all font-display text-xl font-semibold text-cream transition-colors hover:text-gold sm:text-3xl md:text-5xl"
+              // text-lg leaves real margin at the narrowest phones (was
+              // text-xl paired with break-all, which fit with only a few
+              // px to spare -- any minor font-metric variance snapped a
+              // break-all break at the very last character, producing an
+              // orphaned "m" on its own line). No break-all now: with this
+              // much margin it isn't needed, and it's safer to let a truly
+              // unexpected overflow show than to mid-word-break an email
+              // address.
+              className="group mt-8 inline-flex flex-wrap items-center gap-3 font-display text-lg font-semibold text-cream transition-colors hover:text-gold sm:text-3xl md:text-5xl"
             >
               {links.email}
               <ArrowRight

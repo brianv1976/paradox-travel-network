@@ -182,7 +182,16 @@ export default function PageHero({
             // "image dominates the tablet fold" pattern flagged on other
             // pages. lg:max-h-none restores full aspect-ratio sizing once
             // the two-column layout has real side-by-side room.
-            className={`relative order-1 ${imageAspect} landscape:max-h-[38vh] [@media(orientation:landscape)_and_(max-height:500px)]:order-2 [@media(orientation:landscape)_and_(max-height:500px)]:aspect-square [@media(orientation:landscape)_and_(max-height:500px)]:max-h-[220px] md:max-h-[420px] lg:order-none lg:max-h-none ${
+            // w-full: pairing a max-height with an aspect-ratio class makes
+            // the browser compute width FROM the (now capped) height
+            // instead of stretching to the grid column -- caused a tall,
+            // narrow aspect ratio like Plan My Trip's aspect-[4/5] to
+            // shrink to a half-width thumbnail with empty space beside it
+            // once max-h-[420px] kicked in, instead of a full-width image
+            // that's simply cropped shorter. w-full forces the box back to
+            // full column width regardless; object-cover on the img inside
+            // still handles the actual cropping.
+            className={`relative order-1 w-full ${imageAspect} landscape:max-h-[38vh] [@media(orientation:landscape)_and_(max-height:500px)]:order-2 [@media(orientation:landscape)_and_(max-height:500px)]:aspect-square [@media(orientation:landscape)_and_(max-height:500px)]:max-h-[220px] [@media(orientation:landscape)_and_(max-height:500px)]:w-auto md:max-h-[420px] lg:order-none lg:max-h-none ${
               imageFrameless && imageSlot ? "" : "overflow-hidden rounded-[2rem] shadow-lift"
             }`}
           >
