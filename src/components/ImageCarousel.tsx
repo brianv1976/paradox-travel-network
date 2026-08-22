@@ -8,7 +8,20 @@ type Slide = { src: string; alt: string; caption: string };
 const HOLD_MS = 4500;
 
 /** Autoplaying image carousel — crossfade + caption, dot nav, arrows. */
-export default function ImageCarousel({ slides }: { slides: Slide[] }) {
+export default function ImageCarousel({
+  slides,
+  // object-cover's default center-crop was cutting into the Exoticca-
+  // branded slides' top-left logo watermark: the carousel's mobile aspect
+  // ratio (4:3) is narrower than the source photos' native 16:9, so
+  // object-cover crops the sides -- centered crop removes ~150px from each
+  // side of a 1200px-wide source, and the logo sits at x=110, squarely in
+  // the cropped-away region. "left" biases the crop to trim only the
+  // right side instead, so a left-anchored logo is never touched.
+  imagePosition = "object-center",
+}: {
+  slides: Slide[];
+  imagePosition?: string;
+}) {
   const [index, setIndex] = useState(0);
 
   const go = useCallback((next: number) => {
@@ -58,7 +71,7 @@ export default function ImageCarousel({ slides }: { slides: Slide[] }) {
               alt={s.alt}
               loading="lazy"
               draggable={false}
-              className="h-full w-full object-cover animate-kenburns"
+              className={`h-full w-full object-cover animate-kenburns ${imagePosition}`}
             />
           </motion.div>
         </AnimatePresence>

@@ -74,6 +74,15 @@ export default function ConciergeBot() {
 
   const endpoint = import.meta.env.VITE_CONCIERGE_ENDPOINT as string | undefined;
 
+  // Below md the floating launcher is gone (see the button below) -- the
+  // mobile menu's "Ask Brian" entry opens the same panel by dispatching
+  // this event instead of rendering a second trigger button.
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener("open-concierge", onOpen);
+    return () => window.removeEventListener("open-concierge", onOpen);
+  }, []);
+
   useEffect(() => {
     scrollRef.current?.scrollTo({
       top: scrollRef.current.scrollHeight,
@@ -155,11 +164,17 @@ export default function ConciergeBot() {
 
   return (
     <>
-      {/* Launcher */}
+      {/* Launcher -- hidden below md. On phones a floating button had
+          nowhere good to sit (covered carousel dots, the mobile-nav panel,
+          CTAs near the bottom) no matter how it was resized/repositioned;
+          removing it there and adding "Ask Brian" to the mobile menu
+          (Navbar.tsx, dispatches "open-concierge") is the structural fix
+          instead of another patch. Kept on tablet/desktop, where there's
+          real space and it stays out of the way. */}
       <motion.button
         ref={launcherRef}
         onClick={() => setOpen((v) => !v)}
-        className="concierge-launcher fixed bottom-5 right-5 z-[60] inline-flex h-14 w-14 items-center justify-center rounded-full bg-ocean-dark text-cream shadow-lift transition-colors hover:bg-ocean"
+        className="concierge-launcher fixed bottom-5 right-5 z-[60] hidden h-14 w-14 items-center justify-center rounded-full bg-ocean-dark text-cream shadow-lift transition-colors hover:bg-ocean md:inline-flex"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label={open ? "Close concierge" : "Open travel concierge"}

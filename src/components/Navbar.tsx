@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, MessageCircle } from "lucide-react";
 import { navLinks } from "../data/site";
 import Magnetic from "./Magnetic";
 import { assets, business } from "../lib/assets";
@@ -157,6 +157,21 @@ export default function Navbar() {
                   </Link>
                 )
               )}
+              {/* Concierge's own floating launcher is hidden below md
+                  (ConciergeBot.tsx) -- this is its only trigger on phones.
+                  Dispatches the same open event the launcher button would,
+                  and closes this menu first so the chat panel isn't
+                  fighting it for screen space. */}
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  window.dispatchEvent(new Event("open-concierge"));
+                }}
+                className="mt-1 flex items-center gap-2 rounded-xl px-3 py-3 text-left text-base font-medium text-ink/85 transition-colors hover:bg-sand md:hidden"
+              >
+                <MessageCircle size={18} />
+                Ask Brian
+              </button>
             </div>
           </motion.div>
         )}

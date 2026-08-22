@@ -354,7 +354,11 @@ export default function BookItYourself() {
         <div className="container-px py-20 md:py-28">
           <div className="grid items-center gap-10 md:grid-cols-2">
             <Reveal>
-              <ImageCarousel slides={exoticcaSlides} />
+              {/* Every Exoticca photo carries their own "exoticca" wordmark
+                  baked into the top-left corner -- object-left keeps the
+                  crop from trimming into it (default center-crop was
+                  cutting off the leading "e"). */}
+              <ImageCarousel slides={exoticcaSlides} imagePosition="object-left" />
             </Reveal>
             <div>
               <span className="eyebrow">Complete, multi-destination trips</span>
