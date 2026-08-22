@@ -61,4 +61,10 @@ export const stagger = (amount = 0.16, delay = 0): Variants => ({
   },
 });
 
-export const viewportOnce = { once: true, amount: 0.25 } as const;
+// amount: 0.25 fired the reveal as soon as a quarter of the section had
+// entered the viewport -- on shorter sections (the booking-partner logos,
+// card copy) that's still down near the bottom edge of the screen, so the
+// fade-in played out and finished well before the content reached anywhere
+// close to the middle. 0.5 waits for half the section to be on screen,
+// which in practice lands much closer to mid-viewport before it starts.
+export const viewportOnce = { once: true, amount: 0.5 } as const;
