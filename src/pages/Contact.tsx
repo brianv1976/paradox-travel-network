@@ -80,15 +80,17 @@ export default function Contact() {
           <Reveal delay={0.1}>
             <a
               href={`mailto:${links.email}`}
-              // text-lg leaves real margin at the narrowest phones (was
-              // text-xl paired with break-all, which fit with only a few
-              // px to spare -- any minor font-metric variance snapped a
-              // break-all break at the very last character, producing an
-              // orphaned "m" on its own line). No break-all now: with this
-              // much margin it isn't needed, and it's safer to let a truly
-              // unexpected overflow show than to mid-word-break an email
-              // address.
-              className="group mt-8 inline-flex flex-wrap items-center gap-3 font-display text-lg font-semibold text-cream transition-colors hover:text-gold sm:text-3xl md:text-5xl"
+              // text-sm at 320px: measured the actual available width
+              // (272px, container padding subtracted) against the actual
+              // rendered text width at each size -- text-lg and text-base
+              // both still overflowed their own flex parent (which has
+              // overflow hidden, so the overflow was silently CLIPPING
+              // ~7-25px of the address instead of showing a scrollbar).
+              // text-sm is the first size with real margin (~40px). No
+              // break-all: a comfortable fit doesn't need it, and it's
+              // safer to let a genuine unexpected overflow show than to
+              // mid-word-break an email address.
+              className="group mt-8 inline-flex flex-wrap items-center gap-3 font-display text-sm font-semibold text-cream transition-colors hover:text-gold sm:text-3xl md:text-5xl"
             >
               {links.email}
               <ArrowRight
@@ -152,10 +154,16 @@ export default function Contact() {
             </div>
             <a
               href={`mailto:${links.supportEmail}`}
-              className="link-underline shrink-0 text-lg"
+              // support@paradoxtravelnetwork.com is longer than the hero
+              // hello@ address and was missed in the earlier narrow-width
+              // pass -- text-lg with no mobile downsize overflowed the
+              // document at 320px. Same fix as the hero email: small
+              // enough font for real margin, icon hidden below sm instead
+              // of adding width it doesn't have room for.
+              className="link-underline flex shrink-0 items-center gap-2 text-sm sm:text-lg"
             >
               {links.supportEmail}
-              <ArrowRight size={16} />
+              <ArrowRight size={16} className="hidden sm:block" />
             </a>
           </Reveal>
         </div>

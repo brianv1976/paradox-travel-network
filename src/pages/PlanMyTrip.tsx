@@ -111,7 +111,12 @@ export default function PlanMyTrip() {
             <img
               src={assets.halfBody}
               alt="Brian Voyles, travel advisor"
-              className="h-full w-full object-cover object-center animate-kenburns"
+              // object-top, not object-center: at the tablet range (md,
+              // max-h-[420px] capping a much taller aspect-[4/5] box),
+              // center-cropping this photo cut off from the chin down --
+              // his face was above the cropped window. Biasing to the top
+              // keeps the face in frame at every crop height.
+              className="h-full w-full object-cover object-top animate-kenburns"
             />
           </motion.div>
         }
