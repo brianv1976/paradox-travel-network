@@ -33,7 +33,6 @@ import TiltCard from "../components/TiltCard";
 import Magnetic from "../components/Magnetic";
 import AnimatedHeadline from "../components/AnimatedHeadline";
 import Marquee from "../components/Marquee";
-import Stats from "../components/Stats";
 import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
@@ -257,8 +256,6 @@ export default function Home() {
           places should arrive before the process does. One fixed stage that
           cycles in place, rather than sections scrolling past. */}
       <DestinationPlayer />
-
-      <Stats />
 
       {/* CHOOSE PATH — the full explanation of both paths. Absorbed what
           used to be two separate sections ("What Paradox Is" and "Why Work
