@@ -200,30 +200,24 @@ export default function Blog() {
             variants={stagger(0.1)}
             initial="hidden"
             animate="show"
-            // w-[72%] below sm: the text column previously ran full-width,
-            // so at 320px "Minimal inspirational" wrapped right into the
-            // more visible (less cream-gradient-covered) part of the photo
-            // on the right. Narrowing the column keeps every line clear of
-            // that area -- it also naturally forces an earlier wrap, so
-            // the smaller max-[374px] size keeps the resulting 3-4 lines
-            // from feeling cramped on the very narrowest phones.
-            className="container-px absolute inset-y-0 left-0 flex w-[72%] max-w-xl flex-col justify-start gap-1.5 pt-10 sm:w-full sm:gap-4 sm:pt-0 sm:justify-center md:w-[46%] md:max-w-none md:justify-start md:gap-6 md:pt-10 lg:gap-8 lg:pt-14"
+            // Below sm this column's only job is the eyebrow -- the H1
+            // moved out to plain document flow below the image (matching
+            // where the eyebrow/paragraph mobile copies already lived).
+            // The image's 16:9 banner is simply too narrow at 320-374px to
+            // give an overlaid, absolutely-positioned column enough room
+            // for a 4-word phrase without an awkward mid-sentence wrap no
+            // matter the font size -- full container width in normal flow
+            // sidesteps the problem entirely instead of fighting it.
+            className="container-px absolute inset-y-0 left-0 flex w-full max-w-xl flex-col justify-start gap-1.5 pt-10 sm:gap-4 sm:pt-0 sm:justify-center md:w-[46%] md:max-w-none md:justify-start md:gap-6 md:pt-10 lg:gap-8 lg:pt-14"
           >
             <motion.span variants={fadeUp} className="eyebrow hidden text-xs sm:block md:text-sm lg:text-base">
               Postcards from Paradox
             </motion.span>
             <motion.h1
               variants={fadeUp}
-              className="text-2xl font-semibold leading-[1.15] text-ink [@media(max-width:374px)]:text-xl sm:text-2xl sm:leading-[1.1] md:text-3xl lg:text-6xl xl:text-7xl"
+              className="hidden text-2xl font-semibold leading-[1.1] text-ink sm:block md:text-3xl lg:text-6xl xl:text-7xl"
             >
-              <span className="sm:hidden">
-                Useful advice.
-                <br />
-                Minimal inspirational fog.
-              </span>
-              <span className="hidden sm:inline">
-                Useful advice. Minimal inspirational fog.
-              </span>
+              Useful advice. Minimal inspirational fog.
             </motion.h1>
             <motion.p
               variants={fadeUp}
@@ -236,9 +230,12 @@ export default function Blog() {
           </motion.div>
         </div>
 
-        <span className="eyebrow container-px block pb-6 pt-4 text-center text-xs sm:hidden">
+        <span className="eyebrow container-px block pb-3 pt-4 text-center text-xs sm:hidden">
           Postcards from Paradox
         </span>
+        <h1 className="container-px text-center text-2xl font-semibold leading-[1.15] text-ink sm:hidden">
+          Useful advice. Minimal inspirational fog.
+        </h1>
       </section>
 
       <p className="container-px pb-6 pt-6 text-center text-sm leading-relaxed text-fog sm:hidden">
