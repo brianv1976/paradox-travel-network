@@ -151,7 +151,7 @@ function buildHead(template, siteUrl, { title, description, path: routePath, ima
   // doesn't point search engines at a URL that immediately redirects.
   const url = siteUrl + canonicalPath(routePath);
   const resolvedImage = image || DEFAULT_IMAGE;
-  const img = /^https?:\/\//.test(resolvedImage) ? resolvedImage : siteUrl + resolvedImage;
+  const img = new URL(resolvedImage, `${siteUrl}/`).href;
   let html = template;
 
   html = html.replace(/<title>.*?<\/title>/s, `<title>${escapeAttr(title)}</title>`);
