@@ -130,10 +130,14 @@ function latLngToVec3(lat: number, lng: number, r: number) {
   );
 }
 
-/** Paint real coastlines into an equirectangular texture. */
-function buildEarthTexture() {
-  const w = 4096;
-  const h = 2048;
+/** Paint real coastlines into an equirectangular texture. Mobile does not need
+ *  a 4096px-wide canvas for a globe that occupies only a few hundred CSS
+ *  pixels, so use a smaller texture there and keep full detail on larger
+ *  screens. This cuts the mobile texture's raw pixel memory by about 75%. */
+function buildEarthTexture(textureWidth: number) {
+  const w = textureWidth;
+  const h = Math.round(textureWidth / 2);
+  const lineScale = w / 4096;
   const canvas = document.createElement("canvas");
   canvas.width = w;
   canvas.height = h;
@@ -149,7 +153,7 @@ function buildEarthTexture() {
 
   // Faint graticule so the sphere reads as a globe even over open ocean.
   ctx.strokeStyle = "rgba(255,255,255,0.06)";
-  ctx.lineWidth = 2;
+  ctx.lineWidth = Math.max(1, 2 * lineScale);
   for (let lng = -180; lng <= 180; lng += 30) {
     const x = ((lng + 180) / 360) * w;
     ctx.beginPath();
@@ -168,7 +172,7 @@ function buildEarthTexture() {
   // Landmasses, tinted by latitude band so they read as textured, not flat.
   const rings = decodeLandRings();
   ctx.strokeStyle = LAND_EDGE;
-  ctx.lineWidth = 3;
+  ctx.lineWidth = Math.max(1, 3 * lineScale);
   ctx.lineJoin = "round";
 
   for (const flat of rings) {
@@ -420,7 +424,8 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
   system.add(globe);
 
   // --- Earth --------------------------------------------------------------
-  const earthTex = buildEarthTexture();
+  const availableWidth = Math.min(window.innerWidth, mount.clientWidth || window.innerWidth);
+  const earthTex = buildEarthTexture(availableWidth < 768 ? 2048 : 4096);
   const earthGeo = new THREE.SphereGeometry(RADIUS, 96, 96);
   const earthMat = new THREE.MeshBasicMaterial({ map: earthTex });
   globe.add(new THREE.Mesh(earthGeo, earthMat));
@@ -600,23 +605,14 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
   window.addEventListener("pointerup", onPointerUp);
   window.addEventListener("pointermove", onPointerMove);
 
-  // WebGL context loss (GPU reset, driver crash, too many contexts open) is
-  // reported via this event, not a thrown exception — without listening for
-  // it the canvas would just go permanently blank while the rAF loop keeps
-  // silently spinning.
-  let contextLost = false;
-  const onContextLost = (e: Event) => {
-    e.preventDefault();
-    contextLost = true;
-    cancelAnimationFrame(raf);
-    onFail();
-  };
-  renderer.domElement.addEventListener("webglcontextlost", onContextLost);
-
   // --- Loop ---------------------------------------------------------------
   let raf = 0;
   let t = 0;
-  const clock = new THREE.Clock();
+  let running = false;
+  let contextLost = false;
+  let disposed = false;
+  let inView = true;
+  const clock = new THREE.Clock(false);
   const fwd = new THREE.Vector3();
   const up = new THREE.Vector3();
   const right = new THREE.Vector3();
@@ -632,6 +628,8 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
   const FRONT_RANGE = 0.14;
 
   const animate = () => {
+    if (!running || contextLost || disposed) return;
+
     const dt = Math.min(clock.getDelta(), 0.05);
     t += dt;
 
@@ -747,14 +745,42 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
     try {
       renderer.render(scene, camera);
     } catch (err) {
+      running = false;
       if (!contextLost) {
         console.error("Globe render failed, falling back to static view:", err);
         onFail();
       }
       return;
     }
-    raf = requestAnimationFrame(animate);
+
+    if (running) raf = requestAnimationFrame(animate);
   };
+
+  const startLoop = () => {
+    if (running || contextLost || disposed || !inView || document.hidden) return;
+    running = true;
+    clock.start();
+    animate();
+  };
+
+  const stopLoop = () => {
+    running = false;
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0;
+    clock.stop();
+  };
+
+  // WebGL context loss (GPU reset, driver crash, too many contexts open) is
+  // reported via this event, not a thrown exception — without listening for
+  // it the canvas would just go permanently blank while the rAF loop keeps
+  // silently spinning.
+  const onContextLost = (e: Event) => {
+    e.preventDefault();
+    contextLost = true;
+    stopLoop();
+    onFail();
+  };
+  renderer.domElement.addEventListener("webglcontextlost", onContextLost);
 
   const resize = () => {
     const w = mount.clientWidth;
@@ -767,14 +793,41 @@ function mountGlobe(mount: HTMLDivElement, reduce: boolean, onFail: () => void):
     camera.updateProjectionMatrix();
   };
   resize();
-  animate();
+
+  // Paint one frame immediately, then let visibility determine whether the
+  // animation loop should keep consuming GPU/CPU. The observer uses a small
+  // margin so the globe wakes shortly before it scrolls back into view.
+  renderer.render(scene, camera);
 
   const ro = new ResizeObserver(resize);
   ro.observe(mount);
 
+  const onVisibilityChange = () => {
+    if (document.hidden) stopLoop();
+    else startLoop();
+  };
+  document.addEventListener("visibilitychange", onVisibilityChange);
+
+  const io =
+    "IntersectionObserver" in window
+      ? new IntersectionObserver(
+          ([entry]) => {
+            inView = entry?.isIntersecting ?? true;
+            if (inView) startLoop();
+            else stopLoop();
+          },
+          { rootMargin: "180px 0px", threshold: 0.01 }
+        )
+      : null;
+  io?.observe(mount);
+  startLoop();
+
   return () => {
-    cancelAnimationFrame(raf);
+    disposed = true;
+    stopLoop();
     ro.disconnect();
+    io?.disconnect();
+    document.removeEventListener("visibilitychange", onVisibilityChange);
     renderer.domElement.removeEventListener("pointerdown", onPointerDown);
     renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
     window.removeEventListener("pointerup", onPointerUp);
