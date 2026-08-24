@@ -45,6 +45,8 @@ interface Props {
  * On load: the rule draws, the eyebrow slides in, the title reveals word by
  * word, then the copy. On scroll: the photo drifts up and scales while the
  * copy drifts the other way, so the two columns separate into layers.
+ * Reduced-motion visitors receive the same layout and content without those
+ * entrance, ambient, or scroll-linked transforms.
  */
 export default function PageHero({
   eyebrow,
@@ -121,28 +123,39 @@ export default function PageHero({
           className="order-2 flex flex-col gap-6 [@media(orientation:landscape)_and_(max-height:500px)]:order-1 [@media(orientation:landscape)_and_(max-height:500px)]:gap-2 lg:order-none"
         >
           <motion.div
-            initial="hidden"
-            animate="show"
+            initial={reduce ? false : "hidden"}
+            animate={reduce ? undefined : "show"}
             // Eyebrow is decorative -- drop it in short landscape to save
             // vertical room for the title/CTA, which matter more there.
             className="flex items-center gap-3 [@media(orientation:landscape)_and_(max-height:500px)]:hidden"
           >
             <motion.span
-              variants={{
-                hidden: { scaleX: 0 },
-                show: { scaleX: 1, transition: { duration: 0.6, ease: smooth } },
-              }}
+              variants={
+                reduce
+                  ? undefined
+                  : {
+                      hidden: { scaleX: 0 },
+                      show: {
+                        scaleX: 1,
+                        transition: { duration: 0.6, ease: smooth },
+                      },
+                    }
+              }
               className="h-px w-8 origin-left bg-clay"
             />
             <motion.span
-              variants={{
-                hidden: { opacity: 0, x: -12 },
-                show: {
-                  opacity: 1,
-                  x: 0,
-                  transition: { duration: 0.5, ease: smooth, delay: 0.1 },
-                },
-              }}
+              variants={
+                reduce
+                  ? undefined
+                  : {
+                      hidden: { opacity: 0, x: -12 },
+                      show: {
+                        opacity: 1,
+                        x: 0,
+                        transition: { duration: 0.5, ease: smooth, delay: 0.1 },
+                      },
+                    }
+              }
               className="eyebrow"
             >
               {eyebrow}
@@ -163,20 +176,20 @@ export default function PageHero({
           </h1>
 
           <motion.div
-            variants={stagger(0.1, 0.45)}
-            initial="hidden"
-            animate="show"
+            variants={reduce ? undefined : stagger(0.1, 0.45)}
+            initial={reduce ? false : "hidden"}
+            animate={reduce ? undefined : "show"}
             className="flex flex-col gap-5 [@media(orientation:landscape)_and_(max-height:500px)]:gap-2"
           >
-            <motion.div variants={fadeUp}>{children}</motion.div>
+            <motion.div variants={reduce ? undefined : fadeUp}>{children}</motion.div>
           </motion.div>
         </motion.div>
 
         {(image || imageSlot) && (
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 1.04 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1, ease: smooth, delay: 0.15 }}
+            initial={reduce ? false : { opacity: 0, y: 40, scale: 1.04 }}
+            animate={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: reduce ? 0 : 1, ease: smooth, delay: reduce ? 0 : 0.15 }}
             // Short landscape gets a real side-by-side layout (see the grid
             // above): image sits in its own narrower grid column as a small
             // photo next to the text, ordered after it, rather than a
