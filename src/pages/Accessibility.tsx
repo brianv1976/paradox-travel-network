@@ -11,7 +11,7 @@ export default function Accessibility() {
     <LegalLayout
       eyebrow="Accessibility"
       title="Accessibility Statement"
-      updated="July 2026"
+      updated="August 2026"
     >
       <p>
         Paradox Travel Network wants this site to be usable by as many people as
