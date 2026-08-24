@@ -90,14 +90,17 @@ export default function HeroPhotoStack({ photos }: Props) {
     ).matches;
   }, []);
 
-  // Warm the browser cache for the whole pool up front — small (6-8 photo)
-  // pool, so this is cheap, and it means a card rotating in a photo it
-  // hasn't shown yet never flashes blank while the image loads.
+  // The three initially visible photos are loaded by their actual <img>
+  // elements. Warm only the remaining pool, and wait briefly before doing it
+  // so those background fetches cannot compete with the hero's first paint.
   useEffect(() => {
-    photos.forEach((p) => {
-      const img = new Image();
-      img.src = p.src;
-    });
+    const id = window.setTimeout(() => {
+      photos.slice(3).forEach((p) => {
+        const img = new Image();
+        img.src = p.src;
+      });
+    }, 1200);
+    return () => window.clearTimeout(id);
   }, [photos]);
 
   useEffect(() => {
@@ -141,11 +144,14 @@ export default function HeroPhotoStack({ photos }: Props) {
     };
   }, [len, reduce]);
 
-  // Single persistent rAF loop — started once, reads current roles from
-  // cardsRef every frame so it never needs to restart on shuffle.
+  // Persistent parallax/idle rAF while the hero is actually near the
+  // viewport. Once the user scrolls away, stop the loop entirely rather
+  // than asking the CPU/GPU to animate an invisible stack for the rest of
+  // the page visit. It wakes shortly before the hero scrolls back into view.
   useEffect(() => {
     const scene = sceneRef.current;
-    if (!scene) return;
+    const stage = stageRef.current;
+    if (!scene || !stage) return;
 
     if (reduce) {
       scene.style.transform = "rotateX(0deg) rotateY(0deg)";
@@ -156,10 +162,13 @@ export default function HeroPhotoStack({ photos }: Props) {
     }
 
     let raf = 0;
+    let running = false;
+    let inView = true;
     const start = performance.now();
     const idleAmplitude = isCoarsePointer.current ? 0.06 : 0.14;
 
     const tick = (now: number) => {
+      if (!running) return;
       const t = (now - start) / 1000;
       const idleX = Math.sin((t / 2.8) * Math.PI * 2) * idleAmplitude;
       const idleY = Math.cos((t / 3.1) * Math.PI * 2) * idleAmplitude;
@@ -187,11 +196,42 @@ export default function HeroPhotoStack({ photos }: Props) {
         sheenRef.current.style.backgroundPosition = `${50 + cx * 30}% ${50 + cy * 30}%`;
       }
 
-      raf = requestAnimationFrame(tick);
+      if (running) raf = requestAnimationFrame(tick);
     };
 
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    const startLoop = () => {
+      if (running || document.hidden || !inView) return;
+      running = true;
+      raf = requestAnimationFrame(tick);
+    };
+    const stopLoop = () => {
+      running = false;
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const onVisibility = () => (document.hidden ? stopLoop() : startLoop());
+
+    const io =
+      "IntersectionObserver" in window
+        ? new IntersectionObserver(
+            ([entry]) => {
+              inView = entry?.isIntersecting ?? true;
+              if (inView) startLoop();
+              else stopLoop();
+            },
+            { rootMargin: "180px 0px", threshold: 0.01 }
+          )
+        : null;
+
+    document.addEventListener("visibilitychange", onVisibility);
+    io?.observe(stage);
+    startLoop();
+
+    return () => {
+      stopLoop();
+      io?.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, [reduce]);
 
   const onMove = (e: React.PointerEvent) => {
