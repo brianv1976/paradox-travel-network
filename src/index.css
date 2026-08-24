@@ -123,6 +123,25 @@
   }
 }
 
+/* MotionConfig and component-level reduced-motion logic handle JS-driven
+   movement. This is the CSS-side safety net for Tailwind hover transforms,
+   transitions, pseudo-elements, and any future keyframes that do not pass
+   through Framer Motion. Keep state changes visible, just make them instant. */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Homepage globe: the phone layout used a 260px wrapper and the Three.js
    label overlay clipped anything that projected beyond that small square.
    Give the globe the full useful portrait width and let callout pills paint
