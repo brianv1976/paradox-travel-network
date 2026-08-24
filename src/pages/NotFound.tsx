@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Compass } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 
 export default function NotFound() {
+  const reduce = useReducedMotion();
   useSeo("Page not found | Paradox Travel Network", undefined, { noindex: true });
   return (
     <section className="container-px flex min-h-[70vh] flex-col items-center justify-center py-32 text-center">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        initial={reduce ? false : { opacity: 0, y: 20 }}
+        animate={reduce ? undefined : { opacity: 1, y: 0 }}
+        transition={{ duration: reduce ? 0 : 0.6 }}
         className="flex flex-col items-center gap-6"
       >
         <Compass className="text-clay" size={56} />
