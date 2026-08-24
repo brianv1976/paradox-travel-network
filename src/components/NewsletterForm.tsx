@@ -95,7 +95,7 @@ export default function NewsletterForm({ variant = "card" }: Props) {
 
   const errorMessage = status === "error" && (
     <p
-      role="status"
+      role="alert"
       className={
         variant === "inline"
           ? "absolute -bottom-6 left-0 text-xs text-clay-light"
