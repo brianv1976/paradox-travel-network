@@ -99,7 +99,7 @@ export default function ImageCarousel({
         </AnimatePresence>
 
         <div className="absolute right-4 top-4 flex gap-2">
-          {slides.length > 1 && (
+          {slides.length > 1 && !reduce && (
             <button
               onClick={() => setPaused((p) => !p)}
               aria-label={paused ? "Play photo carousel" : "Pause photo carousel"}
