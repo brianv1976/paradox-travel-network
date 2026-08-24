@@ -1,9 +1,12 @@
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 
 /**
  * Thin gradient progress bar pinned to the top of the viewport.
+ * It is decorative, so visitors who request reduced motion do not get an
+ * extra scroll-linked animation layered on top of normal page movement.
  */
 export default function ScrollProgress() {
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 120,
@@ -11,8 +14,11 @@ export default function ScrollProgress() {
     restDelta: 0.001,
   });
 
+  if (reduce) return null;
+
   return (
     <motion.div
+      aria-hidden="true"
       style={{ scaleX }}
       className="fixed inset-x-0 top-0 z-[70] h-1 origin-left bg-gradient-to-r from-ocean via-clay to-gold"
     />
