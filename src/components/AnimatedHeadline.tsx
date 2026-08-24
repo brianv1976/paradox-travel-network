@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { maskUp, stagger } from "../lib/motion";
 
 interface Props {
@@ -15,7 +15,8 @@ interface Props {
  *
  * Each word sits in an `overflow-hidden` span; the inner span slides up from
  * fully below that box. Words keep their own spacing so the line still wraps
- * naturally at any width.
+ * naturally at any width. Visitors who request reduced motion get the same
+ * text immediately, without the masked word-by-word travel.
  */
 export default function AnimatedHeadline({
   text,
@@ -23,7 +24,13 @@ export default function AnimatedHeadline({
   immediate = false,
   delay = 0,
 }: Props) {
+  const reduce = useReducedMotion();
   const words = text.split(" ");
+
+  if (reduce) {
+    return <span className={className}>{text}</span>;
+  }
+
   const activation = immediate
     ? { animate: "show" as const }
     : { whileInView: "show" as const, viewport: { once: true, amount: 0.4 } };
