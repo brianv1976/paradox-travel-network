@@ -84,7 +84,10 @@ export default function Navbar() {
       {/* shrink-0: the row itself (logo + toggle) never gets squeezed by the
           flex-column's max-height cap below -- only the menu panel should
           give up space, never this. */}
-      <nav className="container-px flex shrink-0 items-center justify-between py-5 md:py-6">
+      <nav
+        aria-label="Primary navigation"
+        className="container-px flex shrink-0 items-center justify-between py-5 md:py-6"
+      >
         <Link
           to="/"
           className="flex items-center gap-2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ocean-dark focus-visible:ring-offset-2"
