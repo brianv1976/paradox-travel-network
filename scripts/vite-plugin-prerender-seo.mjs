@@ -88,8 +88,16 @@ function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;");
 }
 
+function canonicalPath(routePath) {
+  if (routePath === "/") return "/";
+  return routePath.endsWith("/") ? routePath : `${routePath}/`;
+}
+
 function buildHead(template, siteUrl, { title, description, path: routePath, image, ogType, structuredData }) {
-  const url = siteUrl + routePath;
+  // Netlify resolves these directory-style prerendered pages to a trailing
+  // slash. Emit that final URL in canonical and Open Graph tags so the HTML
+  // doesn't point search engines at a URL that immediately redirects.
+  const url = siteUrl + canonicalPath(routePath);
   const resolvedImage = image || DEFAULT_IMAGE;
   const img = /^https?:\/\//.test(resolvedImage) ? resolvedImage : siteUrl + resolvedImage;
   let html = template;
