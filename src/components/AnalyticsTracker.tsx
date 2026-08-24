@@ -5,6 +5,26 @@ function cleanText(value: string | null | undefined) {
   return value?.replace(/\s+/g, " ").trim().slice(0, 120) || undefined;
 }
 
+function normalizePath(pathname: string) {
+  if (pathname === "/") return "/";
+  return pathname.endsWith("/") ? pathname : `${pathname}/`;
+}
+
+const PARTNER_BY_DOMAIN: Record<string, string> = {
+  "viator.com": "Viator",
+  "shoreexcursionsgroup.com": "Shore Excursions Group",
+  "exoticca.com": "Exoticca",
+  "projectexpedition.com": "Project Expedition",
+  "virginvoyages.com": "Virgin Voyages",
+};
+
+function getPartnerName(hostname: string) {
+  for (const [domain, name] of Object.entries(PARTNER_BY_DOMAIN)) {
+    if (hostname === domain || hostname.endsWith(`.${domain}`)) return name;
+  }
+  return undefined;
+}
+
 /**
  * Site-wide GA4 click tracking for the actions that matter to the business.
  * Uses one delegated listener so every current/future CTA is covered without
@@ -26,7 +46,7 @@ export default function AnalyticsTracker() {
       const rawHref = anchor.getAttribute("href")?.trim();
       if (!rawHref) return;
 
-      const sourcePath = window.location.pathname;
+      const sourcePath = normalizePath(window.location.pathname);
       const ctaText = cleanText(anchor.getAttribute("aria-label") || anchor.textContent);
 
       // On-page CTA that moves a visitor directly to the trip intake section.
@@ -85,20 +105,28 @@ export default function AnalyticsTracker() {
 
       // Booking-partner links already carry rel="sponsored" for disclosure.
       // Reuse that semantic marker so new suppliers are automatically tracked.
+      // Known supplier domains get a stable brand name; the clicked card/button
+      // stays in cta_text so product-level detail doesn't pollute partner totals.
       if (anchor.relList.contains("sponsored")) {
         trackEvent("booking_partner_click", {
           source_path: sourcePath,
           destination_host: destinationHost,
-          partner: cleanText(anchor.getAttribute("aria-label")) || ctaText || destinationHost,
+          partner:
+            getPartnerName(destinationHost) ||
+            cleanText(anchor.getAttribute("aria-label")) ||
+            destinationHost,
+          cta_text: ctaText,
         });
         return;
       }
 
       if (url.origin !== window.location.origin) return;
 
+      const destinationPath = normalizePath(url.pathname);
+
       // Track the two core site paths as micro-conversions. Ignore clicks to
       // the same path so in-page navigation does not inflate the count.
-      if (url.pathname === "/plan-my-trip" && sourcePath !== "/plan-my-trip") {
+      if (destinationPath === "/plan-my-trip/" && sourcePath !== "/plan-my-trip/") {
         trackEvent("plan_with_brian_click", {
           source_path: sourcePath,
           cta_text: ctaText,
@@ -106,7 +134,7 @@ export default function AnalyticsTracker() {
         return;
       }
 
-      if (url.pathname === "/book-it-yourself" && sourcePath !== "/book-it-yourself") {
+      if (destinationPath === "/book-it-yourself/" && sourcePath !== "/book-it-yourself/") {
         trackEvent("book_it_yourself_click", {
           source_path: sourcePath,
           cta_text: ctaText,
