@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { smooth } from "../lib/motion";
 
 type Slide = { src: string; alt: string; caption: string };
@@ -23,17 +23,25 @@ export default function ImageCarousel({
   imagePosition?: string;
 }) {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduce = useReducedMotion();
 
-  const go = useCallback((next: number) => {
-    setIndex(((next % slides.length) + slides.length) % slides.length);
-  }, [slides.length]);
+  const go = useCallback(
+    (next: number) => {
+      setIndex(((next % slides.length) + slides.length) % slides.length);
+    },
+    [slides.length]
+  );
 
+  // Moving content needs a real pause mechanism, and visitors who request
+  // reduced motion should never have an automatically advancing carousel.
   useEffect(() => {
-    const id = setInterval(() => {
+    if (paused || reduce || slides.length <= 1) return;
+    const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % slides.length);
     }, HOLD_MS);
-    return () => clearInterval(id);
-  }, [slides.length]);
+    return () => window.clearInterval(id);
+  }, [paused, reduce, slides.length]);
 
   const s = slides[index];
 
@@ -47,17 +55,17 @@ export default function ImageCarousel({
         <AnimatePresence mode="wait">
           <motion.div
             key={s.src}
-            initial={{ opacity: 0, scale: 1.06 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.8, ease: smooth }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.06 }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+            transition={{ duration: reduce ? 0 : 0.8, ease: smooth }}
             className="absolute inset-0"
             // touchAction: "pan-y" lets normal vertical page scroll pass
             // through untouched -- the browser only hands this element the
             // gesture once a horizontal drag is clearly intended, instead of
             // swallowing every touch on the carousel.
             style={{ touchAction: "pan-y" }}
-            drag="x"
+            drag={reduce ? false : "x"}
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.65}
             onDragEnd={(_e, info) => {
@@ -80,10 +88,10 @@ export default function ImageCarousel({
         <AnimatePresence mode="wait">
           <motion.p
             key={s.caption}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: smooth }}
+            transition={{ duration: reduce ? 0 : 0.4, ease: smooth }}
             className="absolute bottom-5 left-5 right-24 text-sm font-medium text-cream md:text-base"
           >
             {s.caption}
@@ -91,6 +99,16 @@ export default function ImageCarousel({
         </AnimatePresence>
 
         <div className="absolute right-4 top-4 flex gap-2">
+          {slides.length > 1 && (
+            <button
+              onClick={() => setPaused((p) => !p)}
+              aria-label={paused ? "Play photo carousel" : "Pause photo carousel"}
+              aria-pressed={paused}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-cream text-ink shadow-soft transition-colors hover:bg-cream/90"
+            >
+              {paused ? <Play size={17} /> : <Pause size={17} />}
+            </button>
+          )}
           <button
             onClick={() => go(index - 1)}
             aria-label="Previous photo"
@@ -119,6 +137,7 @@ export default function ImageCarousel({
             key={i}
             onClick={() => go(i)}
             aria-label={`Show photo ${i + 1}`}
+            aria-current={i === index ? "true" : undefined}
             className="flex h-8 w-8 items-center justify-center"
           >
             <span
