@@ -64,10 +64,10 @@ export default function HeroTravelScene({ slides }: { slides: Slide[] }) {
       <AnimatePresence mode="wait">
         <motion.div
           key={s.src}
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.9, ease: smooth }}
+          initial={reduce ? false : { opacity: 0, scale: 1.08 }}
+          animate={reduce ? undefined : { opacity: 1, scale: 1 }}
+          exit={reduce ? undefined : { opacity: 0, scale: 0.98 }}
+          transition={{ duration: reduce ? 0 : 0.9, ease: smooth }}
           className="absolute inset-0"
         >
           <motion.div
