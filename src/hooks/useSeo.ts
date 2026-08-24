@@ -16,6 +16,11 @@ interface SeoOptions {
 const SITE_NAME = "Paradox Travel Network";
 const DEFAULT_IMAGE = "/social-share.jpg";
 
+function normalizeCanonicalPath(pathname: string) {
+  if (pathname === "/") return "/";
+  return pathname.endsWith("/") ? pathname : `${pathname}/`;
+}
+
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let tag = document.querySelector(`meta[${attr}="${key}"]`);
   if (!tag) {
@@ -48,7 +53,11 @@ export function useSeo(title: string, description?: string, options?: SeoOptions
     if (!title) return;
 
     document.title = title;
-    const url = window.location.origin + window.location.pathname;
+    // Netlify's clean-URL behavior resolves route directories to a trailing
+    // slash (e.g. /plan-my-trip/). Keep canonical/OG URLs on that same final
+    // URL even after React Router performs a client-side navigation without a
+    // network redirect, so crawlers never see conflicting slash variants.
+    const url = window.location.origin + normalizeCanonicalPath(window.location.pathname);
     const image = options?.image
       ? window.location.origin + options.image
       : window.location.origin + DEFAULT_IMAGE;
