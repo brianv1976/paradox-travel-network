@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 // Generous bound (~5s at 60fps) so a slow first load of a lazy-loaded route
@@ -13,13 +13,31 @@ const MAX_ATTEMPTS = 300;
  * downloading its chunk) at the moment a route change to /#explore fires.
  * Retries every animation frame until the element shows up (or the attempt
  * budget runs out), instead of checking once and giving up.
+ *
+ * Client-side navigation also moves keyboard/screen-reader focus into the
+ * destination content. A full document navigation does this naturally; an
+ * SPA otherwise leaves focus stranded on a link from the previous page.
  */
 export default function ScrollToTop() {
   const { pathname, hash } = useLocation();
+  const previousLocation = useRef(`${pathname}${hash}`);
 
   useEffect(() => {
+    const locationKey = `${pathname}${hash}`;
+    const isClientNavigation = previousLocation.current !== locationKey;
+    previousLocation.current = locationKey;
+
+    const focusTarget = (el: HTMLElement | null) => {
+      if (!isClientNavigation || !el) return;
+      if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+      el.focus({ preventScroll: true });
+    };
+
     if (!hash) {
       window.scrollTo({ top: 0, behavior: "auto" });
+      requestAnimationFrame(() =>
+        focusTarget(document.getElementById("main-content"))
+      );
       return;
     }
 
@@ -43,6 +61,7 @@ export default function ScrollToTop() {
       const el = document.getElementById(targetId);
       if (el) {
         el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+        focusTarget(el);
         return;
       }
       attempts += 1;
@@ -52,6 +71,7 @@ export default function ScrollToTop() {
         // Target never mounted (bad/stale hash) — land at the top rather
         // than leaving the scroll position wherever it happened to be.
         window.scrollTo({ top: 0, behavior: "auto" });
+        focusTarget(document.getElementById("main-content"));
       }
     };
 
