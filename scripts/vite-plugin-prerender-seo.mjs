@@ -14,11 +14,10 @@
  *
  * This runs from the `closeBundle` hook so it's baked into `vite build`
  * itself rather than a separate `&& node scripts/...` step in package.json —
- * some hosts (confirmed: Bolt's Publish pipeline) invoke `vite build`
- * directly and never run a project's own `npm run build` script, which
- * silently skipped this entire step and meant every non-homepage route was
- * served the homepage's metadata in production. A plugin hook can't be
- * skipped that way since it's part of the one build command every host runs.
+ * some hosts invoke `vite build` directly and never run a project's own
+ * `npm run build` script, which can silently skip a separate post-build SEO
+ * step. A plugin hook can't be skipped that way because it is part of Vite's
+ * build lifecycle.
  *
  * This only helps IF the static host serves e.g. `dist/about/index.html` for
  * a request to `/about` (the standard "clean URL" convention most static
@@ -88,8 +87,17 @@ async function loadRoutes(root) {
   return mod.routes;
 }
 
+function escapeHtmlText(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function escapeAttr(s) {
-  return String(s).replace(/"/g, "&quot;");
+  return escapeHtmlText(s)
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function escapeXml(s) {
@@ -154,28 +162,28 @@ function buildHead(template, siteUrl, { title, description, path: routePath, ima
   const img = new URL(resolvedImage, `${siteUrl}/`).href;
   let html = template;
 
-  html = html.replace(/<title>.*?<\/title>/s, `<title>${escapeAttr(title)}</title>`);
+  html = html.replace(/<title>.*?<\/title>/s, `<title>${escapeHtmlText(title)}</title>`);
   html = html.replace(
     /<meta\s+name="description"\s+content=".*?"\s*\/>/s,
     `<meta name="description" content="${escapeAttr(description)}" />`
   );
 
   const extraTags = [
-    `<link rel="canonical" href="${url}" />`,
+    `<link rel="canonical" href="${escapeAttr(url)}" />`,
     `<meta property="og:title" content="${escapeAttr(title)}" />`,
-    `<meta property="og:type" content="${ogType || "website"}" />`,
-    `<meta property="og:url" content="${url}" />`,
-    `<meta property="og:site_name" content="${SITE_NAME}" />`,
-    `<meta property="og:image" content="${img}" />`,
+    `<meta property="og:type" content="${escapeAttr(ogType || "website")}" />`,
+    `<meta property="og:url" content="${escapeAttr(url)}" />`,
+    `<meta property="og:site_name" content="${escapeAttr(SITE_NAME)}" />`,
+    `<meta property="og:image" content="${escapeAttr(img)}" />`,
     `<meta property="og:description" content="${escapeAttr(description)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapeAttr(title)}" />`,
-    `<meta name="twitter:image" content="${img}" />`,
+    `<meta name="twitter:image" content="${escapeAttr(img)}" />`,
     `<meta name="twitter:description" content="${escapeAttr(description)}" />`,
   ];
   if (structuredData) {
     extraTags.push(
-      `<script type="application/ld+json" id="seo-structured-data">${JSON.stringify(structuredData)}</script>`
+      `<script type="application/ld+json" id="seo-structured-data">${JSON.stringify(structuredData).replace(/</g, "\\u003c")}</script>`
     );
   }
 
