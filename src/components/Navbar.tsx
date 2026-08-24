@@ -52,9 +52,11 @@ export default function Navbar() {
         return;
       }
       if (e.key !== "Tab" || !headerRef.current) return;
-      const focusable = headerRef.current.querySelectorAll<HTMLElement>(
-        'a[href]:not([tabindex="-1"]), button:not([disabled]):not([tabindex="-1"]), input:not([disabled]):not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-      );
+      const focusable = Array.from(
+        headerRef.current.querySelectorAll<HTMLElement>(
+          'a[href]:not([tabindex="-1"]), button:not([disabled]):not([tabindex="-1"]), input:not([disabled]):not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.getClientRects().length > 0);
       if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
