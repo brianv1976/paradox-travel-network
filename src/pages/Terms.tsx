@@ -8,7 +8,7 @@ export default function Terms() {
     "The terms that govern use of the Paradox Travel Network website."
   );
   return (
-    <LegalLayout eyebrow="Terms" title="Terms of Use" updated="July 2026">
+    <LegalLayout eyebrow="Terms" title="Terms of Use" updated="August 2026">
       <p>
         By using this website, you agree to these terms. If you do not agree,
         please do not use the site.
@@ -23,8 +23,12 @@ export default function Terms() {
       <h2>Inquiries and bookings</h2>
       <p>
         Submitting a form begins an inquiry and does not create a booking or a
-        charge. Reservations and payments are completed directly through the
-        selected provider, whose terms and cancellation policies apply.
+        charge. If you book through a self-booking partner, the reservation and
+        payment are completed through that provider. If Paradox Travel Network
+        assists with the booking, reservations may be arranged through the travel
+        suppliers or booking systems used for that trip. In either case, the
+        applicable supplier's terms, payment requirements, and cancellation
+        policies govern the travel product you purchase.
       </p>
       <h2>Self-booking guidance</h2>
       <p>
