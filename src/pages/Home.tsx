@@ -157,12 +157,21 @@ export default function Home() {
     {
       structuredData: {
         "@context": "https://schema.org",
-        "@type": "TravelAgency",
-        name: business.name,
-        location: { "@type": "Place", name: business.region },
-        areaServed: business.areaServed,
-        founder: { "@type": "Person", name: business.owner },
-        url: window.location.origin,
+        "@graph": [
+          {
+            "@type": "WebSite",
+            name: business.name,
+            url: `${window.location.origin}/`,
+          },
+          {
+            "@type": "TravelAgency",
+            name: business.name,
+            location: { "@type": "Place", name: business.region },
+            areaServed: business.areaServed,
+            founder: { "@type": "Person", name: business.owner },
+            url: `${window.location.origin}/`,
+          },
+        ],
       },
     }
   );

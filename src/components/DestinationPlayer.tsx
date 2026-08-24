@@ -36,10 +36,11 @@ export default function DestinationPlayer() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const timerRef = useRef<number | null>(null);
 
   const active = destinations[index];
-  const running = !paused && !focused && !reduce;
+  const running = !paused && !focused && !hidden && !reduce;
 
   // Nothing previously stopped a new transition from starting while the
   // last one was still animating (photo wipe + headline slide run ~1.1-1.4s).
@@ -102,9 +103,12 @@ export default function DestinationPlayer() {
     };
   }, [index, running, changeIndex]);
 
-  // Don't advance in a hidden tab.
+  // Don't advance in a hidden tab. Browser visibility is intentionally kept
+  // separate from the visitor's manual pause choice, so returning to the tab
+  // can never restart a reel they explicitly paused.
   useEffect(() => {
-    const onVis = () => setPaused(document.hidden ? true : false);
+    const onVis = () => setHidden(document.hidden);
+    onVis();
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
   }, []);

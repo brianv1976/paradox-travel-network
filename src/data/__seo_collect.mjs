@@ -23,12 +23,21 @@ const staticPages = [
       "Based in Dallas-Fort Worth and serving travelers nationwide, Brian Voyles personally plans and books cruises, resorts, honeymoons, family trips, and more - or book through trusted travel partners.",
     structuredData: {
       "@context": "https://schema.org",
-      "@type": "TravelAgency",
-      name: business.name,
-      location: { "@type": "Place", name: business.region },
-      areaServed: business.areaServed,
-      founder: { "@type": "Person", name: business.owner },
-      url: canonicalUrl("/"),
+      "@graph": [
+        {
+          "@type": "WebSite",
+          name: business.name,
+          url: canonicalUrl("/"),
+        },
+        {
+          "@type": "TravelAgency",
+          name: business.name,
+          location: { "@type": "Place", name: business.region },
+          areaServed: business.areaServed,
+          founder: { "@type": "Person", name: business.owner },
+          url: canonicalUrl("/"),
+        },
+      ],
     },
   },
   {

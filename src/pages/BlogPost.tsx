@@ -19,6 +19,11 @@ const TYPE_BADGE: Record<ContentType, string> = {
   "Travel Tip": "bg-ink/10 text-ink",
 };
 
+function canonicalPath(pathname: string) {
+  if (pathname === "/") return "/";
+  return pathname.endsWith("/") ? pathname : `${pathname}/`;
+}
+
 export default function BlogPost() {
   const { slug } = useParams();
   const post = slug ? getPost(slug) : undefined;
@@ -39,13 +44,13 @@ export default function BlogPost() {
             author: {
               "@type": "Person",
               name: post.author,
-              url: `${window.location.origin}/about`,
+              url: `${window.location.origin}/about/`,
             },
             datePublished: post.date,
             dateModified: post.updatedDate ?? post.date,
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": window.location.origin + window.location.pathname,
+              "@id": window.location.origin + canonicalPath(window.location.pathname),
             },
             publisher: {
               "@type": "TravelAgency",

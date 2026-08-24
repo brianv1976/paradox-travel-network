@@ -43,7 +43,7 @@ export default function ExploreTravel() {
         itemListElement: services.map((s, i) => ({
           "@type": "ListItem",
           position: i + 1,
-          url: `${SITE_URL}/${s.slug}`,
+          url: `${SITE_URL}/${s.slug}/`,
           name: s.navLabel,
         })),
       },
