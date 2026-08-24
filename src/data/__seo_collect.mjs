@@ -15,6 +15,10 @@ function canonicalUrl(pathname) {
   return `${SITE_URL}${path}`;
 }
 
+function absoluteUrl(value) {
+  return new URL(value, `${SITE_URL}/`).href;
+}
+
 const staticPages = [
   {
     path: "/",
@@ -142,7 +146,7 @@ const blogPages = publishedPosts.map((p) => {
       "@type": "Article",
       headline: p.title,
       description: p.seoDescription,
-      image: /^https?:\/\//.test(image) ? image : SITE_URL + image,
+      image: absoluteUrl(image),
       author: { "@type": "Person", name: p.author },
       datePublished: p.date,
       dateModified: p.updatedDate ?? p.date,
