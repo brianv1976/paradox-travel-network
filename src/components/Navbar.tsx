@@ -11,6 +11,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const reduce = useReducedMotion();
+  const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -37,15 +38,32 @@ export default function Navbar() {
     };
   }, [open]);
 
-  // Simple disclosure pattern, not a modal — page content behind the panel
-  // stays interactive, so no focus trap. Escape still closes it and hands
-  // focus back to the toggle, matching the pattern ConciergeBot uses.
+  // Keep keyboard focus inside the visible navigation while it is expanded.
+  // On short screens the fixed header can cover most of the page; allowing Tab
+  // to wander into controls behind it leaves a keyboard focus indicator hidden
+  // under the panel. Escape closes it and restores focus to the toggle.
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        e.preventDefault();
         setOpen(false);
         toggleRef.current?.focus();
+        return;
+      }
+      if (e.key !== "Tab" || !headerRef.current) return;
+      const focusable = headerRef.current.querySelectorAll<HTMLElement>(
+        'a[href]:not([tabindex="-1"]), button:not([disabled]):not([tabindex="-1"]), input:not([disabled]):not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
     window.addEventListener("keydown", onKeyDown);
@@ -54,6 +72,7 @@ export default function Navbar() {
 
   return (
     <header
+      ref={headerRef}
       className={`fixed inset-x-0 top-0 z-50 flex max-h-[100dvh] flex-col transition-all duration-300 ease-smooth ${
         scrolled || open
           ? "bg-cream/95 shadow-soft backdrop-blur-md"
@@ -111,7 +130,13 @@ export default function Navbar() {
         <button
           ref={toggleRef}
           className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink xl:hidden"
-          onClick={() => setOpen((v) => !v)}
+          onClick={() =>
+            setOpen((v) => {
+              const next = !v;
+              if (next) window.dispatchEvent(new Event("close-concierge"));
+              return next;
+            })
+          }
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-nav-panel"
