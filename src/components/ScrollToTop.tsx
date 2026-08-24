@@ -23,6 +23,7 @@ export default function ScrollToTop() {
       return;
     }
 
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let rafId = 0;
     let attempts = 0;
     let cancelled = false;
@@ -31,7 +32,7 @@ export default function ScrollToTop() {
       if (cancelled) return;
       const el = document.querySelector(hash);
       if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
         return;
       }
       attempts += 1;
