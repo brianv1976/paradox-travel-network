@@ -72,7 +72,11 @@ export default function PageHero({
 
   const rawCopyY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
   const copyY = useSpring(rawCopyY, { stiffness: 110, damping: 30, mass: 0.4 });
-  const copyFade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  // Keep copy fully readable while the user is actually reading the hero.
+  // On stacked mobile layouts the image sits above the copy, so fading from
+  // scroll progress 0 made the text nearly disappear before it reached the
+  // viewport. Only fade during the final 10% as the whole hero exits.
+  const copyFade = useTransform(scrollYProgress, [0, 0.9, 1], [1, 1, 0]);
 
   return (
     <section
