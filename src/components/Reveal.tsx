@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 import {
   fadeUp,
@@ -31,6 +31,7 @@ interface RevealProps {
 
 /**
  * Scroll-reveal wrapper. Plays once when the element scrolls into view.
+ * Reduced-motion visitors receive the content immediately with no reveal.
  */
 export default function Reveal({
   children,
@@ -39,7 +40,14 @@ export default function Reveal({
   as = "div",
   variant = "fade",
 }: RevealProps) {
+  const reduce = useReducedMotion();
   const MotionTag = motion[as];
+
+  if (reduce) {
+    const Tag = as;
+    return <Tag className={className}>{children}</Tag>;
+  }
+
   return (
     <MotionTag
       className={className}
