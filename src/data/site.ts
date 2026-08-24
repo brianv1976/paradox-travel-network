@@ -45,7 +45,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What kinds of trips can Brian help plan?",
-    a: "Everything from simple hotel stays and quick getaways to cruises, all-inclusive resorts, honeymoons, family vacations, and guided adventures.",
+    a: "Trips can range from simple hotel stays and quick getaways to cruises, all-inclusive resorts, honeymoons, family vacations, and guided adventures.",
   },
   {
     q: "Does submitting the form create a booking?",
