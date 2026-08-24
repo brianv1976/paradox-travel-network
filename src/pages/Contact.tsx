@@ -156,7 +156,7 @@ export default function Contact() {
                 Trip support goes to a different inbox.
               </h2>
               <p className="mt-3 leading-relaxed text-fog">
-                Something come up with a booking, a Supplier, or a trip in
+                Something come up with a booking, a supplier, or a trip in
                 progress? Support gets to it faster than the general inbox.
               </p>
             </div>
