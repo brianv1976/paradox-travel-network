@@ -21,6 +21,10 @@ function normalizeCanonicalPath(pathname: string) {
   return pathname.endsWith("/") ? pathname : `${pathname}/`;
 }
 
+function absoluteUrl(value: string) {
+  return /^https?:\/\//i.test(value) ? value : window.location.origin + value;
+}
+
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let tag = document.querySelector(`meta[${attr}="${key}"]`);
   if (!tag) {
@@ -29,6 +33,10 @@ function upsertMeta(attr: "name" | "property", key: string, content: string) {
     document.head.appendChild(tag);
   }
   tag.setAttribute("content", content);
+}
+
+function removeMeta(attr: "name" | "property", key: string) {
+  document.querySelector(`meta[${attr}="${key}"]`)?.remove();
 }
 
 function upsertLink(rel: string, href: string) {
@@ -43,10 +51,10 @@ function upsertLink(rel: string, href: string) {
 
 /**
  * Per-page SEO: title, description, canonical link, Open Graph/Twitter
- * cards, and optional JSON-LD structured data. Client-side only — this
- * doesn't fix "server HTML shows the homepage's meta until JS runs" for
- * crawlers that don't execute JavaScript. That needs real prerendering/SSR,
- * a bigger architectural change tracked separately from this hook.
+ * cards, and optional JSON-LD structured data. The build-time prerender SEO
+ * plugin writes matching route-specific metadata into static HTML for
+ * crawlers and social scrapers; this hook keeps metadata correct after
+ * client-side React Router navigation.
  */
 export function useSeo(title: string, description?: string, options?: SeoOptions) {
   useEffect(() => {
@@ -58,16 +66,18 @@ export function useSeo(title: string, description?: string, options?: SeoOptions
     // URL even after React Router performs a client-side navigation without a
     // network redirect, so crawlers never see conflicting slash variants.
     const url = window.location.origin + normalizeCanonicalPath(window.location.pathname);
-    const image = options?.image
-      ? window.location.origin + options.image
-      : window.location.origin + DEFAULT_IMAGE;
+    const image = absoluteUrl(options?.image ?? DEFAULT_IMAGE);
 
-    if (description) upsertMeta("name", "description", description);
+    if (description) {
+      upsertMeta("name", "description", description);
+    } else {
+      removeMeta("name", "description");
+    }
     upsertLink("canonical", url);
     if (options?.noindex) {
       upsertMeta("name", "robots", "noindex, follow");
     } else {
-      document.querySelector('meta[name="robots"]')?.remove();
+      removeMeta("name", "robots");
     }
 
     upsertMeta("property", "og:title", title);
@@ -75,12 +85,20 @@ export function useSeo(title: string, description?: string, options?: SeoOptions
     upsertMeta("property", "og:url", url);
     upsertMeta("property", "og:site_name", SITE_NAME);
     upsertMeta("property", "og:image", image);
-    if (description) upsertMeta("property", "og:description", description);
+    if (description) {
+      upsertMeta("property", "og:description", description);
+    } else {
+      removeMeta("property", "og:description");
+    }
 
     upsertMeta("name", "twitter:card", "summary_large_image");
     upsertMeta("name", "twitter:title", title);
     upsertMeta("name", "twitter:image", image);
-    if (description) upsertMeta("name", "twitter:description", description);
+    if (description) {
+      upsertMeta("name", "twitter:description", description);
+    } else {
+      removeMeta("name", "twitter:description");
+    }
 
     const scriptId = "seo-structured-data";
     document.getElementById(scriptId)?.remove();
