@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Ship,
@@ -13,10 +13,9 @@ import {
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { services } from "../data/services";
-import { getPostsForGenre, getPostImage } from "../data/blog";
+import { getPostsForGenre } from "../data/blog";
 import { getTripsForGenre } from "../data/trips";
 import PageHero from "../components/PageHero";
-import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
 import { stagger, fadeUp } from "../lib/motion";
@@ -33,6 +32,7 @@ const ICONS: Record<string, typeof Ship> = {
 const SITE_URL = "https://paradoxtravelnetwork.com";
 
 export default function ExploreTravel() {
+  const reduce = useReducedMotion();
   useSeo(
     "Explore Travel Types | Paradox Travel Network",
     "Browse cruises, all-inclusive resorts, honeymoons, family trips, adventure travel, and custom vacations — with real planning guidance for each, from a Dallas–Fort Worth travel advisor serving travelers nationwide.",
@@ -162,30 +162,33 @@ export default function ExploreTravel() {
       <section className="bg-cream">
         <div className="container-px py-20 md:py-28">
           <motion.div
-            variants={stagger(0.1)}
-            initial="hidden"
-            whileInView="show"
+            variants={reduce ? undefined : stagger(0.1)}
+            initial={reduce ? false : "hidden"}
+            whileInView={reduce ? undefined : "show"}
             viewport={{ once: true, amount: 0.3 }}
             className="mx-auto max-w-2xl rounded-[2rem] border border-ink/10 bg-sand/60 p-10 text-center"
           >
             <motion.span
-              variants={fadeUp}
+              variants={reduce ? undefined : fadeUp}
               className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-clay/15 text-clay-deep"
             >
               <Sparkles size={20} />
             </motion.span>
             <motion.h2
-              variants={fadeUp}
+              variants={reduce ? undefined : fadeUp}
               className="mt-4 font-display text-2xl font-semibold text-ink md:text-3xl"
             >
               None of these quite fit?
             </motion.h2>
-            <motion.p variants={fadeUp} className="mt-3 text-lg leading-relaxed text-fog">
+            <motion.p
+              variants={reduce ? undefined : fadeUp}
+              className="mt-3 text-lg leading-relaxed text-fog"
+            >
               Custom vacations and multi-destination trips don't fit neatly
               into one category — that's exactly what {business.owner} plans
               directly, built around your priorities instead of a package.
             </motion.p>
-            <motion.div variants={fadeUp}>
+            <motion.div variants={reduce ? undefined : fadeUp}>
               <Link to="/plan-my-trip" className="btn-primary mt-6">
                 Plan a Custom Trip <ArrowRight size={16} />
               </Link>
