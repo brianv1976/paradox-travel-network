@@ -9,6 +9,12 @@ import { business } from "../lib/assets.ts";
 
 const SITE_URL = process.env.SITE_URL || "https://paradoxtravelnetwork.com";
 
+function canonicalUrl(pathname) {
+  if (pathname === "/") return `${SITE_URL}/`;
+  const path = pathname.endsWith("/") ? pathname : `${pathname}/`;
+  return `${SITE_URL}${path}`;
+}
+
 const staticPages = [
   {
     path: "/",
@@ -22,6 +28,7 @@ const staticPages = [
       location: { "@type": "Place", name: business.region },
       areaServed: business.areaServed,
       founder: { "@type": "Person", name: business.owner },
+      url: canonicalUrl("/"),
     },
   },
   {
@@ -73,7 +80,7 @@ const staticPages = [
       itemListElement: services.map((s, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `${SITE_URL}/${s.slug}`,
+        url: canonicalUrl(`/${s.slug}`),
         name: s.navLabel,
       })),
     },
@@ -114,7 +121,7 @@ const servicePages = services.map((s) => ({
 
 const blogPages = publishedPosts.map((p) => {
   const image = getPostImage(p);
-  const url = `${SITE_URL}/travel-tips/${p.slug}`;
+  const url = canonicalUrl(`/travel-tips/${p.slug}`);
   return {
     path: `/travel-tips/${p.slug}`,
     title: `${p.title} | Postcards from Paradox`,
