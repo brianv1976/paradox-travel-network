@@ -8,6 +8,10 @@
  * (redundant, harmless), so this changes nothing about how the app behaves —
  * it only changes what a non-JS request sees.
  *
+ * The same route collection now generates dist/sitemap.xml as part of this
+ * hook. That keeps newly published Postcards/service routes in the sitemap
+ * automatically instead of relying on a second hand-maintained URL list.
+ *
  * This runs from the `closeBundle` hook so it's baked into `vite build`
  * itself rather than a separate `&& node scripts/...` step in package.json —
  * some hosts (confirmed: Bolt's Publish pipeline) invoke `vite build`
@@ -88,9 +92,57 @@ function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;");
 }
 
+function escapeXml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 function canonicalPath(routePath) {
   if (routePath === "/") return "/";
   return routePath.endsWith("/") ? routePath : `${routePath}/`;
+}
+
+function sitemapPriority(route) {
+  if (route.path === "/") return "1.0";
+  if (["/book-it-yourself", "/plan-my-trip", "/explore-travel"].includes(route.path)) return "0.9";
+  if (route.path === "/travel-tips") return "0.8";
+  if (route.structuredData?.["@type"] === "Service") return "0.8";
+  if (route.path.startsWith("/travel-tips/")) return "0.5";
+  if (["/about", "/contact"].includes(route.path)) return "0.6";
+  if (["/privacy", "/terms", "/accessibility"].includes(route.path)) return "0.2";
+  return "0.5";
+}
+
+function articleLastModified(route) {
+  const date = route.structuredData?.dateModified;
+  return typeof date === "string" && /^\d{4}-\d{2}-\d{2}/.test(date) ? date.slice(0, 10) : undefined;
+}
+
+function buildSitemap(siteUrl, routes) {
+  const entries = routes.map((route) => {
+    const loc = escapeXml(siteUrl + canonicalPath(route.path));
+    const lastmod = articleLastModified(route);
+    const priority = sitemapPriority(route);
+    return [
+      "  <url>",
+      `    <loc>${loc}</loc>`,
+      ...(lastmod ? [`    <lastmod>${escapeXml(lastmod)}</lastmod>`] : []),
+      `    <priority>${priority}</priority>`,
+      "  </url>",
+    ].join("\n");
+  });
+
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...entries,
+    "</urlset>",
+    "",
+  ].join("\n");
 }
 
 function buildHead(template, siteUrl, { title, description, path: routePath, image, ogType, structuredData }) {
@@ -157,7 +209,15 @@ export default function prerenderSeoPlugin() {
         await writeFile(path.join(dir, "index.html"), html);
         written++;
       }
-      this.info(`prerender-seo: wrote ${written} route-specific index.html files under ${path.relative(root, outDir)}/`);
+
+      // public/sitemap.xml remains useful during local/static inspection, but
+      // production gets this generated copy so the sitemap and prerender route
+      // set cannot drift when new Postcards or service pages are added.
+      await writeFile(path.join(outDir, "sitemap.xml"), buildSitemap(siteUrl, routes));
+
+      this.info(
+        `prerender-seo: wrote ${written} route-specific index.html files and generated sitemap.xml under ${path.relative(root, outDir)}/`
+      );
     },
   };
 }
