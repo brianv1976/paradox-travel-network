@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { stagger, fadeUp } from "../lib/motion";
 
 export interface Step {
@@ -16,16 +16,22 @@ export default function NumberedSteps({
   steps: Step[];
   gap?: string;
 }) {
+  const reduce = useReducedMotion();
+
   return (
     <motion.div
-      variants={stagger(0.12)}
-      initial="hidden"
-      whileInView="show"
+      variants={reduce ? undefined : stagger(0.12)}
+      initial={reduce ? false : "hidden"}
+      whileInView={reduce ? undefined : "show"}
       viewport={{ once: true, amount: 0.2 }}
       className="mt-12 grid gap-8 md:grid-cols-3"
     >
       {steps.map((s) => (
-        <motion.div key={s.n} variants={fadeUp} className={`flex flex-col ${gap}`}>
+        <motion.div
+          key={s.n}
+          variants={reduce ? undefined : fadeUp}
+          className={`flex flex-col ${gap}`}
+        >
           <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean-dark font-display text-xl font-semibold text-cream">
             {s.n}
           </span>
