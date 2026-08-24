@@ -68,13 +68,13 @@ export const services: ServicePage[] = [
         name: "Virgin Voyages",
         href: links.virginVoyages,
         blurb:
-          "Adult-focused sailings with included Wi-Fi, gratuities, and dining — book the cabin directly.",
+          "Adults-only sailings with dining and Wi-Fi included; service gratuities are separate on current bookings.",
       },
       {
         name: "Shore Excursions Group",
         href: links.shoreExcursions,
         blurb:
-          "Independent port-day tours and excursions, often cheaper than booking through the ship.",
+          "Independent port-day tours and excursions with private, small-group, and standard options.",
       },
     ],
     selfBookNote:
