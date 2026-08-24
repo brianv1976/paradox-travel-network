@@ -151,6 +151,8 @@ export default function Navbar() {
         {open && (
           <motion.div
             id="mobile-nav-panel"
+            role="navigation"
+            aria-label="Mobile navigation"
             initial={reduce ? false : { opacity: 0, height: 0 }}
             animate={reduce ? undefined : { opacity: 1, height: "auto" }}
             exit={reduce ? undefined : { opacity: 0, height: 0 }}
