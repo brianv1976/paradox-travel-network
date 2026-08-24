@@ -4,13 +4,12 @@ import { MessageCircle, X, Send, Compass } from "lucide-react";
 import { links } from "../lib/assets";
 
 /**
- * Paradox Concierge — AI travel chat widget.
+ * Paradox Concierge — lightweight travel chat widget.
  *
- * Works today with a built-in knowledge responder (no key required).
- * To power it with a real LLM in Bolt, set VITE_CONCIERGE_ENDPOINT to a
- * serverless / Supabase Edge Function that accepts { messages } and returns
- * { reply }. When that variable is present, the widget calls it instead of the
- * local responder. See PTN-MASTER-SPEC.md → "AI Concierge" for a sample function.
+ * Works today with a built-in knowledge responder (no key required). If a
+ * server-side AI endpoint is added later, set VITE_CONCIERGE_ENDPOINT to an
+ * endpoint that accepts { messages } and returns { reply }. When that variable
+ * is present, the widget calls it instead of the local responder.
  */
 
 interface Msg {
@@ -76,12 +75,18 @@ export default function ConciergeBot() {
   const endpoint = import.meta.env.VITE_CONCIERGE_ENDPOINT as string | undefined;
 
   // Below md the floating launcher is gone (see the button below) -- the
-  // mobile menu's "Ask Brian" entry opens the same panel by dispatching
-  // this event instead of rendering a second trigger button.
+  // mobile menu's "Ask Brian" entry opens the same panel. The matching close
+  // event lets Navbar guarantee the menu and concierge never remain active at
+  // the same time on tablet-sized layouts where both controls can exist.
   useEffect(() => {
     const onOpen = () => setOpen(true);
+    const onClose = () => setOpen(false);
     window.addEventListener("open-concierge", onOpen);
-    return () => window.removeEventListener("open-concierge", onOpen);
+    window.addEventListener("close-concierge", onClose);
+    return () => {
+      window.removeEventListener("open-concierge", onOpen);
+      window.removeEventListener("close-concierge", onClose);
+    };
   }, []);
 
   useEffect(() => {
@@ -235,6 +240,10 @@ export default function ConciergeBot() {
             {/* Messages */}
             <div
               ref={scrollRef}
+              role="log"
+              aria-live="polite"
+              aria-relevant="additions"
+              aria-label="Concierge conversation"
               className="flex-1 space-y-3 overflow-y-auto px-4 py-4"
             >
               {messages.map((m, i) => (
@@ -256,8 +265,9 @@ export default function ConciergeBot() {
                 </div>
               ))}
               {loading && (
-                <div className="flex justify-start">
-                  <div className="flex gap-1 rounded-2xl bg-sand px-4 py-3">
+                <div className="flex justify-start" role="status">
+                  <span className="sr-only">Concierge is responding</span>
+                  <div aria-hidden="true" className="flex gap-1 rounded-2xl bg-sand px-4 py-3">
                     {[0, 1, 2].map((i) => (
                       <motion.span
                         key={i}
