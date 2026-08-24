@@ -122,3 +122,18 @@
     }
   }
 }
+
+/* Homepage globe: the phone layout used a 260px wrapper and the Three.js
+   label overlay clipped anything that projected beyond that small square.
+   Give the globe the full useful portrait width and let callout pills paint
+   outside the WebGL mount. The hero section itself still clips at the page
+   edge, so this cannot create horizontal scrolling. */
+@media (max-width: 639px) and (orientation: portrait) {
+  section.bg-cream > .container-px > .order-1.self-start {
+    max-width: min(320px, 100%);
+  }
+
+  section.bg-cream > .container-px > .order-1.self-start [aria-hidden="true"] > div {
+    overflow: visible !important;
+  }
+}
