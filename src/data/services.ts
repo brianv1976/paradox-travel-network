@@ -161,7 +161,8 @@ export const services: ServicePage[] = [
       {
         name: "Exoticca",
         href: links.exoticca,
-        blurb: "Fully packaged all-inclusive vacations, flights included.",
+        blurb:
+          "Packaged trips combining flights, hotels, tours, and transfers; some itineraries also include meals or resort stays.",
       },
     ],
     selfBookNote:
@@ -248,7 +249,8 @@ export const services: ServicePage[] = [
       {
         name: "Exoticca",
         href: links.exoticca,
-        blurb: "Fully packaged romantic getaways, flights included.",
+        blurb:
+          "Honeymoon and couples packages that can bundle flights, hotels, transfers, and guided experiences.",
       },
     ],
     selfBookNote:
@@ -335,7 +337,8 @@ export const services: ServicePage[] = [
       {
         name: "Exoticca",
         href: links.exoticca,
-        blurb: "Fully packaged family vacations, flights included.",
+        blurb:
+          "Family-friendly packages that can combine flights, hotels, transfers, tours, and local experiences.",
       },
     ],
     selfBookNote:
@@ -422,7 +425,8 @@ export const services: ServicePage[] = [
       {
         name: "Exoticca",
         href: links.exoticca,
-        blurb: "Fully packaged adventure vacations, flights included.",
+        blurb:
+          "Packaged guided and self-guided trips that can combine flights, hotels, transfers, tours, and local experiences.",
       },
     ],
     selfBookNote:
