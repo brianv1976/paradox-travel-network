@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X, ArrowRight, MessageCircle } from "lucide-react";
 import { navLinks } from "../data/site";
 import Magnetic from "./Magnetic";
@@ -10,6 +10,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const reduce = useReducedMotion();
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -123,10 +124,10 @@ export default function Navbar() {
         {open && (
           <motion.div
             id="mobile-nav-panel"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            initial={reduce ? false : { opacity: 0, height: 0 }}
+            animate={reduce ? undefined : { opacity: 1, height: "auto" }}
+            exit={reduce ? undefined : { opacity: 0, height: 0 }}
+            transition={{ duration: reduce ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
             // min-h-0 overrides the flex default (min-height: auto, sized to
             // content) that would otherwise let this panel push the header
             // taller than the viewport instead of scrolling internally --
