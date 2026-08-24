@@ -40,7 +40,7 @@ export default function BlogPost() {
             "@type": "Article",
             headline: post.title,
             description: post.seoDescription,
-            image: window.location.origin + getPostImage(post),
+            image: new URL(getPostImage(post), `${window.location.origin}/`).href,
             author: {
               "@type": "Person",
               name: post.author,
