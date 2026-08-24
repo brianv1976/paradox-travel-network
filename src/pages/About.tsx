@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
@@ -25,6 +25,7 @@ const traits = [
 ];
 
 export default function About() {
+  const reduce = useReducedMotion();
   useSeo(
     "About Brian Voyles | Dallas–Fort Worth Travel Advisor",
     "Meet Brian Voyles, owner of Paradox Travel Network — based in Dallas–Fort Worth, personally planning trips for travelers nationwide.",
@@ -64,16 +65,16 @@ export default function About() {
           intro="Brian helps clients sort through destinations, lodging, cruises, resorts, traveler needs, timing, budgets, and the small details that decide whether a trip feels smooth or exhausting."
         />
         <motion.div
-          variants={stagger(0.12)}
-          initial="hidden"
-          whileInView="show"
+          variants={reduce ? undefined : stagger(0.12)}
+          initial={reduce ? false : "hidden"}
+          whileInView={reduce ? undefined : "show"}
           viewport={{ once: true, amount: 0.2 }}
           className="mt-12 grid gap-6 md:grid-cols-3"
         >
           {traits.map((t) => (
             <motion.div
               key={t.title}
-              variants={fadeUp}
+              variants={reduce ? undefined : fadeUp}
               className="rounded-2xl border border-ink/10 bg-cream p-7"
             >
               <h3 className="text-xl font-semibold text-ocean-dark">{t.title}</h3>
