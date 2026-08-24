@@ -2,9 +2,6 @@ import { useSeo } from "../hooks/useSeo";
 import LegalLayout from "../components/LegalLayout";
 import { links } from "../lib/assets";
 
-/**
- * NOTE: Reasonable starter terms. Have Brian review before publishing.
- */
 export default function Terms() {
   useSeo(
     "Terms of Use | Paradox Travel Network",
