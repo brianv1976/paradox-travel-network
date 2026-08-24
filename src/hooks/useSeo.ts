@@ -22,7 +22,7 @@ function normalizeCanonicalPath(pathname: string) {
 }
 
 function absoluteUrl(value: string) {
-  return /^https?:\/\//i.test(value) ? value : window.location.origin + value;
+  return new URL(value, `${window.location.origin}/`).href;
 }
 
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
