@@ -1,21 +1,15 @@
-# Security response headers for the static build.
+# Security response headers for the Netlify static build.
 #
-# Consumed by Netlify-class static hosts (Netlify, Cloudflare Pages, Bolt's
-# static hosting), which read this file out of the publish directory. Vite
-# copies everything in public/ to dist/ verbatim, so this lands at dist/_headers.
+# Vite copies everything in public/ to dist/ verbatim, so this file lands at
+# dist/_headers and Netlify applies it to the deployed site.
 #
-# The Content-Security-Policy below is duplicated as a <meta http-equiv> in
-# index.html so the script/connect restrictions still apply if a host ignores
-# this file. `frame-ancestors` is only honoured as a real header, which is why
-# the anti-framing protection lives here rather than in the meta tag.
-#
-# Allow-listed origins are exactly the third parties the site already uses:
+# Allow-listed origins are exactly the third parties the site currently uses:
 #   - www.googletagmanager.com / www.google-analytics.com  -> GA4 (index.html)
 #   - fonts.googleapis.com / fonts.gstatic.com             -> web fonts
 #   - assets.mailerlite.com                                -> newsletter signup
 # If you add a third-party embed or set VITE_CONCIERGE_ENDPOINT to an endpoint
-# on another origin, add that origin to script-src / connect-src here AND in
-# the matching meta tag in index.html, or the browser will block it.
+# on another origin, add that origin to the appropriate CSP directive here or
+# the browser will block it.
 
 /*
   X-Frame-Options: DENY
