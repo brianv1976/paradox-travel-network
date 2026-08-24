@@ -42,7 +42,10 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-8">
-          <nav className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+          <nav
+            aria-label="Footer navigation"
+            className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm"
+          >
             {footerLinks.map((link) => (
               <Link
                 key={link.label}
