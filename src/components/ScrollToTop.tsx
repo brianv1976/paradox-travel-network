@@ -28,9 +28,19 @@ export default function ScrollToTop() {
     let attempts = 0;
     let cancelled = false;
 
+    // A location hash is an element id, not necessarily a valid CSS selector.
+    // Decode it once and use getElementById so punctuation in a legitimate id
+    // cannot make querySelector throw a SyntaxError and break route scrolling.
+    let targetId = hash.slice(1);
+    try {
+      targetId = decodeURIComponent(targetId);
+    } catch {
+      // Malformed percent-encoding is harmless here; fall back to the literal id.
+    }
+
     const tryScroll = () => {
       if (cancelled) return;
-      const el = document.querySelector(hash);
+      const el = document.getElementById(targetId);
       if (el) {
         el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
         return;
