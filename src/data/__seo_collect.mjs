@@ -7,7 +7,10 @@ import { services } from "./services.ts";
 import { publishedPosts, getPostImage } from "./blog.ts";
 import { business } from "../lib/assets.ts";
 
-const SITE_URL = process.env.SITE_URL || "https://paradoxtravelnetwork.com";
+// Keep the site origin slash-free here. Route helpers add exactly one slash
+// where needed, so a future SITE_URL override such as `https://example.com/`
+// cannot create `//about/` canonicals, sitemap URLs, or image URLs.
+const SITE_URL = (process.env.SITE_URL || "https://paradoxtravelnetwork.com").replace(/\/+$/, "");
 
 function canonicalUrl(pathname) {
   if (pathname === "/") return `${SITE_URL}/`;
@@ -154,7 +157,7 @@ const blogPages = publishedPosts.map((p) => {
       publisher: {
         "@type": "TravelAgency",
         name: business.name,
-        logo: { "@type": "ImageObject", url: `${SITE_URL}/Web%20Logo.png` },
+        logo: { "@type": "ImageObject", url: absoluteUrl("/Web Logo.png") },
       },
     },
   };
