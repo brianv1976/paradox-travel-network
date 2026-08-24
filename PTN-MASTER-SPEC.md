@@ -1,193 +1,323 @@
-# Paradox Travel Network — Master Spec & Rebuild Bible
+# Paradox Travel Network — Current Website Master Spec
 
-**Purpose of this file:** one source of truth for the site — brand, content,
-links, and structure. It doubles as (1) context Bolt's AI can read, and (2) an
-insurance policy: everything needed to rebuild the site on Webflow (or anywhere)
-if the Bolt build ever has to be abandoned.
+**Purpose:** compact architecture, brand, content, and rebuild reference for
+`paradoxtravelnetwork.com`.
 
-_Last compiled: July 2026, from the live Webflow staging site + project brand kit._
+This file is not the deployment log. The website code is authoritative for
+implemented behavior; SharePoint's website memory logs are authoritative for
+current operating decisions, research, deployment state, and handover history.
+
+_Last refreshed: August 24, 2026._
 
 ---
 
-## 1. Business
+## 1. Business and site model
 
-Paradox Travel Network (PTN) — **Brian Voyles**, owner & travel advisor, based in
-the **Dallas–Fort Worth** area, serving DFW + nationwide. A hybrid **self-booking
-+ concierge** travel advisory run as a deliberate side business.
+**Paradox Travel Network (PTN)** is a travel-advisor business based in the
+**Dallas–Fort Worth** area and serving travelers nationwide.
 
-Two core paths:
-- **Book It Yourself** — curated affiliate/white-label booking links, no markup.
-- **Let Brian Plan It** — personal inquiry + planning service.
+The website intentionally supports two legitimate paths:
 
-Central sales argument: the *paradox of choice* — travelers average ~16 hours
-planning one trip. PTN sells clarity, confidence, and coverage. **Never leads
-with price.**
+1. **Plan With Brian** — personal travel planning/advisor path.
+2. **Book It Yourself** — curated partner links for visitors who prefer to
+   research and book directly.
+
+Neither path should be framed as the "wrong" way to travel. The site should
+help visitors choose the amount of help they actually need.
+
+Avoid broad promises such as "everything," "all trips," or unlimited coverage.
+Describe representative trip types instead.
 
 ---
 
 ## 2. Brand
 
-**Voice:** genuinely enthusiastic, straight shooter, dry self-aware humor, warm
-but not soft, confidently informal. Never a "sales voice." Signature dry lines,
-e.g. *"Geography remains stubbornly unimpressed by marketing adjectives."*
+**Voice:** enthusiastic, straight-shooting, warm, confidently informal, with
+occasional dry humor. Never generic brochure copy and never a hard-sales voice.
 
-**Story:** origin references "life threw me a curveball that changed everything" —
-kept intentionally vague on the site.
+**Positioning:** Brian is the knowledgeable guide behind Paradox, not the
+subject of every page or every social asset.
 
-**Caricature / mascot:** a humor device ONLY — used for tips/humor content
-(Postcards from Paradox, Travel Tips cards). The **real headshot/portrait** is
-used for trust pages (home hero, About, Contact). Do not use the caricature as a
-primary brand/logo mark.
+**Primary visual palette** is defined in `tailwind.config.js`:
 
-**Palette (this build — set in `tailwind.config.js`):**
 | Token | Hex | Use |
 |---|---|---|
-| cream | `#F7F4EF` | page background (the one confirmed brand color) |
+| cream | `#F7F4EF` | main background |
 | sand | `#ECE4D6` | section tint |
-| ink | `#1B1A17` | text |
-| ocean | `#0E4B46` | primary brand (deep teal) |
+| ink | `#1B1A17` | primary text |
+| ocean | `#0E4B46` | deep teal brand color |
 | clay | `#CC6B3E` | warm accent |
-| gold | `#C8A24C` | highlights |
-| fog | `#6B6B62` | muted body text |
+| gold | `#C8A24C` | highlight accent |
+| fog | `#6B6B62` | muted text |
 
-> ⚠ Only `cream (#F7F4EF)` is confirmed from the original brand. Ocean/clay/gold
-> are a deliberate, cohesive palette chosen for this rebuild. If you have the
-> exact Webflow brand hexes (Brand Guidelines PDF in SharePoint), drop them into
-> `tailwind.config.js` — one edit updates the whole site.
+**Fonts:** Fraunces for display/headings and Inter for body, loaded from Google
+Fonts in `index.html`.
 
-**Fonts:** Fraunces (display/headings) + Inter (body), via Google Fonts in
-`index.html`.
+**Photography:** all production imagery is self-hosted in this repository.
+Do not reintroduce a Webflow CDN dependency.
 
----
-
-## 3. Site map / routes
-
-| Route | Page | Notes |
-|---|---|---|
-| `/` | Home | hero + globe, choose-path, explore, how-it-works, about teaser, reviews, postcards, FAQ, CTA |
-| `/book-it-yourself` | Book It Yourself | affiliate hub (Exoticca, Viator, Shore Excursions) |
-| `/plan-my-trip` | Plan My Trip | full trip-planning intake form + Calendly |
-| `/about` | About Brian | story + approach |
-| `/contact` | Contact | general inquiry form + Calendly |
-| `/travel-tips` | Postcards from Paradox | blog listing + newsletter |
-| `/travel-tips/:slug` | Blog article | 11 posts |
-| `/cruises` | Service: Cruises | vendor: Shore Excursions Group only |
-| `/all-inclusive-resorts` | Service: All-Inclusive | vendors: Viator + Exoticca |
-| `/romance-travel` | Service: Romance/Honeymoon | vendors: Viator + Exoticca |
-| `/family-travel` | Service: Family | vendors: Viator + Exoticca |
-| `/adventure-guided-travel` | Service: Adventure | vendors: Viator + Exoticca |
-| `/privacy` `/terms` `/accessibility` | Legal | starter content — review before publishing |
-| `*` | 404 | |
-
-> **No Groups page.** The old site had a hidden `/groups` page; it is intentionally
-> **removed** from this build. Do not re-add hidden/unused pages.
-
-Full verbatim page copy lives in the code data files (`src/data/*.ts`) and page
-components (`src/pages/*.tsx`). Key headlines:
-- Home H1: *"Planning a great trip is harder than booking one. That's what a travel advisor is for."* (eyebrow: TRAVEL BEYOND EXPECTATIONS)
-- Plan My Trip H1: *"When it's too complicated to Google."*
-- Book It Yourself H1: *"All Your Favorite Booking Sites. One Page."*
-- About H1: *"A real person helping make the trip make sense."*
+**Mascot/caricature:** supporting humor/content device, not the primary logo or
+trust identity.
 
 ---
 
-## 4. Forms
+## 3. Current public routes
 
-**Trip Planning Intake** (`/plan-my-trip`) fields: First name, Last name, Email,
-Phone, Destination, Preferred dates, Number of travelers, Budget (range), Type of
-trip, "What matters most", Anything else, required consent checkbox.
-→ route submissions to **trips@paradoxtravelnetwork.com**.
-
-**General Contact** (`/contact`) fields: Name, Email, Subject, Message.
-→ route submissions to **hello@paradoxtravelnetwork.com**.
-
-**Newsletter** (blog): email only.
-
-Wiring: general contact is `mailto:` only (no form), trip planning links out
-to a Tern-hosted intake form, and the newsletter posts directly to MailerLite
-via `src/components/NewsletterForm.tsx`.
-Scheduling link (all CTAs): `https://calendly.com/paradoxtravelnetwork/30min`.
-
-**Privacy rule (keep on forms):** never request passport numbers, payment-card
-details, medical records, or confidential documents.
-
-**Email usage:** `brian@` and `hello@` appear publicly (contact + service pages).
-`trips@` is the planning-form destination. (`brian@` is also the vendor/back-office
-address.)
-
----
-
-## 5. Affiliate & tracking links — DO NOT EDIT PARAMS
-
-| Partner | URL |
+| Route | Purpose |
 |---|---|
-| Viator | `https://www.viator.com/?pid=P00003200&uid=U00747481&mcid=58086&currency=USD` |
-| Shore Excursions Group | `https://www.shoreexcursionsgroup.com/?source=portal&id=1786436&data=brian@paradoxtravelnetwork.com` |
-| Exoticca (white-label) | `https://exoticca.com/us?advisor_token=brian-voyles-019a21e0-2339-7046-a141-9ecdc021d5e3` |
+| `/` | Home |
+| `/book-it-yourself` | self-book partner hub |
+| `/plan-my-trip` | advisor planning path, Tern intake + scheduling CTA |
+| `/explore-travel` | travel-type hub |
+| `/about` | About Brian / advisor approach |
+| `/contact` | contact options |
+| `/travel-tips` | Postcards from Paradox listing |
+| `/travel-tips/:slug` | individual Postcards article |
+| `/cruises` | cruise service guide |
+| `/all-inclusive-resorts` | all-inclusive service guide |
+| `/romance-travel` | romance / honeymoon guide |
+| `/family-travel` | family travel guide |
+| `/adventure-guided-travel` | adventure / guided travel guide |
+| `/privacy` | Privacy Policy |
+| `/terms` | Terms of Use |
+| `/accessibility` | Accessibility Statement |
+| `/404` and unmatched routes | not-found page |
 
-These carry Brian's referral/tracking IDs (the `data=`, `id=`, `pid/uid/mcid`, and
-`advisor_token` params). They are backend tracking, not visible to users — keep
-them exactly. Vendor split: **Cruises → Shore Excursions Group only**;
-All-Inclusive/Romance/Family/Adventure → **Viator + Exoticca**.
+There is **no Groups page**. Do not resurrect old hidden/retired pages without a
+new business decision.
 
----
+The Trips architecture remains intentionally empty until real supplier training,
+pricing, imagery, deep-linking, and offer rules are ready. Do not publish fake or
+placeholder trips simply to fill a layout.
 
-## 6. Brand images (currently Webflow CDN)
-
-Base: `https://cdn.prod.website-files.com/6a5858ae0ba27f2df8e26b31/`
-- Primary logo: `…b41_Paradox Travel Network - Primary Logo.svg`
-- Headshot: `…b40_Brian Voyles - Approved Headshot.png`
-- Portrait: `…b3f_Brian Voyles - Approved Portrait.jpg`
-- Mascot whiteboard: `…b5d_Brian Mascot Scene - Travel Tips Whiteboard.png`
-- Placeholders: Cruise `…b3b`, Resort `…b3c`, Beach `…b3e`, Planning `…b3d`,
-  Adventure `…b56`, Local Escape `…b58`
-
-All referenced from `src/lib/assets.ts`. **Before canceling Webflow,** download
-these into `/public/assets` and update the paths so the site is self-contained.
-
----
-
-## 7. Blog — Postcards from Paradox (11 posts)
-
-All by Brian Voyles, ~2 min reads. Full text in `src/data/blog.ts`.
-
-| Category | Title | slug |
-|---|---|---|
-| Packing | If the Suitcase Needs a Wrestling Match, You Packed Too Much | `if-the-suitcase-needs-a-wrestling-match` |
-| Airports | A Six-Minute Connection Is Not an Itinerary. It Is a Dare. | `six-minute-connection-is-a-dare` |
-| Airports | The Cheapest Flight Can Become the Most Expensive Bad Decision | `cheapest-flight-can-cost-more` |
-| Cruises | Arrive Before Embarkation Day When the Schedule Matters | `arrive-before-cruise-embarkation-day` |
-| Cruises | Your Cruise Cabin Is a Room and Also a Location Decision | `cruise-cabin-location-matters` |
-| Resorts | All-Inclusive Does Not Mean Every Inclusion Matters to You | `all-inclusive-does-not-mean-everything-matters` |
-| Resorts | The Resort Is Not Close Because the Brochure Used the Word Convenient | `check-resort-transfer-time` |
-| Planning | Check Passport Rules Before the Countdown Becomes Emotional | `check-passport-rules-early` |
-| Planning | A Family Hotel Room Is Not Bigger Because Everyone Is Optimistic | `family-room-layout-matters` |
-| General | Do Not Schedule the Vacation Until It Feels Like Another Job | `do-not-overschedule-the-vacation` |
-| General | Save the Documents Before the Airport Wi-Fi Begins Its Rebellion | `save-travel-documents-offline` |
-
-(There was a 12th draft — "Group Travel Needs Deadlines…" — left out as the Groups
-concept is retired.)
+A future **Tours** service page is planned as a distinct category from Adventure,
+but it is not a current public route.
 
 ---
 
-## 8. New capabilities in this build (vs. Webflow)
+## 4. Lead and communication paths
 
-- **Interactive 3D globe** hero (pure three.js) with animated arcs + cursor parallax
-- **Scroll-progress bar**, **infinite destination ticker**, **animated count-up stats**
-- **AI travel concierge** chat widget — works out of the box; upgrade with `VITE_CONCIERGE_ENDPOINT`
-- Smooth scrolling (Lenis), scroll-reveal motion throughout, full mobile nav
-- Everything content-driven for easy edits; reduced-motion respected for accessibility
+There is no generic website form backend.
+
+- **General contact:** `hello@paradoxtravelnetwork.com`
+- **Existing-client support:** `support@paradoxtravelnetwork.com`
+- **Trip intake:** external Tern-hosted form
+- **Scheduling:** Calendly while the current scheduler remains active
+- **Newsletter:** MailerLite via `NewsletterForm.tsx`
+
+The planning form is hosted and managed in Tern, so the website should not
+pretend to store the submitted trip details itself.
+
+**Privacy rule:** never ask visitors to submit passport numbers, payment-card
+details, medical records, or other confidential identity documents through the
+website itself.
+
+Tern Scheduler is a researched future replacement/consolidation option for
+Calendly. Do not remove Calendly until the Tern scheduling path has actually
+been configured and QA'd.
 
 ---
 
-## 9. Webflow rebuild fallback (if ever needed)
+## 5. Self-book partners and tracked links
 
-- Staging site ID: `6a5858ae0ba27f2df8e26b31` · URL `https://paradox-travel-network-ea5f6c00f9dbf487.webflow.io`
-- **Master/production site ID: `6a5438c02e17e172c6b5fd4d` — NEVER edit or publish to it.**
-- CMS "Travel Tips" collection: `6a5858ae0ba27f2df8e26b49`
-- Category option IDs — Packing `4b9d741ac17d3bdb0469d7771377f3d2`, Airports
-  `c309037ae10490c78b2b8c22de367261`, Cruises `8ca6be639e9d3bb42e3d223c6294f4dc`,
-  Resorts `496199d9bb87e6a2353c1d1fc1b1fa46`, Planning
-  `f21fb8bfcecb2c019830a9d009e2d176`, General `df0158fb02217533cb11adf2afa5d7f6`
-- Everything else needed to rebuild (all copy, links, images) is in this repo's
-  data files and components.
+The current Book It Yourself hub includes:
+
+- **Exoticca** — packaged trips
+- **Virgin Voyages** — adult-focused cruises
+- **Project Expedition** — tours, excursions, attractions, transfers, and
+  multi-day trips
+- **Viator** — tours and activities marketplace
+- **Shore Excursions Group** — cruise port-day excursions
+
+The canonical tracked URLs live in `src/lib/assets.ts`. **Do not casually edit
+tracking query parameters.** Agent, agency, advisor, campaign, and affiliate
+parameters are intentional.
+
+Current service-page self-book pairings:
+
+- Cruises → Virgin Voyages + Shore Excursions Group
+- All-Inclusive → Viator + Exoticca
+- Romance → Viator + Exoticca
+- Family → Viator + Exoticca
+- Adventure → Viator + Exoticca
+
+Supplier copy is time-sensitive. Verify current first-party supplier terms before
+claiming inclusions, cancellation terms, guarantees, inventory counts, or price
+advantages.
+
+---
+
+## 6. Postcards from Paradox
+
+`src/data/blog.ts` is the content source of truth.
+
+Visitor-facing content types are:
+
+- Destination Spotlight
+- Travel News
+- Travel Tip
+
+Travel Tips can also carry secondary topic categories such as Packing, Airports,
+Cruises, Resorts, Planning, and General.
+
+Some articles include curated service-page genre relationships, CTA destinations,
+and first-party sources. Do not fabricate a service relationship or citation just
+to create more internal links.
+
+Travel News may be explicitly time-sensitive and should be refreshed when facts
+age. The build-generated sitemap uses article `dateModified` when available.
+
+---
+
+## 7. SEO and search architecture
+
+Runtime SEO is handled by `src/hooks/useSeo.ts`.
+
+Build-time route metadata is collected in `src/data/__seo_collect.mjs` and
+written into static route HTML by `scripts/vite-plugin-prerender-seo.mjs`.
+
+The build plugin also generates production `sitemap.xml`, keeping public route
+SEO and the sitemap from drifting apart.
+
+Canonical URLs use trailing slashes on non-root routes to match Netlify's clean
+URL behavior.
+
+Homepage structured data currently includes:
+
+- `WebSite`
+- `TravelAgency`
+
+The locked `business.areaServed` schema list is exactly:
+
+```text
+United States
+Dallas–Fort Worth Metroplex
+Dallas
+Fort Worth
+```
+
+Do not expand this with suburbs, counties, states, or a home address merely for
+keyword coverage.
+
+The repository contains the existing IndexNow key file. IndexNow can be used
+after a future production release to notify participating search engines of
+changed/new/deleted URLs. It does not guarantee indexing.
+
+---
+
+## 8. Accessibility and motion
+
+The site works toward WCAG 2.1 AA and has ongoing accessibility auditing.
+
+Current architecture includes:
+
+- skip-to-main-content link;
+- keyboard-aware mobile navigation;
+- explicit accessible labels and status messages;
+- larger mobile touch targets;
+- reduced-motion handling across shared components;
+- global Framer Motion `MotionConfig reducedMotion="user"` safety net;
+- manual reduced-motion handling for timers, autoplay, custom animation loops,
+  and behaviors MotionConfig cannot stop automatically.
+
+**Carousel rule:** normal autoplay does **not** pause on mouse hover. It may pause
+through the explicit Pause control, reduced-motion behavior, or when the browser
+tab is hidden.
+
+---
+
+## 9. Performance and resilience
+
+The site uses route-level code splitting.
+
+The lazy-route loader contains a one-time stale-chunk reload safeguard for tabs
+left open across deployments. A route-level ErrorBoundary provides a usable
+reload action if a page still fails after that recovery path.
+
+The Three.js globe:
+
+- uses a lower-resolution generated Earth texture on smaller screens;
+- caps pixel ratio;
+- suspends rendering while offscreen or the tab is hidden;
+- preserves the intended visual globe size on mobile;
+- includes WebGL fallback and cleanup behavior.
+
+The Book It Yourself photo stack also avoids unnecessary background animation
+work when it is not useful.
+
+---
+
+## 10. Analytics and privacy-sensitive tracking
+
+GA4 measurement ID is configured in `index.html`.
+
+`AnalyticsTracker.tsx` records important site actions such as planning-path
+clicks, self-book-path clicks, email/phone clicks, Tern intake starts, Calendly
+scheduling clicks, and sponsored booking-partner clicks.
+
+Do not send visitor names, email addresses, form values, trip details, or full
+query-string URLs to Google Analytics.
+
+The current Content Security Policy allows only the third-party origins needed
+by the implemented site features. `public/_headers` and the CSP mirror in the
+prerender plugin must stay synchronized.
+
+The concierge currently has no Netlify `VITE_CONCIERGE_ENDPOINT`, so it uses its
+built-in local responder rather than sending chats to an external AI endpoint.
+
+---
+
+## 11. Deployment
+
+Production hosting is **Netlify**. GitHub `main` is watched by Netlify.
+
+Netlify builds consume credits, so routine development uses skipped staging:
+
+```text
+work
+→ commit/push with [skip netlify]
+→ verify Netlify did not build
+→ accumulate reviewed work
+→ complete pre-release review / executable validation
+→ one ordinary untagged commit
+→ one production Netlify build
+```
+
+A later ordinary commit includes all previously skipped changes, so **an untagged
+commit to `main` is a release action**.
+
+See `DEPLOYMENT-WORKFLOW.md` and the SharePoint operating notes for the current
+release baseline and staged-commit count.
+
+DNS/registrar authority remains Porkbun. Hosting remains Netlify.
+
+---
+
+## 12. Important file map
+
+| Area | Source |
+|---|---|
+| business identity, external links, assets | `src/lib/assets.ts` |
+| services | `src/data/services.ts` |
+| Postcards | `src/data/blog.ts` |
+| navigation/footer/FAQ | `src/data/site.ts` |
+| future trip data architecture | `src/data/trips.ts` |
+| runtime SEO | `src/hooks/useSeo.ts` |
+| build SEO route collection | `src/data/__seo_collect.mjs` |
+| prerender + generated sitemap | `scripts/vite-plugin-prerender-seo.mjs` |
+| analytics click tracking | `src/components/AnalyticsTracker.tsx` |
+| security response headers | `public/_headers` |
+| redirects / SPA fallback | `public/_redirects` |
+| deployment procedure | `DEPLOYMENT-WORKFLOW.md` |
+
+---
+
+## 13. Historical systems
+
+Bolt.new and Webflow are historical build systems, not current production
+architecture.
+
+The `.bolt/` directory remains only as legacy debris and is not read by the live
+site or Netlify build. Old Webflow IDs/CDN URLs may still be useful as historical
+recovery references in SharePoint/version history, but they should not be used
+as current implementation instructions.
