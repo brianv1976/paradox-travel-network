@@ -24,6 +24,7 @@ export default function ImageCarousel({
 }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const reduce = useReducedMotion();
 
   const go = useCallback(
@@ -33,15 +34,26 @@ export default function ImageCarousel({
     [slides.length]
   );
 
+  // Browser visibility is separate from the visitor's manual pause choice.
+  // Hiding the tab stops background autoplay without changing that choice,
+  // and returning to the tab simply resumes if the visitor had not paused it.
+  // Mouse hover intentionally does NOT pause this carousel.
+  useEffect(() => {
+    const onVisibility = () => setHidden(document.hidden);
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
   // Moving content needs a real pause mechanism, and visitors who request
   // reduced motion should never have an automatically advancing carousel.
   useEffect(() => {
-    if (paused || reduce || slides.length <= 1) return;
+    if (paused || hidden || reduce || slides.length <= 1) return;
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % slides.length);
     }, HOLD_MS);
     return () => window.clearInterval(id);
-  }, [paused, reduce, slides.length]);
+  }, [paused, hidden, reduce, slides.length]);
 
   const s = slides[index];
 
@@ -55,9 +67,9 @@ export default function ImageCarousel({
         <AnimatePresence mode="wait">
           <motion.div
             key={s.src}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.06 }}
-            animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+            initial={reduce ? false : { opacity: 0, scale: 1.06 }}
+            animate={reduce ? undefined : { opacity: 1, scale: 1 }}
+            exit={reduce ? undefined : { opacity: 0, scale: 0.98 }}
             transition={{ duration: reduce ? 0 : 0.8, ease: smooth }}
             className="absolute inset-0"
             // touchAction: "pan-y" lets normal vertical page scroll pass
@@ -88,9 +100,9 @@ export default function ImageCarousel({
         <AnimatePresence mode="wait">
           <motion.p
             key={s.caption}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
-            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
+            initial={reduce ? false : { opacity: 0, y: 10 }}
+            animate={reduce ? undefined : { opacity: 1, y: 0 }}
+            exit={reduce ? undefined : { opacity: 0 }}
             transition={{ duration: reduce ? 0 : 0.4, ease: smooth }}
             className="absolute bottom-5 left-5 right-24 text-sm font-medium text-cream md:text-base"
           >
@@ -104,7 +116,7 @@ export default function ImageCarousel({
               onClick={() => setPaused((p) => !p)}
               aria-label={paused ? "Play photo carousel" : "Pause photo carousel"}
               aria-pressed={paused}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-cream text-ink shadow-soft transition-colors hover:bg-cream/90"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream text-ink shadow-soft transition-colors hover:bg-cream/90"
             >
               {paused ? <Play size={17} /> : <Pause size={17} />}
             </button>
@@ -112,14 +124,14 @@ export default function ImageCarousel({
           <button
             onClick={() => go(index - 1)}
             aria-label="Previous photo"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-cream text-ink shadow-soft transition-colors hover:bg-cream/90"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream text-ink shadow-soft transition-colors hover:bg-cream/90"
           >
             <ChevronLeft size={18} />
           </button>
           <button
             onClick={() => go(index + 1)}
             aria-label="Next photo"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-cream text-ink shadow-soft transition-colors hover:bg-cream/90"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream text-ink shadow-soft transition-colors hover:bg-cream/90"
           >
             <ChevronRight size={18} />
           </button>
