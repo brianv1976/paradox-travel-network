@@ -1,65 +1,94 @@
 # Paradox Travel Network
 
-A clean, modern build of paradoxtravelnetwork.com: **Vite + React + TypeScript +
-Tailwind**, with Framer Motion animation, a pure-three.js interactive globe,
-an AI travel concierge, and a data-driven blog.
+Production website for **Paradox Travel Network** at `paradoxtravelnetwork.com`.
 
-**Production architecture:** this GitHub repo (`brianv1976/paradox-travel-network`,
-`main` branch) is the source of truth. **Netlify** watches it and auto-deploys
-every push — no manual publish step. See `PTN-Services-and-Access-Map.md` in
-the SharePoint handover folder for the full connected-services list.
+Current stack: **Vite + React + TypeScript + Tailwind**, with Framer Motion,
+Three.js, React Router, Lenis, GA4 analytics, a local-first travel concierge,
+Tern trip intake, Calendly scheduling, and MailerLite newsletter signup.
 
-> This project previously ran on Bolt.new (2026-06 through 2026-08-20). It was
-> migrated off after Bolt's platform repeatedly auto-pushed its own stale state
-> back to GitHub and silently reverted real work. The `.bolt/` directory is
-> legacy and safe to ignore or remove — nothing in the live deploy path reads
-> from it anymore.
+## Source of truth
 
----
+This GitHub repository (`brianv1976/paradox-travel-network`, `main`) is the
+website code source of truth. **Netlify** hosts production and watches `main`.
+SharePoint contains the durable project memory, operating notes, research, and
+handover records.
 
-## Run locally (optional)
+The site previously ran through Bolt.new. Bolt was decommissioned on
+2026-08-20 and is **not** part of the current build or deployment path. The
+`.bolt/` directory is legacy only.
+
+## Run locally
+
 ```bash
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # production build → dist/
+npm run dev
+npm run typecheck
+npm run build
+npm run preview
 ```
 
-## How forms work
-There's no generic form backend — each channel goes straight to where it needs
-to be:
-- **General questions** → `mailto:hello@paradoxtravelnetwork.com` (Contact page).
-- **Existing-client support** → `mailto:support@paradoxtravelnetwork.com`.
-- **Trip planning** → links out to a Tern-hosted intake form (`PlanMyTrip.tsx`),
-  which creates the trip in Tern's CRM directly.
-- **Newsletter signup** → `NewsletterForm.tsx` posts directly to MailerLite's
-  subscribe API (see `src/lib/assets.ts` for the endpoint/form IDs).
+The production build outputs to `dist/`. The Vite prerender SEO plugin writes
+route-specific static HTML and generates the production sitemap during the
+build.
 
-## Finish the wiring (env vars — optional)
-Copy `.env.example` to `.env`:
-- `VITE_CONCIERGE_ENDPOINT` — optional LLM endpoint for the AI concierge. It
-  already works without one via a built-in responder.
+## Forms and lead paths
 
-## Deploy
-Push to `main` — Netlify auto-builds (`npm run build`) and deploys. No manual
-step. Domain DNS lives at Porkbun (registrar and DNS authority); Netlify's
-domain settings show the exact records if that ever needs to change.
+There is no generic form backend on this site:
 
----
+- **General questions** → `mailto:hello@paradoxtravelnetwork.com`
+- **Existing-client support** → `mailto:support@paradoxtravelnetwork.com`
+- **Trip planning** → Tern-hosted trip intake form
+- **Scheduling** → Calendly while the current scheduler remains in use
+- **Newsletter signup** → `NewsletterForm.tsx` posts directly to MailerLite
+
+The concierge currently works without an external endpoint through its built-in
+local responder. `VITE_CONCIERGE_ENDPOINT` is optional if a reviewed external
+concierge service is added later.
+
+## Deployment workflow
+
+**Do not assume every push to `main` should deploy.** Netlify builds consume
+credits, so intermediate work is intentionally accumulated in GitHub without
+creating a production build.
+
+Use this workflow:
+
+1. Make and review a change.
+2. Commit/push it to `main` with **`[skip netlify]`** in the commit message.
+3. Confirm Netlify did not create a new deploy.
+4. Continue accumulating reviewed changes the same way.
+5. Before release, review the complete diff and run executable validation when
+   available (`npm run typecheck` and `npm run build`).
+6. Create **one ordinary commit without a skip tag** only when the complete
+   batch is ready. That commit triggers the Netlify production build and
+   includes all previously skipped changes.
+
+A later ordinary commit deploys the accumulated skipped changes too, so an
+untagged commit is a release action, not harmless housekeeping.
+
+See `DEPLOYMENT-WORKFLOW.md` for the full procedure and the SharePoint
+`PTN-AI-Operating-Notes.md` / progress log for the current release state.
+
+Domain registration and DNS authority remain at Porkbun; hosting is Netlify.
 
 ## Where things live
+
 | Want to change… | Edit |
 |---|---|
 | Brand colors | `tailwind.config.js` |
 | Fonts | `index.html` + `tailwind.config.js` |
-| Images & all external links | `src/lib/assets.ts` |
-| Blog posts | `src/data/blog.ts` |
+| Images, business data & external links | `src/lib/assets.ts` |
+| Postcards / travel content | `src/data/blog.ts` |
 | Service pages | `src/data/services.ts` |
 | Nav / footer / FAQ | `src/data/site.ts` |
-| Newsletter signup form | `src/components/NewsletterForm.tsx` |
+| Newsletter signup | `src/components/NewsletterForm.tsx` |
+| Route SEO source used at build time | `src/data/__seo_collect.mjs` |
+| Runtime SEO behavior | `src/hooks/useSeo.ts` |
+| Prerender SEO + generated sitemap | `scripts/vite-plugin-prerender-seo.mjs` |
+| Netlify response headers | `public/_headers` |
+| Netlify redirects / SPA fallback | `public/_redirects` |
 
-All images are self-hosted (no Webflow CDN dependency), and there are no
-placeholder reviews on the site — see **PTN-MASTER-SPEC.md** for the full
-content + brand reference, and **PTN-Services-and-Access-Map.md** /
-**PTN-AI-Operating-Notes.md** for everything connected to this project
-(hosting, DNS, CRM, SEO tooling, etc.) — all three live in the
-`Website & Digital / Website AI Memory Logs and Handover` SharePoint folder.
+All production imagery is self-hosted in this repository. There are no
+placeholder reviews. `PTN-MASTER-SPEC.md` is the compact architecture/brand
+reference; the current operational truth and change history live in the
+SharePoint website memory logs.
