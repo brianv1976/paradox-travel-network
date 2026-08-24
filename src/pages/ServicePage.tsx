@@ -1,5 +1,5 @@
 import { Navigate, useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check, ExternalLink, MapPin } from "lucide-react";
 import { getService } from "../data/services";
 import { getTripsForGenre } from "../data/trips";
@@ -17,6 +17,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
   const params = useParams();
   const slug = slugProp ?? params.slug;
   const service = slug ? getService(slug) : undefined;
+  const reduce = useReducedMotion();
 
   useSeo(
     service?.metaTitle ?? "",
@@ -92,16 +93,16 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
           title={service.fitTriad.heading}
         />
         <motion.div
-          variants={stagger(0.12)}
-          initial="hidden"
-          whileInView="show"
+          variants={reduce ? undefined : stagger(0.12)}
+          initial={reduce ? false : "hidden"}
+          whileInView={reduce ? undefined : "show"}
           viewport={{ once: true, amount: 0.2 }}
           className="mt-12 grid gap-6 md:grid-cols-3"
         >
           {service.fitTriad.items.map((item) => (
             <motion.div
               key={item.n}
-              variants={fadeUp}
+              variants={reduce ? undefined : fadeUp}
               className="group rounded-2xl border border-ink/10 bg-cream p-7 transition-all duration-300 hover:border-ocean/30 hover:shadow-soft"
             >
               <span className="font-display text-3xl font-semibold text-clay-deep">
@@ -126,14 +127,14 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
             title={`Featured ${service.navLabel.toLowerCase()} trips.`}
           />
           <motion.div
-            variants={stagger(0.15)}
-            initial="hidden"
-            whileInView="show"
+            variants={reduce ? undefined : stagger(0.15)}
+            initial={reduce ? false : "hidden"}
+            whileInView={reduce ? undefined : "show"}
             viewport={{ once: true, amount: 0.15 }}
             className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
           >
             {trips.map((trip) => (
-              <motion.div key={trip.slug} variants={fadeUp}>
+              <motion.div key={trip.slug} variants={reduce ? undefined : fadeUp}>
                 <TiltCard className="rounded-2xl" intensity={7}>
                   <a
                     href={trip.bookingUrl}
@@ -154,7 +155,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
                     </div>
                     <div
                       className="flex flex-1 flex-col p-6"
-                      style={{ transform: "translateZ(28px)" }}
+                      style={{ transform: reduce ? undefined : "translateZ(28px)" }}
                     >
                       <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-clay-deep">
                         <MapPin size={12} /> {trip.destination}
@@ -196,16 +197,16 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
             title={service.checklist.heading}
           />
           <motion.ul
-            variants={stagger(0.07)}
-            initial="hidden"
-            whileInView="show"
+            variants={reduce ? undefined : stagger(0.07)}
+            initial={reduce ? false : "hidden"}
+            whileInView={reduce ? undefined : "show"}
             viewport={{ once: true, amount: 0.2 }}
             className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
           >
             {service.checklist.items.map((item) => (
               <motion.li
                 key={item}
-                variants={fadeUp}
+                variants={reduce ? undefined : fadeUp}
                 className="flex items-start gap-3 rounded-xl bg-cream px-5 py-4 shadow-sm"
               >
                 <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ocean/10 text-ocean-dark">
@@ -231,16 +232,16 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
           intro={service.pillars.intro}
         />
         <motion.div
-          variants={stagger(0.12)}
-          initial="hidden"
-          whileInView="show"
+          variants={reduce ? undefined : stagger(0.12)}
+          initial={reduce ? false : "hidden"}
+          whileInView={reduce ? undefined : "show"}
           viewport={{ once: true, amount: 0.2 }}
           className="mt-12 grid gap-6 md:grid-cols-3"
         >
           {service.pillars.cards.map((card) => (
             <motion.div
               key={card.title}
-              variants={fadeUp}
+              variants={reduce ? undefined : fadeUp}
               className="rounded-2xl bg-ocean-dark p-7 text-cream"
             >
               <h3 className="text-xl font-semibold">{card.title}</h3>
@@ -261,14 +262,14 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
               title={`Helpful guides for ${service.navLabel.toLowerCase()}, from Postcards.`}
             />
             <motion.div
-              variants={stagger(0.1)}
-              initial="hidden"
-              whileInView="show"
+              variants={reduce ? undefined : stagger(0.1)}
+              initial={reduce ? false : "hidden"}
+              whileInView={reduce ? undefined : "show"}
               viewport={{ once: true, amount: 0.2 }}
               className="mt-12 grid gap-6 md:grid-cols-3"
             >
               {guides.map((post) => (
-                <motion.div key={post.slug} variants={fadeUp}>
+                <motion.div key={post.slug} variants={reduce ? undefined : fadeUp}>
                   <Link
                     to={`/travel-tips/${post.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft"
@@ -310,10 +311,10 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
       <div className="container-px pb-20 text-center text-sm text-fog">
         Not sure which planning option fits? Email{" "}
         <a
-          href="mailto:hello@paradoxtravelnetwork.com"
+          href={`mailto:${links.email}`}
           className="font-semibold text-ocean-dark hover:text-clay-deep"
         >
-          hello@paradoxtravelnetwork.com
+          {links.email}
         </a>{" "}
         or{" "}
         <a
