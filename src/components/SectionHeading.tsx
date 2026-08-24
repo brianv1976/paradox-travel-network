@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Reveal from "./Reveal";
 import AnimatedHeadline from "./AnimatedHeadline";
 import { smooth } from "../lib/motion";
@@ -25,6 +25,7 @@ export default function SectionHeading({
   align = "left",
   className = "",
 }: Props) {
+  const reduce = useReducedMotion();
   const alignment =
     align === "center" ? "text-center mx-auto items-center" : "text-left";
 
@@ -32,29 +33,40 @@ export default function SectionHeading({
     <div className={`flex max-w-2xl flex-col gap-4 ${alignment} ${className}`}>
       {eyebrow && (
         <motion.div
-          initial="hidden"
-          whileInView="show"
+          initial={reduce ? false : "hidden"}
+          whileInView={reduce ? undefined : "show"}
           viewport={{ once: true, amount: 0.6 }}
           className={`flex items-center gap-3 ${
             align === "center" ? "justify-center" : ""
           }`}
         >
           <motion.span
-            variants={{
-              hidden: { scaleX: 0 },
-              show: { scaleX: 1, transition: { duration: 0.6, ease: smooth } },
-            }}
+            variants={
+              reduce
+                ? undefined
+                : {
+                    hidden: { scaleX: 0 },
+                    show: {
+                      scaleX: 1,
+                      transition: { duration: 0.6, ease: smooth },
+                    },
+                  }
+            }
             className="h-px w-8 origin-left bg-clay"
           />
           <motion.span
-            variants={{
-              hidden: { opacity: 0, x: -12 },
-              show: {
-                opacity: 1,
-                x: 0,
-                transition: { duration: 0.5, ease: smooth, delay: 0.1 },
-              },
-            }}
+            variants={
+              reduce
+                ? undefined
+                : {
+                    hidden: { opacity: 0, x: -12 },
+                    show: {
+                      opacity: 1,
+                      x: 0,
+                      transition: { duration: 0.5, ease: smooth, delay: 0.1 },
+                    },
+                  }
+            }
             className="eyebrow"
           >
             {eyebrow}
