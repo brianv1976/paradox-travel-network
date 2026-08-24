@@ -109,7 +109,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           ref={toggleRef}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink xl:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink xl:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
