@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { MessageCircle, X, Send, Compass } from "lucide-react";
 import { links } from "../lib/assets";
 
@@ -71,6 +71,7 @@ export default function ConciergeBot() {
   const panelRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const reduce = useReducedMotion();
 
   const endpoint = import.meta.env.VITE_CONCIERGE_ENDPOINT as string | undefined;
 
@@ -86,14 +87,13 @@ export default function ConciergeBot() {
   useEffect(() => {
     scrollRef.current?.scrollTo({
       top: scrollRef.current.scrollHeight,
-      behavior: "smooth",
+      behavior: reduce ? "auto" : "smooth",
     });
-  }, [messages, loading, open]);
+  }, [messages, loading, open, reduce]);
 
   // Dialog focus management: move focus into the panel on open, trap Tab
   // inside it while open, close on Escape, and hand focus back to the
-  // launcher button on close — a floating chat panel with no route of its
-  // own needs to behave like a real dialog for keyboard/screen-reader users.
+  // launcher button on close when that launcher exists in the active layout.
   useEffect(() => {
     if (!open) return;
     inputRef.current?.focus();
@@ -175,8 +175,8 @@ export default function ConciergeBot() {
         ref={launcherRef}
         onClick={() => setOpen((v) => !v)}
         className="concierge-launcher fixed bottom-5 right-5 z-[60] hidden h-14 w-14 items-center justify-center rounded-full bg-ocean-dark text-cream shadow-lift transition-colors hover:bg-ocean md:inline-flex"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={reduce ? undefined : { scale: 1.05 }}
+        whileTap={reduce ? undefined : { scale: 0.95 }}
         aria-label={open ? "Close concierge" : "Open travel concierge"}
         aria-expanded={open}
         aria-controls="concierge-panel"
@@ -184,10 +184,10 @@ export default function ConciergeBot() {
         <AnimatePresence mode="wait">
           <motion.span
             key={open ? "x" : "chat"}
-            initial={{ opacity: 0, rotate: -30 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            exit={{ opacity: 0, rotate: 30 }}
-            transition={{ duration: 0.2 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, rotate: -30 }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, rotate: 0 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, rotate: 30 }}
+            transition={{ duration: reduce ? 0 : 0.2 }}
           >
             {open ? <X size={22} /> : <MessageCircle size={22} />}
           </motion.span>
@@ -202,11 +202,11 @@ export default function ConciergeBot() {
             role="dialog"
             aria-modal="true"
             aria-label="Paradox Concierge chat"
-            initial={{ opacity: 0, y: 24, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.96 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="concierge-launcher fixed bottom-24 right-5 z-[60] flex h-[540px] max-h-[75vh] w-[92vw] max-w-[380px] flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10"
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96 }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96 }}
+            transition={{ duration: reduce ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="concierge-launcher fixed inset-x-4 bottom-4 top-4 z-[60] flex flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10 md:inset-x-auto md:bottom-24 md:right-5 md:top-auto md:h-[540px] md:max-h-[75vh] md:w-[92vw] md:max-w-[380px]"
           >
             {/* Header */}
             <div className="flex items-center gap-3 bg-ocean-dark px-5 py-4 text-cream">
@@ -219,6 +219,17 @@ export default function ConciergeBot() {
                   Travel questions, answered
                 </div>
               </div>
+              {/* The floating launcher is hidden on phones, so the panel
+                  needs its own touch-visible exit instead of relying on an
+                  Escape key that most phones do not have. */}
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-full text-cream transition-colors hover:bg-cream/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream md:hidden"
+                aria-label="Close concierge"
+              >
+                <X size={20} />
+              </button>
             </div>
 
             {/* Messages */}
@@ -251,7 +262,7 @@ export default function ConciergeBot() {
                       <motion.span
                         key={i}
                         className="h-1.5 w-1.5 rounded-full bg-fog"
-                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        animate={reduce ? undefined : { opacity: [0.3, 1, 0.3] }}
                         transition={{
                           duration: 1,
                           repeat: Infinity,
