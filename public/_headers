@@ -4,9 +4,12 @@
 # dist/_headers and Netlify applies it to the deployed site.
 #
 # Allow-listed origins are exactly the third parties the site currently uses:
-#   - www.googletagmanager.com / www.google-analytics.com  -> GA4 (index.html)
-#   - fonts.googleapis.com / fonts.gstatic.com             -> web fonts
-#   - assets.mailerlite.com                                -> newsletter signup
+#   - googletagmanager.com + Google Analytics regional endpoints -> GA4
+#   - fonts.googleapis.com / fonts.gstatic.com                    -> web fonts
+#   - assets.mailerlite.com                                       -> newsletter signup
+# Google documents wildcard Analytics hosts because collection can use
+# regional subdomains (including EU/UK/Switzerland routing). Keep these in
+# sync with the CSP mirror in scripts/vite-plugin-prerender-seo.mjs.
 # If you add a third-party embed or set VITE_CONCIERGE_ENDPOINT to an endpoint
 # on another origin, add that origin to the appropriate CSP directive here or
 # the browser will block it.
@@ -16,4 +19,4 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://assets.mailerlite.com; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://assets.mailerlite.com; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
