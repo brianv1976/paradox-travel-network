@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight, Calendar, Clock, Mail } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import {
@@ -39,12 +39,13 @@ function dateLabel(iso: string) {
 }
 
 function FeaturedArticle({ post }: { post: Post }) {
+  const reduce = useReducedMotion();
   const cta = getPostCTA(post);
   return (
     <motion.article
-      variants={fadeUp}
-      initial="hidden"
-      whileInView="show"
+      variants={reduce ? undefined : fadeUp}
+      initial={reduce ? false : "hidden"}
+      whileInView={reduce ? undefined : "show"}
       viewport={{ once: true, amount: 0.2 }}
       className="group overflow-hidden rounded-[2rem] border border-ink/10 bg-cream shadow-soft md:grid md:grid-cols-2 md:items-stretch"
     >
@@ -97,15 +98,20 @@ function FeaturedArticle({ post }: { post: Post }) {
 }
 
 function ArticleCard({ post }: { post: Post }) {
+  const reduce = useReducedMotion();
   const cta = getPostCTA(post);
   const isSpotlight = post.contentType === "Destination Spotlight";
 
   return (
     <motion.article
-      layout
-      variants={fadeUp}
-      whileHover={{ y: -4 }}
-      exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.25 } }}
+      layout={!reduce}
+      variants={reduce ? undefined : fadeUp}
+      whileHover={reduce ? undefined : { y: -4 }}
+      exit={
+        reduce
+          ? undefined
+          : { opacity: 0, scale: 0.96, transition: { duration: 0.25 } }
+      }
       className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-shadow duration-300 hover:shadow-soft"
     >
       <Link
@@ -169,6 +175,7 @@ function ArticleCard({ post }: { post: Post }) {
 }
 
 export default function Blog() {
+  const reduce = useReducedMotion();
   useSeo(
     "Postcards from Paradox | Destination Spotlights, Travel News & Tips",
     "Destination spotlights, travel news, and practical tips from Paradox Travel Network — plus an occasional newsletter with useful reminders."
@@ -197,9 +204,9 @@ export default function Blog() {
           <div className="absolute inset-0 bg-gradient-to-r from-cream/90 via-cream/40 to-transparent" />
 
           <motion.div
-            variants={stagger(0.1)}
-            initial="hidden"
-            animate="show"
+            variants={reduce ? undefined : stagger(0.1)}
+            initial={reduce ? false : "hidden"}
+            animate={reduce ? undefined : "show"}
             // Below sm this column's only job is the eyebrow -- the H1
             // moved out to plain document flow below the image (matching
             // where the eyebrow/paragraph mobile copies already lived).
@@ -210,17 +217,17 @@ export default function Blog() {
             // sidesteps the problem entirely instead of fighting it.
             className="container-px absolute inset-y-0 left-0 flex w-full max-w-xl flex-col justify-start gap-1.5 pt-10 sm:gap-4 sm:pt-0 sm:justify-center md:w-[46%] md:max-w-none md:justify-start md:gap-6 md:pt-10 lg:gap-8 lg:pt-14"
           >
-            <motion.span variants={fadeUp} className="eyebrow hidden text-xs sm:block md:text-sm lg:text-base">
+            <motion.span variants={reduce ? undefined : fadeUp} className="eyebrow hidden text-xs sm:block md:text-sm lg:text-base">
               Postcards from Paradox
             </motion.span>
             <motion.h1
-              variants={fadeUp}
+              variants={reduce ? undefined : fadeUp}
               className="hidden text-2xl font-semibold leading-[1.1] text-ink sm:block md:text-3xl lg:text-6xl xl:text-7xl"
             >
               Useful advice. Minimal inspirational fog.
             </motion.h1>
             <motion.p
-              variants={fadeUp}
+              variants={reduce ? undefined : fadeUp}
               className="hidden max-w-md text-sm leading-relaxed text-fog sm:block md:max-w-none md:text-base lg:text-xl xl:text-2xl"
             >
               Destination spotlights, travel news, and practical tips — plus
@@ -260,7 +267,7 @@ export default function Blog() {
               key={f}
               onClick={() => setFilter(f)}
               aria-pressed={filter === f}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                 filter === f
                   ? "bg-ocean-dark text-cream"
                   : "border border-ink/15 text-ink/80 hover:border-ocean-dark hover:text-ocean-dark"
@@ -280,10 +287,10 @@ export default function Blog() {
           </p>
         ) : (
           <motion.div
-            layout
-            variants={stagger(0.08)}
-            initial="hidden"
-            animate="show"
+            layout={!reduce}
+            variants={reduce ? undefined : stagger(0.08)}
+            initial={reduce ? false : "hidden"}
+            animate={reduce ? undefined : "show"}
             className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
           >
             <AnimatePresence>
