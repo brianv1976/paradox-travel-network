@@ -204,7 +204,7 @@ export default function prerenderSeoPlugin() {
         : path.join(root, config.build.outDir);
     },
     async closeBundle() {
-      const siteUrl = process.env.SITE_URL || "https://paradoxtravelnetwork.com";
+      const siteUrl = (process.env.SITE_URL || "https://paradoxtravelnetwork.com").replace(/\/+$/, "");
       const templatePath = path.join(outDir, "index.html");
       const template = injectCsp(await readFile(templatePath, "utf-8"));
       const routes = await loadRoutes(root);
