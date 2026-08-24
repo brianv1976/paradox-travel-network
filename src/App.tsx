@@ -17,7 +17,7 @@ import { services } from "./data/services";
 // instead of leaving the visitor to guess that a refresh is the fix.
 const RELOAD_KEY = "ptn-chunk-reload";
 
-function lazyWithReload<T extends ComponentType<unknown>>(
+function lazyWithReload<T extends ComponentType<any>>(
   factory: () => Promise<{ default: T }>
 ) {
   return lazy(async () => {
