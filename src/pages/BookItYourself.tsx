@@ -20,22 +20,9 @@ import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
 import TiltCard from "../components/TiltCard";
 import ImageCarousel from "../components/ImageCarousel";
-import HeroTravelScene from "../components/HeroTravelScene";
 import HeroPhotoStack from "../components/HeroPhotoStack";
 import { assets, links } from "../lib/assets";
 import { fadeUp, stagger } from "../lib/motion";
-
-// Real, unbranded photography for the hero scene — deliberately no vendor
-// logos so it doesn't play favorites among the sections below. Used by
-// HeroTravelScene, kept here as an easy fallback while HeroPhotoStack (the
-// 3D layered version) is being tried out — swap the imageSlot below to
-// revert.
-const heroSlides = [
-  { src: assets.virginVoyages.shipExterior, alt: "Cruise ship sailing at sea" },
-  { src: assets.virginVoyages.beachClubPool, alt: "Aerial view of a beach club pool" },
-  { src: assets.virginVoyages.beachClubDusk, alt: "Beach club pool at dusk" },
-  { src: assets.virginVoyages.beachClubCabana, alt: "View of the beach from a cabana" },
-];
 
 const bookingTypes = [
   {
@@ -114,18 +101,18 @@ const exoticcaSlides = [
 const exoticcaHighlights = [
   {
     icon: RotateCcw,
-    title: "Flex Cancellation",
-    body: "Add Flex Cancellation at booking (from $99–$149 per person) and cancel for any reason up to 30 days before departure — refunded as Exoticca travel credit that never expires.",
+    title: "Flexible cancellation options",
+    body: "Cancellation coverage is selected when you book. Exoticca currently offers Flex Light, Flex Optima, and Flex Total with different cancellation windows and travel-credit levels, so check the option shown for your specific trip before paying.",
   },
   {
     icon: CreditCard,
     title: "Book now, pay over time",
-    body: "A deposit reserves your trip, with the balance due before departure — plus fixed installment plans available through PayPal and Affirm if you'd rather spread out the cost.",
+    body: "Depending on how far ahead you book, Exoticca offers deposit and staged-payment options. Fixed installment options are also available through PayPal or Affirm.",
   },
   {
     icon: ShieldCheck,
-    title: "In-house trip designers, ASTA member",
-    body: "Every itinerary is built by Exoticca's own trip designers rather than stitched together from third-party listings, and Exoticca is a member of ASTA.",
+    title: "Expert-crafted trips, ASTA member",
+    body: "Exoticca's travel crafters design the itineraries with local partners, and Exoticca lists ASTA among its travel-industry memberships.",
   },
 ];
 
@@ -161,19 +148,19 @@ const projectExpeditionHighlights = [
   {
     icon: Map,
     title: "Full multi-day itineraries",
-    body: "Genuine multi-day trips and adventures, planned start to finish — not single-day tours stitched together.",
+    body: "Multi-day trips sit alongside individual tours, excursions, attractions, and transfers, so you can book a full itinerary or just one part of a trip.",
     image: assets.img.multiDayTrek,
   },
   {
     icon: Users,
-    title: "Local operators, not a marketplace",
-    body: "A smaller, curated catalog run by local guides who know their destination, rather than an endless generic listing.",
+    title: "Curated local operators",
+    body: "Project Expedition works directly with local suppliers and says each supplier is reviewed and approved by its team before being offered on the platform.",
     image: assets.img.localGuide,
   },
   {
     icon: ShieldCheck,
-    title: "Back-to-Ship Guarantee",
-    body: "If a shore excursion runs long, they cover getting you back to the ship — no clock-watching on port day.",
+    title: "Back-to-Ship protection on eligible tours",
+    body: "Some shore excursions expressly include Project Expedition's Back to Ship Guarantee. Check the individual product page and booking voucher because the guarantee does not apply to every shore excursion.",
     image: assets.img.cruiseTender,
   },
 ];
@@ -187,12 +174,12 @@ const projectExpeditionSlides = [
   {
     src: assets.img.localGuide,
     alt: "Local guide leading a small group tour",
-    caption: "Local operators, not a marketplace",
+    caption: "Curated local operators",
   },
   {
     src: assets.img.cruiseTender,
     alt: "Cruise tender returning travelers to the ship",
-    caption: "Back-to-Ship Guarantee",
+    caption: "Cruise-friendly shore excursion options",
   },
 ];
 
@@ -369,23 +356,21 @@ export default function BookItYourself() {
                 className="mt-3 h-12 w-auto md:h-14"
               />
               <p className="mt-5 leading-relaxed text-fog">
-                Exoticca is an online tour operator, not a marketplace — their
-                own trip designers build each itinerary in-house. A trip
-                bundles flights, hotels,
-                guided tours, transfers, and breakfast into one upfront price,
-                so there's no separate flight search or hotel comparison to do
-                yourself.
+                Exoticca is an online tour operator, not an open marketplace.
+                Its travel crafters build vacation packages with local partners,
+                typically combining flights, hotels, tours, and transfers in one
+                trip. Exact inclusions vary by itinerary, and some packages also
+                include meals.
               </p>
               <p className="mt-4 leading-relaxed text-fog">
-                Most trips run as small guided groups — typically 12 to 15
-                travelers, rarely more than 30 — with free time built into
-                most stops for exploring on your own. Fully self-guided
-                versions are also available for travelers who'd rather skip
-                the group entirely.
+                On Exoticca group trips, group size averages about 12 to 15
+                travelers and rarely exceeds 30. Many itineraries mix guided
+                activities with time to explore independently, and self-guided
+                itineraries are available for travelers who want more freedom.
               </p>
               <p className="mt-4 text-sm font-medium text-ink">
                 Exoticca · 300+ itineraries across 60+ countries · Flights,
-                hotels, tours &amp; transfers included
+                hotels, tours &amp; transfers included on its vacation packages
               </p>
               <a
                 href={links.exoticca}
@@ -452,10 +437,10 @@ export default function BookItYourself() {
               around, and WiFi is standard on every sailing.
             </p>
             <p className="mt-4 leading-relaxed text-fog">
-              Every Caribbean sailing from Miami stops at The Beach Club at
-              Bimini, Virgin's own private beach — two lagoon-style pools,
-              DJ sets, sunset fire pits, and complimentary food and loungers
-              included in the day.
+              Many Caribbean sailings from Miami include The Beach Club at
+              Bimini, Virgin's private beach destination, with lagoon-style
+              pools, beach access, entertainment, and food included in the day.
+              Check the individual itinerary because ports vary by sailing.
             </p>
             <p className="mt-4 text-sm font-medium text-ink">
               Virgin Voyages · 4 ships · Dining &amp; WiFi included on every sailing
@@ -492,12 +477,12 @@ export default function BookItYourself() {
                 className="mt-3 h-12 w-auto md:h-14"
               />
               <p className="mt-5 leading-relaxed text-fog">
-                Project Expedition is a smaller, curated alternative to a
-                giant open marketplace — every local operator on the
-                platform is reviewed and approved by their own team before
-                it's bookable, rather than an open listing anyone can join.
-                Founded in 2015, they now cover more than 20,000 tours,
-                activities, and multi-day trips across 150-plus countries.
+                Project Expedition is a curated platform for tours, excursions,
+                attractions, transfers, and multi-day trips. It works directly
+                with local suppliers and reviews and approves suppliers before
+                making them bookable on the platform. Its current travel-advisor
+                catalog lists more than 32,000 curated tours and excursions
+                across 150 countries and territories.
               </p>
               <p className="mt-4 leading-relaxed text-fog">
                 Not going anywhere yet? Search your own city too — it works
@@ -505,7 +490,7 @@ export default function BookItYourself() {
                 close to home as it does for planning a trip abroad.
               </p>
               <p className="mt-4 text-sm font-medium text-ink">
-                Project Expedition · 20,000+ experiences · 150+ countries
+                Project Expedition · 32,000+ curated tours &amp; excursions · 150 countries and territories
               </p>
               <a
                 href={links.projectExpedition}
@@ -567,12 +552,11 @@ export default function BookItYourself() {
             className="mt-3 h-12 w-auto md:h-14"
           />
           <p className="mt-5 text-lg leading-relaxed text-fog">
-            Viator is TripAdvisor's tours-and-activities marketplace — not a
-            single operator, but a booking platform for local guides and
-            operators worldwide, with hundreds of thousands of bookable
-            tours, attractions, tickets, day trips, and transfers across
-            every continent. Every listing carries the same reviews you'd
-            already trust from TripAdvisor itself.
+            Viator, part of Tripadvisor Group, is a global tours-and-activities
+            marketplace rather than a single tour operator. Its catalog lists
+            approximately 400,000 experiences worldwide from more than 65,000
+            operators, covering tours, attractions, tickets, day trips, and
+            transfers.
           </p>
           <p className="mt-4 leading-relaxed text-fog">
             At home and looking for an adventure? Check your own area — the
@@ -580,7 +564,7 @@ export default function BookItYourself() {
             tours, activities, and small day trips right where you live.
           </p>
           <p className="mt-4 text-sm font-medium text-ink">
-            Viator · 200,000+ bookable experiences · Backed by TripAdvisor reviews
+            Viator · Approximately 400,000 experiences worldwide · Tripadvisor Group company
           </p>
         </div>
         <Reveal delay={0.05} className="mt-6">
@@ -614,13 +598,11 @@ export default function BookItYourself() {
               className="mt-3 h-12 w-auto md:h-14"
             />
             <p className="mt-5 text-lg leading-relaxed text-fog">
-              Shore Excursions Group does one thing — port-day tours for
-              cruise passengers — at a scale no cruise line's own excursion
-              desk can match: 4,000-plus excursions across 300-plus ports
-              worldwide, run by local operators instead of the ship. Groups
-              stay small by design, averaging around 12 guests per
-              excursion, with private, small-group, and standard formats
-              depending on how much company you want on port day.
+              Shore Excursions Group focuses on port-day tours for cruise
+              passengers, with a current catalog of more than 4,500 excursions
+              across 300-plus ports worldwide. Tours are delivered by local
+              operators, with private, small-group, and standard formats
+              available depending on the excursion.
             </p>
             <p className="mt-4 text-sm font-medium text-ink">
               Shore Excursions Group · 5.7M+ excursions delivered · 4.7/5 from 56,500+ reviews
