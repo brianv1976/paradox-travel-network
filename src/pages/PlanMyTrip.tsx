@@ -154,16 +154,20 @@ export default function PlanMyTrip() {
           title="The value isn't a discount code. It's everything around it."
         />
         <motion.div
-          variants={stagger(0.15)}
-          initial="hidden"
-          whileInView="show"
+          variants={reduce ? undefined : stagger(0.15)}
+          initial={reduce ? false : "hidden"}
+          whileInView={reduce ? undefined : "show"}
           viewport={{ once: true, amount: 0.1 }}
           className="mt-12 flex flex-col gap-14"
         >
           {valueCase.map((v) => {
             const Icon = v.icon;
             return (
-              <motion.div key={v.title} variants={fadeUp} className="flex gap-5 md:gap-7">
+              <motion.div
+                key={v.title}
+                variants={reduce ? undefined : fadeUp}
+                className="flex gap-5 md:gap-7"
+              >
                 <span className="mt-1 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-ocean/10 text-ocean-dark">
                   <Icon size={22} />
                 </span>
@@ -222,20 +226,20 @@ export default function PlanMyTrip() {
               <motion.div
                 aria-hidden="true"
                 className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gold/20 blur-3xl"
-                animate={{ y: [0, 18, 0], x: [0, -12, 0] }}
+                animate={reduce ? undefined : { y: [0, 18, 0], x: [0, -12, 0] }}
                 transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
               />
               <motion.div
                 aria-hidden="true"
                 className="pointer-events-none absolute -bottom-16 -left-10 h-44 w-44 rounded-full bg-cream/10 blur-3xl"
-                animate={{ y: [0, -16, 0], x: [0, 14, 0] }}
+                animate={reduce ? undefined : { y: [0, -16, 0], x: [0, 14, 0] }}
                 transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
               />
               <motion.div
-                initial="hidden"
-                whileInView="show"
+                initial={reduce ? false : "hidden"}
+                whileInView={reduce ? undefined : "show"}
                 viewport={{ once: true, amount: 0.4 }}
-                variants={fadeUp}
+                variants={reduce ? undefined : fadeUp}
                 className="relative"
               >
                 <CalendarClock className="text-gold" />
@@ -267,21 +271,25 @@ export default function PlanMyTrip() {
           <div className="relative mt-12">
             <div className="absolute inset-x-6 top-6 hidden h-px bg-ink/10 md:block" />
             <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
+              initial={reduce ? false : { scaleX: 0 }}
+              whileInView={reduce ? undefined : { scaleX: 1 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1.4, ease: smooth, delay: 0.2 }}
+              transition={{ duration: reduce ? 0 : 1.4, ease: smooth, delay: reduce ? 0 : 0.2 }}
               className="absolute inset-x-6 top-6 hidden h-px origin-left bg-ocean md:block"
             />
             <motion.div
-              variants={stagger(0.12)}
-              initial="hidden"
-              whileInView="show"
+              variants={reduce ? undefined : stagger(0.12)}
+              initial={reduce ? false : "hidden"}
+              whileInView={reduce ? undefined : "show"}
               viewport={{ once: true, amount: 0.2 }}
               className="grid gap-8 md:grid-cols-3"
             >
               {nextSteps.map((s) => (
-                <motion.div key={s.n} variants={fadeUp} className="flex flex-col gap-3">
+                <motion.div
+                  key={s.n}
+                  variants={reduce ? undefined : fadeUp}
+                  className="flex flex-col gap-3"
+                >
                   <span className="relative z-10 inline-flex h-12 w-12 items-center justify-center rounded-full bg-ocean-dark font-display text-xl font-semibold text-cream">
                     {s.n}
                   </span>
