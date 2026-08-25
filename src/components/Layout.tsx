@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ConciergeBot from "./ConciergeBot";
@@ -25,20 +25,17 @@ export default function Layout({ children }: { children: ReactNode }) {
         {reduce ? (
           children
         ) : (
-          // mode="wait" lets the old page finish leaving before the new one
-          // arrives, so navigation reads as one continuous move instead of a
-          // hard cut. Keep this short — it sits in front of every click.
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={pathname}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.32, ease: smooth }}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
+          // Route transitions keep a quick entrance motion, but never block
+          // the incoming route behind an exit animation. Blocking "wait" mode
+          // can strand Suspense/lazy routes with only the persistent shell.
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.28, ease: smooth }}
+          >
+            {children}
+          </motion.div>
         )}
       </main>
       <Footer />
