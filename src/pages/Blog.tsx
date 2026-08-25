@@ -17,12 +17,6 @@ import { fadeUp, stagger } from "../lib/motion";
 
 type Filter = "All" | ContentType;
 
-const TYPE_BADGE: Record<ContentType, string> = {
-  "Destination Spotlight": "bg-clay text-ink",
-  "Travel News": "bg-ocean-dark text-cream",
-  "Travel Tip": "bg-ink text-cream",
-};
-
 const TYPE_EMPTY_COPY: Record<ContentType, string> = {
   "Destination Spotlight":
     "No destination spotlights published yet — check back soon.",
@@ -58,11 +52,6 @@ function FeaturedArticle({ post }: { post: Post }) {
           alt={post.title}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <span
-          className={`absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold ${TYPE_BADGE[post.contentType]}`}
-        >
-          {post.contentType}
-        </span>
       </Link>
       <div className="flex flex-col justify-center gap-4 p-8 md:p-10">
         <div className="flex items-center gap-4 text-sm text-fog">
@@ -124,11 +113,6 @@ function ArticleCard({ post }: { post: Post }) {
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <span
-          className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold ${TYPE_BADGE[post.contentType]}`}
-        >
-          {post.contentType}
-        </span>
       </Link>
 
       <div className="flex flex-1 flex-col p-6">
