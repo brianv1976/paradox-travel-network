@@ -92,3 +92,7 @@ All production imagery is self-hosted in this repository. There are no
 placeholder reviews. `PTN-MASTER-SPEC.md` is the compact architecture/brand
 reference; the current operational truth and change history live in the
 SharePoint website memory logs.
+
+Release checkpoint 2026-08-25: the accumulated accessibility, SEO, entity-disambiguation,
+image-discovery, privacy, supplier-copy, performance, and mobile fixes were validated
+before the intentional production release.
