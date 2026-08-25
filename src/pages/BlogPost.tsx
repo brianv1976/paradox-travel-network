@@ -150,7 +150,7 @@ export default function BlogPost() {
           >
             <img
               src={getPostImage(post)}
-              alt=""
+              alt={post.title}
               className="h-full w-full object-cover"
             />
           </motion.div>
