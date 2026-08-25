@@ -35,6 +35,8 @@ function dateLabel(iso: string) {
 function FeaturedArticle({ post }: { post: Post }) {
   const reduce = useReducedMotion();
   const cta = getPostCTA(post);
+  const articleHref = `/travel-tips/${post.slug}`;
+
   return (
     <motion.article
       variants={reduce ? undefined : fadeUp}
@@ -43,8 +45,8 @@ function FeaturedArticle({ post }: { post: Post }) {
       viewport={{ once: true, amount: 0.2 }}
       className="group overflow-hidden rounded-[2rem] border border-ink/10 bg-cream shadow-soft md:grid md:grid-cols-2 md:items-stretch"
     >
-      <Link
-        to={`/travel-tips/${post.slug}`}
+      <a
+        href={articleHref}
         className="relative block aspect-[16/10] overflow-hidden md:aspect-auto"
       >
         <img
@@ -52,7 +54,7 @@ function FeaturedArticle({ post }: { post: Post }) {
           alt={post.title}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-      </Link>
+      </a>
       <div className="flex flex-col justify-center gap-4 p-8 md:p-10">
         <div className="flex items-center gap-4 text-sm text-fog">
           <span className="inline-flex items-center gap-1.5">
@@ -62,19 +64,19 @@ function FeaturedArticle({ post }: { post: Post }) {
             <Clock size={13} /> {post.readingTime} min
           </span>
         </div>
-        <Link to={`/travel-tips/${post.slug}`}>
+        <a href={articleHref}>
           <h2 className="font-display text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-ocean-dark md:text-3xl">
             {post.title}
           </h2>
-        </Link>
+        </a>
         <p className="leading-relaxed text-fog">{post.summary}</p>
         <div className="flex flex-wrap items-center gap-5 pt-2">
-          <Link
-            to={`/travel-tips/${post.slug}`}
+          <a
+            href={articleHref}
             className="link-underline inline-flex items-center gap-1.5 text-sm font-semibold"
           >
             Read the full story <ArrowRight size={14} />
-          </Link>
+          </a>
           {cta && (
             <Link to={cta.to} className="btn-primary">
               {cta.label} <ArrowRight size={14} />
@@ -90,6 +92,7 @@ function ArticleCard({ post }: { post: Post }) {
   const reduce = useReducedMotion();
   const cta = getPostCTA(post);
   const isSpotlight = post.contentType === "Destination Spotlight";
+  const articleHref = `/travel-tips/${post.slug}`;
 
   return (
     <motion.article
@@ -103,8 +106,8 @@ function ArticleCard({ post }: { post: Post }) {
       }
       className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-shadow duration-300 hover:shadow-soft"
     >
-      <Link
-        to={`/travel-tips/${post.slug}`}
+      <a
+        href={articleHref}
         className={`relative block overflow-hidden ${isSpotlight ? "aspect-[4/5]" : "aspect-[4/3]"}`}
       >
         <img
@@ -113,7 +116,7 @@ function ArticleCard({ post }: { post: Post }) {
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-      </Link>
+      </a>
 
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-center gap-1.5 text-xs text-fog">
@@ -129,21 +132,21 @@ function ArticleCard({ post }: { post: Post }) {
             </>
           )}
         </div>
-        <Link to={`/travel-tips/${post.slug}`}>
+        <a href={articleHref}>
           <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-ocean-dark">
             {post.title}
           </h3>
-        </Link>
+        </a>
         <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-fog">
           {post.summary}
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-4">
-          <Link
-            to={`/travel-tips/${post.slug}`}
+          <a
+            href={articleHref}
             className="link-underline inline-flex items-center gap-1.5 text-sm font-medium"
           >
             Read more <ArrowRight size={13} />
-          </Link>
+          </a>
           {cta && (
             <Link
               to={cta.to}
