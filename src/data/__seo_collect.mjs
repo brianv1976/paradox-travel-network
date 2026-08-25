@@ -15,7 +15,7 @@ const WEBSITE_ID = `${SITE_URL}/#website`;
 const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 const OWNER_ID = `${SITE_URL}/#brian-voyles`;
 const LOGO_ID = `${SITE_URL}/#logo`;
-const HEADSHOT_ID = `${SITE_URL}/#brian-voyles-headshot`;
+const PORTRAIT_ID = `${SITE_URL}/#brian-voyles-portrait`;
 
 function canonicalUrl(pathname) {
   if (pathname === "/") return `${SITE_URL}/`;
@@ -65,9 +65,11 @@ function ownerSchema() {
       "Owner and travel advisor at Paradox Travel Network, based in Dallas–Fort Worth and serving travelers nationwide.",
     image: {
       "@type": "ImageObject",
-      "@id": HEADSHOT_ID,
-      url: absoluteUrl(assets.headshot),
-      contentUrl: absoluteUrl(assets.headshot),
+      "@id": PORTRAIT_ID,
+      url: absoluteUrl(assets.portrait),
+      contentUrl: absoluteUrl(assets.portrait),
+      width: 1279,
+      height: 1600,
       caption: "Brian Voyles, owner and travel advisor at Paradox Travel Network",
     },
     sameAs: [links.ownerLinkedIn],
@@ -81,7 +83,7 @@ const staticPages = [
     title: "DFW Travel Advisor Serving Nationwide | Paradox Travel Network",
     description:
       "Based in Dallas-Fort Worth and serving travelers nationwide, Brian Voyles personally plans and books cruises, resorts, honeymoons, family trips, and more - or book through trusted travel partners.",
-    images: [assets.logo, assets.headshot, assets.portrait],
+    images: [assets.logo, assets.portrait, assets.headshot],
     structuredData: {
       "@context": "https://schema.org",
       "@graph": [
@@ -114,8 +116,8 @@ const staticPages = [
     title: "About Brian Voyles | Dallas–Fort Worth Travel Advisor",
     description:
       "Meet Brian Voyles, owner of Paradox Travel Network — based in Dallas–Fort Worth, personally planning trips for travelers nationwide.",
-    image: assets.headshot,
-    images: [assets.headshot, assets.portrait],
+    image: assets.portrait,
+    images: [assets.portrait, assets.headshot],
     structuredData: {
       "@context": "https://schema.org",
       "@type": "ProfilePage",
@@ -125,14 +127,16 @@ const staticPages = [
       isPartOf: { "@id": WEBSITE_ID },
       primaryImageOfPage: {
         "@type": "ImageObject",
-        "@id": HEADSHOT_ID,
-        url: absoluteUrl(assets.headshot),
-        contentUrl: absoluteUrl(assets.headshot),
+        "@id": PORTRAIT_ID,
+        url: absoluteUrl(assets.portrait),
+        contentUrl: absoluteUrl(assets.portrait),
+        width: 1279,
+        height: 1600,
         caption: "Brian Voyles, owner and travel advisor at Paradox Travel Network",
       },
       mainEntity: {
         ...ownerSchema(),
-        image: [absoluteUrl(assets.headshot), absoluteUrl(assets.portrait)],
+        image: [absoluteUrl(assets.portrait), absoluteUrl(assets.headshot)],
       },
     },
   },
