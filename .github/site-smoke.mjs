@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { chromium } from "@playwright/test";
 
-const BASE = "http://127.0.0.1:4173";
+const BASE = process.env.BASE_URL || "http://127.0.0.1:4173";
 const sitemap = fs.readFileSync("dist/sitemap.xml", "utf8");
 const canonicalPaths = [...sitemap.matchAll(/<loc>(https:\/\/paradoxtravelnetwork\.com[^<]*)<\/loc>/g)]
   .map((match) => new URL(match[1]).pathname)
@@ -133,8 +133,6 @@ try {
     await context.close();
   }
 
-  // Build an actual-link graph from the rendered desktop site, then exercise a real
-  // client-side click into every sitemap route that has at least one internal link.
   const graphContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const graphPage = await graphContext.newPage();
   attachFailureWatchers(graphPage, "navigation graph");
@@ -170,8 +168,6 @@ try {
     await assertRendered(graphPage, scope);
   }
 
-  // Postcards regression: click every article from the list using SPA navigation,
-  // verify the JS context survives, then reload the article and verify again.
   await graphPage.goto(`${BASE}/travel-tips`, { waitUntil: "domcontentloaded", timeout: 20000 });
   await settle(graphPage);
   const articlePaths = (await collectInternalRouteLinks(graphPage))
@@ -207,7 +203,7 @@ try {
   await browser.close();
 }
 
-console.log(`\nSmoke-tested ${canonicalPaths.length} sitemap routes at mobile + desktop widths.`);
+console.log(`\nSmoke-tested ${canonicalPaths.length} sitemap routes at mobile + desktop widths against ${BASE}.`);
 for (const note of notes) console.log(`NOTE: ${note}`);
 
 if (failures.length) {
