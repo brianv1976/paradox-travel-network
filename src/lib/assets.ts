@@ -129,6 +129,7 @@ export const links = {
   // attribution trail beyond the GA4 schedule_call_click event.
   calendly:
     "https://calendly.com/paradoxtravelnetwork/30min?utm_source=paradox_website&utm_medium=website&utm_campaign=trip_planning",
+  ownerLinkedIn: "https://www.linkedin.com/in/brianvoyles76",
   email: "hello@paradoxtravelnetwork.com",
   supportEmail: "support@paradoxtravelnetwork.com",
 };
@@ -139,12 +140,13 @@ export const business = {
   role: "Owner & Travel Advisor",
   tagline: "Travel Beyond Expectations.",
   region: "Dallas–Fort Worth",
+  description:
+    "Dallas–Fort Worth-based travel agency and professional travel advisor service helping travelers nationwide with advisor-assisted planning and trusted self-booking resources.",
+  naics: "561510",
   year: new Date().getFullYear(),
   // Locked schema areaServed list — do not expand with suburbs, counties,
-  // or extra cities for keyword coverage. Deliberately conservative: no
-  // Google Business Profile (Brian's client contact is too occasional to
-  // meet Google's eligibility bar), so this only needs to describe the
-  // real, honest service area for structured data, not chase local-SEO
-  // keyword coverage the way a GBP service-area list would.
+  // or extra cities for keyword coverage. Google Business Profile service
+  // areas, if a legitimate service-area profile is later approved, are a
+  // separate product decision and must not be backfilled into site schema.
   areaServed: ["United States", "Dallas–Fort Worth Metroplex", "Dallas", "Fort Worth"],
 };
