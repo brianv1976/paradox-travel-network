@@ -86,6 +86,12 @@ for (const url of urls) {
     if (/<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html)) {
       fail(`${relativeHtml} is listed in the sitemap but marked noindex`);
     }
+    if (!/<meta\s+name=["']robots["']\s+content=["'][^"']*max-image-preview:large[^"']*["']/i.test(html)) {
+      fail(`${relativeHtml} does not explicitly allow large image previews`);
+    }
+    if (/<meta\s+name=["']robots["']\s+content=["'][^"']*noimageindex/i.test(html)) {
+      fail(`${relativeHtml} blocks image indexing`);
+    }
     if (!html.includes('id="site-entity-structured-data"')) {
       fail(`${relativeHtml} is missing the canonical site entity graph`);
     }
@@ -112,5 +118,5 @@ try {
 }
 
 if (!process.exitCode) {
-  console.log(`build-integrity: verified ${urls.length} sitemap routes, entity/image signals, prerender metadata, and host-control files`);
+  console.log(`build-integrity: verified ${urls.length} sitemap routes, entity/image signals, large image previews, prerender metadata, and host-control files`);
 }
