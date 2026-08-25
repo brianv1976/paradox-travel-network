@@ -63,6 +63,8 @@ function canonicalizeSiteEntities(value: unknown): unknown {
       "@id": `${origin}/#logo`,
       url: absoluteUrl(assets.logo),
       contentUrl: absoluteUrl(assets.logo),
+      width: 560,
+      height: 210,
     };
   }
 
@@ -70,7 +72,15 @@ function canonicalizeSiteEntities(value: unknown): unknown {
     node["@id"] ??= `${origin}/#brian-voyles`;
     node.url ??= `${origin}/about/`;
     node.sameAs ??= [links.ownerLinkedIn];
-    node.image ??= absoluteUrl(assets.headshot);
+    node.image ??= {
+      "@type": "ImageObject",
+      "@id": `${origin}/#brian-voyles-portrait`,
+      url: absoluteUrl(assets.portrait),
+      contentUrl: absoluteUrl(assets.portrait),
+      width: 1279,
+      height: 1600,
+      caption: "Brian Voyles, owner and travel advisor at Paradox Travel Network",
+    };
     node.worksFor ??= { "@id": `${origin}/#organization` };
   }
 
