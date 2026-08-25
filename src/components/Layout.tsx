@@ -25,9 +25,8 @@ export default function Layout({ children }: { children: ReactNode }) {
         {reduce ? (
           children
         ) : (
-          // Route transitions keep a quick entrance motion, but never block
-          // the incoming route behind an exit animation. Blocking "wait" mode
-          // can strand Suspense/lazy routes with only the persistent shell.
+          // Keep route motion visual, never blocking: incoming content mounts
+          // immediately instead of waiting behind an exiting lazy route.
           <motion.div
             key={pathname}
             initial={{ opacity: 0, y: 12 }}
