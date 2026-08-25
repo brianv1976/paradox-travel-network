@@ -34,21 +34,44 @@ function lazyWithReload<T extends ComponentType<any>>(
   });
 }
 
-// Route-level code splitting: each page ships as its own chunk instead of
-// one shared bundle, so visiting one page doesn't download every page.
+// Route-level code splitting: each major feature ships separately instead of
+// forcing every visitor to download every page up front.
 const Home = lazyWithReload(() => import("./pages/Home"));
 const BookItYourself = lazyWithReload(() => import("./pages/BookItYourself"));
 const About = lazyWithReload(() => import("./pages/About"));
 const Contact = lazyWithReload(() => import("./pages/Contact"));
 const PlanMyTrip = lazyWithReload(() => import("./pages/PlanMyTrip"));
-const Blog = lazyWithReload(() => import("./pages/Blog"));
-const BlogPost = lazyWithReload(() => import("./pages/BlogPost"));
+
+// Postcards is intentionally one feature chunk. Opening /travel-tips loads the
+// list and article renderer together, so clicking an article keeps fast SPA
+// navigation without triggering a second lazy route fetch. This preserves
+// code-splitting for visitors who never open Postcards while removing the
+// deterministic blank-page failure on list -> article navigation.
+const Blog = lazyWithReload(() =>
+  import("./pages/PostcardsRoutes").then((module) => ({ default: module.Blog }))
+);
+const BlogPost = lazyWithReload(() =>
+  import("./pages/PostcardsRoutes").then((module) => ({ default: module.BlogPost }))
+);
+
 const ServicePage = lazyWithReload(() => import("./pages/ServicePage"));
 const ExploreTravel = lazyWithReload(() => import("./pages/ExploreTravel"));
 const Privacy = lazyWithReload(() => import("./pages/Privacy"));
 const Terms = lazyWithReload(() => import("./pages/Terms"));
 const Accessibility = lazyWithReload(() => import("./pages/Accessibility"));
 const NotFound = lazyWithReload(() => import("./pages/NotFound"));
+
+function RouteLoadingFallback() {
+  return (
+    <div
+      className="container-px flex min-h-[40vh] items-center justify-center py-24 text-center"
+      role="status"
+      aria-live="polite"
+    >
+      <span className="text-sm text-fog">Loading page…</span>
+    </div>
+  );
+}
 
 function RouteErrorFallback() {
   return (
@@ -77,7 +100,7 @@ export default function App() {
       <ScrollToTop />
       <Layout>
         <ErrorBoundary key={pathname} fallback={<RouteErrorFallback />}>
-          <Suspense fallback={<span className="sr-only" role="status">Loading page</span>}>
+          <Suspense fallback={<RouteLoadingFallback />}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/book-it-yourself" element={<BookItYourself />} />
