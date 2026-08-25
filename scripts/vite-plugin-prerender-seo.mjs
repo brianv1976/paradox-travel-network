@@ -130,15 +130,27 @@ function articleLastModified(route) {
   return typeof date === "string" && /^\d{4}-\d{2}-\d{2}/.test(date) ? date.slice(0, 10) : undefined;
 }
 
+function routeImages(siteUrl, route) {
+  const candidates = route.images ?? (route.image ? [route.image] : []);
+  return [...new Set(candidates.filter((value) => typeof value === "string" && value.trim()))]
+    .map((value) => new URL(value, `${siteUrl}/`).href);
+}
+
 function buildSitemap(siteUrl, routes) {
   const entries = routes.map((route) => {
     const loc = escapeXml(siteUrl + canonicalPath(route.path));
     const lastmod = articleLastModified(route);
     const priority = sitemapPriority(route);
+    const images = routeImages(siteUrl, route).flatMap((imageUrl) => [
+      "    <image:image>",
+      `      <image:loc>${escapeXml(imageUrl)}</image:loc>`,
+      "    </image:image>",
+    ]);
     return [
       "  <url>",
       `    <loc>${loc}</loc>`,
       ...(lastmod ? [`    <lastmod>${escapeXml(lastmod)}</lastmod>`] : []),
+      ...images,
       `    <priority>${priority}</priority>`,
       "  </url>",
     ].join("\n");
@@ -146,7 +158,7 @@ function buildSitemap(siteUrl, routes) {
 
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
     ...entries,
     "</urlset>",
     "",
@@ -218,9 +230,9 @@ export default function prerenderSeoPlugin() {
         written++;
       }
 
-      // public/sitemap.xml remains useful during local/static inspection, but
-      // production gets this generated copy so the sitemap and prerender route
-      // set cannot drift when new Postcards or service pages are added.
+      // The generated sitemap is also an image sitemap. Route-specific hero,
+      // article and first-party identity images are listed with image:loc so
+      // crawlers can discover the exact assets associated with each page.
       await writeFile(path.join(outDir, "sitemap.xml"), buildSitemap(siteUrl, routes));
 
       this.info(
