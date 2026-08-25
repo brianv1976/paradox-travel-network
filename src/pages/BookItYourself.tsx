@@ -380,10 +380,6 @@ export default function BookItYourself() {
               >
                 Browse Curated Trips <ExternalLink size={15} />
               </a>
-              <p className="mt-3 text-xs text-fog">
-                Paradox may earn a commission if you book through this link,
-                at no extra cost to you.
-              </p>
             </div>
           </div>
 
@@ -453,10 +449,6 @@ export default function BookItYourself() {
             >
               Browse Virgin Voyages <ExternalLink size={15} />
             </a>
-            <p className="mt-3 text-xs text-fog">
-              Paradox may earn a commission if you book through this link, at
-              no extra cost to you.
-            </p>
           </div>
           <Reveal delay={0.05} className="order-1 md:order-none">
             <ImageCarousel slides={virginVoyagesSlides} />
@@ -500,10 +492,6 @@ export default function BookItYourself() {
               >
                 Explore Tours &amp; Experiences <ExternalLink size={15} />
               </a>
-              <p className="mt-3 text-xs text-fog">
-                Paradox may earn a commission if you book through this link,
-                at no extra cost to you.
-              </p>
             </div>
             <Reveal delay={0.05} className="order-1 md:order-none">
               <ImageCarousel slides={projectExpeditionSlides} />
@@ -577,10 +565,6 @@ export default function BookItYourself() {
             Browse all Viator experiences <ExternalLink size={15} />
           </a>
         </Reveal>
-        <p className="mt-3 text-xs text-fog">
-          Paradox may earn a commission if you book through this link, at no
-          extra cost to you.
-        </p>
         <div className="mt-12">
           <ExampleGrid items={viatorExamples} />
         </div>
@@ -618,10 +602,6 @@ export default function BookItYourself() {
               Browse all shore excursions <ExternalLink size={15} />
             </a>
           </Reveal>
-          <p className="mt-3 text-xs text-fog">
-            Paradox may earn a commission if you book through this link, at
-            no extra cost to you.
-          </p>
           <div className="mt-12">
             <ExampleGrid items={shoreExamples} />
           </div>
