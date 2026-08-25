@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { MessageCircle, X, Send, Compass } from "lucide-react";
+import { MessageCircle, X, Send, Compass, ArrowRight } from "lucide-react";
 import { links } from "../lib/assets";
 
 /**
  * Paradox Concierge — lightweight travel chat widget.
  *
- * Works today with a built-in knowledge responder (no key required). If a
- * server-side AI endpoint is added later, set VITE_CONCIERGE_ENDPOINT to an
- * endpoint that accepts { messages } and returns { reply }. When that variable
- * is present, the widget calls it instead of the local responder.
+ * The browser UI stays small. Real AI reasoning lives in the server-side
+ * /api/concierge Netlify function so prompts and API credentials never ship
+ * in the public bundle. A local responder remains as a graceful fallback.
  */
 
 interface Msg {
@@ -18,47 +18,51 @@ interface Msg {
 }
 
 const SUGGESTIONS = [
-  "Can I just book it myself?",
+  "Where should we go?",
   "How does planning work?",
-  "What trips can Brian help with?",
-  "Is there a fee?",
+  "Why use Paradox?",
+  "Is planning free?",
 ];
 
 const INTRO: Msg = {
   role: "assistant",
-  text: "Hi — I'm the Paradox Concierge. Ask me about planning a trip, booking it yourself, cruises, resorts, or how Brian works. If it gets specific, I'll point you to the right next step.",
+  text: "Hi — I'm the Paradox Concierge. Tell me what kind of trip you're considering, or ask how planning works. I can help narrow the direction and bring Brian in when the details matter.",
 };
 
 function localResponder(input: string): string {
   const q = input.toLowerCase();
-  const plan = "You can start a trip inquiry any time on the Plan My Trip page — it begins a conversation, not a booking or a charge.";
+  const plan = "You can start a trip inquiry any time on the Plan My Trip page. It starts a conversation — not a booking or a charge.";
 
-  if (/(fee|cost|price|charge|how much|pay)/.test(q))
-    return `Most planning is free. If a trip is complex enough to carry a planning fee, you'll know the number upfront, before any work starts. ${plan}`;
+  if (/(fee|planning fee|cost to plan|charge|pay you|planning free)/.test(q))
+    return `Most trip planning is complimentary. If a particular trip requires a planning fee, you'll know the amount before any planning work begins. ${plan}`;
+  if (/(price|fare|rate|deal|discount|promotion|availability|available cabin|available room)/.test(q))
+    return `I don't quote live travel prices, promotions, or availability here because those change constantly. Brian can verify current options when the trip gets into the planning or booking stage.`;
   if (/(book|myself|self|diy|own)/.test(q))
-    return `Absolutely. The Book It Yourself page gathers the booking sites Brian actually trusts — Viator, Shore Excursions Group, Exoticca, and more — in one place. Want Brian's take before you book? He's happy to weigh in — just ask first.`;
+    return `You can absolutely book a straightforward trip yourself. If the trip has meaningful resort, room, cruise, cabin, transfer, or itinerary choices, Paradox can compare the fit for you instead of making you sort through all of it alone. ${plan}`;
   if (/(cruise|ship|cabin|sail)/.test(q))
-    return `Cruises are a specialty — line, ship style, itinerary, and cabin location all change the trip. See the Cruises page, or share the details on Plan My Trip and Brian will narrow it down.`;
+    return `Cruises are a strong fit for advisor help because the line, ship, itinerary, and cabin location can change the experience a lot. Tell me the kind of trip you want and I can help narrow the direction before Brian compares the details.`;
   if (/(resort|all.?inclusive|beach)/.test(q))
-    return `“All-inclusive” is a category, not a personality — the right resort matches your atmosphere, dining, and beach priorities. The All-Inclusive page breaks it down.`;
+    return `All-inclusive resorts can look similar on a booking page while feeling completely different in person. Atmosphere, beach, food, room category, and resort layout matter. Paradox can narrow those choices around what actually fits you.`;
   if (/(honeymoon|romantic|romance|anniversary|proposal)/.test(q))
-    return `Romantic should feel like the two people taking the trip. The Romance page covers honeymoons, anniversaries, and just-because escapes.`;
+    return `For romance trips, the useful question isn't just where to go — it's what kind of atmosphere, privacy, beach, dining, and pace fit the two of you. That's the kind of comparison Paradox can handle.`;
   if (/(family|kids|children|multi.?gen)/.test(q))
-    return `Family trips work best when room setup, flight timing, and pace fit the actual family. The Family Travel page has the details.`;
+    return `Family trips usually come down to room setup, flight timing, resort or ship fit, and keeping the pace realistic. Paradox can help compare those pieces instead of treating every family the same.`;
   if (/(adventure|hike|guided|tour|wildlife)/.test(q))
-    return `Adventure isn't one difficulty setting — guided or independent, active or immersive. The Adventure page helps you calibrate.`;
+    return `Adventure travel can mean very different things — guided or independent, active or relaxed, remote or comfortable. Tell me the experience you're after and I can help narrow the direction.`;
+  if (/(worldvia|travel leaders|tln|affiliation|credential|industry connection)/.test(q))
+    return `Paradox Travel Network is connected to broader travel-industry resources, supplier relationships, and support through WorldVia Travel Network and Travel Leaders Network. For travelers, the important part is access and support — not the backend plumbing.`;
+  if (/(hour|when.*call|call|talk|schedule|phone|appointment|meet|available to talk)/.test(q))
+    return `New-client calls are generally scheduled in the evening so each inquiry can get focused attention. Additional daytime appointments are added when the schedule allows, and the scheduling page always shows the current openings. Existing clients can still reach out as needed.`;
   if (/(how|work|process|start|step)/.test(q))
-    return `Three steps: tell Brian what matters (dates, budget, travelers, ideas), review practical options, then refine and move forward. ${plan}`;
-  if (/(what|help|plan|kind|type)/.test(q))
-    return `Brian plans cruises, all-inclusive resorts, honeymoons, family vacations, guided adventures, and other personalized trips. ${plan}`;
-  if (/(call|talk|schedule|phone|appointment|meet)/.test(q))
-    return `Happy to talk it through — you can grab a 30-minute trip planning call using the scheduling link on the Contact or Plan My Trip page.`;
+    return `Start with the basics — travelers, dates or flexibility, departure point, budget range, and what matters most. Paradox researches the fit, compares practical options, and helps refine the trip from there. ${plan}`;
+  if (/(why|help|plan|kind|type|paradox)/.test(q))
+    return `Paradox helps with cruises, all-inclusive resorts, honeymoons, family travel, guided adventures, customized trips, excursions, and other leisure travel where research and comparison can save you from a bad fit. ${plan}`;
   if (/(safe|passport|payment|secure|private|data)/.test(q))
-    return `Good instinct: never send passport numbers, payment-card details, or confidential documents through a web form or email. Share those only through a secure method once you're working together.`;
+    return `Never send passport numbers, payment-card details, passwords, or confidential documents through this chat. Those should only be shared through the secure method provided once you're working with Paradox.`;
   if (/(hello|hi|hey|thanks|thank)/.test(q))
-    return `Happy to help. Ask me anything about trips, booking, or how Brian works — or head to Plan My Trip when you're ready.`;
+    return `Happy to help. Tell me what kind of trip you're considering, what matters most, or what you're unsure about.`;
 
-  return `Great question. For anything specific, the fastest path is the Plan My Trip page — share your dates, travelers, budget, and ideas, and Brian will follow up personally. Prefer to talk first? There's a scheduling link on the Contact page.`;
+  return `I can help narrow the direction, but once the question turns into detailed comparisons or trip-specific research, that's where Paradox adds the most value. ${plan}`;
 }
 
 export default function ConciergeBot() {
@@ -72,7 +76,9 @@ export default function ConciergeBot() {
   const inputRef = useRef<HTMLInputElement>(null);
   const reduce = useReducedMotion();
 
-  const endpoint = import.meta.env.VITE_CONCIERGE_ENDPOINT as string | undefined;
+  const endpoint =
+    (import.meta.env.VITE_CONCIERGE_ENDPOINT as string | undefined) ||
+    "/api/concierge";
 
   // Below md the floating launcher is gone (see the button below) -- the
   // mobile menu's "Ask Brian" entry opens the same panel. The matching close
@@ -139,24 +145,26 @@ export default function ConciergeBot() {
     setLoading(true);
 
     try {
-      if (endpoint) {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: next }),
-        });
-        const data = await res.json();
-        setMessages((m) => [
-          ...m,
-          { role: "assistant", text: data.reply ?? localResponder(clean) },
-        ]);
-      } else {
-        await new Promise((r) => setTimeout(r, 550));
-        setMessages((m) => [
-          ...m,
-          { role: "assistant", text: localResponder(clean) },
-        ]);
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: next,
+          page: window.location.pathname,
+        }),
+      });
+
+      if (!res.ok) throw new Error(`Concierge request failed: ${res.status}`);
+
+      const data = await res.json();
+      if (!data?.reply || typeof data.reply !== "string") {
+        throw new Error("Concierge returned no reply");
       }
+
+      setMessages((m) => [
+        ...m,
+        { role: "assistant", text: data.reply },
+      ]);
     } catch {
       setMessages((m) => [
         ...m,
@@ -211,7 +219,7 @@ export default function ConciergeBot() {
             animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: reduce ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="concierge-launcher fixed inset-x-4 bottom-4 top-4 z-[60] flex flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10 md:inset-x-auto md:bottom-24 md:right-5 md:top-auto md:h-[540px] md:max-h-[75vh] md:w-[92vw] md:max-w-[380px]"
+            className="concierge-launcher fixed inset-x-4 bottom-4 top-4 z-[60] flex flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10 md:inset-x-auto md:bottom-24 md:right-5 md:top-auto md:h-[560px] md:max-h-[78vh] md:w-[92vw] md:max-w-[390px]"
           >
             {/* Header */}
             <div className="flex items-center gap-3 bg-ocean-dark px-5 py-4 text-cream">
@@ -221,7 +229,7 @@ export default function ConciergeBot() {
               <div>
                 <div className="text-sm font-semibold">Paradox Concierge</div>
                 <div className="text-xs text-cream/90">
-                  Travel questions, answered
+                  Travel questions + planning help
                 </div>
               </div>
               {/* The floating launcher is hidden on phones, so the panel
@@ -299,6 +307,21 @@ export default function ConciergeBot() {
               )}
             </div>
 
+            {/* Persistent advisor handoff */}
+            <div className="border-t border-ink/10 bg-sand/40 px-3 py-3">
+              <Link
+                to="/plan-my-trip"
+                onClick={() => setOpen(false)}
+                className="btn-primary flex w-full items-center justify-center gap-2 text-center"
+              >
+                Plan With Brian <ArrowRight size={15} />
+              </Link>
+              <p className="mt-2 text-center text-[10px] leading-relaxed text-fog">
+                Most planning is complimentary. If a planning fee applies,
+                you'll know before any planning begins.
+              </p>
+            </div>
+
             {/* Input */}
             <form
               onSubmit={(e) => {
@@ -331,9 +354,9 @@ export default function ConciergeBot() {
             <p className="bg-cream px-4 pb-3 text-center text-[10px] text-fog">
               Automated assistant · not a booking. Ask{" "}
               <a href={`mailto:${links.email}`} className="underline">
-                Brian
+                Paradox
               </a>{" "}
-              for anything specific.
+              for anything that needs personal follow-up.
             </p>
           </motion.div>
         )}
