@@ -55,6 +55,19 @@ if (urls.length === 0) {
   fail("sitemap.xml contains duplicate URLs");
 }
 
+if (!sitemap.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"')) {
+  fail("sitemap.xml is missing the Google image-sitemap namespace");
+}
+for (const imageUrl of [
+  "https://paradoxtravelnetwork.com/Web%20Logo.png",
+  "https://paradoxtravelnetwork.com/assets/Headshot.png",
+  "https://paradoxtravelnetwork.com/assets/portrait.webp",
+]) {
+  if (!sitemap.includes(`<image:loc>${imageUrl}</image:loc>`)) {
+    fail(`sitemap.xml is missing first-party identity image ${imageUrl}`);
+  }
+}
+
 for (const url of urls) {
   const relativeHtml = htmlPathFor(url);
   const fullHtml = path.join(dist, relativeHtml);
@@ -73,6 +86,17 @@ for (const url of urls) {
     if (/<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html)) {
       fail(`${relativeHtml} is listed in the sitemap but marked noindex`);
     }
+    if (!html.includes('id="site-entity-structured-data"')) {
+      fail(`${relativeHtml} is missing the canonical site entity graph`);
+    }
+    if (!html.includes('https://paradoxtravelnetwork.com/#organization') || !html.includes('"naics": "561510"')) {
+      fail(`${relativeHtml} is missing the canonical Paradox Travel Network organization identifiers`);
+    }
+    if (new URL(url).pathname === "/about/") {
+      if (!html.includes('"@type":"ProfilePage"') || !html.includes("https://paradoxtravelnetwork.com/assets/Headshot.png")) {
+        fail(`${relativeHtml} is missing Brian Voyles ProfilePage/headshot identity markup`);
+      }
+    }
   } catch (error) {
     fail(`sitemap URL ${url} has no readable prerendered file at dist/${relativeHtml}: ${error.message}`);
   }
@@ -88,5 +112,5 @@ try {
 }
 
 if (!process.exitCode) {
-  console.log(`build-integrity: verified ${urls.length} sitemap routes, prerender metadata, and host-control files`);
+  console.log(`build-integrity: verified ${urls.length} sitemap routes, entity/image signals, prerender metadata, and host-control files`);
 }
