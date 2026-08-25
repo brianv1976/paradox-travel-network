@@ -4,17 +4,10 @@ import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
 import ScrollProgress from "./components/ScrollProgress";
 import ErrorBoundary from "./components/ErrorBoundary";
+import BlogPost from "./pages/BlogPost";
 import { useLenis } from "./hooks/useLenis";
 import { services } from "./data/services";
 
-// Vite fingerprints each chunk's filename per build. A tab left open across a
-// deploy still has the PREVIOUS filenames in memory, so clicking a link to a
-// route it hasn't loaded yet tries to fetch a chunk that no longer exists on
-// the server -- the import rejects, nothing is mounted, and Layout (outside
-// Suspense) keeps rendering its header over an otherwise blank page. Only a
-// hard reload picks up the current index.html with the current filenames.
-// This wrapper detects exactly that failure and reloads once automatically
-// instead of leaving the visitor to guess that a refresh is the fix.
 const RELOAD_KEY = "ptn-chunk-reload";
 
 function lazyWithReload<T extends ComponentType<any>>(
@@ -29,31 +22,21 @@ function lazyWithReload<T extends ComponentType<any>>(
       if (sessionStorage.getItem(RELOAD_KEY)) throw error;
       sessionStorage.setItem(RELOAD_KEY, "1");
       window.location.reload();
-      return new Promise<never>(() => {}); // reload is in flight; never settle
+      return new Promise<never>(() => {});
     }
   });
 }
 
-// Route-level code splitting: each major feature ships separately instead of
-// forcing every visitor to download every page up front.
+// Keep route-level code splitting for heavier/less-frequent pages.
 const Home = lazyWithReload(() => import("./pages/Home"));
 const BookItYourself = lazyWithReload(() => import("./pages/BookItYourself"));
 const About = lazyWithReload(() => import("./pages/About"));
 const Contact = lazyWithReload(() => import("./pages/Contact"));
 const PlanMyTrip = lazyWithReload(() => import("./pages/PlanMyTrip"));
+const Blog = lazyWithReload(() => import("./pages/Blog"));
 
-// Postcards is intentionally one feature chunk. Opening /travel-tips loads the
-// list and article renderer together, so clicking an article keeps fast SPA
-// navigation without triggering a second lazy route fetch. This preserves
-// code-splitting for visitors who never open Postcards while removing the
-// deterministic blank-page failure on list -> article navigation.
-const Blog = lazyWithReload(() =>
-  import("./pages/PostcardsRoutes").then((module) => ({ default: module.Blog }))
-);
-const BlogPost = lazyWithReload(() =>
-  import("./pages/PostcardsRoutes").then((module) => ({ default: module.BlogPost }))
-);
-
+// Article navigation is a primary Postcards path. Keep the renderer eager so
+// list -> article navigation never depends on a second route chunk.
 const ServicePage = lazyWithReload(() => import("./pages/ServicePage"));
 const ExploreTravel = lazyWithReload(() => import("./pages/ExploreTravel"));
 const Privacy = lazyWithReload(() => import("./pages/Privacy"));
@@ -111,7 +94,6 @@ export default function App() {
               <Route path="/travel-tips/:slug" element={<BlogPost />} />
               <Route path="/explore-travel" element={<ExploreTravel />} />
 
-              {/* Service pages keep their exact top-level URLs */}
               {services.map((s) => (
                 <Route
                   key={s.slug}
@@ -123,7 +105,6 @@ export default function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/accessibility" element={<Accessibility />} />
-
               <Route path="/404" element={<NotFound />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
