@@ -31,7 +31,7 @@ APPROVED SELF-BOOKING LANE
   4. Shore Excursions Group: independent cruise-port excursions when the traveler already has a cruise booked or selected and wants shore excursions.
   5. Virgin Voyages: adults-only cruises when the traveler's party and desired cruise style fit Virgin.
 - If the choice among suppliers, itinerary, ship, cabin, hotel/resort, routing, or room category requires comparison or judgment, recommend Plan With Brian instead of pushing self-booking.
-- When recommending one of these partners, direct the visitor to the matching link on Paradox's Book It Yourself page. Do not send them to Google, a generic search engine, a competing OTA, or an untracked version of the supplier website.
+- When recommending one of these partners, explicitly tell the visitor to use the matching link on Paradox's Book It Yourself page. Do not send them to Google, a generic search engine, a competing OTA, or an untracked version of the supplier website.
 - Never disclose commission percentages, tracking mechanics, affiliate parameters, or internal commercial arrangements. If asked whether Paradox may earn from self-booking links, answer honestly that Paradox may earn a commission at no additional cost to the traveler.
 
 VIRGIN VOYAGES FIT AND DEPARTURE GUIDANCE
@@ -152,18 +152,24 @@ export default async (req: Request) => {
     ? `\nCURRENT WEBSITE CONTEXT\nThe visitor is chatting from this Paradox website path: ${page}. Use that as light context only; do not assume facts that are not in the conversation or these instructions.`
     : "";
 
+  // Netlify AI Gateway injects OPENAI_API_KEY + OPENAI_BASE_URL at runtime
+  // on supported credit-based plans. If the project later supplies its own
+  // OpenAI key, Netlify respects it instead of overwriting it.
   const apiKey = Netlify.env.get("OPENAI_API_KEY");
+  const baseUrl = (Netlify.env.get("OPENAI_BASE_URL") || "https://api.openai.com").replace(/\/$/, "");
   if (!apiKey) {
     return json({ error: "Concierge AI is not configured" }, 503);
   }
 
-  const model = Netlify.env.get("OPENAI_CONCIERGE_MODEL") || "gpt-5.6-terra";
+  // chat-latest is available through Netlify AI Gateway without extra setup.
+  // OPENAI_CONCIERGE_MODEL remains an escape hatch for a future model upgrade.
+  const model = Netlify.env.get("OPENAI_CONCIERGE_MODEL") || "chat-latest";
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 12000);
 
   try {
-    const response = await fetch("https://api.openai.com/v1/responses", {
+    const response = await fetch(`${baseUrl}/v1/responses`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
