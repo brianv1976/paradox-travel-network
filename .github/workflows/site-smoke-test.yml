@@ -11,7 +11,7 @@ permissions:
 jobs:
   smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Check out test branch
         uses: actions/checkout@v5
@@ -50,7 +50,12 @@ jobs:
           cat /tmp/ptn-preview.log
           exit 1
 
-      - name: Smoke-test every route and navigation path
+      - name: Smoke-test local production build
+        run: node .github/site-smoke.mjs
+
+      - name: Smoke-test live production domain
+        env:
+          BASE_URL: https://paradoxtravelnetwork.com
         run: node .github/site-smoke.mjs
 
       - name: Print preview log on failure
