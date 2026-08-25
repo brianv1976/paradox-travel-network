@@ -98,9 +98,18 @@ for (const url of urls) {
     if (!html.includes('https://paradoxtravelnetwork.com/#organization') || !html.includes('"naics": "561510"')) {
       fail(`${relativeHtml} is missing the canonical Paradox Travel Network organization identifiers`);
     }
+    if (!html.includes("https://paradoxtravelnetwork.com/assets/portrait.webp") ||
+        !html.includes('https://paradoxtravelnetwork.com/#brian-voyles-portrait')) {
+      fail(`${relativeHtml} is missing the canonical high-resolution owner portrait entity`);
+    }
     if (new URL(url).pathname === "/about/") {
-      if (!html.includes('"@type":"ProfilePage"') || !html.includes("https://paradoxtravelnetwork.com/assets/Headshot.png")) {
-        fail(`${relativeHtml} is missing Brian Voyles ProfilePage/headshot identity markup`);
+      if (
+        !html.includes('"@type":"ProfilePage"') ||
+        !html.includes("https://paradoxtravelnetwork.com/assets/portrait.webp") ||
+        !html.includes('"width":1279') ||
+        !html.includes('"height":1600')
+      ) {
+        fail(`${relativeHtml} is missing Brian Voyles ProfilePage/high-resolution portrait identity markup`);
       }
     }
   } catch (error) {
@@ -118,5 +127,5 @@ try {
 }
 
 if (!process.exitCode) {
-  console.log(`build-integrity: verified ${urls.length} sitemap routes, entity/image signals, large image previews, prerender metadata, and host-control files`);
+  console.log(`build-integrity: verified ${urls.length} sitemap routes, entity/image signals, high-resolution owner identity, large image previews, prerender metadata, and host-control files`);
 }
