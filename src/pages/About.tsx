@@ -37,7 +37,7 @@ export default function About() {
     "About Brian Voyles | Dallas–Fort Worth Travel Advisor",
     "Meet Brian Voyles, owner of Paradox Travel Network — based in Dallas–Fort Worth, personally planning trips for travelers nationwide.",
     {
-      image: assets.headshot,
+      image: assets.portrait,
       structuredData: {
         "@context": "https://schema.org",
         "@type": "ProfilePage",
@@ -47,9 +47,11 @@ export default function About() {
         isPartOf: { "@id": `${origin}/#website` },
         primaryImageOfPage: {
           "@type": "ImageObject",
-          "@id": `${origin}/#brian-voyles-headshot`,
-          url: headshotUrl,
-          contentUrl: headshotUrl,
+          "@id": `${origin}/#brian-voyles-portrait`,
+          url: portraitUrl,
+          contentUrl: portraitUrl,
+          width: 1279,
+          height: 1600,
           caption: "Brian Voyles, owner and travel advisor at Paradox Travel Network",
         },
         mainEntity: {
@@ -60,7 +62,7 @@ export default function About() {
           url: aboutUrl,
           description:
             "Owner and travel advisor at Paradox Travel Network, based in Dallas–Fort Worth and serving travelers nationwide.",
-          image: [headshotUrl, portraitUrl],
+          image: [portraitUrl, headshotUrl],
           sameAs: [links.ownerLinkedIn],
           worksFor: {
             "@type": "TravelAgency",
