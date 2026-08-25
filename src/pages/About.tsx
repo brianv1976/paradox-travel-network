@@ -7,7 +7,7 @@ import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
 import { stagger, fadeUp } from "../lib/motion";
-import { assets, business } from "../lib/assets";
+import { assets, business, links } from "../lib/assets";
 
 const traits = [
   {
@@ -26,17 +26,49 @@ const traits = [
 
 export default function About() {
   const reduce = useReducedMotion();
+  const origin = window.location.origin;
+  const organizationId = `${origin}/#organization`;
+  const ownerId = `${origin}/#brian-voyles`;
+  const headshotUrl = new URL(assets.headshot, `${origin}/`).href;
+  const portraitUrl = new URL(assets.portrait, `${origin}/`).href;
+  const aboutUrl = `${origin}/about/`;
+
   useSeo(
     "About Brian Voyles | Dallas–Fort Worth Travel Advisor",
     "Meet Brian Voyles, owner of Paradox Travel Network — based in Dallas–Fort Worth, personally planning trips for travelers nationwide.",
     {
-      image: assets.portrait,
+      image: assets.headshot,
       structuredData: {
         "@context": "https://schema.org",
-        "@type": "Person",
-        name: business.owner,
-        jobTitle: business.role,
-        worksFor: { "@type": "TravelAgency", name: business.name },
+        "@type": "ProfilePage",
+        "@id": `${aboutUrl}#profile-page`,
+        url: aboutUrl,
+        name: "About Brian Voyles | Paradox Travel Network",
+        isPartOf: { "@id": `${origin}/#website` },
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          "@id": `${origin}/#brian-voyles-headshot`,
+          url: headshotUrl,
+          contentUrl: headshotUrl,
+          caption: "Brian Voyles, owner and travel advisor at Paradox Travel Network",
+        },
+        mainEntity: {
+          "@type": "Person",
+          "@id": ownerId,
+          name: business.owner,
+          jobTitle: business.role,
+          url: aboutUrl,
+          description:
+            "Owner and travel advisor at Paradox Travel Network, based in Dallas–Fort Worth and serving travelers nationwide.",
+          image: [headshotUrl, portraitUrl],
+          sameAs: [links.ownerLinkedIn],
+          worksFor: {
+            "@type": "TravelAgency",
+            "@id": organizationId,
+            name: business.name,
+            url: `${origin}/`,
+          },
+        },
       },
     }
   );
