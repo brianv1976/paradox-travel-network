@@ -81,6 +81,7 @@ const staticPages = [
     title: "DFW Travel Advisor Serving Nationwide | Paradox Travel Network",
     description:
       "Based in Dallas-Fort Worth and serving travelers nationwide, Brian Voyles personally plans and books cruises, resorts, honeymoons, family trips, and more - or book through trusted travel partners.",
+    images: [assets.logo, assets.headshot, assets.portrait],
     structuredData: {
       "@context": "https://schema.org",
       "@graph": [
@@ -114,6 +115,7 @@ const staticPages = [
     description:
       "Meet Brian Voyles, owner of Paradox Travel Network — based in Dallas–Fort Worth, personally planning trips for travelers nationwide.",
     image: assets.headshot,
+    images: [assets.headshot, assets.portrait],
     structuredData: {
       "@context": "https://schema.org",
       "@type": "ProfilePage",
