@@ -32,13 +32,22 @@ const INTRO: Msg = {
 function localResponder(input: string): string {
   const q = input.toLowerCase();
   const plan = "You can start a trip inquiry any time on the Plan My Trip page. It starts a conversation — not a booking or a charge.";
+  const diy = "If you already know what you want, use the matching partner on the Book It Yourself page so you stay inside the Paradox booking path.";
 
   if (/(fee|planning fee|cost to plan|charge|pay you|planning free)/.test(q))
     return `Most trip planning is complimentary. If a particular trip requires a planning fee, you'll know the amount before any planning work begins. ${plan}`;
   if (/(price|fare|rate|deal|discount|promotion|availability|available cabin|available room)/.test(q))
     return `I don't quote live travel prices, promotions, or availability here because those change constantly. Brian can verify current options when the trip gets into the planning or booking stage.`;
+  if (/(shore excursion|port excursion)/.test(q))
+    return `If your cruise is already selected and you mainly need port excursions, Shore Excursions Group is one of Paradox's approved self-booking options. ${diy}`;
+  if (/(viator|project expedition|things to do|activity|activities|attraction|day trip)/.test(q))
+    return `If the destination is already decided and you mainly need tours or things to do, Paradox has self-booking options through Viator and Project Expedition. ${diy}`;
+  if (/(exoticca|multi.?day|guided package|packaged tour)/.test(q))
+    return `If you like a structured multi-day international itinerary and are comfortable choosing a published trip, Exoticca can be a good self-booking fit. ${diy}`;
+  if (/(virgin voyages|virgin cruise|adults.?only cruise)/.test(q))
+    return `Virgin Voyages can fit adults who want a modern, social, food-forward cruise. Current North American departure options include Miami, New York, Los Angeles, Seattle, and San Juan, with European departures including Barcelona, Athens, Portsmouth, and Rome. It is not currently a regular Galveston or New Orleans option. Exact sailings change, so use Paradox's Virgin link on the Book It Yourself page to browse, or let Brian compare cruise options if departure port or ship fit matters.`;
   if (/(book|myself|self|diy|own)/.test(q))
-    return `You can absolutely book a straightforward trip yourself. If the trip has meaningful resort, room, cruise, cabin, transfer, or itinerary choices, Paradox can compare the fit for you instead of making you sort through all of it alone. ${plan}`;
+    return `You can absolutely book a straightforward trip yourself. If the trip has meaningful resort, room, cruise, cabin, transfer, or itinerary choices, Paradox can compare the fit for you instead of making you sort through all of it alone. ${diy}`;
   if (/(cruise|ship|cabin|sail)/.test(q))
     return `Cruises are a strong fit for advisor help because the line, ship, itinerary, and cabin location can change the experience a lot. Tell me the kind of trip you want and I can help narrow the direction before Brian compares the details.`;
   if (/(resort|all.?inclusive|beach)/.test(q))
@@ -219,7 +228,7 @@ export default function ConciergeBot() {
             animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: reduce ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="concierge-launcher fixed inset-x-4 bottom-4 top-4 z-[60] flex flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10 md:inset-x-auto md:bottom-24 md:right-5 md:top-auto md:h-[560px] md:max-h-[78vh] md:w-[92vw] md:max-w-[390px]"
+            className="concierge-launcher fixed inset-x-4 bottom-4 top-4 z-[60] flex flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10 md:inset-x-auto md:bottom-24 md:right-5 md:top-auto md:h-[580px] md:max-h-[80vh] md:w-[92vw] md:max-w-[390px]"
           >
             {/* Header */}
             <div className="flex items-center gap-3 bg-ocean-dark px-5 py-4 text-cream">
@@ -307,7 +316,7 @@ export default function ConciergeBot() {
               )}
             </div>
 
-            {/* Persistent advisor handoff */}
+            {/* Persistent advisor + self-booking handoff */}
             <div className="border-t border-ink/10 bg-sand/40 px-3 py-3">
               <Link
                 to="/plan-my-trip"
@@ -315,6 +324,13 @@ export default function ConciergeBot() {
                 className="btn-primary flex w-full items-center justify-center gap-2 text-center"
               >
                 Plan With Brian <ArrowRight size={15} />
+              </Link>
+              <Link
+                to="/book-it-yourself"
+                onClick={() => setOpen(false)}
+                className="mt-2 flex w-full items-center justify-center gap-2 rounded-full border border-ocean/30 px-4 py-2.5 text-sm font-semibold text-ocean-dark transition-colors hover:bg-ocean-dark hover:text-cream"
+              >
+                Book It Yourself
               </Link>
               <p className="mt-2 text-center text-[10px] leading-relaxed text-fog">
                 Most planning is complimentary. If a planning fee applies,
