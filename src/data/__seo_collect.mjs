@@ -5,12 +5,17 @@
 // of the shipped app bundle.
 import { services } from "./services.ts";
 import { publishedPosts, getPostImage } from "./blog.ts";
-import { business } from "../lib/assets.ts";
+import { assets, business, links } from "../lib/assets.ts";
 
 // Keep the site origin slash-free here. Route helpers add exactly one slash
 // where needed, so a future SITE_URL override such as `https://example.com/`
 // cannot create `//about/` canonicals, sitemap URLs, or image URLs.
 const SITE_URL = (process.env.SITE_URL || "https://paradoxtravelnetwork.com").replace(/\/+$/, "");
+const WEBSITE_ID = `${SITE_URL}/#website`;
+const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+const OWNER_ID = `${SITE_URL}/#brian-voyles`;
+const LOGO_ID = `${SITE_URL}/#logo`;
+const HEADSHOT_ID = `${SITE_URL}/#brian-voyles-headshot`;
 
 function canonicalUrl(pathname) {
   if (pathname === "/") return `${SITE_URL}/`;
@@ -20,6 +25,54 @@ function canonicalUrl(pathname) {
 
 function absoluteUrl(value) {
   return new URL(value, `${SITE_URL}/`).href;
+}
+
+function organizationSchema() {
+  return {
+    "@type": "TravelAgency",
+    "@id": ORGANIZATION_ID,
+    name: business.name,
+    url: canonicalUrl("/"),
+    description: business.description,
+    slogan: business.tagline,
+    naics: business.naics,
+    email: links.email,
+    logo: {
+      "@type": "ImageObject",
+      "@id": LOGO_ID,
+      url: absoluteUrl(assets.logo),
+      contentUrl: absoluteUrl(assets.logo),
+    },
+    location: { "@type": "Place", name: business.region },
+    areaServed: business.areaServed,
+    founder: { "@type": "Person", "@id": OWNER_ID },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: links.email,
+    },
+  };
+}
+
+function ownerSchema() {
+  return {
+    "@type": "Person",
+    "@id": OWNER_ID,
+    name: business.owner,
+    jobTitle: business.role,
+    url: canonicalUrl("/about"),
+    description:
+      "Owner and travel advisor at Paradox Travel Network, based in Dallas–Fort Worth and serving travelers nationwide.",
+    image: {
+      "@type": "ImageObject",
+      "@id": HEADSHOT_ID,
+      url: absoluteUrl(assets.headshot),
+      contentUrl: absoluteUrl(assets.headshot),
+      caption: "Brian Voyles, owner and travel advisor at Paradox Travel Network",
+    },
+    sameAs: [links.ownerLinkedIn],
+    worksFor: { "@type": "TravelAgency", "@id": ORGANIZATION_ID },
+  };
 }
 
 const staticPages = [
@@ -33,17 +86,13 @@ const staticPages = [
       "@graph": [
         {
           "@type": "WebSite",
+          "@id": WEBSITE_ID,
           name: business.name,
           url: canonicalUrl("/"),
+          publisher: { "@id": ORGANIZATION_ID },
         },
-        {
-          "@type": "TravelAgency",
-          name: business.name,
-          location: { "@type": "Place", name: business.region },
-          areaServed: business.areaServed,
-          founder: { "@type": "Person", name: business.owner },
-          url: canonicalUrl("/"),
-        },
+        organizationSchema(),
+        ownerSchema(),
       ],
     },
   },
@@ -64,13 +113,25 @@ const staticPages = [
     title: "About Brian Voyles | Dallas–Fort Worth Travel Advisor",
     description:
       "Meet Brian Voyles, owner of Paradox Travel Network — based in Dallas–Fort Worth, personally planning trips for travelers nationwide.",
-    image: "/assets/portrait.webp",
+    image: assets.headshot,
     structuredData: {
       "@context": "https://schema.org",
-      "@type": "Person",
-      name: business.owner,
-      jobTitle: business.role,
-      worksFor: { "@type": "TravelAgency", name: business.name },
+      "@type": "ProfilePage",
+      "@id": `${canonicalUrl("/about")}#profile-page`,
+      url: canonicalUrl("/about"),
+      name: "About Brian Voyles | Paradox Travel Network",
+      isPartOf: { "@id": WEBSITE_ID },
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        "@id": HEADSHOT_ID,
+        url: absoluteUrl(assets.headshot),
+        contentUrl: absoluteUrl(assets.headshot),
+        caption: "Brian Voyles, owner and travel advisor at Paradox Travel Network",
+      },
+      mainEntity: {
+        ...ownerSchema(),
+        image: [absoluteUrl(assets.headshot), absoluteUrl(assets.portrait)],
+      },
     },
   },
   {
@@ -130,7 +191,7 @@ const servicePages = services.map((s) => ({
     "@type": "Service",
     name: s.navLabel,
     description: s.metaDescription,
-    provider: { "@type": "TravelAgency", name: business.name },
+    provider: { "@type": "TravelAgency", "@id": ORGANIZATION_ID, name: business.name },
     areaServed: business.areaServed,
   },
 }));
@@ -150,14 +211,25 @@ const blogPages = publishedPosts.map((p) => {
       headline: p.title,
       description: p.seoDescription,
       image: absoluteUrl(image),
-      author: { "@type": "Person", name: p.author },
+      author: {
+        "@type": "Person",
+        "@id": OWNER_ID,
+        name: p.author,
+        url: canonicalUrl("/about"),
+      },
       datePublished: p.date,
       dateModified: p.updatedDate ?? p.date,
       mainEntityOfPage: { "@type": "WebPage", "@id": url },
       publisher: {
         "@type": "TravelAgency",
+        "@id": ORGANIZATION_ID,
         name: business.name,
-        logo: { "@type": "ImageObject", url: absoluteUrl("/Web Logo.png") },
+        logo: {
+          "@type": "ImageObject",
+          "@id": LOGO_ID,
+          url: absoluteUrl(assets.logo),
+          contentUrl: absoluteUrl(assets.logo),
+        },
       },
     },
   };
