@@ -55,7 +55,7 @@ function FeaturedArticle({ post }: { post: Post }) {
       >
         <img
           src={getCardImage(post)}
-          alt=""
+          alt={post.title}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <span
@@ -120,7 +120,7 @@ function ArticleCard({ post }: { post: Post }) {
       >
         <img
           src={getCardImage(post)}
-          alt=""
+          alt={post.title}
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
