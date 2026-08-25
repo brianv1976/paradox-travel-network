@@ -35,6 +35,7 @@ import os from "node:os";
 
 const SITE_NAME = "Paradox Travel Network";
 const DEFAULT_IMAGE = "/social-share.jpg";
+const INDEX_ROBOTS = "index, follow, max-image-preview:large";
 
 /**
  * Content-Security-Policy, mirrored from public/_headers.
@@ -181,6 +182,7 @@ function buildHead(template, siteUrl, { title, description, path: routePath, ima
   );
 
   const extraTags = [
+    `<meta name="robots" content="${INDEX_ROBOTS}" />`,
     `<link rel="canonical" href="${escapeAttr(url)}" />`,
     `<meta property="og:title" content="${escapeAttr(title)}" />`,
     `<meta property="og:type" content="${escapeAttr(ogType || "website")}" />`,
