@@ -1,0 +1,58 @@
+name: Full-site browser smoke test
+
+on:
+  push:
+    branches: ["test/postcards-navigation-fix"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out test branch
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install app dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Validate built-site integrity
+        run: npm run validate:build
+
+      - name: Install Playwright test runtime
+        run: |
+          npm install --no-save --package-lock=false @playwright/test@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Start local production preview
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/ptn-preview.log 2>&1 &
+          echo $! > /tmp/ptn-preview.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ptn-preview.log
+          exit 1
+
+      - name: Smoke-test every route and navigation path
+        run: node .github/site-smoke.mjs
+
+      - name: Print preview log on failure
+        if: failure()
+        run: cat /tmp/ptn-preview.log || true
