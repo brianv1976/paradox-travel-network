@@ -1,0 +1,4 @@
+Paradox Travel Network production deploy trigger.
+
+Last release trigger: 2026-08-26 02:13 CDT
+Purpose: create a normal GitHub content push event so Netlify builds the current main tree after staged [skip netlify] commits.
