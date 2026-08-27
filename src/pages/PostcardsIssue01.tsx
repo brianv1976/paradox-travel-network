@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Clock, MapPin, Send } from "lucide-react";
+import { ArrowLeft, ArrowRight, Send } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { postcardsHubPosts, getCardImage } from "../data/blog";
 import { assets, business } from "../lib/assets";
