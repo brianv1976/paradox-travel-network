@@ -34,7 +34,7 @@ import Magnetic from "../components/Magnetic";
 import AnimatedHeadline from "../components/AnimatedHeadline";
 import Marquee from "../components/Marquee";
 import TripCarousel from "../components/TripCarousel";
-import { exoticcaTrips } from "../data/exoticcaTrips";
+import { tripSpecials } from "../data/exoticcaTrips";
 import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
@@ -241,9 +241,16 @@ export default function Home() {
       {/* TRIP SPECIALS — real Exoticca itineraries, self-book path made
           concrete instead of abstract. Advisor-token links credit Brian. */}
       <section className="container-px py-16 md:py-20">
-        <SectionHeading eyebrow="Book it yourself" title="A few trips worth a look right now" />
+        <SectionHeading eyebrow="Book It Yourself — or Have Brian Book It" title="Current Specials" />
+        <p className="mt-3 max-w-xl text-fog">
+          Every trip below is real and bookable on your own right now. Rather have Brian handle it instead?{" "}
+          <Link to="/plan-my-trip" className="link-underline">
+            He can book it for you
+          </Link>
+          .
+        </p>
         <div className="mt-10">
-          <TripCarousel trips={exoticcaTrips} />
+          <TripCarousel trips={tripSpecials} />
         </div>
       </section>
 

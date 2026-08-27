@@ -1,49 +1,67 @@
-/** Hand-picked real Exoticca itineraries departing Dallas, refreshed
- *  periodically from the advisor portal (advisors.exoticca.com) — not a
- *  live price feed. Each href carries Brian's advisor_token so a booking
- *  is credited to him, same pattern as links.exoticca in lib/assets.ts. */
-export interface ExoticcaTrip {
+/** Hand-picked real trip specials from booking partners, refreshed
+ *  periodically (not a live price feed). Not every vendor's trips are
+ *  self-bookable the same way -- `bookingType` says which path(s) actually
+ *  work for a given trip, and the card UI reflects it:
+ *  - "self": visitor can book it directly (href goes straight to the
+ *    vendor's real checkout, tagged with Brian's advisor/affiliate id so
+ *    the booking is still credited to him). Brian can also help either way.
+ *  - "brian": this vendor/trip isn't a self-checkout flow (e.g. an
+ *    advisor-only supplier rate) -- the card sends the visitor to Plan My
+ *    Trip instead of a dead or misleading "book it yourself" link. */
+export type TripBookingType = "self" | "brian";
+
+export interface TripSpecial {
   slug: string;
+  vendor: string;
   destination: string;
   title: string;
   duration: string;
   fromPrice: number;
   discountPercent: number;
   image: string;
-  href: string;
+  bookingType: TripBookingType;
+  /** Required when bookingType is "self" -- the real customer-facing
+   *  checkout URL, already carrying Brian's affiliate/advisor id. */
+  href?: string;
 }
 
-const ADVISOR_TOKEN = "brian-voyles-019a21e0-2339-7046-a141-9ecdc021d5e3";
+const EXOTICCA_ADVISOR_TOKEN = "brian-voyles-019a21e0-2339-7046-a141-9ecdc021d5e3";
 
-export const exoticcaTrips: ExoticcaTrip[] = [
+export const tripSpecials: TripSpecial[] = [
   {
     slug: "punta-cana",
+    vendor: "Exoticca",
     destination: "Dominican Republic",
     title: "All-Incl. Paradise in Punta Cana",
     duration: "5 days, 4 nights",
     fromPrice: 949,
     discountPercent: 40,
     image: "/assets/exoticca-trips/punta-cana-all-inclusive.jpg",
-    href: `https://www.exoticca.com/us/beaches/america/13684-all-incl-paradise-in-punta-cana-5?advisor_token=${ADVISOR_TOKEN}`,
+    bookingType: "self",
+    href: `https://www.exoticca.com/us/beaches/america/13684-all-incl-paradise-in-punta-cana-5?advisor_token=${EXOTICCA_ADVISOR_TOKEN}`,
   },
   {
     slug: "peru",
+    vendor: "Exoticca",
     destination: "Peru",
     title: "Sacred Land of the Incas",
     duration: "9 days",
     fromPrice: 1049,
     discountPercent: 60,
     image: "/assets/exoticca-trips/peru-sacred-land-incas.jpg",
-    href: `https://www.exoticca.com/us/tours/america/7452-sacred-land-of-the-incas?advisor_token=${ADVISOR_TOKEN}`,
+    bookingType: "self",
+    href: `https://www.exoticca.com/us/tours/america/7452-sacred-land-of-the-incas?advisor_token=${EXOTICCA_ADVISOR_TOKEN}`,
   },
   {
     slug: "japan",
+    vendor: "Exoticca",
     destination: "Japan",
     title: "A Taste of Japan: Tokyo, Kyoto & Osaka",
     duration: "9 days",
     fromPrice: 1899,
     discountPercent: 30,
     image: "/assets/exoticca-trips/japan-tokyo-kyoto-osaka.jpg",
-    href: `https://www.exoticca.com/us/tours/asia/21202-a-taste-of-japan-tokyo-kyoto-osaka?advisor_token=${ADVISOR_TOKEN}`,
+    bookingType: "self",
+    href: `https://www.exoticca.com/us/tours/asia/21202-a-taste-of-japan-tokyo-kyoto-osaka?advisor_token=${EXOTICCA_ADVISOR_TOKEN}`,
   },
 ];
