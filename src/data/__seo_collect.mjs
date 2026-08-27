@@ -157,9 +157,23 @@ const staticPages = [
     path: "/postcards/issue-01",
     title: "Issue 01 | Postcards from Paradox",
     description:
-      "The launch edition of Postcards from Paradox: the Paradox Travel Network story, current travel news, a Two-Minute Tip, and the first full web issue.",
+      "The launch edition of Postcards from Paradox: Jamaica, current travel news, a real Two-Minute Tip, and the first full web issue.",
     image: assets.img.beach,
     ogType: "article",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      name: "Postcards from Paradox — Issue 01",
+      headline: "Issue 01: The Launch Edition",
+      description: "The launch edition of Postcards from Paradox from Paradox Travel Network.",
+      publisher: { "@type": "TravelAgency", "@id": ORGANIZATION_ID, name: business.name },
+      author: {
+        "@type": "Person",
+        "@id": OWNER_ID,
+        name: business.owner,
+        url: canonicalUrl("/about"),
+      },
+    },
   },
   {
     path: "/explore-travel",
