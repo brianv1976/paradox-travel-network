@@ -5,6 +5,7 @@
 // of the shipped app bundle.
 import { services } from "./services.ts";
 import { publishedPosts, getPostImage } from "./blog.ts";
+import { deals } from "./deals.ts";
 import { assets, business, links } from "../lib/assets.ts";
 
 // Keep the site origin slash-free here. Route helpers add exactly one slash
@@ -249,4 +250,19 @@ const blogPages = publishedPosts.map((p) => {
   };
 });
 
-export const routes = [...staticPages, ...servicePages, ...blogPages];
+const dealPages = deals.map((d) => ({
+  path: `/deals/${d.slug}`,
+  title: `${d.headline} | Paradox Travel Network`,
+  description: d.seoDescription,
+  image: d.image,
+  structuredData: {
+    "@context": "https://schema.org",
+    "@type": "Offer",
+    name: d.headline,
+    description: d.seoDescription,
+    areaServed: d.destination,
+    seller: { "@type": "TravelAgency", "@id": ORGANIZATION_ID, name: business.name },
+  },
+}));
+
+export const routes = [...staticPages, ...servicePages, ...blogPages, ...dealPages];
