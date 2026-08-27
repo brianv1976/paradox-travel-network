@@ -98,7 +98,8 @@ export const categories: Category[] = [
   "General",
 ];
 
-export const posts: Post[] = [\n  {
+export const posts: Post[] = [
+  {
     slug: "jamaica-beyond-the-resort-gates",
     contentType: "Destination Spotlight",
     title: "Jamaica Beyond the Resort Gates",
