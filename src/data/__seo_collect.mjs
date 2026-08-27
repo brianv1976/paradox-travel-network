@@ -153,6 +153,14 @@ const staticPages = [
       "Destination spotlights, travel news, and practical tips from Paradox Travel Network — plus an occasional newsletter with useful reminders.",
   },
   {
+    path: "/postcards/issue-01",
+    title: "Issue 01 | Postcards from Paradox",
+    description:
+      "The launch edition of Postcards from Paradox: the Paradox Travel Network story, current travel news, a Two-Minute Tip, and the first full web issue.",
+    image: assets.img.beach,
+    ogType: "article",
+  },
+  {
     path: "/explore-travel",
     title: "Explore Travel Types | Paradox Travel Network",
     description:

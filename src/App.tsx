@@ -34,6 +34,7 @@ const About = lazyWithReload(() => import("./pages/About"));
 const Contact = lazyWithReload(() => import("./pages/Contact"));
 const PlanMyTrip = lazyWithReload(() => import("./pages/PlanMyTrip"));
 const Blog = lazyWithReload(() => import("./pages/Blog"));
+const PostcardsIssue01 = lazyWithReload(() => import("./pages/PostcardsIssue01"));
 
 // Article navigation is a primary Postcards path. Keep the renderer eager so
 // list -> article navigation never depends on a second route chunk.
@@ -91,6 +92,7 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/plan-my-trip" element={<PlanMyTrip />} />
               <Route path="/travel-tips" element={<Blog />} />
+              <Route path="/postcards/issue-01" element={<PostcardsIssue01 />} />
               <Route path="/travel-tips/:slug" element={<BlogPost />} />
               <Route path="/explore-travel" element={<ExploreTravel />} />
 
