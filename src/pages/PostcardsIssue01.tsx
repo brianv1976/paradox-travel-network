@@ -80,49 +80,67 @@ export default function PostcardsIssue01() {
         <div className="absolute inset-x-0 bottom-0 z-20 h-16 bg-[#f4efe6] [clip-path:polygon(0_62%,10%_54%,21%_60%,33%_48%,47%_58%,59%_47%,72%_57%,87%_49%,100%_56%,100%_100%,0_100%)]" />
       </section>
 
-      <section className="container-px relative z-30 -mt-8 pb-16 md:-mt-12 md:pb-24">
-        <div className="rotate-[-0.5deg] border border-ink/10 bg-[#fffaf1] px-7 py-8 shadow-lift md:px-10 md:py-10">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-start">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-clay-deep">
-                From DFW, with intent
-              </p>
-              <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-tight md:text-5xl">
-                Two ways to travel. One standard for both.
-              </h2>
-              <div className="mt-6 max-w-3xl space-y-5 text-base leading-relaxed text-fog md:text-lg">
-                <p>
-                  Paradox was built around two ways people actually travel. Some want
-                  a real advisor to research, compare, organize, and help carry the trip
-                  from idea to booking. Others already know what they want and simply
-                  need trustworthy places to book it themselves.
-                </p>
-                <p>
-                  The point is not to force every traveler into the same funnel. The point
-                  is to make both paths useful, clear, and connected to the same standard:
-                  good information, sensible choices, and fewer expensive surprises.
-                </p>
-                <p>
-                  Postcards from Paradox is the editorial side of that idea. It gives the
-                  brand a reason to be useful even when nobody is booking anything today.
-                </p>
+      <section className="relative z-30 -mt-8 w-full pb-20 md:-mt-12 md:pb-28">
+        <div className="mx-auto grid max-w-[1500px] gap-0 px-4 sm:px-6 lg:grid-cols-[1.12fr_.88fr] lg:px-10">
+          <div className="relative rotate-[-0.6deg] bg-[#fff8e9] px-7 py-10 shadow-[0_30px_80px_rgba(58,41,21,.22)] sm:px-10 md:px-14 md:py-14">
+            <div className="absolute right-6 top-6 rotate-[7deg] border-2 border-ocean-dark/30 px-4 py-3 text-center text-[9px] font-black uppercase tracking-[0.18em] text-ocean-dark/70">
+              New
+              <span className="block">From DFW</span>
+            </div>
+
+            <p className="text-[10px] font-black uppercase tracking-[0.23em] text-clay-deep">
+              Paradox Travel Network
+            </p>
+            <h2 className="mt-4 max-w-3xl pr-20 font-display text-4xl font-semibold leading-[0.98] md:text-6xl">
+              Travel planning without the travel-agency cheese.
+            </h2>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-fog">
+              Paradox is live. Real trip help when you want it. Straightforward ways to book
+              when you don’t. Useful travel stories either way.
+            </p>
+
+            <div className="mt-8 grid gap-4 border-y border-dashed border-ink/20 py-6 sm:grid-cols-3">
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-clay-deep">01</p>
+                <p className="mt-2 font-display text-2xl font-semibold">Plan With Brian</p>
+                <p className="mt-2 text-sm leading-relaxed text-fog">Research, options, booking help, and a real person behind the trip.</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-clay-deep">02</p>
+                <p className="mt-2 font-display text-2xl font-semibold">Book It Yourself</p>
+                <p className="mt-2 text-sm leading-relaxed text-fog">Trusted travel partners when you already know what you want.</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-clay-deep">03</p>
+                <p className="mt-2 font-display text-2xl font-semibold">Postcards</p>
+                <p className="mt-2 text-sm leading-relaxed text-fog">The good stuff: destinations, changes, tips, and trips worth noticing.</p>
               </div>
             </div>
 
-            <div className="rotate-[5deg] border-2 border-ocean-dark/30 px-5 py-4 text-center text-[9px] font-bold uppercase tracking-[0.18em] text-ocean-dark/70">
-              Dallas
-              <span className="block text-lg tracking-[0.08em]">→ Anywhere</span>
-              <span className="mt-1 block">Issue 01</span>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link to="/plan-my-trip" className="btn-primary">
+                Plan With Brian <ArrowRight size={16} />
+              </Link>
+              <Link to="/book-it-yourself" className="btn-secondary">
+                Book It Yourself
+              </Link>
             </div>
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-3 border-t border-dashed border-ink/20 pt-6">
-            <Link to="/plan-my-trip" className="btn-primary">
-              Plan With Brian <ArrowRight size={16} />
-            </Link>
-            <Link to="/book-it-yourself" className="btn-secondary">
-              Book It Yourself
-            </Link>
+          <div className="relative min-h-[380px] overflow-hidden bg-ocean-dark text-white shadow-[0_30px_80px_rgba(58,41,21,.18)] lg:translate-y-10 lg:rotate-[0.7deg]">
+            <img src="/assets/Headshot.png" alt="Brian Voyles" className="absolute bottom-0 right-0 h-[94%] w-auto object-contain object-bottom opacity-90" />
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,48,58,.96),rgba(8,48,58,.62),rgba(8,48,58,.08))]" />
+            <div className="relative flex h-full max-w-sm flex-col justify-between p-8 md:p-10">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.23em] text-[#f2d18c]">Meet the human</p>
+                <h3 className="mt-4 font-display text-4xl font-semibold leading-[1.02]">
+                  Brian handles the trip. Paradox handles the noise.
+                </h3>
+              </div>
+              <p className="mt-8 text-sm font-bold uppercase tracking-[0.14em] text-white/82">
+                Brian Voyles · Travel Advisor · DFW
+              </p>
+            </div>
           </div>
         </div>
       </section>
