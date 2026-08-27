@@ -163,10 +163,13 @@ export default function Blog() {
                 point with useful travel journalism, destination inspiration,
                 practical advice, and both ways to travel with Paradox.
               </p>
-              <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-cream/20 px-4 py-2 text-sm text-cream/80">
+              <Link
+                to="/postcards/issue-01"
+                className="mt-8 inline-flex items-center gap-2 rounded-full border border-cream/20 px-4 py-2 text-sm font-semibold text-cream/90 transition-colors hover:border-gold/60 hover:text-gold"
+              >
                 <Sparkles size={15} className="text-gold" />
-                Full web edition + inbox edition
-              </div>
+                Open Issue 01 <ArrowRight size={14} />
+              </Link>
             </div>
           </div>
 
