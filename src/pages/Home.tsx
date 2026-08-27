@@ -37,7 +37,6 @@ import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
 import NewsletterForm from "../components/NewsletterForm";
-import NumberedSteps from "../components/NumberedSteps";
 
 // Three.js is a heavy dependency only this page's hero needs — lazy-loading
 // it keeps every other route's bundle free of it.
@@ -124,30 +123,6 @@ const advisorReasons = [
     title: "Smooth, even when it isn't",
     body: "Weather delays, flight cancellations, a missed connection — when something goes sideways, you've got someone actively working it with you, not a hold-music loop.",
   },
-];
-
-const steps = [
-  {
-    n: "1",
-    title: "Tell Brian what matters",
-    body: "Dates, budget, travelers, destination ideas, pace, and the things that would ruin the trip.",
-  },
-  {
-    n: "2",
-    title: "Review personalized options",
-    body: "Brian researches the choices and narrows them down to what actually fits — not hundreds of nearly identical listings.",
-  },
-  {
-    n: "3",
-    title: "Finalize and book",
-    body: "Once you choose the right option, Brian handles the booking and confirmations and remains your point of contact if the plans need attention.",
-  },
-];
-
-const traits = [
-  { title: "Practical", body: "Clear options and honest expectations." },
-  { title: "Personal", body: "The trip is shaped around your priorities." },
-  { title: "Flexible", body: "Self-book or ask for hands-on planning." },
 ];
 
 export default function Home() {
@@ -533,70 +508,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ABOUT TEASER */}
-      <section id="about" className="bg-ocean-dark text-cream">
-        <div className="container-px grid items-center gap-12 py-24 md:grid-cols-2 md:py-32">
-          <Reveal className="relative aspect-[4/5] max-w-md overflow-hidden rounded-[2rem] shadow-lift">
-            <img src={assets.portrait} alt="Brian Voyles, owner and travel advisor" loading="lazy" className="h-full w-full object-cover" />
-          </Reveal>
-          <div className="flex flex-col gap-6">
-            <Reveal>
-              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-cream">
-                A real person behind the plan
-              </span>
-            </Reveal>
-            <Reveal delay={0.05}>
-              <h2 className="text-3xl font-semibold leading-[1.1] md:text-4xl">Real advice. No sales voice.</h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="text-lg leading-relaxed text-cream">
-                Brian is the travel advisor behind Paradox, not a one-time
-                booking clerk. When he plans your trip, he stays involved
-                from the first conversation through the last day of travel.
-                If something goes wrong mid-trip, you've got his number.
-                That's kind of the whole point.
-              </p>
-            </Reveal>
-            <Reveal delay={0.12}>
-              <p className="text-sm text-cream/90">
-                Based in the Dallas–Fort Worth area and helping travelers
-                nationwide.
-              </p>
-            </Reveal>
-            <motion.div
-              variants={stagger(0.1)}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              className="mt-2 grid gap-4 lg:grid-cols-3"
-            >
-              {traits.map((t) => (
-                <motion.div key={t.title} variants={fadeUp} className="rounded-2xl bg-ocean-dark/60 p-5">
-                  <div className="font-semibold text-cream">{t.title}</div>
-                  <div className="mt-1 text-sm text-cream/90">{t.body}</div>
-                </motion.div>
-              ))}
-            </motion.div>
-            <Reveal delay={0.15}>
-              <Link to="/about" className="inline-flex items-center gap-1 font-semibold text-cream/90 hover:text-cream">
-                Meet Brian <ArrowRight size={15} />
-              </Link>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* HOW PLANNING WORKS — moved to the bottom of the page per Brian's
-          call, right before the closing FAQ/CTA. */}
-      <section className="container-px py-24 md:py-32">
-        <SectionHeading eyebrow="How planning works" title="From idea to booked in three steps." />
-        <NumberedSteps steps={steps} gap="gap-4" />
-        <Reveal delay={0.1} className="mt-10">
-          <Link to="/plan-my-trip" className="btn-primary">
-            Send the trip details <ArrowRight size={16} />
-          </Link>
-        </Reveal>
-      </section>
+      {/* Reserved: a homepage "Featured Trips" section belongs here once
+          Brian has real vendor pricing to show (src/data/trips.ts is already
+          wired up for this — see that file's header comment). The former
+          "ABOUT TEASER" section that lived here was removed 2026-08-26: it
+          just re-stated the same "Brian stays involved, real advice" pitch
+          already made in the Plan With Brian card above and on /about,
+          without adding anything new — redundant length, not redundant
+          information worth keeping twice. */}
 
       {/* FAQ */}
       <section className="bg-sand/60">
@@ -632,8 +551,8 @@ export default function Home() {
 
       {/* FINAL CTA */}
       <CTASection
-        eyebrow="Ready when the idea is"
-        title="Turn “we should take a trip” into an actual plan."
+        eyebrow="Ready when you are"
+        title="Got an idea? Let's turn it into a trip."
         body="Share the basics to start planning with Brian, or head to the self-booking page if you'd rather handle the reservation yourself."
         primaryLabel="Plan With Brian"
         primaryTo="/plan-my-trip"
