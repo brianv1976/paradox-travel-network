@@ -100,6 +100,40 @@ export const categories: Category[] = [
 
 export const posts: Post[] = [
   {
+    slug: "jamaica-keeps-getting-easier-from-dfw",
+    contentType: "Travel News",
+    title: "Jamaica Keeps Getting Easier to Reach From DFW",
+    summary:
+      "American is currently selling Dallas Fort Worth to Montego Bay itineraries for fall 2026 while Jamaica's main tourism gateway continues adding international connectivity.",
+    content: [
+      "For North Texas travelers, Jamaica remains one of the Caribbean's easier escapes to put on the short list. American Airlines is currently selling Dallas Fort Worth to Montego Bay itineraries for fall 2026, keeping a straightforward Jamaica option in reach from DFW.",
+      "At the same time, Sangster International Airport in Montego Bay has continued expanding its international network in 2026, including new direct service to Medellín and Guadeloupe. Those routes are not about getting Texans to Jamaica, but they do show a tourism gateway that is still broadening its reach rather than standing still.",
+      "What this means for you: Jamaica does not need a 'hidden gem' makeover to be interesting. From Dallas, it is already practical to compare against other Caribbean beach trips, and the island's air-access story keeps getting stronger.",
+    ],
+    seoDescription:
+      "Why Jamaica remains a practical Caribbean option from Dallas Fort Worth, with current DFW-Montego Bay itineraries and continued air-service growth at Sangster International Airport.",
+    image: "/assets/beach.jpg",
+    author: "Brian Voyles",
+    date: "2026-08-26",
+    readingTime: 2,
+    featured: true,
+    timeSensitive: true,
+    sources: [
+      {
+        label: "American Airlines — Dallas Fort Worth to Montego Bay",
+        href: "https://www.aa.com/en-us/flights-from-dallas-to-montego-bay",
+      },
+      {
+        label: "Sangster International Airport — News Releases",
+        href: "https://www.mbjairport.com/news-releases",
+      },
+      {
+        label: "Jamaica Tourist Board — Unrestricted Use Image Library",
+        href: "https://www.jtbonline.org/download-category/unrestricted-use-images/",
+      },
+    ],
+  },
+  {
     slug: "if-the-suitcase-needs-a-wrestling-match",
     contentType: "Travel Tip",
     title: "If the Suitcase Needs a Wrestling Match, You Packed Too Much",
@@ -369,6 +403,21 @@ export const posts: Post[] = [
 /** `posts` includes drafts (for local layout testing); everything the site
  *  actually shows visitors should go through this instead. */
 export const publishedPosts = posts.filter((p) => !p.draft);
+
+/** The Postcards hub intentionally launches small: one current destination
+ *  spotlight plus the original packing tip. The rest of the existing tip
+ *  library stays published at its direct URLs and available to service-page
+ *  helpers, but is held back from the hub so future issues can release those
+ *  pieces gradually instead of dumping the whole archive on day one. */
+const HUB_LAUNCH_TIP_SLUG = "if-the-suitcase-needs-a-wrestling-match";
+export const postcardsHubPosts = publishedPosts.filter(
+  (p) =>
+    p.contentType !== "Travel Tip" ||
+    p.slug === HUB_LAUNCH_TIP_SLUG
+);
+export const postcardsHubFeaturedPosts = postcardsHubPosts.filter(
+  (p) => p.featured
+);
 
 export const getPost = (slug: string) => {
   const post = posts.find((p) => p.slug === slug);
