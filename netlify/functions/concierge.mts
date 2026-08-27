@@ -100,7 +100,7 @@ function cleanMessages(value: unknown): ConciergeMessage[] {
 
   return value
     .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object")
-    .map((item) => ({
+    .map((item): ConciergeMessage => ({
       role: item.role === "assistant" ? "assistant" : "user",
       text: typeof item.text === "string" ? item.text.trim().slice(0, MAX_MESSAGE_LENGTH) : "",
     }))
