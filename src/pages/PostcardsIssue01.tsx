@@ -523,12 +523,10 @@ export default function PostcardsIssue01() {
         <div className="relative mx-auto max-w-[1080px]">
           <p className="inline-block -rotate-1 text-[10px] font-black uppercase tracking-[.24em] text-[#f2d18c]">The Nudge</p>
           <h2 className="mt-3 max-w-xl rotate-[-.4deg] font-display text-3xl font-semibold leading-[1.02] sm:text-4xl">Your trip. Your way.</h2>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/75">Plan it together or book it yourself. Real advice, real options, zero manufactured urgency.</p>
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/75">Real advice, real options, zero manufactured urgency.</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/plan-my-trip" className="inline-flex items-center gap-2 bg-[#0b5e67] px-5 py-3 text-xs font-black uppercase tracking-[.14em] text-white">Plan With Brian <ArrowRight size={14} /></Link>
-            <Link to="/book-it-yourself" className="inline-flex items-center gap-2 bg-[#fdf6e3] px-5 py-3 text-xs font-black uppercase tracking-[.14em] text-[#173943]">Book It Yourself <ArrowRight size={14} /></Link>
+            <Link to="/plan-my-trip" className="inline-flex items-center gap-2 bg-[#fdf6e3] px-5 py-3 text-xs font-black uppercase tracking-[.14em] text-[#173943]">Plan With Brian <ArrowRight size={14} /></Link>
           </div>
-          <p className="mt-4 max-w-md text-[11px] leading-snug text-white/55">Book It Yourself covers select trip types through Paradox's approved partners &mdash; not every trip can be self-booked. Not sure which is which? Plan With Brian instead.</p>
         </div>
       </div>
 

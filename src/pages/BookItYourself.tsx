@@ -284,6 +284,9 @@ export default function BookItYourself() {
           hunting through search results wondering which site is legit. And
           Brian's happy to weigh in before you book — just ask.
         </p>
+        <p className="text-sm text-fog/80">
+          Can't find what you're looking for here? <Link to="/plan-my-trip" className="underline hover:text-ink">Ask Brian to book it</Link> instead — he can handle almost anything these partners don't cover.
+        </p>
         <a href="#booking-types" className="btn-primary w-fit">
           Choose a booking type <ArrowRight size={16} />
         </a>
