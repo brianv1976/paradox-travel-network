@@ -145,50 +145,193 @@ export default function PostcardsIssue01() {
         </div>
       </section>
 
-      <section className="container-px pb-16 md:pb-24">
-        <div className="grid gap-8 lg:grid-cols-[.88fr_1.12fr]">
-          <div className="relative overflow-hidden bg-ocean-dark px-7 py-10 text-white shadow-soft md:px-10 md:py-12">
-            <MapPin size={22} className="text-[#f6d57a]" />
-            <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.22em] text-[#f6d57a]">
-              The Spot
-            </p>
-            <h2 className="mt-3 font-display text-4xl font-semibold leading-tight">
-              The cover destination is being filed next.
+      <section id="the-spot" className="relative w-full overflow-hidden bg-[#102f38] text-white">
+        <img
+          src="https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,f_jpg,h_900,q_85,w_1600/v1/clients/jamaica/negril_6cc57458-39c1-40bf-a516-88d725c60b20.jpg"
+          alt="Negril, Jamaica"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,25,29,.91)_0%,rgba(7,25,29,.68)_42%,rgba(7,25,29,.24)_72%,rgba(7,25,29,.48)_100%)]" />
+        <div className="relative mx-auto flex min-h-[860px] max-w-[1600px] flex-col justify-end px-5 pb-24 pt-24 sm:px-8 md:px-12 lg:px-16">
+          <div className="max-w-5xl">
+            <p className="text-[10px] font-black uppercase tracking-[0.26em] text-[#f2d18c]">The Spot · Issue 01</p>
+            <h2 className="mt-4 font-display text-7xl font-semibold leading-[0.84] sm:text-8xl md:text-[8rem]">
+              Jamaica
             </h2>
-            <p className="mt-4 max-w-xl leading-relaxed text-white/75">
-              The Spot gets the biggest photography, a real reason to go now, route context,
-              and enough detail to make the destination feel like more than a pretty picture.
+            <p className="mt-5 max-w-3xl text-base font-black uppercase tracking-[0.19em] text-[#f0a84f] md:text-lg">
+              The beach is only the first chapter.
             </p>
+            <div className="mt-9 flex max-w-3xl items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/78">
+              <span>DFW</span>
+              <span className="h-px flex-1 border-t border-dashed border-white/50" />
+              <span className="rotate-12 text-lg">✈</span>
+              <span className="h-px flex-1 border-t border-dashed border-white/50" />
+              <span>MBJ</span>
+            </div>
+          </div>
+        </div>
+        <div className="absolute -bottom-1 left-0 right-0 h-20 bg-[#efe5d1] [clip-path:polygon(0_62%,9%_51%,20%_64%,31%_49%,44%_61%,56%_47%,68%_62%,81%_50%,91%_60%,100%_48%,100%_100%,0_100%)]" />
+      </section>
+
+      <section className="w-full bg-[#efe5d1] py-20 md:py-28">
+        <div className="mx-auto grid max-w-[1500px] gap-12 px-5 sm:px-8 md:px-12 lg:grid-cols-[.82fr_1.18fr] lg:px-16">
+          <div className="relative">
+            <div className="sticky top-24 rotate-[-0.7deg] bg-[#fff8e9] p-7 shadow-[0_26px_70px_rgba(58,41,21,.17)] md:p-10">
+              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-clay-deep">Why Jamaica</p>
+              <h3 className="mt-3 font-display text-4xl font-semibold leading-[1.02]">
+                Easy to reach. Impossible to reduce to one kind of trip.
+              </h3>
+              <p className="mt-5 leading-relaxed text-fog">
+                Montego Bay makes arrival simple, but Jamaica gets more interesting once you stop treating the airport and the resort strip as the whole island.
+              </p>
+              <div className="mt-7 border-t border-dashed border-ink/20 pt-5">
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-ocean-dark">Brian’s take</p>
+                <p className="mt-2 text-sm leading-relaxed text-fog">
+                  A resort-only week can be exactly right. But if you want Jamaica to feel like Jamaica, build at least part of the trip around the island itself.
+                </p>
+              </div>
+            </div>
           </div>
 
-          {tip && (
-            <article className="relative border border-ink/10 bg-[#fbf2df] px-7 py-9 shadow-soft md:px-10 md:py-11">
-              <div className="absolute left-0 top-10 h-16 w-8 -translate-x-1/2 rounded-r-full bg-[#f4efe6]" />
-              <div className="grid gap-7 md:grid-cols-[150px_1fr] md:items-center">
-                <div className="border-r border-dashed border-ink/20 pr-6">
-                  <div className="inline-flex min-h-28 w-full flex-col items-center justify-center border-2 border-ocean-dark/45 px-4 py-5 text-center text-ocean-dark">
-                    <span className="text-4xl font-bold leading-none">2</span>
-                    <span className="mt-1 text-xs font-bold uppercase tracking-[0.18em]">Min Tip</span>
-                  </div>
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.23em] text-clay-deep">The big idea</p>
+            <h3 className="mt-3 max-w-4xl font-display text-5xl font-semibold leading-[0.98] md:text-6xl">
+              Pick the Jamaica that matches the trip.
+            </h3>
+            <div className="mt-7 max-w-4xl space-y-5 text-base leading-relaxed text-fog md:text-lg">
+              <p>
+                Jamaica is sold as one thing far too often. In reality, the island can be a lazy beach week, a waterfall-and-river adventure, a food-and-music trip, a romantic cliffside escape, or a split-stay that mixes all of it.
+              </p>
+              <p>
+                The trick is not collecting every famous stop. It is choosing the right base, the right pace, and the right amount of movement for the trip you actually want.
+              </p>
+            </div>
+
+            <div className="mt-10 grid gap-5 sm:grid-cols-2">
+              {[
+                ["Montego Bay", "Best for an easy arrival, broad resort choice, golf, nightlife, and day-trip flexibility."],
+                ["Negril", "Best for long beach days, cliffs, sunsets, seafood, and a slower rhythm."],
+                ["Ocho Rios", "Best for waterfalls, rivers, gardens, caves, and travelers who want action with the beach."],
+                ["Kingston", "Best for music, food, art, history, nightlife, and the cultural side of the island."],
+                ["Port Antonio", "Best for lush scenery, quieter stays, and travelers willing to trade convenience for atmosphere."],
+                ["South Coast", "Best for a slower, less polished Jamaica with small-scale stays and a road-trip feel."],
+              ].map(([place, copy]) => (
+                <div key={place} className="border-t border-dashed border-ink/25 pt-4">
+                  <p className="font-display text-2xl font-semibold">{place}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-fog">{copy}</p>
                 </div>
-                <div>
-                  <Clock size={20} className="text-clay-deep" />
-                  <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.05] text-ink">
-                    {tip.title}
-                  </h2>
-                  <p className="mt-4 leading-relaxed text-fog">{tip.summary}</p>
-                  <Link
-                    to={`/travel-tips/${tip.slug}`}
-                    className="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-ocean-dark underline decoration-clay/60 underline-offset-4"
-                  >
-                    Read the tip <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </div>
-            </article>
-          )}
+              ))}
+            </div>
+          </div>
         </div>
       </section>
+
+      <section className="grid w-full lg:grid-cols-3">
+        <figure className="relative min-h-[430px] overflow-hidden lg:min-h-[520px]">
+          <img
+            src="https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,f_jpg,h_427,q_65,w_640/v1/clients/jamaica/mobay_collage_350055ae-075c-43c3-aefa-bf5a678f0ed5.png"
+            alt="Montego Bay, Jamaica"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 pt-20 text-white">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#f2d18c]">Start easy</p>
+            <p className="mt-2 font-display text-3xl font-semibold">Montego Bay</p>
+          </figcaption>
+        </figure>
+
+        <figure className="relative min-h-[430px] overflow-hidden lg:min-h-[520px]">
+          <img
+            src="https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,f_jpg,h_427,q_65,w_640/v1/clients/jamaica/ocho_rios_collage_df1c9eda-c999-4dad-8f10-e3d8442fd30e.png"
+            alt="Ocho Rios, Jamaica"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 pt-20 text-white">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#f2d18c]">Get moving</p>
+            <p className="mt-2 font-display text-3xl font-semibold">Ocho Rios</p>
+          </figcaption>
+        </figure>
+
+        <figure className="relative min-h-[430px] overflow-hidden lg:min-h-[520px]">
+          <img
+            src="https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,f_jpg,h_427,q_65,w_640/v1/clients/jamaica/kingston_collage_952122a0-c083-42bf-93cb-cddbf5caacf8.png"
+            alt="Kingston, Jamaica"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 pt-20 text-white">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#f2d18c]">Feel the culture</p>
+            <p className="mt-2 font-display text-3xl font-semibold">Kingston</p>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section className="w-full bg-[#173943] py-20 text-white md:py-28">
+        <div className="mx-auto grid max-w-[1500px] gap-12 px-5 sm:px-8 md:px-12 lg:grid-cols-[1.08fr_.92fr] lg:px-16">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.23em] text-[#f2d18c]">Build the week</p>
+            <h3 className="mt-3 font-display text-5xl font-semibold leading-[0.98] md:text-6xl">
+              Seven days should feel like a trip, not a transfer schedule.
+            </h3>
+            <div className="mt-7 max-w-3xl space-y-5 text-base leading-relaxed text-white/72 md:text-lg">
+              <p>
+                For a first visit, a two-base itinerary is usually enough. Start around Montego Bay for the easy arrival, then move west to Negril for beach time, or east toward Ocho Rios if waterfalls and excursions matter more.
+              </p>
+              <p>
+                Add Kingston when culture is a real priority, not because a checklist says you should. Add Port Antonio or the South Coast when the slower, greener, less resort-heavy version of Jamaica is the point of the trip.
+              </p>
+            </div>
+          </div>
+
+          <div className="rotate-[1deg] bg-[#fff8e9] p-7 text-ink shadow-[0_28px_70px_rgba(0,0,0,.24)] md:p-9">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-clay-deep">A sensible first-timer split</p>
+            <div className="mt-6 space-y-5">
+              <div className="border-b border-dashed border-ink/20 pb-4">
+                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-ocean-dark">Days 1–3</p>
+                <p className="mt-1 font-display text-2xl font-semibold">Montego Bay</p>
+                <p className="mt-2 text-sm leading-relaxed text-fog">Land, settle in, beach, food, one easy outing, no heroic logistics on arrival day.</p>
+              </div>
+              <div className="border-b border-dashed border-ink/20 pb-4">
+                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-ocean-dark">Days 4–7</p>
+                <p className="mt-1 font-display text-2xl font-semibold">Negril or Ocho Rios</p>
+                <p className="mt-2 text-sm leading-relaxed text-fog">Choose west for sunsets and beach time, east for waterfalls and a more active finish.</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-ocean-dark">Skip the mistake</p>
+                <p className="mt-2 text-sm leading-relaxed text-fog">Do not spend half a seven-day vacation proving that you can change hotels four times.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {tip && (
+        <section className="relative w-full overflow-hidden bg-[#efe5d1] py-20 md:py-28">
+          <div className="mx-auto max-w-[1450px] px-5 sm:px-8 md:px-12 lg:px-16">
+            <div className="relative mx-auto max-w-5xl rotate-[-1deg] bg-[#f8edcf] px-7 py-10 shadow-[0_28px_70px_rgba(58,41,21,.22)] md:px-12 md:py-12 [clip-path:polygon(7%_0,100%_0,100%_100%,7%_100%,0_88%,0_12%)]">
+              <div className="absolute left-8 top-1/2 h-12 w-12 -translate-y-1/2 rounded-full border-[8px] border-[#b99b6c] bg-[#efe5d1]" />
+              <div className="pl-16 md:pl-20">
+                <div className="grid gap-8 md:grid-cols-[120px_1fr_auto] md:items-center">
+                  <div className="border-r border-dashed border-ink/20 pr-6 text-center">
+                    <span className="block text-5xl font-black leading-none text-ocean-dark">2</span>
+                    <span className="mt-2 block text-[10px] font-black uppercase tracking-[0.2em] text-ocean-dark">Min Tip</span>
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-clay-deep">Brian · PTN</p>
+                    <h3 className="mt-3 font-display text-4xl font-semibold leading-[1.02] md:text-5xl">{tip.title}</h3>
+                    <p className="mt-4 max-w-2xl leading-relaxed text-fog">{tip.summary}</p>
+                  </div>
+                  <div className="hidden h-20 w-28 md:block [background:repeating-linear-gradient(90deg,#262721_0_2px,transparent_2px_5px)] opacity-55" />
+                </div>
+                <Link
+                  to={`/travel-tips/${tip.slug}`}
+                  className="mt-7 inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-ocean-dark underline decoration-clay/60 underline-offset-4"
+                >
+                  Read the full tip <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {news && (
         <section className="container-px pb-16 md:pb-24">
