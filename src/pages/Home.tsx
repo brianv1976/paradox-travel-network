@@ -33,6 +33,8 @@ import TiltCard from "../components/TiltCard";
 import Magnetic from "../components/Magnetic";
 import AnimatedHeadline from "../components/AnimatedHeadline";
 import Marquee from "../components/Marquee";
+import TripCarousel from "../components/TripCarousel";
+import { exoticcaTrips } from "../data/exoticcaTrips";
 import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
@@ -235,6 +237,15 @@ export default function Home() {
       </section>
 
       <Marquee />
+
+      {/* TRIP SPECIALS — real Exoticca itineraries, self-book path made
+          concrete instead of abstract. Advisor-token links credit Brian. */}
+      <section className="container-px py-16 md:py-20">
+        <SectionHeading eyebrow="Book it yourself" title="A few trips worth a look right now" />
+        <div className="mt-10">
+          <TripCarousel trips={exoticcaTrips} />
+        </div>
+      </section>
 
       {/* Destinations sit high on the page — this is a travel site, the
           places should arrive before the process does. One fixed stage that
