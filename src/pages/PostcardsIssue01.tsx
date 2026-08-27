@@ -272,6 +272,31 @@ export default function PostcardsIssue01() {
       </div>
 
       <div className="mx-auto max-w-[1080px]">
+        {/* ===== LAUNCH INTRO — its own short postcard, not a full spotlight ===== */}
+        <div className="relative px-5 py-14 sm:px-8">
+          <CancellationLines className="pointer-events-none absolute -right-4 top-2 h-16 w-56 text-[#1b1a17]/8" />
+          <div className="relative mx-auto flex max-w-3xl flex-col gap-6 rotate-[-.5deg] bg-[#fdf6e3] p-6 shadow-[0_24px_54px_rgba(20,15,5,.26)] sm:flex-row sm:items-center sm:p-9">
+            <Postmark className="pointer-events-none absolute -right-7 -top-8 h-24 w-24 rotate-[10deg] text-[#8a5a0d]/55" label="PARADOX TRAVEL" city="OPEN" date="SEP 2026" />
+            <div className="relative mx-auto w-full max-w-[150px] shrink-0 rotate-[-3deg] sm:mx-0">
+              <div className="absolute -top-2.5 left-1/2 h-5 w-16 -translate-x-1/2 rotate-[-2deg] bg-[#e8dcae]/75 shadow-sm" />
+              <div className="bg-white p-[5px] shadow-[0_14px_30px_rgba(20,15,5,.3)]">
+                <img src={assets.headshot} alt={business.owner} className="w-full object-cover" />
+              </div>
+              <p className="mt-1.5 text-center text-[9px] font-black uppercase tracking-[.14em] text-[#8a5a0d]">Brian &middot; Founder</p>
+            </div>
+            <div className="min-w-0 flex-1">
+              <span className="inline-block w-fit -rotate-1 bg-[#8A2E2E] px-2.5 py-1 text-[10px] font-black uppercase tracking-[.16em] text-white">Breaking &middot; Paradox Travel Network</span>
+              <h2 className="mt-3 font-display text-2xl font-semibold leading-tight text-[#1b1a17] sm:text-3xl">We&rsquo;re officially open.</h2>
+              <p className="mt-3 text-sm leading-relaxed text-[#3d3a30]">
+                Paradox Travel Network is a Dallas&ndash;Fort Worth-based agency serving travelers nationwide, launched to run two ways: advisor-assisted planning when a trip needs real comparison and judgment, or trusted self-booking when it doesn&rsquo;t. Backed by WorldVia Travel Network, a Travel Leaders Network associate.
+              </p>
+              <Link to="/about" className="mt-3 inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-[.14em] text-[#0b5e67] underline underline-offset-4">
+                Meet Brian &amp; the agency <ArrowRight size={13} />
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* deep-dive spotlight body */}
         {spot && (
           <div className="px-5 py-12 sm:px-8 sm:py-16">
