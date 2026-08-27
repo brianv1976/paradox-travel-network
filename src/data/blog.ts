@@ -98,7 +98,39 @@ export const categories: Category[] = [
   "General",
 ];
 
-export const posts: Post[] = [
+export const posts: Post[] = [\n  {
+    slug: "jamaica-beyond-the-resort-gates",
+    contentType: "Destination Spotlight",
+    title: "Jamaica Beyond the Resort Gates",
+    summary:
+      "Montego Bay makes arrival easy, but Jamaica rewards travelers who look past the resort wristband: Negril sunsets, Ocho Rios waterfalls, Kingston culture, Portland scenery, and a South Coast that moves at its own pace.",
+    content: [
+      "Jamaica is easy to shorthand as an all-inclusive beach trip. That version is real, and for plenty of travelers it is exactly the right trip. But the island gets much more interesting once you stop treating Montego Bay as the whole destination.",
+      "Montego Bay is the practical gateway and an easy place to start. It gives you beaches, nightlife, golf, historic sites, and the kind of resort infrastructure that makes a short Caribbean escape simple. For first-time visitors who want a balance of convenience and things to do, it earns its place on the shortlist.",
+      "Negril is the exhale. The west coast is about Seven Mile Beach, cliffs, seafood, sunsets, and a looser pace. It works especially well for travelers who care more about beach time and atmosphere than a packed sightseeing schedule.",
+      "Ocho Rios is where the island turns more active. Waterfalls, rivers, gardens, and adventure excursions make it a strong base for travelers who want the beach but know they will get restless by day three.",
+      "Kingston is the cultural counterweight to the resort coast. Music, food, art, history, and a working capital-city rhythm make it the place to understand more of Jamaica than what can be seen from a beachfront lounger.",
+      "Port Antonio and the eastern side feel greener, quieter, and more cinematic. The South Coast rewards the same kind of traveler: someone willing to trade the easiest logistics for scenery, small-scale stays, and a slower trip.",
+      "The best Jamaica itinerary is usually not the one that tries to collect every region. Pick the version of the island that matches the trip: one resort base for pure downtime, two regions for a beach-plus-explore week, or a longer split stay if culture and landscape matter as much as the sand.",
+      "For North Texas travelers, the island remains practical enough to compare seriously against Mexico and other Caribbean beach destinations. The bigger planning question is not simply 'Jamaica or not?' It is which Jamaica you actually want.",
+    ],
+    seoDescription:
+      "A deep Jamaica destination guide from Paradox Travel Network covering Montego Bay, Negril, Ocho Rios, Kingston, Port Antonio, South Coast, trip length, and how to choose the right Jamaica itinerary.",
+    image: "/assets/beach.jpg",
+    cardImage: "/assets/stock/tropical-beach-aerial.jpg",
+    author: "Brian Voyles",
+    date: "2026-08-27",
+    readingTime: 8,
+    featured: true,
+    ctaLabel: "Plan Jamaica With Brian",
+    ctaTo: "/plan-my-trip",
+    sources: [
+      { label: "Visit Jamaica — Montego Bay", href: "https://www.visitjamaica.com/resort-areas/montego-bay/" },
+      { label: "Visit Jamaica — Negril", href: "https://www.visitjamaica.com/resort-areas/negril/" },
+      { label: "Jamaica Tourist Board — Unrestricted Use Image Library", href: "https://www.jtbonline.org/download-category/unrestricted-use-images/" },
+    ],
+  },
+
   {
     slug: "jamaica-keeps-getting-easier-from-dfw",
     contentType: "Travel News",
