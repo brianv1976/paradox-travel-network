@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Mail, MapPin, Newspaper } from "lucide-react";
+import { ArrowRight, Mail, Newspaper } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { postcardsHubPosts, getCardImage, type Post } from "../data/blog";
 import NewsletterForm from "../components/NewsletterForm";
@@ -50,7 +50,6 @@ export default function Blog() {
 
   const news = postcardsHubPosts.find((p) => p.contentType === "Travel News");
   const tip = postcardsHubPosts.find((p) => p.contentType === "Travel Tip");
-  const spotlight = postcardsHubPosts.find((p) => p.contentType === "Destination Spotlight");
 
   return (
     <div className="overflow-hidden bg-[#efe5d1] text-[#1f211f]">
