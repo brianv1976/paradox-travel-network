@@ -26,34 +26,16 @@ function Postmark({ className = "", city = "DFW", date = "SEP 2026", label = "PA
   );
 }
 
+/** Real illustrated compass rose (transparent PNG), replacing the earlier
+ * hand-coded SVG approximation — see Postcards-Production-Workflow doc. */
 function CompassRose({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 160 160" aria-hidden="true" className={className}>
-      <circle cx="80" cy="80" r="68" fill="none" stroke="currentColor" strokeWidth="1.2" />
-      <circle cx="80" cy="80" r="50" fill="none" stroke="currentColor" strokeWidth="0.8" strokeDasharray="2 4" />
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-        <line key={deg} x1="80" y1="80" x2="80" y2="16" stroke="currentColor" strokeWidth="1" transform={`rotate(${deg} 80 80)`} opacity={deg % 90 === 0 ? 0.9 : 0.3} />
-      ))}
-      <polygon points="80,20 89,80 80,140 71,80" fill="currentColor" opacity="0.85" />
-      <polygon points="20,80 80,89 140,80 80,71" fill="currentColor" opacity="0.45" />
-      <text x="80" y="14" textAnchor="middle" className="fill-current text-[10px] font-black">N</text>
-      <text x="80" y="150" textAnchor="middle" className="fill-current text-[10px] font-black">S</text>
-      <text x="8" y="84" textAnchor="middle" className="fill-current text-[10px] font-black">W</text>
-      <text x="152" y="84" textAnchor="middle" className="fill-current text-[10px] font-black">E</text>
-    </svg>
-  );
+  return <img src="/assets/postcards/ephemera/compass-rose.png" alt="" aria-hidden="true" className={className} />;
 }
 
-/** The wavy cancellation lines a real postmark stamps across a stamp/date —
- * used loose and oversized, bleeding behind type, as pure ephemera texture. */
+/** Real illustrated postal cancellation-line texture (transparent PNG),
+ * replacing the earlier hand-coded SVG approximation. */
 function CancellationLines({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 400 120" aria-hidden="true" className={className}>
-      {[10, 32, 54, 76, 98].map((y, i) => (
-        <path key={y} d={`M0 ${y} C 60 ${y - 14}, 100 ${y + 14}, 160 ${y - 8} S 260 ${y - 20}, 320 ${y}, S 400 ${y + 10}, 400 ${y}`} fill="none" stroke="currentColor" strokeWidth={i === 2 ? 2.2 : 1.4} />
-      ))}
-    </svg>
-  );
+  return <img src="/assets/postcards/ephemera/cancellation-lines.png" alt="" aria-hidden="true" className={className} />;
 }
 
 function TicketStub({ className = "", rotate = "-2deg", children }: { className?: string; rotate?: string; children: React.ReactNode }) {
@@ -123,6 +105,8 @@ function ChangeCard({
   meaning,
   source,
   image,
+  imageMobile,
+  imageDesktop,
   badge,
   link,
   rotate,
@@ -135,17 +119,26 @@ function ChangeCard({
   body: string;
   meaning: string;
   source: string;
-  image: string;
+  image?: string;
+  imageMobile?: string;
+  imageDesktop?: string;
   badge: string;
   link?: string;
   rotate: string;
   className?: string;
 }) {
   return (
-    <div className={`relative overflow-visible bg-[#fdf6e3] shadow-[0_26px_58px_rgba(20,15,5,.3)] ${className}`} style={{ transform: `rotate(${rotate})` }}>
+    <div className={`relative overflow-visible shadow-[0_26px_58px_rgba(20,15,5,.3)] ${className}`} style={{ transform: `rotate(${rotate})` }}>
       {/* front: full-bleed photo with an actual postage stamp box in the corner */}
       <div className="relative h-40 overflow-hidden sm:h-48" style={{ clipPath: "polygon(0 0,100% 0,100% 92%,0 100%)" }}>
-        <img src={image} alt={title} className="absolute inset-0 h-full w-full object-cover" />
+        {imageMobile && imageDesktop ? (
+          <>
+            <img src={imageMobile} alt={title} className="absolute inset-0 h-full w-full object-cover sm:hidden" />
+            <img src={imageDesktop} alt={title} className="absolute inset-0 hidden h-full w-full object-cover sm:block" />
+          </>
+        ) : (
+          <img src={image} alt={title} className="absolute inset-0 h-full w-full object-cover" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
         <div className="absolute right-3 top-3 flex h-16 w-14 flex-col items-center justify-center border-2 border-dashed border-white/80 bg-black/10 backdrop-blur-[1px]">
           <p className="text-center text-[7px] font-black uppercase leading-tight tracking-[.1em] text-white">{badge}</p>
@@ -153,8 +146,11 @@ function ChangeCard({
         <Postmark className="pointer-events-none absolute -right-2 top-8 h-16 w-16 rotate-[16deg] text-white/75" city="" date="" label="" />
       </div>
 
-      {/* back: postcard split layout with a cursive divider */}
-      <div className="relative grid gap-4 p-6 sm:grid-cols-[1fr_auto_.55fr] sm:p-7">
+      {/* back: real postcard-back artwork (torn deckle edge, postmark, compass) instead of a flat rectangle */}
+      <div
+        className="relative grid min-h-[280px] gap-4 bg-top bg-no-repeat px-6 py-8 sm:grid-cols-[1fr_auto_.55fr] sm:px-8 sm:py-9"
+        style={{ backgroundImage: "url(/assets/postcards/ephemera/what-changed-container.png)", backgroundSize: "100% auto" }}
+      >
         <div className="min-w-0">
           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-black uppercase tracking-[.14em] text-white ${tagColor}`}>
             {icon}
@@ -262,7 +258,7 @@ export default function PostcardsIssue01() {
         </div>
 
         <DeckleStamp
-          src="/assets/stock/local-guide.jpg"
+          src="/assets/jamaica/seven-mile-beach-negril.jpg"
           alt="Jamaica detail"
           label="Montego Bay"
           rotate="7deg"
@@ -275,8 +271,10 @@ export default function PostcardsIssue01() {
         {/* ===== LAUNCH INTRO — its own short postcard, not a full spotlight ===== */}
         <div className="relative px-5 py-14 sm:px-8">
           <CancellationLines className="pointer-events-none absolute -right-4 top-2 h-16 w-56 text-[#1b1a17]/8" />
-          <div className="relative mx-auto flex max-w-3xl flex-col gap-6 rotate-[-.5deg] bg-[#fdf6e3] p-6 shadow-[0_24px_54px_rgba(20,15,5,.26)] sm:flex-row sm:items-center sm:p-9">
-            <Postmark className="pointer-events-none absolute -right-7 -top-8 h-24 w-24 rotate-[10deg] text-[#8a5a0d]/55" label="PARADOX TRAVEL" city="OPEN" date="SEP 2026" />
+          <div
+            className="relative mx-auto flex max-w-3xl flex-col gap-6 rotate-[-.5deg] bg-contain bg-center bg-no-repeat px-6 py-10 drop-shadow-[0_20px_40px_rgba(20,15,5,.3)] sm:flex-row sm:items-center sm:px-14 sm:py-14"
+            style={{ backgroundImage: "url(/assets/postcards/ephemera/launch-intro-postcard-container.png)", aspectRatio: "1400/670" }}
+          >
             <div className="relative mx-auto w-full max-w-[150px] shrink-0 rotate-[-3deg] sm:mx-0">
               <div className="absolute -top-2.5 left-1/2 h-5 w-16 -translate-x-1/2 rotate-[-2deg] bg-[#e8dcae]/75 shadow-sm" />
               <div className="bg-white p-[5px] shadow-[0_14px_30px_rgba(20,15,5,.3)]">
@@ -324,18 +322,18 @@ export default function PostcardsIssue01() {
 
             <div className="relative mt-14 flex flex-wrap gap-4">
               {[
-                { label: "Montego Bay", text: spot.content[1], tag: "The gateway", src: "/assets/stock/local-guide.jpg", rotate: "-2deg" },
+                { label: "Montego Bay", text: spot.content[1], tag: "The gateway", src: "/assets/resort.jpg", rotate: "-2deg" },
                 { label: "Negril", text: spot.content[2], tag: "The exhale", src: "/assets/jamaica/seven-mile-beach-negril.jpg", rotate: "1.5deg" },
                 { label: "Ocho Rios", text: spot.content[3], tag: "The active base", src: "/assets/jamaica/dunns-river-falls.jpg", rotate: "-1deg" },
-                { label: "Kingston", text: spot.content[4], tag: "The culture", src: "/assets/stock/desert-safari.jpg", rotate: "2deg" },
+                { label: "Kingston", text: spot.content[4], tag: "The culture", src: "/assets/jamaica/reach-falls.jpg", rotate: "2deg" },
                 { label: "Port Antonio", text: spot.content[5], tag: "The quiet side", src: "/assets/jamaica/blue-lagoon-portland.jpg", rotate: "-1.5deg" },
               ].map((region, i) => (
                 <div
                   key={region.label}
-                  className="w-[150px] shrink-0 bg-[#fdf6e3] p-3 shadow-[0_16px_36px_rgba(20,15,5,.24)] sm:w-[170px]"
+                  className="w-[150px] shrink-0 sm:w-[170px]"
                   style={{ transform: `rotate(${region.rotate}) translateY(${i % 2 === 0 ? "0px" : "14px"})` }}
                 >
-                  <div className="relative aspect-square overflow-hidden" style={{ clipPath: DECKLE }}>
+                  <div className="relative aspect-square overflow-hidden shadow-[0_16px_36px_rgba(20,15,5,.28)]" style={{ clipPath: DECKLE }}>
                     <img src={region.src} alt={region.label} className="h-full w-full object-cover" />
                   </div>
                   <p className="mt-2 text-[8px] font-black uppercase tracking-[.14em] text-[#8a5a0d]">{region.tag}</p>
@@ -356,8 +354,8 @@ export default function PostcardsIssue01() {
                   { title: "River Rafting, Martha Brae", desc: "A slow bamboo-raft float down the river — the classic pace-changer excursion out of the north coast.", src: "/assets/jamaica/martha-brae-river.jpg", rotate: "-2deg" },
                   { title: "Blue Lagoon, Port Antonio", desc: "The quiet-side payoff: a deep mineral-spring lagoon well outside the resort-coast crowds.", src: "/assets/jamaica/blue-lagoon-portland.jpg", rotate: "1.5deg" },
                 ].map((item) => (
-                  <div key={item.title} className="bg-[#fdf6e3] p-3 shadow-[0_16px_36px_rgba(20,15,5,.22)]" style={{ transform: `rotate(${item.rotate})` }}>
-                    <div className="relative aspect-[5/4] overflow-hidden" style={{ clipPath: DECKLE }}>
+                  <div key={item.title} style={{ transform: `rotate(${item.rotate})` }}>
+                    <div className="relative aspect-[5/4] overflow-hidden shadow-[0_16px_36px_rgba(20,15,5,.26)]" style={{ clipPath: DECKLE }}>
                       <img src={item.src} alt={item.title} className="h-full w-full object-cover" />
                     </div>
                     <h4 className="mt-2 font-display text-base font-semibold leading-tight text-[#1b1a17]">{item.title}</h4>
@@ -391,7 +389,7 @@ export default function PostcardsIssue01() {
               body={news ? news.summary : "American is currently selling Dallas Fort Worth to Montego Bay itineraries for fall 2026 while Jamaica's main tourism gateway continues adding international connectivity."}
               meaning="Jamaica doesn't need a hidden-gem makeover to be worth it — from DFW, it's already an easy comparison against other Caribbean beach trips."
               source={news?.sources?.[0]?.label ?? "American Airlines"}
-              image="/assets/stock/local-guide.jpg"
+              image="/assets/jamaica/dunns-river-falls.jpg"
               badge="Montego Bay"
               link={news ? `/travel-tips/${news.slug}` : "/plan-my-trip"}
             />
@@ -405,7 +403,8 @@ export default function PostcardsIssue01() {
               body="Effective for tickets purchased May 18, 2026 or later, the first checked bag is $55 at the airport ($50 prepaid) and the second is $65 ($60 prepaid), on many U.S., Canada, Mexico, Caribbean, and Central America routes."
               meaning="This applies to Basic Economy travelers everywhere, not just DFW departures."
               source="American Airlines, investor relations release"
-              image="/assets/stock/airport-connection.jpg"
+              imageMobile="/assets/postcards/ephemera/nationwide-airport-domestic-mobile.jpg"
+              imageDesktop="/assets/postcards/ephemera/nationwide-airport-domestic-desktop.jpg"
               badge="Nationwide"
             />
           </div>
@@ -432,8 +431,8 @@ export default function PostcardsIssue01() {
         <div className="relative px-5 py-16 sm:px-8">
           <CancellationLines className="pointer-events-none absolute right-4 top-6 h-16 w-56 text-[#1b1a17]/10" />
           <div
-            className="relative mx-auto max-w-3xl rotate-[-1.6deg] bg-[#fdf6e3] p-3 shadow-[0_30px_66px_rgba(20,15,5,.32)]"
-            style={{ border: "3px dashed rgba(27,26,23,.35)" }}
+            className="relative mx-auto max-w-3xl rotate-[-1.6deg] bg-contain bg-center bg-no-repeat px-6 py-8 drop-shadow-[0_24px_50px_rgba(20,15,5,.34)] sm:px-9 sm:py-10"
+            style={{ backgroundImage: "url(/assets/postcards/ephemera/trip-promo-voucher-container.png)", aspectRatio: "1400/793" }}
           >
             <div className="relative overflow-hidden" style={{ clipPath: DECKLE }}>
               <img src="/assets/resort.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
@@ -443,8 +442,8 @@ export default function PostcardsIssue01() {
                   <span className="w-fit -rotate-2 bg-[#8a5a0d] px-2.5 py-1 text-[10px] font-black uppercase tracking-[.16em] text-[#fdf6e3]">Trip Promo &middot; Clip &amp; Book</span>
                   <div className="flex flex-col items-center gap-1 border-2 border-dashed border-white/85 bg-white p-1.5">
                     <img
-                      src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&margin=0&color=27-26-23&data=https%3A%2F%2Fparadoxtravelnetwork.com%2Fplan-my-trip"
-                      alt="QR code to Paradox Travel Network's Plan My Trip page"
+                      src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&margin=0&color=27-26-23&data=https%3A%2F%2Fparadoxtravelnetwork.com%2Fdeals%2Fsandals-jamaica-instant-credit"
+                      alt="QR code to the Sandals Jamaica offer details page"
                       width={70}
                       height={70}
                     />
@@ -452,15 +451,15 @@ export default function PostcardsIssue01() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[.18em] text-[#f2d18c]">Sandals &middot; Jamaica &middot; current promotion</p>
+                  <p className="text-[10px] font-black uppercase tracking-[.18em] text-[#f2d18c]">Sandals &middot; The Great Jamaica Comeback Sale</p>
                   <h3 className="mt-1 font-display text-2xl font-semibold leading-tight text-white sm:text-3xl">Up to $1,500 instant credit + up to $350 air credit.</h3>
                 </div>
               </div>
             </div>
             <div className="px-4 py-6 sm:px-7">
-              <p className="text-sm leading-relaxed text-[#3d3a30]">A real Sandals promotional offer for the Jamaica campaign. Final qualification, applicable stay, and availability are confirmed at booking.</p>
+              <p className="text-sm leading-relaxed text-[#3d3a30]">Top tier shown is Sandals Ochi Rios, 10+ nights. Other Jamaica resorts and shorter stays qualify too, at lower tiers &mdash; final resort, stay length, and availability are confirmed at booking.</p>
               <Link to="/plan-my-trip" className="mt-4 inline-flex w-fit items-center gap-2 bg-[#173943] px-5 py-3 text-xs font-black uppercase tracking-[.16em] text-white">
-                Ask Brian about this offer <ArrowRight size={14} />
+                Plan With Brian <ArrowRight size={14} />
               </Link>
             </div>
           </div>
@@ -482,14 +481,16 @@ export default function PostcardsIssue01() {
                 Useful advice. Minimal inspirational fog.
               </h2>
 
-              <div className="relative mt-10 flex flex-col gap-8 rotate-[.7deg] bg-[#fdf6e3] p-6 shadow-[0_22px_50px_rgba(20,15,5,.24)] sm:flex-row sm:items-center sm:p-9">
-                <Postmark className="pointer-events-none absolute -right-6 -top-7 h-20 w-20 rotate-[-8deg] text-[#0b5e67]/50" label="FILED FROM" city="DFW" date="PTN TIP" />
-                <div className="relative mx-auto w-full max-w-[170px] shrink-0 rotate-[-3deg] sm:mx-0">
-                  <div className="absolute -top-2.5 left-1/2 h-5 w-16 -translate-x-1/2 rotate-[-2deg] bg-[#e8dcae]/75 shadow-sm" />
-                  <div className="bg-white p-[5px] shadow-[0_14px_30px_rgba(20,15,5,.32)]">
-                    <img src={tip.image} alt={`${business.owner} — ${tip.title}`} className="w-full object-cover" />
+              <div
+                className="relative mt-10 flex flex-col gap-8 rotate-[.7deg] bg-contain bg-center bg-no-repeat px-6 py-9 drop-shadow-[0_18px_40px_rgba(20,15,5,.28)] sm:flex-row sm:items-center sm:px-9 sm:py-11"
+                style={{ backgroundImage: "url(/assets/postcards/ephemera/tip-card-container.png)", aspectRatio: "1400/709" }}
+              >
+                <div className="relative mx-auto aspect-[1086/1448] w-full max-w-[170px] shrink-0 rotate-[-3deg] sm:mx-0">
+                  <div className="absolute inset-[13%_13%_18%_13%] overflow-hidden">
+                    <img src={tip.image} alt={`${business.owner} — ${tip.title}`} className="h-full w-full object-cover" />
                   </div>
-                  <p className="mt-1.5 text-center text-[9px] font-black uppercase tracking-[.14em] text-[#8a5a0d]">Filed by Brian &middot; PTN</p>
+                  <img src="/assets/postcards/ephemera/tip-photo-frame.png" alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full" />
+                  <p className="absolute -bottom-5 left-0 right-0 text-center text-[9px] font-black uppercase tracking-[.14em] text-[#8a5a0d]">Filed by Brian &middot; PTN</p>
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-[10px] font-black uppercase tracking-[.18em] text-[#7a6f56]">Travel Tip &middot; No manufactured urgency</p>
@@ -505,10 +506,21 @@ export default function PostcardsIssue01() {
         )}
       </div>
 
-      {/* ===== FOOTER banner (full-bleed) ===== */}
-      <div className="relative w-full overflow-hidden bg-[radial-gradient(120%_100%_at_100%_0%,#2AA7BC_0%,#066373_45%,#0a1519_100%)] px-5 py-14 text-white sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-[1080px]">
-          <CompassRose className="pointer-events-none absolute -right-8 top-1/2 h-52 w-52 -translate-y-1/2 text-white/10" />
+      {/* ===== FOOTER banner (full-bleed, real torn-postcard art overlay instead of CSS approximation) ===== */}
+      <div className="relative w-full overflow-hidden bg-[radial-gradient(120%_100%_at_100%_0%,#2AA7BC_0%,#066373_45%,#0a1519_100%)] px-5 pb-14 pt-20 text-white sm:px-8 sm:pb-20 sm:pt-24">
+        <img
+          src="/assets/postcards/ephemera/footer-nudge-banner-mobile.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-top sm:hidden"
+        />
+        <img
+          src="/assets/postcards/ephemera/footer-nudge-banner-desktop.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 hidden h-full w-full object-cover object-top sm:block"
+        />
+        <div className="relative mx-auto max-w-[1080px]">
           <p className="inline-block -rotate-1 text-[10px] font-black uppercase tracking-[.24em] text-[#f2d18c]">The Nudge</p>
           <h2 className="mt-3 max-w-xl rotate-[-.4deg] font-display text-3xl font-semibold leading-[1.02] sm:text-4xl">Your trip. Your way.</h2>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-white/75">Plan it together or book it yourself. Real advice, real options, zero manufactured urgency.</p>
@@ -516,6 +528,7 @@ export default function PostcardsIssue01() {
             <Link to="/plan-my-trip" className="inline-flex items-center gap-2 bg-[#0b5e67] px-5 py-3 text-xs font-black uppercase tracking-[.14em] text-white">Plan With Brian <ArrowRight size={14} /></Link>
             <Link to="/book-it-yourself" className="inline-flex items-center gap-2 bg-[#fdf6e3] px-5 py-3 text-xs font-black uppercase tracking-[.14em] text-[#173943]">Book It Yourself <ArrowRight size={14} /></Link>
           </div>
+          <p className="mt-4 max-w-md text-[11px] leading-snug text-white/55">Book It Yourself covers select trip types through Paradox's approved partners &mdash; not every trip can be self-booked. Not sure which is which? Plan With Brian instead.</p>
         </div>
       </div>
 
