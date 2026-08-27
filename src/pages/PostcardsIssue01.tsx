@@ -228,7 +228,7 @@ export default function PostcardsIssue01() {
           </div>
 
           <div className="relative mt-10 max-w-2xl">
-            <h1 className="rotate-[-1.5deg] font-display text-[3.6rem] font-black uppercase leading-[.82] tracking-tight text-white drop-shadow-[0_6px_18px_rgba(0,0,0,.5)] sm:text-[5.5rem] md:text-[6.5rem]">
+            <h1 className="font-display text-[clamp(2.3rem,9vw,3.4rem)] font-black uppercase leading-[.82] tracking-tight text-white drop-shadow-[0_6px_18px_rgba(0,0,0,.5)] sm:rotate-[-1.5deg] sm:text-[5.5rem] md:text-[6.5rem]">
               Postcards
             </h1>
             <p className="relative z-10 -mt-2 ml-2 rotate-[2deg] text-4xl font-semibold text-[#f2d18c] sm:text-5xl" style={{ fontFamily: "'Caveat', cursive" }}>
