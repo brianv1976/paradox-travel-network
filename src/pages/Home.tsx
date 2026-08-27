@@ -33,7 +33,7 @@ import TiltCard from "../components/TiltCard";
 import Magnetic from "../components/Magnetic";
 import AnimatedHeadline from "../components/AnimatedHeadline";
 import Marquee from "../components/Marquee";
-import TripCarousel from "../components/TripCarousel";
+import TripGrid from "../components/TripGrid";
 import { tripSpecials } from "../data/exoticcaTrips";
 import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
@@ -238,8 +238,11 @@ export default function Home() {
 
       <Marquee />
 
-      {/* TRIP SPECIALS — real Exoticca itineraries, self-book path made
-          concrete instead of abstract. Advisor-token links credit Brian. */}
+      {/* TRIP SPECIALS — real partner itineraries, self-book path made
+          concrete instead of abstract. Advisor-token links credit Brian.
+          Split into one section per category (Cruises, Trips, ...) rather
+          than one mixed list -- each is small enough that a plain grid
+          shows everything at once instead of implying more to scroll to. */}
       <section className="container-px py-16 md:py-20">
         <SectionHeading eyebrow="Book It Yourself — or Have Brian Book It" title="Current Specials" />
         <p className="mt-3 max-w-xl text-fog">
@@ -249,8 +252,15 @@ export default function Home() {
           </Link>
           .
         </p>
-        <div className="mt-10">
-          <TripCarousel trips={tripSpecials} />
+
+        <h3 className="mt-12 font-display text-xl font-semibold text-ink">Cruises</h3>
+        <div className="mt-6">
+          <TripGrid trips={tripSpecials.filter((t) => t.category === "cruise")} />
+        </div>
+
+        <h3 className="mt-14 font-display text-xl font-semibold text-ink">Trips</h3>
+        <div className="mt-6">
+          <TripGrid trips={tripSpecials.filter((t) => t.category === "trip")} />
         </div>
       </section>
 

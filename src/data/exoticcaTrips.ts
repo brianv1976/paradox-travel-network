@@ -1,4 +1,4 @@
-/** Hand-picked real trip specials from booking partners, refreshed
+/** Hand-picked real trip/cruise specials from booking partners, refreshed
  *  periodically (not a live price feed). Not every vendor's trips are
  *  self-bookable the same way -- `bookingType` says which path(s) actually
  *  work for a given trip, and the card UI reflects it:
@@ -7,11 +7,15 @@
  *    the booking is still credited to him). Brian can also help either way.
  *  - "brian": this vendor/trip isn't a self-checkout flow (e.g. an
  *    advisor-only supplier rate) -- the card sends the visitor to Plan My
- *    Trip instead of a dead or misleading "book it yourself" link. */
+ *    Trip instead of a dead or misleading "book it yourself" link.
+ *  `category` groups specials into their own homepage section (Trips,
+ *  Cruises, ...) instead of one mixed list. */
 export type TripBookingType = "self" | "brian";
+export type TripCategory = "trip" | "cruise";
 
 export interface TripSpecial {
   slug: string;
+  category: TripCategory;
   vendor: string;
   destination: string;
   title: string;
@@ -26,10 +30,12 @@ export interface TripSpecial {
 }
 
 const EXOTICCA_ADVISOR_TOKEN = "brian-voyles-019a21e0-2339-7046-a141-9ecdc021d5e3";
+const VV_PARAMS = "agencyId=589&agentId=235470&bookingChannel=FMLINK&currencyCode=USD";
 
 export const tripSpecials: TripSpecial[] = [
   {
     slug: "punta-cana",
+    category: "trip",
     vendor: "Exoticca",
     destination: "Dominican Republic",
     title: "All-Incl. Paradise in Punta Cana",
@@ -42,6 +48,7 @@ export const tripSpecials: TripSpecial[] = [
   },
   {
     slug: "peru",
+    category: "trip",
     vendor: "Exoticca",
     destination: "Peru",
     title: "Sacred Land of the Incas",
@@ -54,6 +61,7 @@ export const tripSpecials: TripSpecial[] = [
   },
   {
     slug: "japan",
+    category: "trip",
     vendor: "Exoticca",
     destination: "Japan",
     title: "A Taste of Japan: Tokyo, Kyoto & Osaka",
@@ -63,5 +71,31 @@ export const tripSpecials: TripSpecial[] = [
     image: "/assets/exoticca-trips/japan-tokyo-kyoto-osaka.jpg",
     bookingType: "self",
     href: `https://www.exoticca.com/us/tours/asia/21202-a-taste-of-japan-tokyo-kyoto-osaka?advisor_token=${EXOTICCA_ADVISOR_TOKEN}`,
+  },
+  {
+    slug: "dr-bimini",
+    category: "cruise",
+    vendor: "Virgin Voyages",
+    destination: "Dominican Republic & Bimini",
+    title: "Dominican Republic & Bimini Beach Club",
+    duration: "5 nights",
+    fromPrice: 595,
+    discountPercent: 26,
+    image: "/assets/virgin-voyages/beach-club-pool.jpg",
+    bookingType: "self",
+    href: `https://www.virginvoyages.com/book/voyage-planner/fullCruiseDetails?${VV_PARAMS}&packageCode=5NPP`,
+  },
+  {
+    slug: "alaska",
+    category: "cruise",
+    vendor: "Virgin Voyages",
+    destination: "Seattle to Vancouver",
+    title: "Alaska: Seattle to Vancouver",
+    duration: "8 nights",
+    fromPrice: 2865,
+    discountPercent: 33,
+    image: "/assets/virgin-voyages/ship-exterior-1.jpg",
+    bookingType: "self",
+    href: `https://www.virginvoyages.com/book/voyage-planner/fullCruiseDetails?${VV_PARAMS}&packageCode=8NSABC`,
   },
 ];
