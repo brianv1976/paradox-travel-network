@@ -325,7 +325,7 @@ export default function PostcardsIssue01() {
                 { label: "Montego Bay", text: spot.content[1], tag: "The gateway", src: "/assets/resort.jpg", rotate: "-2deg" },
                 { label: "Negril", text: spot.content[2], tag: "The exhale", src: "/assets/jamaica/seven-mile-beach-negril.jpg", rotate: "1.5deg" },
                 { label: "Ocho Rios", text: spot.content[3], tag: "The active base", src: "/assets/jamaica/dunns-river-falls.jpg", rotate: "-1deg" },
-                { label: "Kingston", text: spot.content[4], tag: "The culture", src: "/assets/jamaica/reach-falls.jpg", rotate: "2deg" },
+                { label: "Kingston", text: spot.content[4], tag: "The culture", src: "/assets/postcards/ephemera/kingston-culture.jpg", rotate: "2deg" },
                 { label: "Port Antonio", text: spot.content[5], tag: "The quiet side", src: "/assets/jamaica/blue-lagoon-portland.jpg", rotate: "-1.5deg" },
               ].map((region, i) => (
                 <div
