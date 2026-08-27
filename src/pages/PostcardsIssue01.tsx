@@ -147,7 +147,7 @@ export default function PostcardsIssue01() {
               </div>
             </div>
             <div className="relative min-h-[250px] overflow-hidden md:col-span-5">
-              <img src="/assets/stock/adventure.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
+              <img src="/assets/adventure.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 text-white">
                 <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#f2d18c]">Ocho Rios</p>
@@ -181,7 +181,7 @@ export default function PostcardsIssue01() {
       <section className="w-full bg-[#efe5d1] py-20 md:py-28">
         <div className="mx-auto grid max-w-[1500px] gap-12 px-5 sm:px-8 md:px-12 lg:grid-cols-[.9fr_1.1fr] lg:px-16">
           <div className="relative overflow-hidden">
-            <img src="/assets/stock/resort.jpg" alt="" className="h-full min-h-[520px] w-full object-cover" />
+            <img src="/assets/resort.jpg" alt="" className="h-full min-h-[520px] w-full object-cover" />
             <div className="absolute left-5 top-5 rotate-[-5deg] bg-[#fff8e9] px-4 py-3 text-[9px] font-black uppercase tracking-[.2em] text-[#0b5e67] shadow-lg">Worth leaving the resort for</div>
           </div>
           <div className="self-center">
@@ -262,7 +262,7 @@ export default function PostcardsIssue01() {
         <div className="mx-auto max-w-[1500px] px-5 sm:px-8 md:px-12 lg:px-16">
           <div className="grid overflow-hidden bg-[#fff8e9] text-[#1f211f] shadow-[0_30px_80px_rgba(0,0,0,.25)] lg:grid-cols-[.9fr_1.1fr]">
             <div className="relative min-h-[420px] overflow-hidden">
-              <img src="/assets/stock/resort.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
+              <img src="/assets/resort.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
               <div className="absolute left-5 top-5 bg-[#d28b44] px-4 py-2 text-[10px] font-black uppercase tracking-[.22em] text-[#201b15]">Trip Promo</div>
               <div className="absolute bottom-6 left-6 right-6 text-white">
