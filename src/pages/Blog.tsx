@@ -67,22 +67,34 @@ export default function Blog() {
               <StampPhoto src="/assets/stock/tropical-beach-aerial.jpg" label="PTN" />
             </div>
           </div>
-
-          <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-y border-[#0c2940]/50 py-4">
-            <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[.2em]">
-              <Plane size={17} className="rotate-12" />
-              <span>Issue #1</span>
-              <span className="text-[#9b7a3d]">September 2026</span>
-            </div>
-            <Link
-              to="/postcards/issue-01"
-              className="flex w-full items-center justify-center gap-2 bg-[#0c2940] px-6 py-3 text-[12px] font-black uppercase tracking-[.18em] text-[#f8f1e4] transition-colors duration-300 hover:bg-[#0d5f67] sm:w-auto"
-            >
-              Open full issue <ArrowRight size={13} />
-            </Link>
-          </div>
         </div>
       </section>
+
+      {/* Issue banner — full-bleed strip so the current issue reads as a
+          real event, not a footnote under the hero. */}
+      <Link
+        to="/postcards/issue-01"
+        className="group relative block overflow-hidden bg-[#0c2940] px-5 py-7 text-[#f8f1e4] transition-colors duration-300 hover:bg-[#0d5f67] sm:px-8 md:px-12 lg:px-16"
+      >
+        <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:radial-gradient(circle_at_1px_1px,rgba(248,241,228,.6)_1px,transparent_0)] [background-size:5px_5px]" />
+        <div className="relative mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <Plane size={22} className="hidden rotate-12 text-[#f2d18c] sm:block" />
+            <div>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-black uppercase tracking-[.2em]">
+                <span>Issue #1</span>
+                <span className="text-[#f2d18c]">September 2026</span>
+                <span className="text-[#f8f1e4]/50">&middot;</span>
+                <span className="text-[#f8f1e4]/80">Launch Edition, DFW &rarr; Jamaica</span>
+              </div>
+              <p className="mt-2 font-display text-2xl font-semibold leading-tight sm:text-3xl">Jamaica beyond the resort gate.</p>
+            </div>
+          </div>
+          <span className="flex w-full items-center justify-center gap-2 bg-[#f8f1e4] px-6 py-3 text-[12px] font-black uppercase tracking-[.18em] text-[#0c2940] transition-transform duration-300 group-hover:translate-x-1 sm:w-auto">
+            Open full issue <ArrowRight size={13} />
+          </span>
+        </div>
+      </Link>
 
       <section className="relative px-5 py-12 sm:px-8 md:px-12 lg:px-16">
         <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:radial-gradient(circle_at_1px_1px,rgba(44,35,24,.38)_1px,transparent_0)] [background-size:6px_6px]" />
