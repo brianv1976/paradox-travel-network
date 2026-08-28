@@ -165,7 +165,7 @@ export default function About() {
       {/* Why work with me — connects the personal story above to the
           professional case: what that obsession actually turned into. */}
       <section className="container-px py-20 md:py-28">
-        <SectionHeading eyebrow="Why work with me" title="I'm not a coupon code." />
+        <SectionHeading eyebrow="Why work with me" title="Better value, not just a lower number." />
         <Reveal delay={0.1} className="mt-8 max-w-3xl space-y-5 text-lg leading-relaxed text-fog">
           <p>
             Planning travel well takes more than finding a hotel and clicking

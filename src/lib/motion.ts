@@ -67,4 +67,4 @@ export const stagger = (amount = 0.16, delay = 0): Variants => ({
 // fade-in played out and finished well before the content reached anywhere
 // close to the middle. 0.5 waits for half the section to be on screen,
 // which in practice lands much closer to mid-viewport before it starts.
-export const viewportOnce = { once: true, amount: 0.5 } as const;
+export const viewportOnce = { once: true, amount: 0.15 } as const;

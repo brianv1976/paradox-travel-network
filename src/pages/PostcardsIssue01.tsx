@@ -442,7 +442,7 @@ export default function PostcardsIssue01() {
                   <span className="w-fit -rotate-2 bg-[#8a5a0d] px-2.5 py-1 text-[10px] font-black uppercase tracking-[.16em] text-[#fdf6e3]">Trip Promo &middot; Clip &amp; Book</span>
                   <div className="flex flex-col items-center gap-1 border-2 border-dashed border-white/85 bg-white p-1.5">
                     <img
-                      src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&margin=0&color=27-26-23&data=https%3A%2F%2Fparadoxtravelnetwork.com%2Fdeals%2Fsandals-jamaica-instant-credit"
+                      src="/assets/postcards/ephemera/sandals-qr.png"
                       alt="QR code to the Sandals Jamaica offer details page"
                       width={70}
                       height={70}

@@ -74,7 +74,10 @@ export default function Blog() {
               <span>Issue #1</span>
               <span className="text-[#9b7a3d]">September 2026</span>
             </div>
-            <Link to="/postcards/issue-01" className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[.18em]">
+            <Link
+              to="/postcards/issue-01"
+              className="flex w-full items-center justify-center gap-2 bg-[#0c2940] px-6 py-3 text-[12px] font-black uppercase tracking-[.18em] text-[#f8f1e4] transition-colors duration-300 hover:bg-[#0d5f67] sm:w-auto"
+            >
               Open full issue <ArrowRight size={13} />
             </Link>
           </div>
@@ -128,7 +131,7 @@ export default function Blog() {
               {tip && (
                 <Link to={`/travel-tips/${tip.slug}`} className="group relative overflow-hidden border border-[#0c2940]/15 bg-[#e6d4ad] p-6 shadow-[0_16px_38px_rgba(49,40,28,.12)] transition duration-300 hover:-translate-y-1 md:p-8">
                   <div className="absolute -right-4 -top-4 h-24 w-24 rotate-12 rounded-full border-2 border-[#0c2940]/20" />
-                  <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#0d5f67]">2 Min Tip · Brian / PTN</p>
+                  <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#0d5f67]">Travel Tip · Brian / PTN</p>
                   <h3 className="mt-3 max-w-3xl font-display text-3xl font-semibold leading-[1.02] md:text-4xl">{tip.title}</h3>
                   <p className="mt-4 text-sm leading-relaxed text-[#57564f] md:text-base">{tip.summary}</p>
                   <div className="mt-6 flex items-end justify-between gap-6">
