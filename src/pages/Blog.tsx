@@ -55,7 +55,7 @@ export default function Blog() {
         <div className="relative mx-auto max-w-[1500px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[.34em] text-[#9a7b3f]">Curated travel intelligence for North Texas</p>
+              <p className="text-[11px] font-black uppercase tracking-[.34em] text-[#9a7b3f]">Curated travel intelligence, filed from DFW for travelers nationwide</p>
               <h1 className="mt-3 font-display text-6xl font-semibold leading-[.78] sm:text-7xl md:text-8xl lg:text-[8.5rem]">
                 POSTCARDS
               </h1>
