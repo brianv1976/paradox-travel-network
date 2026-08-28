@@ -112,3 +112,24 @@ export const tripSpecials: TripSpecial[] = [
     href: `https://www.virginvoyages.com/book/voyage-planner/fullCruiseDetails?${VV_PARAMS}&durations=6&packageCode=6NGT2`,
   },
 ];
+
+/** Sitewide, time-boxed vendor promotions -- not a specific trip, so no
+ *  photo/price card. Each one needs an explicit expiration date so it's
+ *  obvious when to pull it; check the vendor portal before that date to
+ *  confirm it's still live rather than trusting this file indefinitely. */
+export interface Promo {
+  slug: string;
+  vendor: string;
+  headline: string;
+  description: string;
+  /** ISO date -- the promo card is expected to be pulled/refreshed by then. */
+  expires: string;
+  href: string;
+}
+
+// Empty until Brian has a promo worth showing that isn't about to lapse --
+// both the Exoticca Summer Outlet and the Virgin balcony-upgrade offer
+// expired 2026-08-31, only 3 days out when first added, so they were pulled
+// before ever going live. Add entries here once there's a real one with
+// enough runway to be worth a visitor's click.
+export const promos: Promo[] = [];

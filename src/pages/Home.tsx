@@ -34,7 +34,8 @@ import Magnetic from "../components/Magnetic";
 import AnimatedHeadline from "../components/AnimatedHeadline";
 import Marquee from "../components/Marquee";
 import TripGrid from "../components/TripGrid";
-import { tripSpecials } from "../data/exoticcaTrips";
+import PromoBanner from "../components/PromoBanner";
+import { tripSpecials, promos } from "../data/exoticcaTrips";
 import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
@@ -238,6 +239,10 @@ export default function Home() {
 
       <Marquee />
 
+      {/* Destinations lead the homepage content — this is a travel site, so
+          inspiration should arrive before the current bookable offers. */}
+      <DestinationPlayer />
+
       {/* TRIP SPECIALS — real partner itineraries, self-book path made
           concrete instead of abstract. Advisor-token links credit Brian.
           Split into one section per category (Cruises, Trips, ...) rather
@@ -262,12 +267,16 @@ export default function Home() {
         <div className="mt-6">
           <TripGrid trips={tripSpecials.filter((t) => t.category === "trip")} />
         </div>
-      </section>
 
-      {/* Destinations sit high on the page — this is a travel site, the
-          places should arrive before the process does. One fixed stage that
-          cycles in place, rather than sections scrolling past. */}
-      <DestinationPlayer />
+        {promos.length > 0 && (
+          <>
+            <h3 className="mt-14 font-display text-xl font-semibold text-ink">Current Promos</h3>
+            <div className="mt-6">
+              <PromoBanner promos={promos} />
+            </div>
+          </>
+        )}
+      </section>
 
       {/* CHOOSE PATH — the full explanation of both paths. Absorbed what
           used to be two separate sections ("What Paradox Is" and "Why Work
@@ -490,24 +499,33 @@ export default function Home() {
           viewport={{ once: true, amount: 0.15 }}
           className="mt-12 grid gap-5 md:grid-cols-3"
         >
-          {featuredPosts.map((post) => (
-            <motion.article key={post.slug} variants={fadeUp}>
-              <Link to={`/travel-tips/${post.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={getPostImage(post)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean-dark">
-                    {post.contentType}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="font-display text-lg font-semibold leading-snug text-ink">{post.title}</h3>
-                  <span className="link-underline mt-auto pt-4 text-sm">
-                    Read tip <ArrowRight size={14} />
-                  </span>
-                </div>
-              </Link>
-            </motion.article>
-          ))}
+          {featuredPosts.map((post) => {
+            const readLabel =
+              post.contentType === "Destination Spotlight"
+                ? "Read spotlight"
+                : post.contentType === "Travel News"
+                  ? "Read news"
+                  : "Read tip";
+
+            return (
+              <motion.article key={post.slug} variants={fadeUp}>
+                <Link to={`/travel-tips/${post.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream transition-all duration-300 hover:shadow-soft">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img src={getPostImage(post)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-ocean-dark">
+                      {post.contentType}
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-5">
+                    <h3 className="font-display text-lg font-semibold leading-snug text-ink">{post.title}</h3>
+                    <span className="link-underline mt-auto pt-4 text-sm">
+                      {readLabel} <ArrowRight size={14} />
+                    </span>
+                  </div>
+                </Link>
+              </motion.article>
+            );
+          })}
         </motion.div>
       </section>
 
