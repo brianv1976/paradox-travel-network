@@ -22,8 +22,8 @@ function Postmark({ className = "" }: { className?: string }) {
       <circle cx="90" cy="90" r="67" fill="none" stroke="currentColor" strokeWidth="3" />
       <circle cx="90" cy="90" r="56" fill="none" stroke="currentColor" strokeWidth="1.4" strokeDasharray="4 5" />
       <text x="90" y="53" textAnchor="middle" className="fill-current text-[12px] font-bold tracking-[4px]">FILED FROM</text>
-      <text x="90" y="96" textAnchor="middle" className="fill-current text-[31px] font-black tracking-[4px]">DFW</text>
-      <text x="90" y="119" textAnchor="middle" className="fill-current text-[10px] font-bold tracking-[3px]">ISSUE 01</text>
+      <text x="90" y="96" textAnchor="middle" className="fill-current text-[31px] font-black tracking-[4px]">USA</text>
+      <text x="90" y="119" textAnchor="middle" className="fill-current text-[10px] font-bold tracking-[3px]">NATIONWIDE</text>
       <path d="M14 134 C58 113 121 113 166 134" fill="none" stroke="currentColor" strokeWidth="2" />
       <path d="M26 145 C70 125 121 125 154 145" fill="none" stroke="currentColor" strokeWidth="2" />
     </svg>
