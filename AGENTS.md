@@ -1,6 +1,6 @@
 # Paradox Travel Network — Agent Instructions
 
-**Updated:** 2026-08-29 1:34 PM CDT  
+**Updated:** 2026-08-29 6:18 PM CDT  
 **By:** ChatGPT — GPT-5.6 Sol  
 **Status:** CURRENT
 
@@ -38,6 +38,16 @@ Before substantial website work, use the connected Paradox SharePoint knowledge 
 Do **not** read all historical logs by default. Follow the routing rules in `PTN_AI_START_HERE.md`.
 
 For an active ChatGPT/Claude/Codex handoff, use the relevant file in `AI & Planning/Active Task States/` if one exists.
+
+## Write authorization
+
+Read-only inspection, auditing, research, and verification are allowed when the task calls for them.
+
+**Any write to the website, GitHub repository, or Netlify requires Brian's explicit permission for that specific action.** This includes source edits, file creation/deletion, commits to any branch, merges, configuration changes, redirects, environment/integration changes, and Netlify changes.
+
+A prior approval does not automatically carry forward to a later write. Permission to audit, inspect, research, or recommend changes is not permission to implement them. A commit using **`[skip netlify]` is still a GitHub write and still requires explicit authorization**.
+
+Production deployment is a separate action and requires fresh explicit approval even when the underlying code changes were already authorized.
 
 ## Build and validation
 
