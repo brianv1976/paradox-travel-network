@@ -97,7 +97,7 @@ export default function About() {
         <SectionHeading
           eyebrow="The approach"
           title="Helpful without making travel planning feel ceremonial."
-          intro="Brian helps clients sort through destinations, lodging, cruises, resorts, traveler needs, timing, budgets, and the small details that decide whether a trip feels smooth or exhausting."
+          intro="Brian helps clients sort through destinations, cruises, resorts, hotels, suppliers, itineraries, budgets, and the small decisions that determine whether a trip feels effortless or exhausting. The focus is simple: understand what the traveler actually wants, compare the options that genuinely fit, and explain the tradeoffs without turning vacation planning into a graduate seminar."
         />
         <motion.div
           variants={reduce ? undefined : stagger(0.12)}

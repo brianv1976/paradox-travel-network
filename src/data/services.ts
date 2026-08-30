@@ -52,17 +52,17 @@ export const services: ServicePage[] = [
   {
     slug: "cruises",
     navLabel: "Cruises",
-    metaTitle: "Cruise Travel Agent | Dallas–Fort Worth Advisor",
+    metaTitle: "Cruise Travel Advisor | DFW Cruise Planning",
     metaDescription:
-      "Work with a Dallas–Fort Worth-based cruise travel agent, serving travelers nationwide, to choose the right cruise line, ship, itinerary, and cabin for your next vacation.",
-    eyebrow: "Cruise travel",
-    h1: "The ship matters. So does everything around it.",
+      "Plan ocean cruises, river cruises, Alaska, Mediterranean sailings, and cruise-plus-land trips with a Dallas–Fort Worth travel advisor serving travelers nationwide.",
+    eyebrow: "Cruises worth choosing carefully",
+    h1: "The right cruise starts long before you pick a cabin.",
     intro:
-      "The right sailing is more than a price and a balcony photo. Route, ship style, ports, timing, cabin location, and the people traveling all change the experience.",
+      "Cruise lines can look surprisingly similar when you're staring at search results. They feel very different once you're onboard. The right choice depends on who is traveling, where you want to go, how you like to spend a day, what you expect to be included, and whether the ship is the vacation or simply the best way to reach the places you actually came to see. That's where good cruise planning starts.",
     image: assets.img.cruise,
     imageAlt: "Cruise ship sailing on open water",
     selfBookIntro:
-      "Looking to book it yourself? Here's where cruisers go to book the sailing itself, plus shore excursions:",
+      "Already know the sailing you want? You can book directly through selected Paradox partners or add shore excursions to a cruise you've booked elsewhere.",
     vendors: [
       {
         name: "Virgin Voyages",
@@ -78,40 +78,44 @@ export const services: ServicePage[] = [
       },
     ],
     selfBookNote:
-      "Want Brian's take before you book? Just ask — he's happy to weigh in beforehand.",
+      "Not sure which cruise actually fits? Ask Brian before you book. Comparing the options is kind of the point.",
     fitTriad: {
-      eyebrow: "A better fit",
-      heading: "Start with how the trip should feel.",
+      eyebrow: "Start with the travelers",
+      heading: "Don't choose a cruise line before choosing the kind of trip.",
       items: [
         {
           n: "01",
-          title: "Relaxed or active",
-          body: "Some ships are built around quiet sea days. Others behave like floating neighborhoods with a scheduling problem.",
+          title: "The onboard experience",
+          body: "Some travelers want great food, a comfortable ship, good entertainment, and enough nightlife to stay interesting without waking up inside a floating nightclub. Others want water slides, kids clubs, quiet libraries, lectures, all-inclusive luxury, or adults-only everything. Those are very different vacations wearing the same word: cruise.",
         },
         {
           n: "02",
-          title: "Ports or ship experience",
-          body: "The itinerary may be the point, or the ship may be the destination. Planning should know which one wins.",
+          title: "The destination",
+          body: "For the Caribbean, the ship may be a major part of the vacation. For Alaska, the route, glacier access, ports, and whether you add time on land can matter enormously. In Europe and the Mediterranean, the itinerary may matter far more than the pool deck.",
         },
         {
           n: "03",
-          title: "Couples, families, or friends",
-          body: "The best option changes dramatically depending on who is traveling and what everyone expects onboard.",
+          title: "The total trip",
+          body: "Flights, pre-cruise hotels, transfers, excursions, insurance, dining, drink packages, gratuities, land extensions, and cabin choices can change both the experience and the real trip cost. The cruise fare is only the beginning of the comparison.",
         },
       ],
     },
     checklist: {
       eyebrow: "Details worth handling early",
-      heading: "Avoid the expensive surprises.",
+      heading: "Small decisions get expensive once the ship sails.",
       items: [
-        "Cabin location and category",
-        "Arrival before embarkation day",
-        "Flights and transfer timing",
-        "Dining and drink-package value",
-        "Port plans and excursion pace",
-        "Documents and entry requirements",
+        "Cruise line and ship fit",
+        "Itinerary and port rhythm",
+        "Cabin category and location",
+        "Flights and pre-cruise arrival",
+        "Transfers and embarkation logistics",
+        "Dining, drinks, Wi-Fi, and gratuities",
+        "Shore excursions and port priorities",
+        "Travel insurance considerations",
+        "Passport and entry requirements",
+        "Pre- or post-cruise land stays",
       ],
-      note: "Cruise planning is mostly a collection of small decisions that become very noticeable once the ship leaves without caring about anyone’s feelings.",
+      note: "A cruise has an impressive number of ways to look simple right up until somebody realizes the airport is two hours from the port.",
     },
     pillars: {
       eyebrow: "Where Paradox is developing deeper focus",

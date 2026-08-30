@@ -49,7 +49,7 @@ const valueCase = [
       "Will I always beat every price you can find online?",
       "No.",
       "Anyone promising that probably also has a bridge to sell you.",
-      "But I do often find better pricing, better packages, or better overall value because I'm comparing multiple suppliers and promotions instead of relying on one website.",
+      "But I may find better pricing, better packages, or better overall value because I'm comparing multiple suppliers and promotions instead of relying on one website.",
       "And price is only part of the equation.",
       "A slightly cheaper room in the wrong location, a package missing transfers, a restrictive fare, or a resort that looks much better in photos than it does in reality can turn a “deal” into something else pretty quickly.",
       "My job is to look at the whole picture and help you make the smartest choice for your trip, not just chase the lowest number on a screen.",
@@ -101,7 +101,7 @@ export default function PlanMyTrip() {
     <>
       <PageHero
         eyebrow="Book it right the first time."
-        title="Let Me Be Your Personal Travel Assistant — Even on the Fly."
+        title="Tell me what kind of trip you want. I'll help make the pieces fit."
         imageAspect="aspect-[4/5]"
         // Below md this box had no height cap at all -- aspect-[4/5] at a
         // 320px-wide phone renders a 400px-tall portrait, pushing the
