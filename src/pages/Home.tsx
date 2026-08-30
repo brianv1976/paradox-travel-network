@@ -46,7 +46,13 @@ import NewsletterForm from "../components/NewsletterForm";
 const Globe = lazy(() => import("../components/Globe"));
 
 const exploreCards = [
-  { label: "Cruises", to: "/cruises", image: assets.img.cruise, icon: Ship },
+  {
+    label: "Cruises",
+    to: "/cruises",
+    image: assets.img.cruise,
+    icon: Ship,
+    caption: "Ocean, river, Alaska, Mediterranean — helping you compare and find what actually fits.",
+  },
   {
     label: "All-Inclusive",
     to: "/all-inclusive-resorts",
@@ -193,8 +199,9 @@ export default function Home() {
               className="max-w-xl text-lg leading-relaxed text-fog"
             >
               Work directly with Brian for personal planning, booking, and
-              support, or explore trusted booking partners and book at your
-              own pace. Two clear paths — and you choose what fits this trip.
+              support — including the kinds of trips where choosing the
+              right product and itinerary really matters — or explore
+              trusted booking partners and book at your own pace.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
               <Magnetic strength={8}>
@@ -406,9 +413,10 @@ export default function Home() {
             </div>
             <p className="mt-4 leading-relaxed text-cream">
               I'm Brian, the owner and travel advisor behind Paradox. I plan
-              complicated trips and simple ones where the only real request
-              is "don't let this be boring." Either way, you work directly
-              with me — from the first idea through the trip.
+              any trip, and I'm increasingly focused on cruises, Alaska,
+              Europe, river cruising, and bucket-list vacations. Either way,
+              you work directly with me — from figuring out what actually
+              fits through the booking and the trip itself.
             </p>
             <ul className="mt-6 space-y-4">
               {advisorReasons.map((r) => {

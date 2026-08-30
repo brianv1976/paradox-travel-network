@@ -21,8 +21,9 @@ const valueCase = [
     title: "What Planning With Brian Actually Means",
     body: [
       "When you ask me to help plan your trip, I'm not just running a quick search and sending you the first thing that looks decent.",
-      "I'm comparing suppliers, resorts, hotels, room categories, flights, packages, transfers, and current promotions to find the combination that actually fits what you told me you want.",
-      "That experience matters. I've learned where to look, which suppliers tend to offer the strongest value, how to compare promotions, and when something that looks like a deal really isn't.",
+      "I'm trying to figure out what actually fits.",
+      "For a resort trip, that might mean comparing location, beach, room category, dining, transfers, and package pricing. For a cruise, it might mean comparing cruise lines and ship styles to figure out which one actually suits the travelers and the trip.",
+      "The more complicated or more involved the trip gets, the more that comparison work matters — and that's exactly where I'm building a growing share of my focus. Whatever the trip is, I'm comparing the real choices instead of handing you another page of search results.",
       "I'm not a coupon code, and the value of working with a travel advisor shouldn't come down to whether I can shave a few dollars off a price you found online.",
       "You're getting the research, the comparisons, the recommendations, the details, and an actual person who already knows your trip.",
       "That said, knowing where to look has its advantages.",
@@ -130,12 +131,10 @@ export default function PlanMyTrip() {
         }
       >
         <p className="text-lg leading-relaxed text-fog">
-          Think of it like having your own personal assistant — no trip too
-          small. I'll help you navigate the planning, give you honest advice,
-          and flag the hidden costs before they turn into surprises. From
-          finding the right deal to booking the trip that's actually right
-          for you, it's real, one-on-one attention — I take the time to find
-          out what you really want, then make it happen.
+          I plan trips — simple or complicated. No trip gets a lesser version
+          of me. Some are the kind where choosing the right product and
+          itinerary matters even more, and that's where I'm putting a
+          growing share of my focus.
         </p>
         <a href="#intake" className="btn-primary w-fit">
           Let's Get It Booked <ArrowRight size={16} />

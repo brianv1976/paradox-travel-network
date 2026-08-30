@@ -114,28 +114,28 @@ export const services: ServicePage[] = [
       note: "Cruise planning is mostly a collection of small decisions that become very noticeable once the ship leaves without caring about anyone’s feelings.",
     },
     pillars: {
-      eyebrow: "The useful paradox",
-      heading: "The ship matters. The itinerary matters more.",
+      eyebrow: "Where Paradox is developing deeper focus",
+      heading: "Some cruise trips deserve more than a search box.",
       intro:
-        "A great cruise is a balance of onboard energy, ports you genuinely want to explore, and a cabin that still feels smart on day six.",
+        "Brian is building deeper expertise in the cruise styles and destinations where matching the traveler to the right product matters most — including the milestone trips, anniversaries, and bucket-list vacations people have been planning for years.",
       cards: [
         {
-          title: "Ship fit",
-          body: "Dining, entertainment, atmosphere, and enough quiet when the pool deck discovers a microphone.",
+          title: "Alaska",
+          body: "Alaska is where “just book the cruise” stops being especially helpful. One-way or round-trip, Glacier Bay or another route, Seattle or Vancouver, three days on land or seven — the version matters almost as much as the destination.",
         },
         {
-          title: "Route fit",
-          body: "Port rhythm, sea days, season, and shore time that earns its place on the itinerary.",
+          title: "Europe & the Mediterranean",
+          body: "In the Mediterranean, the ship can be the hotel with an excellent parking problem. The ports are usually the point, which makes itinerary, embarkation city, and what you do before and after the cruise matter a lot.",
         },
         {
-          title: "Cabin fit",
-          body: "Location, motion, space, and value—because “close to everything” can include the elevator bell.",
+          title: "River Cruising",
+          body: "River cruising is not ocean cruising with the ship put in the dryer. Smaller vessels, destination-first days, frequent port access, and very different inclusion levels make line and itinerary matching especially important.",
         },
       ],
     },
     closingHeading: "Build the cruise around the travelers.",
     closingBody:
-      "Share the destination ideas, dates, traveler count, budget, and what matters most onboard.",
+      "Share your dates, budget, destination ideas, who's traveling, and what would make the trip feel worth it — including if this is the milestone trip, anniversary, or bucket-list vacation you've been waiting to plan properly. You don't need to know the cruise line yet. That's one of the things we can work through together.",
     ctaLabel: "Start Cruise Planning",
   },
   {

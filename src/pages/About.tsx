@@ -20,7 +20,7 @@ const traits = [
   },
   {
     title: "Resourceful",
-    body: "Years of comparing suppliers, room categories, and package pricing mean less guessing and fewer surprises for you.",
+    body: "Brian researches suppliers, itineraries, room and cabin categories, packages, and promotions so clients have fewer important decisions left to make by guesswork.",
   },
 ];
 
@@ -85,9 +85,10 @@ export default function About() {
         imagePosition="object-top"
       >
         <p className="text-lg leading-relaxed text-fog">
-          Paradox Travel Network is built around practical help, clear choices,
-          and trips that fit the travelers instead of forcing everyone into a
-          generic vacation template.
+          Paradox Travel Network is a DFW-based travel agency built around
+          practical help, clear choices, and trips that fit the people
+          actually taking them. Brian plans any kind of trip, with a growing
+          focus on the ones where choosing well matters a little more.
         </p>
       </PageHero>
 
@@ -147,9 +148,15 @@ export default function About() {
                 obsessed. My wife will confirm this.
               </p>
               <p>
-                PTN exists because that enthusiasm needed somewhere to go —
-                and because nobody should have to wait as long as I did to
-                find out what they've been missing.
+                PTN exists because that enthusiasm needed somewhere to go.
+                What started with cruises and a habit of researching every
+                trip to death has grown into a travel business — and a
+                reason to keep learning the trips where good advice can make
+                the biggest difference. But Paradox isn't only for those
+                trips. Sometimes you need a resort. Sometimes you need a
+                family vacation. Sometimes you just need somebody competent
+                to get the hotel booked and stop making this harder than it
+                needs to be. Both kinds of travel belong here.
               </p>
             </div>
           </Reveal>
@@ -172,9 +179,19 @@ export default function About() {
             “reserve.”
           </p>
           <p>
-            I spend time comparing resorts, room categories, flights,
-            packages, promotions, and suppliers to figure out what actually
-            makes sense for the person taking the trip.
+            The more choices a trip has, the more that matters. Cruise line.
+            Ship. Itinerary. Cabin. Resort. Neighborhood. Tour company.
+            Package. Transfer. Excursion. Flight schedule. Insurance. Land
+            extension. Those decisions can look minor individually and
+            completely change the trip collectively.
+          </p>
+          <p>
+            I'm helping travelers compare the choices that actually matter,
+            with a growing focus on the more involved trips where getting it
+            right matters most. That doesn't mean pretending I already have
+            every answer. It means doing the research, using the supplier
+            and industry resources available to me, and being willing to
+            tell you when one option makes more sense than another.
           </p>
           <p>That means looking past the headline price and asking the questions that usually matter more:</p>
           <div className="space-y-1 font-medium text-ink">
