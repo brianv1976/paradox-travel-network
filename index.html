@@ -84,13 +84,55 @@
     />
     <!-- Google tag (gtag.js) — Enhanced Measurement's browser-history listener
          covers React Router's client-side route changes, so no per-route
-         gtag calls are needed in app code. -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHECYQQWZ6"></script>
+         gtag calls are needed in app code.
+
+         Internal QA devices can opt out persistently by visiting the site once
+         with ?ptn_internal=1. Use ?ptn_internal=0 to restore analytics on that
+         browser. The marker is stripped from the visible URL immediately. -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-VHECYQQWZ6');
+      (function () {
+        var INTERNAL_KEY = "ptn-analytics-internal";
+        var params = new URLSearchParams(window.location.search);
+        var requestedState = params.get("ptn_internal");
+        var isInternal = false;
+
+        try {
+          if (requestedState === "1") {
+            window.localStorage.setItem(INTERNAL_KEY, "1");
+          } else if (requestedState === "0") {
+            window.localStorage.removeItem(INTERNAL_KEY);
+          }
+          isInternal = window.localStorage.getItem(INTERNAL_KEY) === "1";
+        } catch {
+          // Strict privacy modes can block storage. In that case analytics
+          // behaves normally rather than risking a broken page.
+        }
+
+        if (params.has("ptn_internal")) {
+          params.delete("ptn_internal");
+          var cleanQuery = params.toString();
+          var cleanUrl =
+            window.location.pathname +
+            (cleanQuery ? "?" + cleanQuery : "") +
+            window.location.hash;
+          window.history.replaceState(window.history.state, "", cleanUrl);
+        }
+
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+
+        if (isInternal) return;
+
+        var script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-VHECYQQWZ6";
+        document.head.appendChild(script);
+
+        window.gtag("js", new Date());
+        window.gtag("config", "G-VHECYQQWZ6");
+      })();
     </script>
   </head>
   <body>
