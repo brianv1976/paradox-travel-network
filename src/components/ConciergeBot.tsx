@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { MessageCircle, X, Send, Compass, ArrowRight } from "lucide-react";
 import { links } from "../lib/assets";
+import { trackEvent } from "../lib/analytics";
 
 /**
  * Paradox Concierge — lightweight travel chat widget.
@@ -38,6 +39,11 @@ const AUTO_OPEN_EXCLUDED_PATHS = new Set([
   "/accessibility/",
   "/404/",
 ]);
+
+function analyticsPath(pathname: string) {
+  if (pathname === "/") return "/";
+  return pathname.endsWith("/") ? pathname : `${pathname}/`;
+}
 
 function localResponder(input: string): string {
   const q = input.toLowerCase();
@@ -107,7 +113,17 @@ export default function ConciergeBot() {
   // event lets Navbar guarantee the menu and concierge never remain active at
   // the same time on tablet-sized layouts where both controls can exist.
   useEffect(() => {
-    const onOpen = () => setOpen(true);
+    const onOpen = () =>
+      setOpen((wasOpen) => {
+        if (!wasOpen) {
+          trackEvent("concierge_open", {
+            source_path: analyticsPath(window.location.pathname),
+            open_method: "manual",
+            trigger: "mobile_nav",
+          });
+        }
+        return true;
+      });
     const onClose = () => setOpen(false);
     window.addEventListener("open-concierge", onOpen);
     window.addEventListener("close-concierge", onClose);
@@ -151,6 +167,11 @@ export default function ConciergeBot() {
       if (!delayElapsed || !hasScrolled || autoPromptHandledRef.current) return;
       markPrompted();
       autoOpenedRef.current = true;
+      trackEvent("concierge_open", {
+        source_path: analyticsPath(pathname),
+        open_method: "auto",
+        trigger: "engaged_prompt",
+      });
       setOpen(true);
     };
 
@@ -237,6 +258,11 @@ export default function ConciergeBot() {
     const clean = text.trim();
     if (!clean || loading) return;
     const next = [...messages, { role: "user" as const, text: clean }];
+    const messageNumber = next.filter((message) => message.role === "user").length;
+    trackEvent("concierge_message", {
+      source_path: analyticsPath(window.location.pathname),
+      message_number: messageNumber,
+    });
     setMessages(next);
     setInput("");
     setLoading(true);
@@ -283,7 +309,19 @@ export default function ConciergeBot() {
           real space and it stays out of the way. */}
       <motion.button
         ref={launcherRef}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() =>
+          setOpen((wasOpen) => {
+            const next = !wasOpen;
+            if (next) {
+              trackEvent("concierge_open", {
+                source_path: analyticsPath(window.location.pathname),
+                open_method: "manual",
+                trigger: "launcher",
+              });
+            }
+            return next;
+          })
+        }
         className="concierge-launcher fixed bottom-5 right-5 z-[60] hidden h-14 w-14 items-center justify-center rounded-full bg-ocean-dark text-cream shadow-lift transition-colors hover:bg-ocean md:inline-flex"
         whileHover={reduce ? undefined : { scale: 1.05 }}
         whileTap={reduce ? undefined : { scale: 0.95 }}
@@ -408,14 +446,24 @@ export default function ConciergeBot() {
             <div className="border-t border-ink/10 bg-sand/40 px-3 py-3">
               <Link
                 to="/plan-my-trip"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  trackEvent("concierge_plan_with_brian_click", {
+                    source_path: analyticsPath(window.location.pathname),
+                  });
+                  setOpen(false);
+                }}
                 className="btn-primary flex w-full items-center justify-center gap-2 text-center"
               >
                 Plan With Brian <ArrowRight size={15} />
               </Link>
               <Link
                 to="/book-it-yourself"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  trackEvent("concierge_book_it_yourself_click", {
+                    source_path: analyticsPath(window.location.pathname),
+                  });
+                  setOpen(false);
+                }}
                 className="mt-2 flex w-full items-center justify-center gap-2 rounded-full border border-ocean/30 px-4 py-2.5 text-sm font-semibold text-ocean-dark transition-colors hover:bg-ocean-dark hover:text-cream"
               >
                 Book It Yourself
@@ -424,6 +472,11 @@ export default function ConciergeBot() {
                 href={links.scheduler}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  trackEvent("concierge_schedule_call_click", {
+                    source_path: analyticsPath(window.location.pathname),
+                  })
+                }
                 className="mt-2 flex w-full items-center justify-center gap-2 rounded-full border border-ocean/30 px-4 py-2.5 text-sm font-semibold text-ocean-dark transition-colors hover:bg-ocean-dark hover:text-cream"
               >
                 Schedule a Call
