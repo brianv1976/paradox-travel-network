@@ -94,8 +94,17 @@ export default function AnalyticsTracker() {
         return;
       }
 
-      if (destinationHost === "calendly.com" || destinationHost.endsWith(".calendly.com")) {
+      if (destinationHost === "book.nylas.com") {
         trackEvent("schedule_call_click", {
+          source_path: sourcePath,
+          destination_host: destinationHost,
+          cta_text: ctaText,
+        });
+        return;
+      }
+
+      if (destinationHost === "m.me") {
+        trackEvent("messenger_help_click", {
           source_path: sourcePath,
           destination_host: destinationHost,
           cta_text: ctaText,

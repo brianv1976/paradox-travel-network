@@ -110,7 +110,7 @@ export default function Contact() {
           <Reveal delay={0.15}>
             <div className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-cream/15 pt-8">
               <a
-                href={links.calendly}
+                href={links.scheduler}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 font-semibold text-cream transition-colors hover:text-gold"

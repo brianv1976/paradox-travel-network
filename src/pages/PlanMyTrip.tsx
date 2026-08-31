@@ -250,7 +250,7 @@ export default function PlanMyTrip() {
                   dates, budget, and the type of planning help you may need.
                 </p>
                 <a
-                  href={links.calendly}
+                  href={links.scheduler}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn mt-6 w-full bg-gold text-ink hover:bg-cream"

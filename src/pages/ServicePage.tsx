@@ -318,7 +318,7 @@ export default function ServicePage({ slug: slugProp }: { slug?: string }) {
         </a>{" "}
         or{" "}
         <a
-          href={links.calendly}
+          href={links.scheduler}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1 font-semibold text-ocean-dark hover:text-clay-deep"

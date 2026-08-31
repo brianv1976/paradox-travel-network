@@ -54,18 +54,27 @@ export default function Privacy() {
         .
       </p>
       <p>
-        If you choose the website's scheduling option, you are sent to
-        Calendly to select a meeting time. Calendly may collect the contact and
-        scheduling information you submit there. Calendly's{" "}
+        If you choose the website's scheduling option, you are sent to a Tern
+        scheduling page delivered through Nylas. Tern and Nylas may collect the
+        contact and scheduling information you submit there. Tern's{" "}
         <a
-          href="https://calendly.com/legal/privacy-notice"
+          href="https://tern.travel/privacy"
           target="_blank"
           rel="noopener noreferrer"
           className="font-semibold text-ocean-dark underline"
         >
-          Privacy Notice
+          Privacy Policy
         </a>{" "}
-        applies to its service.
+        and Nylas's{" "}
+        <a
+          href="https://www.nylas.com/privacy-policy/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-ocean-dark underline"
+        >
+          Privacy Policy
+        </a>{" "}
+        apply to their services.
       </p>
       <p>
         We do not ask for, and you should never submit, passport numbers,

@@ -125,10 +125,9 @@ export const links = {
   // First Mate referral link — preserve agentId, agencyId, and bookingChannel exactly.
   virginVoyages:
     "https://www.virginvoyages.com/book/voyage-planner/find-a-voyage?cabins=1&currencyCode=USD&agentId=235470&agencyId=589&bookingChannel=FMLINK",
-  // Calendly preserves UTM parameters on the booking, giving us a second
-  // attribution trail beyond the GA4 schedule_call_click event.
-  calendly:
-    "https://calendly.com/paradoxtravelnetwork/30min?utm_source=paradox_website&utm_medium=website&utm_campaign=trip_planning",
+  scheduler:
+    "https://book.nylas.com/us/17c481fa-c6ec-46c3-8e01-c7f0024cc234/bookwithbrian",
+  messenger: "https://m.me/61581081109053",
   ownerLinkedIn: "https://www.linkedin.com/in/brianvoyles76",
   email: "hello@paradoxtravelnetwork.com",
   supportEmail: "support@paradoxtravelnetwork.com",

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { MessageCircle, X, Send, Compass, ArrowRight } from "lucide-react";
 import { links } from "../lib/assets";
@@ -28,6 +28,16 @@ const INTRO: Msg = {
   role: "assistant",
   text: "Hi — I'm the Paradox Concierge. Tell me what kind of trip you're considering, or ask how planning works. I can help narrow the direction and bring Brian in when the details matter.",
 };
+
+const AUTO_OPEN_DELAY_MS = 60_000;
+const AUTO_OPEN_SCROLL_Y = 160;
+const AUTO_OPEN_SESSION_KEY = "ptn-concierge-prompted";
+const AUTO_OPEN_EXCLUDED_PATHS = new Set([
+  "/privacy/",
+  "/terms/",
+  "/accessibility/",
+  "/404/",
+]);
 
 function localResponder(input: string): string {
   const q = input.toLowerCase();
@@ -75,6 +85,7 @@ function localResponder(input: string): string {
 }
 
 export default function ConciergeBot() {
+  const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([INTRO]);
   const [input, setInput] = useState("");
@@ -83,6 +94,8 @@ export default function ConciergeBot() {
   const panelRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const autoPromptHandledRef = useRef(false);
+  const autoOpenedRef = useRef(false);
   const reduce = useReducedMotion();
 
   const endpoint =
@@ -104,6 +117,75 @@ export default function ConciergeBot() {
     };
   }, []);
 
+  // Invite an engaged visitor to ask a question after one minute, but only
+  // after they have scrolled into the site. The prompt appears once per
+  // browser session; opening the concierge manually also counts, so it never
+  // surprises someone again after they have already used or dismissed it.
+  useEffect(() => {
+    const normalizedPath = pathname.endsWith("/") ? pathname : `${pathname}/`;
+    if (AUTO_OPEN_EXCLUDED_PATHS.has(normalizedPath)) return;
+
+    try {
+      if (sessionStorage.getItem(AUTO_OPEN_SESSION_KEY)) {
+        autoPromptHandledRef.current = true;
+        return;
+      }
+    } catch {
+      // Storage can be unavailable in strict privacy modes. The in-memory
+      // guard below still prevents repetition during the current page load.
+    }
+
+    let delayElapsed = false;
+    let hasScrolled = window.scrollY >= AUTO_OPEN_SCROLL_Y;
+
+    const markPrompted = () => {
+      autoPromptHandledRef.current = true;
+      try {
+        sessionStorage.setItem(AUTO_OPEN_SESSION_KEY, "1");
+      } catch {
+        // In-memory state remains enough for this page load.
+      }
+    };
+
+    const maybeOpen = () => {
+      if (!delayElapsed || !hasScrolled || autoPromptHandledRef.current) return;
+      markPrompted();
+      autoOpenedRef.current = true;
+      setOpen(true);
+    };
+
+    const onScroll = () => {
+      if (window.scrollY < AUTO_OPEN_SCROLL_Y) return;
+      hasScrolled = true;
+      window.removeEventListener("scroll", onScroll);
+      maybeOpen();
+    };
+
+    const timer = window.setTimeout(() => {
+      delayElapsed = true;
+      maybeOpen();
+    }, AUTO_OPEN_DELAY_MS);
+
+    if (!hasScrolled) {
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open || autoPromptHandledRef.current) return;
+    autoPromptHandledRef.current = true;
+    try {
+      sessionStorage.setItem(AUTO_OPEN_SESSION_KEY, "1");
+    } catch {
+      // In-memory state remains enough for this page load.
+    }
+  }, [open]);
+
   useEffect(() => {
     scrollRef.current?.scrollTo({
       top: scrollRef.current.scrollHeight,
@@ -116,7 +198,13 @@ export default function ConciergeBot() {
   // launcher button on close when that launcher exists in the active layout.
   useEffect(() => {
     if (!open) return;
-    inputRef.current?.focus();
+    // Do not summon a phone keyboard or steal focus while someone is reading
+    // when the panel opens automatically. Manual opens still focus the input.
+    if (autoOpenedRef.current) {
+      autoOpenedRef.current = false;
+    } else {
+      inputRef.current?.focus();
+    }
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -332,6 +420,14 @@ export default function ConciergeBot() {
               >
                 Book It Yourself
               </Link>
+              <a
+                href={links.scheduler}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 flex w-full items-center justify-center gap-2 rounded-full border border-ocean/30 px-4 py-2.5 text-sm font-semibold text-ocean-dark transition-colors hover:bg-ocean-dark hover:text-cream"
+              >
+                Schedule a Call
+              </a>
               <p className="mt-2 text-center text-[10px] leading-relaxed text-fog">
                 Most planning is complimentary. If a planning fee applies,
                 you'll know before any planning begins.

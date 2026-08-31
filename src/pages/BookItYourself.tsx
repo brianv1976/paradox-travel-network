@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   RotateCcw,
   CreditCard,
+  MessageCircle,
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
@@ -326,15 +327,30 @@ export default function BookItYourself() {
 
         {/* Ask Brian callout */}
         <Reveal delay={0.1} className="mt-8">
-          <div className="flex flex-col items-start gap-4 rounded-2xl bg-clay/10 p-8 md:flex-row md:items-center">
+          <div className="flex flex-col items-start gap-5 rounded-2xl bg-clay/10 p-8 md:flex-row md:items-center">
             <HelpCircle className="shrink-0 text-clay" size={32} />
-            <p className="text-ink/90">
-              <span className="font-semibold">Stuck? Overthinking a price?</span>{" "}
-              Ask Brian before you book — he's happy to help you weigh options
-              or think it through. Once you book directly with one of these
-              partners, that reservation is between you and them; Paradox
-              can't manage or service it after the fact.
-            </p>
+            <div className="flex-1">
+              <p className="text-ink/90">
+                <span className="font-semibold">Not sure where to start?</span>{" "}
+                Need a quick push in the right direction before you book?
+                Message Brian. He may not respond immediately, but he'll do
+                his best to answer in a timely manner.
+              </p>
+              <p className="mt-2 text-sm text-fog">
+                Once you book directly with one of these partners, that
+                reservation is between you and them; Paradox can't manage or
+                service it after the fact.
+              </p>
+            </div>
+            <a
+              href={links.messenger}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary w-full shrink-0 sm:w-auto"
+            >
+              <MessageCircle size={17} />
+              Message Brian
+            </a>
           </div>
         </Reveal>
       </section>
