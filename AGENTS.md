@@ -1,6 +1,6 @@
 # Paradox Travel Network — Agent Instructions
 
-**Updated:** 2026-08-29 6:18 PM CDT  
+**Updated:** 2026-08-31 11:25 PM CDT  
 **By:** ChatGPT — GPT-5.6 Sol  
 **Status:** CURRENT
 
@@ -25,17 +25,21 @@ Do not copy permanent business knowledge into this repository just to make an ag
 
 Before substantial website work, use the connected Paradox SharePoint knowledge system when available:
 
-1. `Paradox Travel Network/PTN_AI_START_HERE.md`
-2. `Paradox Travel Network/Website & Digital/PTN_WEBSITE_CURRENT_STATE.md`
-3. `Paradox Travel Network/PTN_RECENT_CHANGES.md` when recent changes matter
-4. Add only the domain state required by the task:
+1. `Paradox Travel Network/README_FIRST.md`
+2. `Paradox Travel Network/PTN_BRAIN_REGISTRY.csv`
+3. `Paradox Travel Network/PTN_AI_START_HERE.md`
+4. `Paradox Travel Network/PTN_COMPANY_CORE_CONTEXT.md`
+5. `Paradox Travel Network/Website & Digital/PTN_WEBSITE_CURRENT_STATE.md`
+6. `Paradox Travel Network/Website & Digital/PTN_WEBSITE_COLLABORATION_HUB.md`
+7. `Paradox Travel Network/PTN_RECENT_CHANGES.md` when recent changes matter
+8. Add only the additional domain state required by the task:
    - Brand: `Brand Assets/PTN_BRAND_CURRENT_STATE.md`
    - Marketing: `Marketing & Social/PTN_MARKETING_CURRENT_STATE.md`
    - Suppliers: `Supplier & Vendor Management/PTN_SUPPLIERS_CURRENT_STATE.md`
    - Business: `AI & Planning/PTN_BUSINESS_CURRENT_STATE.md`
    - Client workflow: `General Master Business/PTN_CLIENT_WORKFLOW_CURRENT_STATE.md`
 
-Do **not** read all historical logs by default. Follow the routing rules in `PTN_AI_START_HERE.md`.
+The Company Core gives shared business awareness; website/domain files provide deeper authority. Do **not** read all historical logs by default. Follow the routing rules in `PTN_AI_START_HERE.md`.
 
 For an active ChatGPT/Claude/Codex handoff, use the relevant file in `AI & Planning/Active Task States/` if one exists.
 
@@ -43,11 +47,13 @@ For an active ChatGPT/Claude/Codex handoff, use the relevant file in `AI & Plann
 
 Read-only inspection, auditing, research, and verification are allowed when the task calls for them.
 
-**Any write to the website, GitHub repository, or Netlify requires Brian's explicit permission for that specific action.** This includes source edits, file creation/deletion, commits to any branch, merges, configuration changes, redirects, environment/integration changes, and Netlify changes.
+**Brian has delegated standing operational authority to ChatGPT HQ for necessary Paradox website, GitHub, and Netlify technical implementation that carries out approved business direction, architecture, maintenance, security, or bug-fix work.** HQ does not need repeated per-action Brian approval inside that delegated scope.
 
-A prior approval does not automatically carry forward to a later write. Permission to audit, inspect, research, or recommend changes is not permission to implement them. A commit using **`[skip netlify]` is still a GitHub write and still requires explicit authorization**.
+Claude, Codex, and other implementation agents may perform scoped writes when the task is explicitly directed or authorized by ChatGPT HQ or Brian. They may not self-authorize unrelated changes or expand scope merely because they have write-capable tools.
 
-Production deployment is a separate action and requires fresh explicit approval even when the underlying code changes were already authorized.
+Fresh Brian approval is still required for material business-policy changes, pricing/fees, client commitments, bookings/payments/refunds, financial or legal commitments, credentials/recovery secrets, domain ownership/transfers, destructive deletion of protected records, or public changes that materially alter Paradox's offers, promises, positioning, or client-facing commitments.
+
+A commit using **`[skip netlify]` is still a GitHub write**, but it is permitted when the underlying task is within HQ's standing delegated authority or has direct Brian approval.
 
 ## Build and validation
 
@@ -73,9 +79,11 @@ Do not claim a bug is fixed until the actual failure mode has been tested, espec
 
 Netlify watches `main`.
 
-Intermediate reviewed commits to `main` must include **`[skip netlify]`** in the commit message so they do not trigger a production build.
+Intermediate reviewed commits to `main` should include **`[skip netlify]`** when the work is not yet ready for production.
 
-**Production deployment requires Brian's explicit approval.** Do not create an ordinary untagged commit to `main` as housekeeping. A later ordinary commit will deploy all accumulated skipped changes.
+Production deployment is allowed when ChatGPT HQ or Brian has authorized the scoped implementation and the required validation has passed. Routine deployment of already-approved code/content is not a separate Brian-approval event under HQ's standing delegation.
+
+Do not create an ordinary untagged commit to `main` as housekeeping. A later ordinary commit will deploy all accumulated skipped changes.
 
 Do not alter tracking/referral query parameters, analytics IDs, or production integrations unless the task explicitly requires it and the change is verified.
 
