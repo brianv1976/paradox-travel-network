@@ -66,17 +66,9 @@ export default function Footer() {
           <span className="font-display italic text-cream">
             {business.tagline}
           </span>
-          <div className="flex items-center gap-4">
-            <a
-              href="/ai-start/"
-              className="text-xs text-cream/70 transition-colors hover:text-cream"
-            >
-              AI Operating Manual
-            </a>
-            <span>
-              © {business.year} {business.name}
-            </span>
-          </div>
+          <span>
+            © {business.year} {business.name}
+          </span>
         </div>
       </div>
     </footer>
