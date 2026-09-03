@@ -235,7 +235,7 @@ export default function prerenderSeoPlugin() {
       // The generated sitemap is also an image sitemap. Route-specific hero,
       // article and first-party identity images are listed with image:loc so
       // crawlers can discover the exact assets associated with each page.
-      await writeFile(path.join(outDir, "sitemap.xml"), buildSitemap(siteUrl, routes));
+      // Include the standalone public AI manual so crawlers and AI web clients can discover it.\n      await writeFile(\n        path.join(outDir, "sitemap.xml"),\n        buildSitemap(siteUrl, [...routes, { path: "/ai-start" }])\n      );
 
       this.info(
         `prerender-seo: wrote ${written} route-specific index.html files and generated sitemap.xml under ${path.relative(root, outDir)}/`
