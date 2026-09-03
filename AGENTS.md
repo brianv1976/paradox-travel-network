@@ -1,7 +1,7 @@
 # Paradox Travel Network — Agent Instructions
 
-**Updated:** 2026-08-31 11:25 PM CDT  
-**By:** ChatGPT — GPT-5.6 Sol  
+**Updated:** 2026-09-03 2:25 PM CDT  
+**By:** ChatGPT HQ — Codex  
 **Status:** CURRENT
 
 ## Repository
@@ -22,6 +22,8 @@ Use the right source for the right kind of truth:
 Do not copy permanent business knowledge into this repository just to make an agent remember it.
 
 ## SharePoint context for coding work
+
+A fresh coding AI that needs connector-neutral startup instructions may begin at `https://paradoxtravelnetwork.com/ai-start.txt`. That public file is a non-authoritative operating adapter; SharePoint remains business authority.
 
 Before substantial website work, use the connected Paradox SharePoint knowledge system when available:
 
