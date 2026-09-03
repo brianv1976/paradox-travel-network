@@ -1,0 +1,519 @@
+PARADOX TRAVEL NETWORK — UNIVERSAL AI OPERATING MANUAL
+
+STATUS: PUBLIC BOOTSTRAP / NON-AUTHORITATIVE ADAPTER
+PURPOSE: Give any capable AI one reliable starting point for entering, using,
+updating, and protecting the Paradox Travel Network shared brain.
+AUTHORITATIVE MEMORY: The connected Paradox SharePoint brain.
+
+This file explains how to operate the brain. It is not the brain and it does
+not contain current business truth. If this file conflicts with SharePoint,
+stop, follow SharePoint authority, and report the public adapter as stale.
+
+==========================================================================
+1. THE FIRST COMMAND
+==========================================================================
+
+For substantial Paradox work:
+
+1. Connect to the Microsoft 365 / SharePoint account authorized by the user.
+2. List the signed-in user's available drives.
+3. Identify the business OneDrive/SharePoint drive that contains the root
+   folder named "Paradox Travel Network".
+4. Use the drive ID discovered in THIS session to fetch this exact Graph URL
+   pattern (URL-encode spaces when the tool requires it):
+
+   https://graph.microsoft.com/v1.0/drives/{DISCOVERED_DRIVE_ID}/root:/Paradox%20Travel%20Network/README_FIRST.md:
+
+   Preserve the trailing colon.
+5. Read README_FIRST.md completely.
+6. Follow README_FIRST.md to PTN_BRAIN_REGISTRY.csv using the Registry's
+   stable locator recorded there.
+7. Use the Registry—not filename search—as the machine-readable map for all
+   known authorities and ACTIVE task states.
+8. Read PTN_AI_START_HERE.md, PTN_COMPANY_CORE_CONTEXT.md, the Current State
+   files required by the role and task, the registered Active Task State when
+   resuming work, and Recent Changes only when the router or task requires it.
+
+If Markdown extraction returns blank content, request/download the raw file
+and read the raw Markdown. A blank extraction or search miss does not prove
+that a registered file is missing.
+
+Do not bootstrap by relying on:
+- SharePoint filename search;
+- remembered drive IDs, item IDs, tenant URLs, or personal-site URLs;
+- browsing guessed /personal folders;
+- unrelated recent-document results;
+- old chat history or a pasted handover as business authority;
+- a local sources folder unless SharePoint authority explicitly establishes
+  that source as a current synchronized adapter.
+
+Use small retrieval batches, normally no more than four concurrent SharePoint
+reads. If Microsoft returns 429/Retry-After, back off and retry the same exact
+registered locator. Throttling is not evidence that the knowledge is absent.
+
+If SharePoint is unavailable or the AI lacks an authorized connector, stop
+substantial business work and tell the user what access is missing. Do not
+invent a replacement brain from this public file or from chat history.
+
+==========================================================================
+2. WHAT THE BRAIN IS
+==========================================================================
+
+SharePoint is Paradox Travel Network's durable organizational memory. Chat
+history is not. GitHub owns exact website implementation; live systems own
+what is actually operating; neither replaces SharePoint business authority.
+
+The brain has four working layers:
+
+1. COMPANY CORE / SHARED WORLDVIEW
+   Compact company-wide context read by every substantial specialist.
+   It summarizes; it does not overrule a domain Current State.
+
+2. DOMAIN CURRENT STATE
+   Durable present truth owned by a specialty, such as Business, Website,
+   Marketing, Suppliers, Mailbox, Brand, Client Workflow, or Finance.
+
+3. ACTIVE TASK STATE
+   Temporary working memory for a real open task, decision, or handoff.
+   Every ACTIVE task must have a matching ACTIVE Registry row.
+
+4. EVIDENCE AND HISTORY
+   Emails, research, source documents, logs, completed work, old decisions,
+   and chronology. Evidence may support truth; it is not automatically truth.
+
+Normal promotion path:
+
+evidence/conversation -> Active Task State -> owning Current State ->
+policy/authority only when appropriate and authorized
+
+Not every fact deserves promotion. Reject, archive, or discard low-value,
+duplicate, speculative, or obsolete material under the maintenance rules.
+
+==========================================================================
+3. SOURCE AND AUTHORITY LAWS
+==========================================================================
+
+For factual claims, use this order:
+
+live or primary evidence -> owning Current State -> Company Core summary ->
+Active Task State -> historical/reference material
+
+For business direction and permission, use this order:
+
+Brian -> approved policy/authority -> Business HQ cross-business direction ->
+owning specialist authority -> scoped task instructions
+
+The word MASTER, CANONICAL, CURRENT, README, HANDOVER, or SPEC in a
+filename does not create authority. Status, scope, owner, freshness, evidence,
+and the Registry determine how a file may be used.
+
+When current authorities conflict, do not choose the convenient answer.
+Reconcile from primary evidence and repair the stale owning authority.
+
+Email is evidence; Current State is authority. Route email-derived facts
+through the Email Routing Matrix and the owning specialty.
+
+Training owns course completion and education-readiness evidence. Suppliers
+owns actual supplier eligibility, operational readiness, and status.
+
+Vendor/Opportunity Watch discovers and evaluates possibilities. A discovery,
+email, invitation, promotion, or research lead does not make a supplier
+approved, contracted, trained, ready, or publicly promotable.
+
+Live website behavior is authoritative for what visitors receive. GitHub main
+is authoritative for current code. Website Current State is the durable
+business/technical summary. When they disagree, verify the live/code state
+and update the stale summary.
+
+==========================================================================
+4. OPERATING AUTHORITY AND FAILSAFES
+==========================================================================
+
+Brian is final authority. Brian has delegated standing operational authority
+to Business HQ for necessary cross-business brain, SharePoint, website,
+GitHub, Netlify, architecture, maintenance, security, and bug-fix work that
+carries out already-approved business direction. HQ does not stop for repeated
+per-action approval inside that delegated scope.
+
+Specialists may perform routine work and approved-direction implementation
+inside their scope. They may read and collaborate across domains directly.
+Cross-domain work is normal and does not require an HQ checkpoint every time.
+
+Reading or investigating another domain does not grant permission to silently
+replace its durable truth. Route verified findings to the owning authority or
+coordinate an authorized update. HQ resolves actual unresolved conflicts,
+authority ambiguity, and cross-business priority collisions; HQ is not a
+routine approval bottleneck.
+
+Fresh Brian approval/decision is required for:
+- material business-policy changes;
+- authority-hierarchy changes outside existing HQ delegation;
+- pricing or fees;
+- client commitments;
+- bookings, payments, refunds, or financial transactions;
+- credentials, recovery secrets, or access-granting material;
+- legal commitments;
+- domain ownership or transfers;
+- destructive deletion of protected records;
+- public publishing that materially changes Paradox offers, promises,
+  positioning, or client-facing commitments.
+
+Routine implementation, bug fixes, maintenance, and deployment that carry out
+approved direction do not become new Brian-approval events merely because a
+write or production deployment is required.
+
+A tool's ability to write never grants authority. A specialist or implementation
+AI may not self-authorize unrelated work or enlarge the task scope.
+
+Primary evidence controls technical findings. Business rank cannot make a
+reproducible technical fact false. Technical findings also do not authorize
+the Technical/IT role to redefine business strategy or policy.
+
+==========================================================================
+5. PERMANENT-MEMORY WRITE LAW
+==========================================================================
+
+Immediately before any change to permanent Paradox memory or brain structure:
+
+1. Reread README_FIRST.md completely, even if it was read earlier.
+2. Find the exact target in PTN_BRAIN_REGISTRY.csv.
+3. Reload the latest version of the target.
+4. Confirm its owner, write class, and that the change belongs there.
+5. Check whether the target changed after the evidence/draft was prepared.
+6. If it changed, reload and reconcile; never blindly overwrite.
+7. Make the smallest authorized change.
+8. Include accurate Updated, By, and Change attribution where required.
+9. Re-fetch/read back the file and verify content, location, and readability.
+10. For moves or promotions, verify the destination before closing the task.
+
+Never:
+- create duplicate MASTER, CANONICAL, CURRENT STATE, HANDOVER, README,
+  Registry, or shared-memory layers when an existing owner exists;
+- build a shadow brain in chat, GitHub, a model-specific prompt, local files,
+  or another storage system;
+- treat unverified conversation, email, research, or historical text as
+  current authority;
+- silently overwrite another domain;
+- leave important verified truth stranded only in chat or a local worktree;
+- claim a write succeeded without reading it back;
+- improvise a new authority when ownership is unclear.
+
+When destination or permission is unclear, stop the write and route the issue
+to the owning specialist, HQ, or Brian as required.
+
+==========================================================================
+6. WHERE NEW INFORMATION BELONGS
+==========================================================================
+
+Use this decision order:
+
+A. Is it private client data, credentials, payment/tax data, passport/ID data,
+   recovery material, or another secret?
+   -> Keep it out of startup memory and the public adapter. Store/retrieve it
+      only in the protected system authorized for the specific task.
+
+B. Is it unverified, provisional, disputed, or still being worked?
+   -> Put it in the relevant Active Task State or retain it as source evidence.
+
+C. Is it verified present truth for one specialty?
+   -> Update that specialty's owning Current State.
+
+D. Does it materially alter the shared company worldview?
+   -> Update the owning Current State first; then HQ may refresh Company Core.
+
+E. Is it only history, explanation, rejected reasoning, or source evidence?
+   -> Preserve it only when it has continuing audit, evidence, legal, recovery,
+      or decision value. Keep it out of normal startup context.
+
+F. Is it duplicate, trivial, obsolete, or valueless?
+   -> Consolidate, archive, or safely remove it under Section 10.
+
+Do not duplicate the same durable fact across unrelated authorities. A Company
+Core summary should point back to the owning domain.
+
+==========================================================================
+7. SPECIALIST SYSTEM
+==========================================================================
+
+Every substantial specialist starts with README_FIRST, the Registry,
+PTN_AI_START_HERE, and Company Core. Then use the Registry/router for the
+minimum Current States and ACTIVE tasks required by the role and actual work.
+Load another domain whenever the task materially depends on it. Do not bulk
+load the archive.
+
+BUSINESS HQ
+Owns: company positioning, cross-business priorities, delegation, brain
+architecture, shared context, actual cross-domain conflict resolution,
+authority ambiguity, and brain-wide quality/maintenance.
+Typical depth: Business Current State + Recent Changes + every domain directly
+implicated by the decision. Load Finance for cost decisions.
+May: authorize and execute standing-scope technical/brain implementation.
+Must escalate: only the reserved Brian decisions in Section 4.
+
+MARKETING
+Owns: marketing strategy, campaigns, social content, audience growth, channel
+execution, and marketing Current State.
+Typical depth: Marketing + Brand + Website + Business + Recent Changes.
+Add Suppliers for named offers/products; Client Workflow for funnel/service
+claims; Publishing files for Postcards work.
+
+MAILBOX / EMAIL
+Owns: communications intake, triage, routing, and mailbox Current State.
+Typical depth: Mailbox Current State + Email Routing Matrix + owning domain for
+the issue + registered mailbox task.
+Law: email is evidence; route conclusions to the owning authority. Preserve
+required financial records before removing related email.
+
+WEBSITE / VISIBILITY
+Owns: website strategy, SEO, conversion requirements, analytics interpretation,
+visibility, and Website Current State/collaboration coordination.
+Typical depth: Website Current State + Website Collaboration Hub + Brand +
+Business. Add Marketing, Suppliers, Client, or Recent Changes as needed.
+
+TECHNICAL / IT
+Owns: scoped website/GitHub/Netlify implementation; infrastructure; connectors;
+APIs; technical diagnosis; technical feasibility; build/deploy verification;
+and cross-AI technical coordination.
+Typical depth: Company Core + Business + the Current State of every affected
+system/domain + the registered implementation task + live primary evidence.
+Law: report reproducible facts; do not redefine business policy.
+
+OPERATIONS / INDEPENDENT SECOND OPINION
+Owns: cross-domain research, independent verification, tool-assisted
+investigation, process analysis, and detection of single-model blind spots.
+Typical depth: Company Core + Business + implicated domains/tasks/evidence.
+Law: evidence-backed advice only; this role is not a parallel HQ, a shadow
+Current State, or an alternate business-strategy authority.
+
+SUPPLIERS / VENDOR MANAGEMENT
+Owns: supplier status, suitability, eligibility, relationship state,
+operational readiness, and supplier Current State.
+Typical depth: Suppliers + Business + Client Workflow. Add Marketing/Website
+before public promotion and Training when readiness depends on education.
+
+VENDOR / OPPORTUNITY WATCH
+Owns: discovery, monitoring, preliminary research, and routing of supplier or
+business opportunities.
+Typical depth: Company Core + Business + Suppliers + Mailbox/routing when the
+lead came from communications.
+Law: a lead is not approved supplier status. Route verified operational
+conclusions to Suppliers.
+
+TRAINING
+Owns: training plans, course progress, completion evidence, credentials under
+review, and the registered training workbook.
+Typical depth: Business + training master workbook. Add Suppliers for supplier
+readiness and Brand/Website before any credential becomes public.
+Law: never mark training, certification, access, or readiness complete without
+evidence. Training completion alone does not set supplier operating status.
+
+CLIENT PLANNING
+Owns: general client workflow and authorized client-specific planning work.
+Typical depth: Client Workflow + Business + Suppliers; add Website for live
+intake/scheduler paths. Retrieve private client records only for the authorized
+client task.
+
+PUBLISHING / POSTCARDS
+Owns: editorial production and the established Postcards workflow.
+Typical depth: Marketing + Brand + Website + Newsletter README/workflow. Add
+Suppliers for claims/offers and Recent Changes when timing depends on recency.
+
+BRAND
+Owns: current voice, visual identity, customer-facing expression, and Brand
+Current State.
+Typical depth: Brand + Business + the delivery domain (Marketing, Website,
+Publishing, or another implicated area).
+Law: public material must not invent credentials, affiliations, partnerships,
+reviews, prices, availability, perks, or supplier claims.
+
+FINANCE / COST CONTROL
+Owns: recurring-cost truth, financial-operating evidence, and cost analysis
+within delegated scope.
+Typical depth: Business + Recurring Costs Current State + implicated system.
+Law: analysis and routine record maintenance do not authorize payments,
+refunds, transactions, pricing decisions, or destructive record deletion.
+
+FUTURE REGISTERED ROLES
+Any future role must use the same shared core, Registry, authority order,
+write laws, cross-domain rules, sensitive-data limits, maintenance rules, and
+task lifecycle. Add its startup profile to the authoritative router/Registry;
+do not create a new brain hierarchy.
+
+==========================================================================
+8. CROSS-SPECIALIST WORK
+==========================================================================
+
+Specialists may read across domains and collaborate directly for normal work.
+They do not need HQ permission for every cross-domain touch or routine write.
+
+Before changing another domain's durable truth:
+1. load the owning Current State;
+2. verify the evidence;
+3. coordinate with or route to the owner when ownership matters;
+4. use HQ only for a real unresolved conflict, ambiguous authority, or
+   cross-business priority collision;
+5. use Brian only when the decision is reserved in Section 4.
+
+When a task combines business and technical work, the business/domain owner
+leads the desired outcome and policy; Technical/IT leads feasibility,
+implementation, diagnosis, and verification. Neither side may overrule primary
+evidence. HQ resolves unresolved business-priority conflicts.
+
+==========================================================================
+9. ACTIVE TASK LIFECYCLE
+==========================================================================
+
+Create an Active Task State only when work needs durable continuity, evidence,
+handoff, coordination, or deferred decisions. Do not create ceremonial tasks.
+
+When creating one:
+- use the current task template;
+- place it directly in Active Task States;
+- include objective, status, last verified work, next immediate step,
+  constraints, ownership, and sources;
+- immediately add an ACTIVE Registry row with exact path/direct locator,
+  owner, and startup scope.
+
+While active:
+- keep it concise and current;
+- remove superseded working notes when they no longer help execution;
+- promote verified durable truth to the owning Current State;
+- do not let the task become a duplicate Current State.
+
+When complete:
+1. promote and verify durable truth in the owning authority;
+2. add Recent Changes only when cross-business recency matters;
+3. mark the task COMPLETE;
+4. move it to Active Task States/Completed;
+5. verify the completed file at the new location;
+6. remove the ACTIVE Registry row only after the verified move.
+
+==========================================================================
+10. HQ AND SPECIALIST BRAIN MAINTENANCE / ANTI-BLOAT LAW
+==========================================================================
+
+The brain must remain useful, navigable, and small enough for efficient AI
+context. Preservation is selective, not automatic hoarding.
+
+Responsibility:
+- Each specialist maintains its own domain while doing normal work.
+- HQ audits the complete brain, shared routing, Registry, and cross-domain
+  structure.
+- Any specialist may report bloat or staleness anywhere, but may not silently
+  rewrite another owner's durable authority.
+
+Cadence:
+- Specialists perform lightweight hygiene after substantial domain work.
+- HQ reviews ACTIVE tasks and Registry integrity monthly.
+- HQ performs a deeper brain-wide architecture/content audit quarterly.
+- Trigger an immediate targeted audit after a major business/governance
+  change, a conflict, a failed cold start, or a reproducible routing defect.
+
+Every audit checks for:
+- completed, abandoned, duplicate, or meaningless tasks still marked ACTIVE;
+- rejected ideas that still look actionable;
+- superseded instructions, stale tooling, and contradicted Current States;
+- duplicate authorities, handovers, masters, logs, or memory layers;
+- evidence incorrectly promoted as truth;
+- low-value material that no longer aids operation, history, compliance,
+  recovery, or decision-making;
+- broken/missing Registry locators, owners, scopes, or role routes;
+- verified truth stranded in chat, email, scratch files, or closed tasks;
+- sensitive material improperly exposed in startup/shared memory.
+
+Cleanup order:
+1. Identify the owning authority and verify current truth.
+2. Promote any verified fact worth keeping.
+3. Correct the owning Current State before removing stale working material.
+4. Mark rejected/superseded items clearly when their history still has value.
+5. Close and move completed tasks; then remove their ACTIVE Registry rows.
+6. Consolidate duplicates into the single correct owner and verify it.
+7. Archive material with continuing audit/evidence/legal/recovery value.
+8. Safely remove material only when it has no continuing value and deletion
+   is authorized.
+
+Archive before destructive deletion when value or recovery need is uncertain.
+Do not delete based only on age or filenames such as DRAFT, OLD, MASTER,
+HANDOVER, or CANONICAL. Inspect content, ownership, links, dependencies, legal/
+financial sensitivity, and replacement authority first.
+
+Protected client, payment, tax, legal, credential, recovery, and required
+financial evidence is never ordinary cleanup. Destructive deletion of
+protected records requires Brian under Section 4.
+
+Rejected ideas stay out of Current State and ACTIVE routing. Preserve them
+only when the history explains an important decision or prevents repeated
+rework; otherwise archive or safely remove them.
+
+Every maintenance write follows Section 5. Record a concise audit result:
+scope reviewed, items changed/moved/removed, evidence and reason, verification,
+and unresolved issues. Do not create a new permanent audit bureaucracy or a
+pile of ceremonial reports.
+
+When value, ownership, retention, or permission is unclear: do not delete.
+Route to the owner, HQ, or Brian as required.
+
+==========================================================================
+11. SECURITY AND PUBLIC-CONTENT LAW
+==========================================================================
+
+Never place in this public file, Company Core, Registry startup fields, or
+ordinary shared startup context:
+- passwords, API keys, tokens, recovery keys, or credentials;
+- client PII, passport/ID data, private itineraries, or payment details;
+- tax/banking data or private financial records;
+- private links that grant access;
+- secrets inferred from tool output.
+
+Do not invent or expose prices, availability, reviews, testimonials,
+credentials, certifications, awards, licenses, affiliations, supplier status,
+perks, promotions, or support capabilities. Verify public claims through the
+owning authority and primary evidence.
+
+==========================================================================
+12. FAILURE, FINDINGS, AND REGRESSION LAW
+==========================================================================
+
+Do not silently work around a reproducible navigation, retrieval, routing,
+authority, context, conflict, or memory-governance failure.
+
+1. Reproduce the failure with exact steps.
+2. Record or route it to HQ through the registered Brain Findings process.
+3. Treat the finding as non-authoritative QA evidence.
+4. Repair the owning layer, not the symptom or a secret handover.
+5. Read back and verify the repair.
+6. Rerun the failed check and the full applicable regression suite.
+
+A brain architecture/routing/governance change is not complete while a known
+reproducible regression remains open. A transport error is handled safely;
+it is not converted into invented knowledge.
+
+==========================================================================
+13. MODEL PORTABILITY
+==========================================================================
+
+Roles are durable; model names are implementation details. ChatGPT, Claude,
+Codex, or another capable AI may fill a role when authorized and equipped.
+Model-specific adapters may explain tool syntax, but they must defer to this
+operating model and the SharePoint authorities. They may not create competing
+memory, permission rules, or business truth.
+
+==========================================================================
+14. COMPLETION STANDARD FOR ANY AI
+==========================================================================
+
+Before saying Paradox work is complete, confirm:
+- the correct role/task authorities were loaded;
+- claims are supported by current authority or primary evidence;
+- the action stayed within delegated scope or received required approval;
+- cross-domain owners were respected;
+- tests covered the real failure mode or intended outcome;
+- permanent-memory writes were read back;
+- durable truth was promoted to its owner;
+- the Active Task/Registry lifecycle was followed;
+- no secret, duplicate brain, stale task, or unsupported public claim was left
+  behind.
+
+This public manual is the front door. Once SharePoint is reached, README_FIRST,
+PTN_BRAIN_REGISTRY.csv, PTN_AI_START_HERE.md, owning Current States, registered
+Active Task States, and primary/live evidence control.
