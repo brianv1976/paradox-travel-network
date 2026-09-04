@@ -30,10 +30,11 @@ const INTRO: Msg = {
   text: "Hi — I'm the Paradox Concierge. Tell me what kind of trip you're considering, or ask how planning works. I can help narrow the direction and bring Brian in when the details matter.",
 };
 
-const AUTO_OPEN_DELAY_MS = 60_000;
-const AUTO_OPEN_SCROLL_Y = 160;
-const AUTO_OPEN_SESSION_KEY = "ptn-concierge-prompted";
-const AUTO_OPEN_EXCLUDED_PATHS = new Set([
+const PROMPT_DELAY_MS = 60_000;
+const PROMPT_SCROLL_Y = 160;
+const PROMPT_VISIBLE_MS = 12_000;
+const PROMPT_SESSION_KEY = "ptn-concierge-prompted";
+const PROMPT_EXCLUDED_PATHS = new Set([
   "/privacy/",
   "/terms/",
   "/accessibility/",
@@ -93,6 +94,7 @@ function localResponder(input: string): string {
 export default function ConciergeBot() {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const [promptVisible, setPromptVisible] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([INTRO]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -100,26 +102,25 @@ export default function ConciergeBot() {
   const panelRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const autoPromptHandledRef = useRef(false);
-  const autoOpenedRef = useRef(false);
+  const promptHandledRef = useRef(false);
   const reduce = useReducedMotion();
 
   const endpoint =
     (import.meta.env.VITE_CONCIERGE_ENDPOINT as string | undefined) ||
     "/api/concierge";
 
-  // Below md the floating launcher is gone (see the button below) -- the
-  // mobile menu's "Ask Brian" entry opens the same panel. The matching close
-  // event lets Navbar guarantee the menu and concierge never remain active at
-  // the same time on tablet-sized layouts where both controls can exist.
+  // Other UI can still open/close the concierge through these events. The
+  // floating launcher is now available on phones too, so this is a secondary
+  // integration path rather than the only mobile trigger.
   useEffect(() => {
     const onOpen = () =>
       setOpen((wasOpen) => {
         if (!wasOpen) {
+          setPromptVisible(false);
           trackEvent("concierge_open", {
             source_path: analyticsPath(window.location.pathname),
             open_method: "manual",
-            trigger: "mobile_nav",
+            trigger: "external",
           });
         }
         return true;
@@ -133,17 +134,17 @@ export default function ConciergeBot() {
     };
   }, []);
 
-  // Invite an engaged visitor to ask a question after one minute, but only
-  // after they have scrolled into the site. The prompt appears once per
-  // browser session; opening the concierge manually also counts, so it never
-  // surprises someone again after they have already used or dismissed it.
+  // After one minute of actual engagement, show only a small invitation near
+  // the launcher. Never auto-open the chat panel or cover the visitor's page.
+  // The invitation is shown once per browser session and dismisses itself.
   useEffect(() => {
     const normalizedPath = pathname.endsWith("/") ? pathname : `${pathname}/`;
-    if (AUTO_OPEN_EXCLUDED_PATHS.has(normalizedPath)) return;
+    setPromptVisible(false);
+    if (PROMPT_EXCLUDED_PATHS.has(normalizedPath)) return;
 
     try {
-      if (sessionStorage.getItem(AUTO_OPEN_SESSION_KEY)) {
-        autoPromptHandledRef.current = true;
+      if (sessionStorage.getItem(PROMPT_SESSION_KEY)) {
+        promptHandledRef.current = true;
         return;
       }
     } catch {
@@ -152,40 +153,42 @@ export default function ConciergeBot() {
     }
 
     let delayElapsed = false;
-    let hasScrolled = window.scrollY >= AUTO_OPEN_SCROLL_Y;
+    let hasScrolled = window.scrollY >= PROMPT_SCROLL_Y;
+    let dismissTimer: number | undefined;
 
     const markPrompted = () => {
-      autoPromptHandledRef.current = true;
+      promptHandledRef.current = true;
       try {
-        sessionStorage.setItem(AUTO_OPEN_SESSION_KEY, "1");
+        sessionStorage.setItem(PROMPT_SESSION_KEY, "1");
       } catch {
         // In-memory state remains enough for this page load.
       }
     };
 
-    const maybeOpen = () => {
-      if (!delayElapsed || !hasScrolled || autoPromptHandledRef.current) return;
+    const maybePrompt = () => {
+      if (!delayElapsed || !hasScrolled || promptHandledRef.current) return;
       markPrompted();
-      autoOpenedRef.current = true;
-      trackEvent("concierge_open", {
+      trackEvent("concierge_prompt_show", {
         source_path: analyticsPath(pathname),
-        open_method: "auto",
         trigger: "engaged_prompt",
       });
-      setOpen(true);
+      setPromptVisible(true);
+      dismissTimer = window.setTimeout(() => {
+        setPromptVisible(false);
+      }, PROMPT_VISIBLE_MS);
     };
 
     const onScroll = () => {
-      if (window.scrollY < AUTO_OPEN_SCROLL_Y) return;
+      if (window.scrollY < PROMPT_SCROLL_Y) return;
       hasScrolled = true;
       window.removeEventListener("scroll", onScroll);
-      maybeOpen();
+      maybePrompt();
     };
 
     const timer = window.setTimeout(() => {
       delayElapsed = true;
-      maybeOpen();
-    }, AUTO_OPEN_DELAY_MS);
+      maybePrompt();
+    }, PROMPT_DELAY_MS);
 
     if (!hasScrolled) {
       window.addEventListener("scroll", onScroll, { passive: true });
@@ -193,15 +196,18 @@ export default function ConciergeBot() {
 
     return () => {
       window.clearTimeout(timer);
+      if (dismissTimer) window.clearTimeout(dismissTimer);
       window.removeEventListener("scroll", onScroll);
     };
   }, [pathname]);
 
   useEffect(() => {
-    if (!open || autoPromptHandledRef.current) return;
-    autoPromptHandledRef.current = true;
+    if (!open) return;
+    setPromptVisible(false);
+    if (promptHandledRef.current) return;
+    promptHandledRef.current = true;
     try {
-      sessionStorage.setItem(AUTO_OPEN_SESSION_KEY, "1");
+      sessionStorage.setItem(PROMPT_SESSION_KEY, "1");
     } catch {
       // In-memory state remains enough for this page load.
     }
@@ -214,18 +220,11 @@ export default function ConciergeBot() {
     });
   }, [messages, loading, open, reduce]);
 
-  // Dialog focus management: move focus into the panel on open, trap Tab
-  // inside it while open, close on Escape, and hand focus back to the
-  // launcher button on close when that launcher exists in the active layout.
+  // Dialog focus management: manual opens move focus into the panel, trap Tab
+  // inside it, close on Escape, and return focus to the launcher when possible.
   useEffect(() => {
     if (!open) return;
-    // Do not summon a phone keyboard or steal focus while someone is reading
-    // when the panel opens automatically. Manual opens still focus the input.
-    if (autoOpenedRef.current) {
-      autoOpenedRef.current = false;
-    } else {
-      inputRef.current?.focus();
-    }
+    inputRef.current?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -300,19 +299,43 @@ export default function ConciergeBot() {
 
   return (
     <>
-      {/* Launcher -- hidden below md. On phones a floating button had
-          nowhere good to sit (covered carousel dots, the mobile-nav panel,
-          CTAs near the bottom) no matter how it was resized/repositioned;
-          removing it there and adding "Ask Brian" to the mobile menu
-          (Navbar.tsx, dispatches "open-concierge") is the structural fix
-          instead of another patch. Kept on tablet/desktop, where there's
-          real space and it stays out of the way. */}
+      {/* After the engagement delay, show only a small non-blocking invitation.
+          Clicking it opens the same concierge as the launcher. */}
+      <AnimatePresence>
+        {promptVisible && !open && (
+          <motion.button
+            type="button"
+            onClick={() => {
+              setPromptVisible(false);
+              trackEvent("concierge_open", {
+                source_path: analyticsPath(window.location.pathname),
+                open_method: "manual",
+                trigger: "engaged_prompt_bubble",
+              });
+              setOpen(true);
+            }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8, scale: 0.96 }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6, scale: 0.98 }}
+            transition={{ duration: reduce ? 0 : 0.2 }}
+            className="concierge-launcher fixed bottom-20 right-4 z-[60] rounded-2xl bg-cream px-4 py-2.5 text-sm font-semibold text-ink shadow-lift ring-1 ring-ink/10 transition-colors hover:bg-sand md:bottom-24 md:right-5"
+            aria-label="Need help? Open the Paradox Concierge"
+          >
+            Need help?
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* Persistent launcher on phones, tablets, and desktop. On mobile it
+          disappears while the chat itself is open because the panel has its
+          own visible close control. */}
       <motion.button
         ref={launcherRef}
         onClick={() =>
           setOpen((wasOpen) => {
             const next = !wasOpen;
             if (next) {
+              setPromptVisible(false);
               trackEvent("concierge_open", {
                 source_path: analyticsPath(window.location.pathname),
                 open_method: "manual",
@@ -322,7 +345,9 @@ export default function ConciergeBot() {
             return next;
           })
         }
-        className="concierge-launcher fixed bottom-5 right-5 z-[60] hidden h-14 w-14 items-center justify-center rounded-full bg-ocean-dark text-cream shadow-lift transition-colors hover:bg-ocean md:inline-flex"
+        className={`concierge-launcher fixed bottom-4 right-4 z-[60] h-12 w-12 items-center justify-center rounded-full bg-ocean-dark text-cream shadow-lift transition-colors hover:bg-ocean md:bottom-5 md:right-5 md:h-14 md:w-14 ${
+          open ? "hidden md:inline-flex" : "inline-flex"
+        }`}
         whileHover={reduce ? undefined : { scale: 1.05 }}
         whileTap={reduce ? undefined : { scale: 0.95 }}
         aria-label={open ? "Close concierge" : "Open travel concierge"}
@@ -354,7 +379,7 @@ export default function ConciergeBot() {
             animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: reduce ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="concierge-launcher fixed inset-x-4 bottom-4 top-4 z-[60] flex flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10 md:inset-x-auto md:bottom-24 md:right-5 md:top-auto md:h-[580px] md:max-h-[80vh] md:w-[92vw] md:max-w-[390px]"
+            className="concierge-launcher fixed inset-x-3 bottom-20 z-[60] flex h-[72dvh] max-h-[580px] flex-col overflow-hidden rounded-3xl bg-cream shadow-lift ring-1 ring-ink/10 md:inset-x-auto md:bottom-24 md:right-5 md:h-[580px] md:max-h-[80vh] md:w-[92vw] md:max-w-[390px]"
           >
             {/* Header */}
             <div className="flex items-center gap-3 bg-ocean-dark px-5 py-4 text-cream">
@@ -367,9 +392,6 @@ export default function ConciergeBot() {
                   Travel questions + planning help
                 </div>
               </div>
-              {/* The floating launcher is hidden on phones, so the panel
-                  needs its own touch-visible exit instead of relying on an
-                  Escape key that most phones do not have. */}
               <button
                 type="button"
                 onClick={() => setOpen(false)}
