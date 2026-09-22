@@ -127,6 +127,12 @@ export const links = {
     "https://www.virginvoyages.com/book/voyage-planner/find-a-voyage?cabins=1&currencyCode=USD&agentId=235470&agencyId=589&bookingChannel=FMLINK",
   scheduler:
     "https://book.nylas.com/us/17c481fa-c6ec-46c3-8e01-c7f0024cc234/bookwithbrian",
+  ternFullServiceIntake:
+    "https://app.tern.travel/public/forms/cYqOChO8qaDXeYhB7blD0w/responses/new",
+  ternItineraryIntake:
+    "https://app.tern.travel/public/forms/QxyAU_jzOxbGJFCd-iUjmg/responses/new",
+  ternDfwInPersonIntake:
+    "https://app.tern.travel/public/forms/oUT4xxNvTTCuFgvTXfq8vw/responses/new",
   messenger: "https://m.me/61581081109053",
   ownerLinkedIn: "https://www.linkedin.com/in/brianvoyles76",
   email: "hello@paradoxtravelnetwork.com",

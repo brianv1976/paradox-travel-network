@@ -12,9 +12,11 @@ export interface Step {
 export default function NumberedSteps({
   steps,
   gap = "gap-4",
+  columns = "md:grid-cols-3",
 }: {
   steps: Step[];
   gap?: string;
+  columns?: string;
 }) {
   const reduce = useReducedMotion();
 
@@ -24,7 +26,7 @@ export default function NumberedSteps({
       initial={reduce ? false : "hidden"}
       whileInView={reduce ? undefined : "show"}
       viewport={{ once: true, amount: 0.2 }}
-      className="mt-12 grid gap-8 md:grid-cols-3"
+      className={`mt-12 grid gap-8 ${columns}`}
     >
       {steps.map((s) => (
         <motion.div

@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   CalendarClock,
@@ -7,6 +8,7 @@ import {
   Phone,
   Scale,
   Sparkles,
+  MapPinned,
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import PageHero from "../components/PageHero";
@@ -67,9 +69,6 @@ const valueCase = [
     ],
   },
 ];
-
-const TERN_INTAKE_URL =
-  "https://app.tern.travel/public/forms/cYqOChO8qaDXeYhB7blD0w/responses/new";
 
 const nextSteps = [
   {
@@ -186,6 +185,69 @@ export default function PlanMyTrip() {
         </motion.div>
       </section>
 
+      <section className="bg-sand/60">
+        <div className="container-px py-16 md:py-20">
+          <Reveal>
+            <div className="flex flex-col items-start gap-6 rounded-[2rem] border border-ink/10 bg-cream p-8 shadow-soft md:flex-row md:items-center md:justify-between md:p-10">
+              <div className="max-w-2xl">
+                <h2 className="text-2xl font-semibold leading-tight text-ink md:text-3xl">
+                  Want the plan but prefer to make the bookings yourself?
+                </h2>
+                <p className="mt-3 leading-relaxed text-fog">
+                  Custom Itinerary Planning gives you a researched day-by-day
+                  trip plan without full-service booking. Brian designs the
+                  itinerary; you make and manage the reservations.
+                </p>
+              </div>
+              <Link to="/itinerary-planning" className="btn-ghost shrink-0">
+                See Custom Itinerary Planning <ArrowRight size={16} />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="container-px py-20 md:py-28">
+        <Reveal variant="rise">
+          <div className="relative overflow-hidden rounded-[2rem] bg-ocean-dark px-8 py-12 text-cream shadow-lift md:px-12 md:py-16">
+            <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-gold/20 blur-3xl" />
+            <div className="relative max-w-3xl">
+              <MapPinned className="text-gold" size={30} aria-hidden="true" />
+              <h2 className="mt-5 text-3xl font-semibold leading-tight md:text-4xl">
+                Prefer to plan a significant trip in person?
+              </h2>
+              <div className="mt-5 space-y-4 leading-relaxed text-cream">
+                <p>
+                  For substantial full-service trips in the Dallas–Fort Worth
+                  area, Brian may offer an in-person planning option. This lane
+                  is intended for trips with an approximate total trip value of
+                  $15,000 or more and is subject to fit and availability.
+                </p>
+                <p>
+                  This is an in-person version of full-service planning and
+                  booking. The $15,000 qualification applies only to the DFW
+                  In-Person Planning option — it is not a minimum for working
+                  with Paradox Travel Network. Smaller full-service trips are
+                  still welcome through the normal Plan With Brian process.
+                </p>
+                <p>
+                  A professional planning fee applies and is quoted after Brian
+                  reviews the inquiry.
+                </p>
+              </div>
+              <a
+                href={links.ternDfwInPersonIntake}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn mt-8 bg-gold text-ink hover:bg-cream"
+              >
+                Ask About In-Person Planning <ArrowRight size={16} />
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
       <section id="intake" className="container-px py-20 md:py-28">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
           <Reveal variant="rise">
@@ -199,7 +261,7 @@ export default function PlanMyTrip() {
               conversation — not a booking or a charge.
             </p>
             <a
-              href={TERN_INTAKE_URL}
+              href={links.ternFullServiceIntake}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary mt-8 w-fit"

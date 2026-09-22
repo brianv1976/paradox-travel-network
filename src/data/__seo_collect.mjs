@@ -113,6 +113,22 @@ const staticPages = [
       "Tell a Dallas–Fort Worth-based travel advisor serving travelers nationwide about your trip, budget, dates, and style to begin personalized vacation planning.",
   },
   {
+    path: "/itinerary-planning",
+    title: "Custom Itinerary Planning | Plan It and Book It Yourself",
+    description:
+      "Get a personalized day-by-day travel itinerary with researched hotels, activities, dining, routing, and practical guidance, then book every part yourself.",
+    image: assets.img.planning,
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: "Custom Itinerary Planning",
+      description:
+        "Get a personalized day-by-day travel itinerary with researched hotels, activities, dining, routing, and practical guidance, then book every part yourself.",
+      provider: { "@type": "TravelAgency", "@id": ORGANIZATION_ID, name: business.name },
+      areaServed: business.areaServed,
+    },
+  },
+  {
     path: "/about",
     title: "About Brian Voyles | Dallas–Fort Worth Travel Advisor",
     description:

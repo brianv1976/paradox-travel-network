@@ -627,6 +627,25 @@ export default function BookItYourself() {
         </div>
       </section>
 
+      <section className="container-px py-16 md:py-20">
+        <Reveal>
+          <div className="flex flex-col items-start gap-6 rounded-[2rem] border border-ocean/20 bg-ocean/5 p-8 md:flex-row md:items-center md:justify-between md:p-10">
+            <div className="max-w-2xl">
+              <h2 className="text-2xl font-semibold leading-tight text-ink md:text-3xl">
+                Want to book it yourself but skip the research?
+              </h2>
+              <p className="mt-3 leading-relaxed text-fog">
+                Custom Itinerary Planning gives you a professionally researched
+                day-by-day plan while you keep control of every reservation.
+              </p>
+            </div>
+            <Link to="/itinerary-planning" className="btn-ghost shrink-0">
+              Explore Custom Itinerary Planning <ArrowRight size={16} />
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
       <div className="container-px py-12">
         <p className="text-sm text-fog">
           <span className="font-semibold text-ink">Booking disclosure:</span>{" "}

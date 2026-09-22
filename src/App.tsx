@@ -33,6 +33,7 @@ const BookItYourself = lazyWithReload(() => import("./pages/BookItYourself"));
 const About = lazyWithReload(() => import("./pages/About"));
 const Contact = lazyWithReload(() => import("./pages/Contact"));
 const PlanMyTrip = lazyWithReload(() => import("./pages/PlanMyTrip"));
+const ItineraryPlanning = lazyWithReload(() => import("./pages/ItineraryPlanning"));
 const Blog = lazyWithReload(() => import("./pages/Blog"));
 const PostcardsIssue01 = lazyWithReload(() => import("./pages/PostcardsIssue01"));
 const DealDetail = lazyWithReload(() => import("./pages/DealDetail"));
@@ -92,6 +93,7 @@ export default function App() {
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/plan-my-trip" element={<PlanMyTrip />} />
+              <Route path="/itinerary-planning" element={<ItineraryPlanning />} />
               <Route path="/travel-tips" element={<Blog />} />
               <Route path="/postcards/issue-01" element={<PostcardsIssue01 />} />
               <Route path="/deals/:slug" element={<DealDetail />} />
