@@ -8,7 +8,7 @@ export interface Step {
 }
 
 /** Numbered step list (circle + title + body), staggered in on scroll.
- *  Shared by Home's "How planning works" and Contact's "What happens next". */
+ *  Shared by Home, Contact, and Itinerary Planning. */
 export default function NumberedSteps({
   steps,
   gap = "gap-4",
