@@ -31,15 +31,18 @@ export default function DealDetail() {
 
   if (!deal) return <Navigate to="/404" replace />;
 
+  const backTo = deal.backTo ?? "/";
+  const backLabel = deal.backLabel ?? "Back to Home";
+
   return (
     <>
       <article className="bg-cream pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="container-px">
           <Link
-            to="/postcards/issue-01"
+            to={backTo}
             className="inline-flex items-center gap-1.5 text-sm font-medium text-fog transition-colors hover:text-ocean-dark"
           >
-            <ArrowLeft size={15} /> Back to Postcards
+            <ArrowLeft size={15} /> {backLabel}
           </Link>
 
           <motion.div
@@ -97,8 +100,8 @@ export default function DealDetail() {
         body="Brian confirms the live offer terms against your dates before anything is booked — no surprises, no expired pricing."
         primaryLabel="Plan With Brian"
         primaryTo="/plan-my-trip"
-        secondaryLabel="See More Postcards"
-        secondaryTo="/postcards/issue-01"
+        secondaryLabel={deal.backLabel ? `See More ${deal.backLabel.replace("Back to ", "")}` : "Explore More"}
+        secondaryTo={backTo}
       />
     </>
   );

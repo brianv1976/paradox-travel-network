@@ -127,9 +127,14 @@ export interface Promo {
   href: string;
 }
 
-// Empty until Brian has a promo worth showing that isn't about to lapse --
-// both the Exoticca Summer Outlet and the Virgin balcony-upgrade offer
-// expired 2026-08-31, only 3 days out when first added, so they were pulled
-// before ever going live. Add entries here once there's a real one with
-// enough runway to be worth a visitor's click.
-export const promos: Promo[] = [];
+export const promos: Promo[] = [
+  {
+    slug: "vacation-express-st-lucia-grand-romance",
+    vendor: "Vacation Express",
+    headline: "Saint Lucia: up to $1,200 added value, 7+ nights",
+    description:
+      "Grand Romance Package at Serenity at Coconut Bay — couples massage, private island tour, catamaran sunset cruise, and more.",
+    expires: "2026-10-31",
+    href: "/deals/vacation-express-st-lucia-grand-romance",
+  },
+];
