@@ -111,7 +111,8 @@ export default function Privacy() {
       <h2>Third-party booking partners</h2>
       <p>
         This site links to trusted independent providers such as Viator, Shore
-        Excursions Group, and Exoticca. When you book with them, their own
+        Excursions Group, Exoticca, Project Expedition, and Virgin Voyages.
+        When you book with them, their own
         terms and privacy policies apply, and any payment is handled on their
         platforms, not here. Some links are affiliate links; a booking may earn
         Paradox Travel Network a commission at no additional cost to you.

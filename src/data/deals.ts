@@ -12,6 +12,9 @@ export interface Deal {
   disclaimer: string;
   ctaLabel: string;
   seoDescription: string;
+  /** Human-readable booking deadline shown as a clear validity line, e.g.
+   *  "September 7, 2026". Optional — set when the supplier gave one. */
+  bookBy?: string;
 }
 
 export const deals: Deal[] = [
@@ -36,6 +39,7 @@ export const deals: Deal[] = [
     ctaLabel: "Plan With Brian",
     seoDescription:
       "Sandals' Great Jamaica Comeback Sale offers up to $1,500 instant credit plus up to $350 air credit on qualifying Jamaica resort stays. Ask Brian to confirm your resort, dates, and tier.",
+    bookBy: "September 7, 2026",
   },
 ];
 

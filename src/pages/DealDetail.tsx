@@ -63,6 +63,11 @@ export default function DealDetail() {
             <motion.p variants={fadeUp} className="mt-5 text-lg leading-relaxed text-fog">
               {deal.summary}
             </motion.p>
+            {deal.bookBy && (
+              <motion.p variants={fadeUp} className="mt-3 text-sm font-semibold text-clay-deep">
+                Book by {deal.bookBy} to qualify. Travel dates and resort restrictions apply.
+              </motion.p>
+            )}
           </motion.div>
 
           <motion.div

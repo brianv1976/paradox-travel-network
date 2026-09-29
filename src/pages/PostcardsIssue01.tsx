@@ -458,6 +458,7 @@ export default function PostcardsIssue01() {
             </div>
             <div className="px-4 py-6 sm:px-7">
               <p className="text-sm leading-relaxed text-[#3d3a30]">Top tier shown is Sandals Ochi Rios, 10+ nights. Other Jamaica resorts and shorter stays qualify too, at lower tiers &mdash; final resort, stay length, and availability are confirmed at booking.</p>
+              <p className="mt-3 text-xs font-black uppercase tracking-[.1em] text-[#8A2E2E]">Book by September 7, 2026 to qualify. Travel dates and resort restrictions apply.</p>
               <Link to="/plan-my-trip" className="mt-4 inline-flex w-fit items-center gap-2 bg-[#173943] px-5 py-3 text-xs font-black uppercase tracking-[.16em] text-white">
                 Plan With Brian <ArrowRight size={14} />
               </Link>
@@ -465,7 +466,7 @@ export default function PostcardsIssue01() {
           </div>
           <HandwrittenNote rotate="3deg" className="mx-auto mt-6 w-fit max-w-[260px] sm:absolute sm:-bottom-2 sm:right-10 sm:mt-0">
             <p className="text-[13px] leading-tight text-[#173943]" style={{ fontFamily: "'Caveat', cursive", fontSize: "1.2rem" }}>
-              Real supplier deal, expires when Sandals says so &mdash; not a manufactured countdown.
+              Real supplier deal from when this issue published &mdash; not a manufactured countdown.
             </p>
           </HandwrittenNote>
         </div>

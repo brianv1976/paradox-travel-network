@@ -165,9 +165,9 @@ const staticPages = [
   },
   {
     path: "/travel-tips",
-    title: "Postcards from Paradox | Destination Spotlights, Travel News & Tips",
+    title: "Postcards from Paradox | Travel Magazine, News & Destination Stories",
     description:
-      "Destination spotlights, travel news, and practical tips from Paradox Travel Network — plus an occasional newsletter with useful reminders.",
+      "Postcards from Paradox is the travel magazine from Paradox Travel Network: destination stories, useful travel news, practical tips, and full web editions.",
   },
   {
     path: "/postcards/issue-01",
