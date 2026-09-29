@@ -156,6 +156,8 @@ export const posts: Post[] = [
     readingTime: 2,
     featured: true,
     timeSensitive: true,
+    ctaLabel: "Plan a Jamaica Trip With Brian",
+    ctaTo: "/plan-my-trip",
     sources: [
       {
         label: "American Airlines — Dallas Fort Worth to Montego Bay",
@@ -426,6 +428,8 @@ export const posts: Post[] = [
     date: "2026-07-13",
     readingTime: 3,
     featured: false,
+    ctaLabel: "Let Brian Build a Pace That Actually Works",
+    ctaTo: "/plan-my-trip",
   },
   {
     slug: "save-travel-documents-offline",

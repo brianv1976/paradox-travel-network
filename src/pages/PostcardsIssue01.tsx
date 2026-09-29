@@ -459,9 +459,17 @@ export default function PostcardsIssue01() {
             <div className="px-4 py-6 sm:px-7">
               <p className="text-sm leading-relaxed text-[#3d3a30]">Top tier shown is Sandals Ochi Rios, 10+ nights. Other Jamaica resorts and shorter stays qualify too, at lower tiers &mdash; final resort, stay length, and availability are confirmed at booking.</p>
               <p className="mt-3 text-xs font-black uppercase tracking-[.1em] text-[#8A2E2E]">Book by September 7, 2026 to qualify. Travel dates and resort restrictions apply.</p>
-              <Link to="/plan-my-trip" className="mt-4 inline-flex w-fit items-center gap-2 bg-[#173943] px-5 py-3 text-xs font-black uppercase tracking-[.16em] text-white">
-                Plan With Brian <ArrowRight size={14} />
-              </Link>
+              <div className="mt-4 flex flex-wrap items-center gap-4">
+                <Link to="/plan-my-trip" className="inline-flex w-fit items-center gap-2 bg-[#173943] px-5 py-3 text-xs font-black uppercase tracking-[.16em] text-white">
+                  Plan With Brian <ArrowRight size={14} />
+                </Link>
+                <Link
+                  to="/deals/sandals-jamaica-instant-credit"
+                  className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-[.14em] text-[#0b5e67] underline underline-offset-4"
+                >
+                  See full offer details <ArrowRight size={13} />
+                </Link>
+              </div>
             </div>
           </div>
           <HandwrittenNote rotate="3deg" className="mx-auto mt-6 w-fit max-w-[260px] sm:absolute sm:-bottom-2 sm:right-10 sm:mt-0">
