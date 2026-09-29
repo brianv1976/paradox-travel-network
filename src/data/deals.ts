@@ -6,6 +6,10 @@ export interface Deal {
   destination: string;
   tag: string; // e.g. "Sandals · Jamaica · Current Promotion"
   headline: string; // e.g. "Up to $1,500 instant credit + up to $350 air credit."
+  /** Shorter variant for the `<title>` tag only, when `headline` (used as
+   *  the on-page H1) runs long enough to get truncated in search results.
+   *  Leave unset to just reuse `headline`. */
+  seoTitle?: string;
   image: string;
   summary: string;
   details: string[];
@@ -30,6 +34,7 @@ export const deals: Deal[] = [
     destination: "Jamaica",
     tag: "Sandals · The Great Jamaica Comeback Sale",
     headline: "Up to $1,500 instant credit + up to $350 air credit.",
+    seoTitle: "Sandals Jamaica: $1,500 Credit",
     image: "/assets/resort.jpg",
     summary:
       "Sandals' \"Great Jamaica Comeback Sale\" — real instant-credit and air-credit tiers across several Jamaica resorts.",
@@ -44,7 +49,7 @@ export const deals: Deal[] = [
       "Offer subject to Sandals' current terms, availability, and eligibility rules, and varies by resort, room category, and stay length. Paradox Travel Network verifies the live offer details with Brian before booking — nothing here is a guaranteed rate for every trip.",
     ctaLabel: "Plan With Brian",
     seoDescription:
-      "Sandals' Great Jamaica Comeback Sale offers up to $1,500 instant credit plus up to $350 air credit on qualifying Jamaica resort stays. Ask Brian to confirm your resort, dates, and tier.",
+      "Sandals' Great Jamaica Comeback Sale offers up to $1,500 instant credit plus $350 air credit on qualifying resort stays. Ask Brian to confirm your tier.",
     bookBy: "September 7, 2026",
     backTo: "/postcards/issue-01",
     backLabel: "Back to Postcards",
@@ -55,6 +60,7 @@ export const deals: Deal[] = [
     destination: "Saint Lucia",
     tag: "Vacation Express · Grand Romance Package",
     headline: "Up to $1,200 in added value for 7-night+ stays.",
+    seoTitle: "Saint Lucia: $1,200 Added Value",
     image: "/assets/vacation-express/saint-lucia-serenity/main.jpg",
     summary:
       "An adults-only, all-inclusive escape at Serenity at Coconut Bay Beach Resort & Spa in Saint Lucia, with a real added-value package for longer stays.",
@@ -69,7 +75,7 @@ export const deals: Deal[] = [
       "Offer subject to Vacation Express's and Serenity at Coconut Bay's current terms, availability, and eligibility rules. Saint Lucia's Tourism Levy ($6 per person, per night for adults 18+) is collected at check-in and is not included in the package value. Paradox Travel Network verifies the live offer details with Brian before booking — nothing here is a guaranteed rate for every trip.",
     ctaLabel: "Plan With Brian",
     seoDescription:
-      "Serenity at Coconut Bay Beach Resort & Spa's Grand Romance Package offers up to $1,200 in added value for 7-night+ stays in Saint Lucia. Ask Brian to confirm your dates and package.",
+      "Serenity at Coconut Bay's Grand Romance Package offers up to $1,200 added value for 7+ night stays in Saint Lucia. Ask Brian to confirm your dates.",
     bookBy: "October 31, 2026",
   },
 ];

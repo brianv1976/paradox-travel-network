@@ -31,6 +31,10 @@ export type Category =
 export interface Post {
   slug: string;
   title: string;
+  /** Shorter variant for the `<title>` tag only, when the display `title`
+   *  (used as the on-page H1 and JSON-LD headline) runs long enough to get
+   *  truncated in search results. Leave unset to just reuse `title`. */
+  seoTitle?: string;
   contentType: ContentType;
   category?: Category;
   /** Which service-page slug(s) this post is genuinely useful supporting
@@ -116,7 +120,7 @@ export const posts: Post[] = [
       "For North Texas travelers, the island remains practical enough to compare seriously against Mexico and other Caribbean beach destinations. The bigger planning question is not simply 'Jamaica or not?' It is which Jamaica you actually want.",
     ],
     seoDescription:
-      "A deep Jamaica destination guide from Paradox Travel Network covering Montego Bay, Negril, Ocho Rios, Kingston, Port Antonio, South Coast, trip length, and how to choose the right Jamaica itinerary.",
+      "A Jamaica destination guide covering Montego Bay, Negril, Ocho Rios, Kingston, and Port Antonio — how to choose the right itinerary.",
     image: "/assets/beach.jpg",
     cardImage: "/assets/stock/tropical-beach-aerial.jpg",
     author: "Brian Voyles",
@@ -136,6 +140,7 @@ export const posts: Post[] = [
     slug: "jamaica-keeps-getting-easier-from-dfw",
     contentType: "Travel News",
     title: "Jamaica Keeps Getting Easier to Reach From DFW",
+    seoTitle: "Jamaica Is Easier to Reach",
     summary:
       "American is currently selling Dallas Fort Worth to Montego Bay itineraries for fall 2026 while Jamaica's main tourism gateway continues adding international connectivity.",
     content: [
@@ -144,7 +149,7 @@ export const posts: Post[] = [
       "What this means for you: Jamaica does not need a 'hidden gem' makeover to be interesting. From Dallas, it is already practical to compare against other Caribbean beach trips, and the island's air-access story keeps getting stronger.",
     ],
     seoDescription:
-      "Why Jamaica remains a practical Caribbean option from Dallas Fort Worth, with current DFW-Montego Bay itineraries and continued air-service growth at Sangster International Airport.",
+      "Why Jamaica remains a practical Caribbean option from DFW, with current Montego Bay itineraries and growing air-service access.",
     image: "/assets/beach.jpg",
     author: "Brian Voyles",
     date: "2026-08-26",
@@ -170,6 +175,7 @@ export const posts: Post[] = [
     slug: "if-the-suitcase-needs-a-wrestling-match",
     contentType: "Travel Tip",
     title: "If the Suitcase Needs a Wrestling Match, You Packed Too Much",
+    seoTitle: "The Suitcase Wrestling Match",
     category: "Packing",
     summary:
       "Pack around repeatable outfits, real weather, and what cannot be replaced easily.",
@@ -194,6 +200,7 @@ export const posts: Post[] = [
     slug: "six-minute-connection-is-a-dare",
     contentType: "Travel Tip",
     title: "A Six-Minute Connection Is Not an Itinerary. It Is a Dare.",
+    seoTitle: "A Six-Minute Connection Is a Dare",
     category: "Airports",
     summary:
       "Connection time should account for airport size, terminals, customs, mobility, and delay risk.",
@@ -219,6 +226,7 @@ export const posts: Post[] = [
     slug: "arrive-before-cruise-embarkation-day",
     contentType: "Travel Tip",
     title: "Arrive Before Embarkation Day When the Schedule Matters",
+    seoTitle: "Arrive Before Embarkation Day",
     category: "Cruises",
     genres: ["cruises"],
     summary:
@@ -245,6 +253,7 @@ export const posts: Post[] = [
     slug: "cheapest-flight-can-cost-more",
     contentType: "Travel Tip",
     title: "The Cheapest Flight Can Become the Most Expensive Bad Decision",
+    seoTitle: "Cheapest Flight Can Cost More",
     category: "Airports",
     summary:
       "Compare bags, seats, airport location, connection risk, and schedule before deciding which fare is actually cheapest.",
@@ -273,6 +282,7 @@ export const posts: Post[] = [
     slug: "cruise-cabin-location-matters",
     contentType: "Travel Tip",
     title: "Your Cruise Cabin Is a Room and Also a Location Decision",
+    seoTitle: "Your Cruise Cabin Is a Location",
     category: "Cruises",
     genres: ["cruises"],
     summary:
@@ -299,6 +309,7 @@ export const posts: Post[] = [
     slug: "all-inclusive-does-not-mean-everything-matters",
     contentType: "Travel Tip",
     title: "All-Inclusive Does Not Mean Every Inclusion Matters to You",
+    seoTitle: "All-Inclusive, Not Everything",
     category: "Resorts",
     genres: ["all-inclusive-resorts"],
     summary:
@@ -325,6 +336,7 @@ export const posts: Post[] = [
     slug: "check-resort-transfer-time",
     contentType: "Travel Tip",
     title: "The Resort Is Not Close Because the Brochure Used the Word Convenient",
+    seoTitle: "Check Your Resort's Transfer Time",
     category: "Resorts",
     genres: ["all-inclusive-resorts"],
     summary:
@@ -348,6 +360,7 @@ export const posts: Post[] = [
     slug: "check-passport-rules-early",
     contentType: "Travel Tip",
     title: "Check Passport Rules Before the Countdown Becomes Emotional",
+    seoTitle: "Check Passport Rules Early",
     category: "Planning",
     summary:
       "Review expiration, name, blank-page, visa, and destination entry rules early in the planning process.",
@@ -373,6 +386,7 @@ export const posts: Post[] = [
     slug: "family-room-layout-matters",
     contentType: "Travel Tip",
     title: "A Family Hotel Room Is Not Bigger Because Everyone Is Optimistic",
+    seoTitle: "A Family Hotel Room Layout Matters",
     category: "Planning",
     genres: ["family-travel"],
     summary:
@@ -396,6 +410,7 @@ export const posts: Post[] = [
     slug: "do-not-overschedule-the-vacation",
     contentType: "Travel Tip",
     title: "Do Not Schedule Your Vacation So Tightly That It Feels Like Another Job",
+    seoTitle: "Don't Overschedule the Vacation",
     category: "General",
     summary:
       "Prioritize the experiences that matter and leave room for rest, weather, discovery, and reality.",
@@ -416,6 +431,7 @@ export const posts: Post[] = [
     slug: "save-travel-documents-offline",
     contentType: "Travel Tip",
     title: "Save the Documents Before the Airport Wi-Fi Begins Its Rebellion",
+    seoTitle: "Save Your Travel Documents Offline",
     category: "Airports",
     summary:
       "Keep offline copies of confirmations, addresses, insurance details, and important contact information before departure.",

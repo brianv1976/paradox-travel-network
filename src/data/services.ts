@@ -54,7 +54,7 @@ export const services: ServicePage[] = [
     navLabel: "Cruises",
     metaTitle: "Cruise Travel Advisor | DFW Cruise Planning",
     metaDescription:
-      "Plan ocean cruises, river cruises, Alaska, Mediterranean sailings, and cruise-plus-land trips with a Dallas–Fort Worth travel advisor serving travelers nationwide.",
+      "Plan ocean cruises, river cruises, Alaska, and Mediterranean sailings with a Dallas–Fort Worth travel advisor serving travelers nationwide.",
     eyebrow: "Cruises worth choosing carefully",
     h1: "The right cruise starts long before you pick a cabin.",
     intro:
@@ -147,7 +147,7 @@ export const services: ServicePage[] = [
     navLabel: "All-Inclusive",
     metaTitle: "All-Inclusive Resort Planning | Dallas–Fort Worth Advisor",
     metaDescription:
-      "Find the right all-inclusive resort with a Dallas–Fort Worth-based travel advisor, serving travelers nationwide, matching your budget, travel style, and vacation priorities.",
+      "Find the right all-inclusive resort with a Dallas–Fort Worth travel advisor, matching your budget, travel style, and priorities.",
     eyebrow: "All-inclusive resorts",
     h1: "Easy should still fit the people traveling.",
     intro:
@@ -235,7 +235,7 @@ export const services: ServicePage[] = [
     navLabel: "Romance",
     metaTitle: "Honeymoon Travel Agent | Dallas–Fort Worth Advisor",
     metaDescription:
-      "Plan honeymoons, destination weddings, and romantic getaways with a Dallas–Fort Worth-based travel advisor serving couples nationwide, built around your style and budget.",
+      "Plan honeymoons, destination weddings, and romantic getaways with a Dallas–Fort Worth advisor serving couples nationwide.",
     eyebrow: "Romance and honeymoons",
     h1: "Romantic should feel like the two people taking the trip.",
     intro:
@@ -323,7 +323,7 @@ export const services: ServicePage[] = [
     navLabel: "Family Travel",
     metaTitle: "Family Vacation Travel Agent | Dallas–Fort Worth",
     metaDescription:
-      "A Dallas–Fort Worth-based family vacation planner serving travelers nationwide, balancing ages, interests, logistics, comfort, and budget for stress-free family trips.",
+      "A Dallas–Fort Worth family vacation planner balancing ages, interests, and budget for stress-free family trips nationwide.",
     eyebrow: "Family travel",
     h1: "A family trip should work for the family actually taking it.",
     intro:
@@ -411,7 +411,7 @@ export const services: ServicePage[] = [
     navLabel: "Adventure",
     metaTitle: "Adventure & Guided Travel Planning | Dallas–Fort Worth",
     metaDescription:
-      "Explore guided tours and adventure travel with a Dallas–Fort Worth-based advisor serving travelers nationwide, offering thoughtful pacing, support, and destination planning.",
+      "Explore guided tours and adventure travel with a Dallas–Fort Worth advisor offering thoughtful pacing and planning, nationwide.",
     eyebrow: "Adventure and guided travel",
     h1: "See more without turning the trip into punishment.",
     intro:

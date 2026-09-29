@@ -41,7 +41,7 @@ function StampPhoto({ src, label }: { src: string; label: string }) {
 
 export default function Blog() {
   useSeo(
-    "Postcards from Paradox | Travel Magazine, News & Destination Stories",
+    "Postcards from Paradox | Travel Magazine & Stories",
     "Postcards from Paradox is the travel magazine from Paradox Travel Network: destination stories, useful travel news, practical tips, and full web editions."
   );
 

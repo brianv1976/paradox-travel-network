@@ -29,7 +29,7 @@ export default function BlogPost() {
   const post = slug ? getPost(slug) : undefined;
 
   useSeo(
-    post ? `${post.title} | Postcards from Paradox` : "",
+    post ? `${post.seoTitle ?? post.title} | Postcards from Paradox` : "",
     post?.seoDescription,
     post
       ? {

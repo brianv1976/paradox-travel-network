@@ -81,9 +81,9 @@ function ownerSchema() {
 const staticPages = [
   {
     path: "/",
-    title: "DFW Travel Advisor Serving Nationwide | Paradox Travel Network",
+    title: "DFW Travel Advisor, Nationwide | Paradox Travel Network",
     description:
-      "Based in Dallas-Fort Worth and serving travelers nationwide, Brian Voyles personally plans and books cruises, resorts, honeymoons, family trips, and more - or book through trusted travel partners.",
+      "Brian Voyles personally plans cruises, resorts, honeymoons, and family trips from DFW for travelers nationwide — or book through trusted partners.",
     images: [assets.logo, assets.portrait, assets.headshot],
     structuredData: {
       "@context": "https://schema.org",
@@ -159,13 +159,13 @@ const staticPages = [
   },
   {
     path: "/contact",
-    title: "Contact a DFW Travel Advisor Serving Nationwide | Paradox Travel Network",
+    title: "Contact Brian | Paradox Travel Network",
     description:
-      "Contact Brian Voyles, a Dallas–Fort Worth-based travel advisor serving travelers nationwide, to ask a travel question, discuss a vacation, or find the right planning path.",
+      "Contact Brian Voyles, a Dallas–Fort Worth travel advisor serving travelers nationwide, to ask a question or find the right planning path.",
   },
   {
     path: "/travel-tips",
-    title: "Postcards from Paradox | Travel Magazine, News & Destination Stories",
+    title: "Postcards from Paradox | Travel Magazine & Stories",
     description:
       "Postcards from Paradox is the travel magazine from Paradox Travel Network: destination stories, useful travel news, practical tips, and full web editions.",
   },
@@ -195,7 +195,7 @@ const staticPages = [
     path: "/explore-travel",
     title: "Explore Travel Types | Paradox Travel Network",
     description:
-      "Browse cruises, all-inclusive resorts, honeymoons, family trips, adventure travel, and custom vacations — with real planning guidance for each, from a Dallas–Fort Worth travel advisor serving travelers nationwide.",
+      "Browse cruises, all-inclusive resorts, honeymoons, family trips, and adventure travel — with real planning guidance from a DFW advisor, nationwide.",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "ItemList",
@@ -246,7 +246,7 @@ const blogPages = publishedPosts.map((p) => {
   const url = canonicalUrl(`/travel-tips/${p.slug}`);
   return {
     path: `/travel-tips/${p.slug}`,
-    title: `${p.title} | Postcards from Paradox`,
+    title: `${p.seoTitle ?? p.title} | Postcards from Paradox`,
     description: p.seoDescription,
     image,
     ogType: "article",
@@ -282,7 +282,7 @@ const blogPages = publishedPosts.map((p) => {
 
 const dealPages = deals.map((d) => ({
   path: `/deals/${d.slug}`,
-  title: `${d.headline} | Paradox Travel Network`,
+  title: `${d.seoTitle ?? d.headline} | Paradox Travel Network`,
   description: d.seoDescription,
   image: d.image,
   structuredData: {

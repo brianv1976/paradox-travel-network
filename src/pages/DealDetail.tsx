@@ -12,7 +12,7 @@ export default function DealDetail() {
   const deal = slug ? getDeal(slug) : undefined;
 
   useSeo(
-    deal ? `${deal.headline} | Paradox Travel Network` : "",
+    deal ? `${deal.seoTitle ?? deal.headline} | Paradox Travel Network` : "",
     deal?.seoDescription,
     deal
       ? {
