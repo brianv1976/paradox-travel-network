@@ -14,6 +14,14 @@ function lazyWithReload<T extends ComponentType<any>>(
   factory: () => Promise<{ default: T }>
 ) {
   return lazy(async () => {
+    // Stale-chunk recovery is a browser-only concern (a deploy shipped new
+    // chunk hashes while this tab still has the old index.html cached). The
+    // server render (scripts/render-bodies.mjs, via entry-server.tsx) hits
+    // this same factory to resolve real route content ahead of time, where
+    // there's no browser, no stale deploy, and no sessionStorage/window --
+    // just await the import and skip the recovery machinery entirely.
+    if (typeof window === "undefined") return factory();
+
     try {
       const mod = await factory();
       sessionStorage.removeItem(RELOAD_KEY);

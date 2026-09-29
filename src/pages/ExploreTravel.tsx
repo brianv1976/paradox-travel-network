@@ -35,7 +35,7 @@ export default function ExploreTravel() {
   const reduce = useReducedMotion();
   useSeo(
     "Explore Travel Types | Paradox Travel Network",
-    "Browse cruises, all-inclusive resorts, honeymoons, family trips, adventure travel, and custom vacations — with real planning guidance for each, from a Dallas–Fort Worth travel advisor serving travelers nationwide.",
+    "Browse cruises, all-inclusive resorts, honeymoons, family trips, and adventure travel — with real planning guidance from a DFW advisor, nationwide.",
     {
       structuredData: {
         "@context": "https://schema.org",

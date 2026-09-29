@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, Globe2, Compass, Facebook, Instagram, Send, Plane, Lightbulb } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { postcardsHubPosts, getCardImage } from "../data/blog";
-import { assets, business, links } from "../lib/assets";
+import { assets, business, links, siteOrigin } from "../lib/assets";
 
 /** A hand-torn / deckle photo edge, the single most repeated postal-ephemera
  * device on the page — every framed photo uses some variant of this instead
@@ -200,7 +200,7 @@ export default function PostcardsIssue01() {
         author: {
           "@type": "Person",
           name: business.owner,
-          url: `${window.location.origin}/about/`,
+          url: `${siteOrigin}/about/`,
         },
       },
     }

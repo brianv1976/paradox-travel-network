@@ -27,8 +27,8 @@ const nextSteps = [
 
 export default function Contact() {
   useSeo(
-    "Contact a DFW Travel Advisor Serving Nationwide | Paradox Travel Network",
-    "Contact Brian Voyles, a Dallas–Fort Worth-based travel advisor serving travelers nationwide, to ask a travel question, discuss a vacation, or find the right planning path."
+    "Contact Brian | Paradox Travel Network",
+    "Contact Brian Voyles, a Dallas–Fort Worth travel advisor serving travelers nationwide, to ask a question or find the right planning path."
   );
 
   return (

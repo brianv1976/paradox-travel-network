@@ -8,6 +8,14 @@
  * query params — they carry Brian's referral / tracking IDs.
  */
 
+/** `window.location.origin`, but safe to evaluate during server-side
+ *  rendering (build-time prerender / Node has no `window`). Use this instead
+ *  of `window.location.origin` directly in any component's render body
+ *  (e.g. inline JSON-LD construction) — `window` access inside a `useEffect`
+ *  is already deferred past SSR and doesn't need this. */
+export const siteOrigin =
+  typeof window !== "undefined" ? window.location.origin : "https://paradoxtravelnetwork.com";
+
 export const assets = {
   logo: "/Web Logo.png",
   headshot: "/assets/Headshot.png",

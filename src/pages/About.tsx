@@ -7,7 +7,7 @@ import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
 import { stagger, fadeUp } from "../lib/motion";
-import { assets, business, links } from "../lib/assets";
+import { assets, business, links, siteOrigin } from "../lib/assets";
 
 const traits = [
   {
@@ -26,7 +26,7 @@ const traits = [
 
 export default function About() {
   const reduce = useReducedMotion();
-  const origin = window.location.origin;
+  const origin = siteOrigin;
   const organizationId = `${origin}/#organization`;
   const ownerId = `${origin}/#brian-voyles`;
   const headshotUrl = new URL(assets.headshot, `${origin}/`).href;

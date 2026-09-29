@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Clock, User } from "lucide-react";
 import {
@@ -11,7 +11,7 @@ import {
 import { useSeo } from "../hooks/useSeo";
 import CTASection from "../components/CTASection";
 import { fadeUp, stagger } from "../lib/motion";
-import { business } from "../lib/assets";
+import { business, siteOrigin } from "../lib/assets";
 
 const TYPE_BADGE: Record<ContentType, string> = {
   "Destination Spotlight": "bg-clay/10 text-clay-deep",
@@ -27,6 +27,7 @@ function canonicalPath(pathname: string) {
 export default function BlogPost() {
   const { slug } = useParams();
   const post = slug ? getPost(slug) : undefined;
+  const { pathname } = useLocation();
 
   useSeo(
     post ? `${post.seoTitle ?? post.title} | Postcards from Paradox` : "",
@@ -40,24 +41,24 @@ export default function BlogPost() {
             "@type": "Article",
             headline: post.title,
             description: post.seoDescription,
-            image: new URL(getPostImage(post), `${window.location.origin}/`).href,
+            image: new URL(getPostImage(post), `${siteOrigin}/`).href,
             author: {
               "@type": "Person",
               name: post.author,
-              url: `${window.location.origin}/about/`,
+              url: `${siteOrigin}/about/`,
             },
             datePublished: post.date,
             dateModified: post.updatedDate ?? post.date,
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": window.location.origin + canonicalPath(window.location.pathname),
+              "@id": siteOrigin + canonicalPath(pathname),
             },
             publisher: {
               "@type": "TravelAgency",
               name: business.name,
               logo: {
                 "@type": "ImageObject",
-                url: `${window.location.origin}/Web%20Logo.png`,
+                url: `${siteOrigin}/Web%20Logo.png`,
               },
             },
           },

@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { useSeo } from "../hooks/useSeo";
 import { stagger, fadeUp } from "../lib/motion";
-import { assets, links, business } from "../lib/assets";
+import { assets, links, business, siteOrigin } from "../lib/assets";
 import { faqs } from "../data/site";
 import { featuredPosts, getPostImage } from "../data/blog";
 import GlobeFallback from "../components/GlobeFallback";
@@ -136,8 +136,8 @@ const advisorReasons = [
 
 export default function Home() {
   useSeo(
-    "DFW Travel Advisor Serving Nationwide | Paradox Travel Network",
-    "Based in Dallas-Fort Worth and serving travelers nationwide, Brian Voyles personally plans and books cruises, resorts, honeymoons, family trips, and more - or book through trusted travel partners.",
+    "DFW Travel Advisor, Nationwide | Paradox Travel Network",
+    "Brian Voyles personally plans cruises, resorts, honeymoons, and family trips from DFW for travelers nationwide — or book through trusted partners.",
     {
       structuredData: {
         "@context": "https://schema.org",
@@ -145,7 +145,7 @@ export default function Home() {
           {
             "@type": "WebSite",
             name: business.name,
-            url: `${window.location.origin}/`,
+            url: `${siteOrigin}/`,
           },
           {
             "@type": "TravelAgency",
@@ -153,7 +153,7 @@ export default function Home() {
             location: { "@type": "Place", name: business.region },
             areaServed: business.areaServed,
             founder: { "@type": "Person", name: business.owner },
-            url: `${window.location.origin}/`,
+            url: `${siteOrigin}/`,
           },
         ],
       },

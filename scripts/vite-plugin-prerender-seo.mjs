@@ -73,7 +73,7 @@ function injectCsp(html) {
     : html.replace(/<head>/i, `<head>\n    ${tag}`);
 }
 
-async function loadRoutes(root) {
+export async function loadRoutes(root) {
   const tmp = path.join(os.tmpdir(), `ptn-seo-data-${Date.now()}.mjs`);
   const result = await build({
     entryPoints: [path.join(root, "src/data/__seo_collect.mjs")],
@@ -208,16 +208,24 @@ function buildHead(template, siteUrl, { title, description, path: routePath, ima
 export default function prerenderSeoPlugin() {
   let root;
   let outDir;
+  let isSsrBuild = false;
   return {
     name: "prerender-seo",
     apply: "build",
     configResolved(config) {
       root = config.root;
+      // This plugin's whole job is per-route head tags + sitemap for the
+      // CLIENT build's output. `vite build --ssr` (see scripts/render-bodies.mjs)
+      // reuses this same vite.config.ts but targets a completely different,
+      // Node-only output (dist-ssr/) that has no index.html template to
+      // inject into — skip entirely rather than error on a missing file.
+      isSsrBuild = !!config.build.ssr;
       outDir = path.isAbsolute(config.build.outDir)
         ? config.build.outDir
         : path.join(root, config.build.outDir);
     },
     async closeBundle() {
+      if (isSsrBuild) return;
       const siteUrl = (process.env.SITE_URL || "https://paradoxtravelnetwork.com").replace(/\/+$/, "");
       const templatePath = path.join(outDir, "index.html");
       const template = injectCsp(await readFile(templatePath, "utf-8"));
