@@ -125,6 +125,9 @@ export interface Promo {
   /** ISO date -- the promo card is expected to be pulled/refreshed by then. */
   expires: string;
   href: string;
+  /** Optional photo -- when set, the card renders like the trip/cruise
+   *  cards above instead of the plain text-only layout. */
+  image?: string;
 }
 
 export const promos: Promo[] = [
@@ -136,5 +139,6 @@ export const promos: Promo[] = [
       "Grand Romance Package at Serenity at Coconut Bay — couples massage, private island tour, catamaran sunset cruise, and more.",
     expires: "2026-10-31",
     href: "/deals/vacation-express-st-lucia-grand-romance",
+    image: "/assets/vacation-express/saint-lucia-serenity/main.jpg",
   },
 ];
