@@ -7,7 +7,7 @@ import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
 import { stagger, fadeUp } from "../lib/motion";
-import { assets, business, links, siteOrigin } from "../lib/assets";
+import { assets, business, siteOrigin } from "../lib/assets";
 
 const traits = [
   {
@@ -63,7 +63,6 @@ export default function About() {
           description:
             "Owner and travel advisor at Paradox Travel Network, based in Dallas–Fort Worth and serving travelers nationwide.",
           image: [portraitUrl, headshotUrl],
-          sameAs: [links.ownerLinkedIn],
           worksFor: {
             "@type": "TravelAgency",
             "@id": organizationId,

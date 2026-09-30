@@ -161,15 +161,18 @@ export default async (req: Request) => {
     return json({ error: "Concierge AI is not configured" }, 503);
   }
 
-  // chat-latest is available through Netlify AI Gateway without extra setup.
+  // Keep the default on a model supported by Netlify AI Gateway.
   // OPENAI_CONCIERGE_MODEL remains an escape hatch for a future model upgrade.
-  const model = Netlify.env.get("OPENAI_CONCIERGE_MODEL") || "chat-latest";
+  const model = Netlify.env.get("OPENAI_CONCIERGE_MODEL") || "gpt-4o-mini";
+  const responsesUrl = baseUrl.endsWith("/v1")
+    ? `${baseUrl}/responses`
+    : `${baseUrl}/v1/responses`;
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 12000);
 
   try {
-    const response = await fetch(`${baseUrl}/v1/responses`, {
+    const response = await fetch(responsesUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,

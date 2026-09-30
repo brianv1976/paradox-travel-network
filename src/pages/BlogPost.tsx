@@ -79,6 +79,7 @@ export default function BlogPost() {
 
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString("en-US", {
+      timeZone: "UTC",
       year: "numeric",
       month: "long",
       day: "numeric",

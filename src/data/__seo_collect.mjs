@@ -47,6 +47,7 @@ function organizationSchema() {
     location: { "@type": "Place", name: business.region },
     areaServed: business.areaServed,
     founder: { "@type": "Person", "@id": OWNER_ID },
+    sameAs: [links.facebook, links.instagram],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
@@ -73,7 +74,6 @@ function ownerSchema() {
       height: 1600,
       caption: "Brian Voyles, owner and travel advisor at Paradox Travel Network",
     },
-    sameAs: [links.ownerLinkedIn],
     worksFor: { "@type": "TravelAgency", "@id": ORGANIZATION_ID },
   };
 }
