@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { ArrowUpRight, Facebook, Instagram } from "lucide-react";
+import { stagger, fadeUp } from "../lib/motion";
 import { links } from "../lib/assets";
 import Reveal from "./Reveal";
+import Magnetic from "./Magnetic";
+import TiltCard from "./TiltCard";
 
 type LatestPost = {
   permalink: string;
@@ -9,6 +13,9 @@ type LatestPost = {
   thumbnailUrl?: string;
   caption?: string;
 };
+
+const INSTAGRAM_GRADIENT =
+  "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)";
 
 export default function SocialFollow() {
   const [latest, setLatest] = useState<LatestPost | null>(null);
@@ -28,37 +35,93 @@ export default function SocialFollow() {
 
   return (
     <section className="container-px py-20 md:py-28" aria-labelledby="social-follow-title">
-      <Reveal>
+      <Reveal variant="rise">
         <div className="overflow-hidden rounded-[2rem] bg-ocean-dark text-cream shadow-lift">
           <div className={`grid ${latest ? "lg:grid-cols-[1.2fr_0.8fr]" : ""}`}>
-            <div className="p-8 md:p-12">
-              <span className="eyebrow text-gold">Stay connected</span>
-              <h2 id="social-follow-title" className="mt-4 font-display text-3xl font-semibold md:text-4xl">
+            <motion.div
+              variants={stagger(0.12)}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.4 }}
+              className="p-8 md:p-12"
+            >
+              <motion.span variants={fadeUp} className="eyebrow text-gold">
+                Stay connected
+              </motion.span>
+              <motion.h2
+                variants={fadeUp}
+                id="social-follow-title"
+                className="mt-4 font-display text-3xl font-semibold md:text-4xl"
+              >
                 Follow Paradox Travel Network
-              </h2>
-              <p className="mt-4 max-w-2xl leading-relaxed text-cream/85">
+              </motion.h2>
+              <motion.p variants={fadeUp} className="mt-4 max-w-2xl leading-relaxed text-cream/85">
                 Fresh travel ideas, useful reminders, destination inspiration, and the latest from Brian—without turning your feed into a sales pitch.
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <a href={links.facebook} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                  <Facebook size={18} aria-hidden="true" /> Follow on Facebook
-                </a>
-                <a href={links.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-cream/35 px-5 py-3 text-sm font-semibold text-cream transition-colors hover:bg-cream/10">
-                  <Instagram size={18} aria-hidden="true" /> Follow on Instagram
-                </a>
-              </div>
-            </div>
+              </motion.p>
+              <motion.div variants={fadeUp} className="mt-7 flex flex-wrap gap-3">
+                <Magnetic strength={8}>
+                  <a href={links.facebook} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                    <span
+                      className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1877F2]"
+                      aria-hidden="true"
+                    >
+                      <Facebook size={14} className="fill-white text-white" />
+                    </span>
+                    Follow on Facebook
+                  </a>
+                </Magnetic>
+                <Magnetic strength={8}>
+                  <a
+                    href={links.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-cream/35 px-5 py-3 text-sm font-semibold text-cream transition-colors hover:bg-cream/10"
+                  >
+                    <span
+                      className="flex h-6 w-6 items-center justify-center rounded-full"
+                      style={{ background: INSTAGRAM_GRADIENT }}
+                      aria-hidden="true"
+                    >
+                      <Instagram size={14} className="text-white" />
+                    </span>
+                    Follow on Instagram
+                  </a>
+                </Magnetic>
+              </motion.div>
+            </motion.div>
 
             {latest && (
-              <a href={latest.permalink} target="_blank" rel="noopener noreferrer" className="group relative min-h-72 overflow-hidden bg-ink" aria-label="View the latest post from Paradox Travel Network on Instagram">
-                {image && <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-75 transition-transform duration-700 group-hover:scale-105" />}
-                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
-                <div className="relative flex h-full min-h-72 flex-col justify-end p-7">
-                  <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">Latest from Paradox</span>
-                  {latest.caption && <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream">{latest.caption}</p>}
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cream">View on Instagram <ArrowUpRight size={15} /></span>
-                </div>
-              </a>
+              <Reveal variant="zoom" className="min-h-72">
+                <TiltCard className="h-full min-h-72" intensity={6}>
+                  <a
+                    href={latest.permalink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative block h-full min-h-72 overflow-hidden bg-ink"
+                    aria-label="View the latest post from Paradox Travel Network on Instagram"
+                  >
+                    {image && (
+                      <img
+                        src={image}
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-cover opacity-75 transition-transform duration-700 group-hover:scale-105"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+                    <div className="relative flex h-full min-h-72 flex-col justify-end p-7">
+                      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+                        Latest from Paradox
+                      </span>
+                      {latest.caption && (
+                        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream">{latest.caption}</p>
+                      )}
+                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cream">
+                        View on Instagram <ArrowUpRight size={15} />
+                      </span>
+                    </div>
+                  </a>
+                </TiltCard>
+              </Reveal>
             )}
           </div>
         </div>

@@ -87,7 +87,6 @@ export default function BlogPost() {
       year: "numeric",
       month: "long",
       day: "numeric",
-      timeZone: "UTC",
     });
   const dateLabel = formatDate(post.date);
   const cta = getPostCTA(post);

@@ -67,7 +67,6 @@ function canonicalizeSiteEntities(value: unknown): unknown {
       width: 560,
       height: 210,
     };
-    node.sameAs ??= [links.facebook, links.instagram];
   }
 
   if (type === "Person" && name === business.owner) {

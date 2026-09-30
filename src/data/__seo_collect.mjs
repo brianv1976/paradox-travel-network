@@ -53,7 +53,6 @@ function organizationSchema() {
       contactType: "customer service",
       email: links.email,
     },
-    sameAs: [links.facebook, links.instagram],
   };
 }
 
