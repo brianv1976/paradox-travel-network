@@ -47,6 +47,7 @@ function organizationSchema() {
     location: { "@type": "Place", name: business.region },
     areaServed: business.areaServed,
     founder: { "@type": "Person", "@id": OWNER_ID },
+    sameAs: [links.facebook, links.instagram],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",

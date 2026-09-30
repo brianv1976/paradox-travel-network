@@ -41,6 +41,7 @@ import CTASection from "../components/CTASection";
 import SocialFollow from "../components/SocialFollow";
 import Reveal from "../components/Reveal";
 import NewsletterForm from "../components/NewsletterForm";
+import SocialFollow from "../components/SocialFollow";
 
 // Three.js is a heavy dependency only this page's hero needs — lazy-loading
 // it keeps every other route's bundle free of it.
@@ -562,6 +563,8 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      <SocialFollow />
 
       {/* Reserved: a homepage "Featured Trips" section belongs here once
           Brian has real vendor pricing to show (src/data/trips.ts is already

@@ -83,6 +83,7 @@ export default function BlogPost() {
   // real SSR/hydration mismatch (different calendar day server vs. client).
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString("en-US", {
+      timeZone: "UTC",
       year: "numeric",
       month: "long",
       day: "numeric",

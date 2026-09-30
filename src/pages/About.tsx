@@ -7,7 +7,7 @@ import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
 import Reveal from "../components/Reveal";
 import { stagger, fadeUp } from "../lib/motion";
-import { assets, business, links, siteOrigin } from "../lib/assets";
+import { assets, business, siteOrigin } from "../lib/assets";
 
 const traits = [
   {

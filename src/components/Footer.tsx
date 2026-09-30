@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Mail, Facebook, Instagram } from "lucide-react";
+import { Facebook, Instagram, Mail } from "lucide-react";
 import { footerBlurb, footerLinks } from "../data/site";
 import { assets, business, links } from "../lib/assets";
 import NewsletterForm from "./NewsletterForm";
@@ -26,6 +26,26 @@ export default function Footer() {
             <Mail size={16} />
             {links.email}
           </a>
+          <div className="mt-5 flex items-center gap-3" aria-label="Follow Paradox Travel Network">
+            <a
+              href={links.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Paradox Travel Network on Facebook"
+              className="rounded-full border border-cream/25 p-2 text-cream transition-colors hover:border-cream/60 hover:bg-cream/10"
+            >
+              <Facebook size={18} aria-hidden="true" />
+            </a>
+            <a
+              href={links.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Paradox Travel Network on Instagram"
+              className="rounded-full border border-cream/25 p-2 text-cream transition-colors hover:border-cream/60 hover:bg-cream/10"
+            >
+              <Instagram size={18} aria-hidden="true" />
+            </a>
+          </div>
           <div className="mt-6 flex max-w-sm items-center gap-3">
             <span className="flex shrink-0 items-center rounded-md bg-cream px-3 py-3">
               <img
@@ -66,29 +86,9 @@ export default function Footer() {
           <span className="font-display italic text-cream">
             {business.tagline}
           </span>
-          <div className="flex items-center gap-4">
-            <a
-              href={links.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Follow Paradox Travel Network on Facebook"
-              className="text-cream/80 transition-colors hover:text-cream"
-            >
-              <Facebook size={16} />
-            </a>
-            <a
-              href={links.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Follow Paradox Travel Network on Instagram"
-              className="text-cream/80 transition-colors hover:text-cream"
-            >
-              <Instagram size={16} />
-            </a>
-            <span>
-              © {business.year} {business.name}
-            </span>
-          </div>
+          <span>
+            © {business.year} {business.name}
+          </span>
         </div>
       </div>
     </footer>
