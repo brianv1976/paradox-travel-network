@@ -550,8 +550,8 @@ export default function PostcardsIssue01() {
         </div>
         <div className="flex items-center gap-4 text-[#5a5342]">
           <a href={links.email ? `mailto:${links.email}` : "#"} aria-label="Share by email" className="hover:text-[#0b5e67]"><Send size={16} /></a>
-          <a href="https://www.facebook.com/profile.php?id=61581081109053" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-[#0b5e67]"><Facebook size={16} /></a>
-          <a href="https://www.instagram.com/paradoxtravelnetwork/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-[#0b5e67]"><Instagram size={16} /></a>
+          <a href={links.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-[#0b5e67]"><Facebook size={16} /></a>
+          <a href={links.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-[#0b5e67]"><Instagram size={16} /></a>
         </div>
       </div>
     </div>

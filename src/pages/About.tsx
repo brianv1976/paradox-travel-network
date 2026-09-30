@@ -63,12 +63,12 @@ export default function About() {
           description:
             "Owner and travel advisor at Paradox Travel Network, based in Dallas–Fort Worth and serving travelers nationwide.",
           image: [portraitUrl, headshotUrl],
-          sameAs: [links.ownerLinkedIn],
           worksFor: {
             "@type": "TravelAgency",
             "@id": organizationId,
             name: business.name,
             url: `${origin}/`,
+            sameAs: [links.facebook, links.instagram],
           },
         },
       },

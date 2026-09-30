@@ -77,11 +77,16 @@ export default function BlogPost() {
   const fallback = publishedPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
   const suggestions = (sameTopic.length ? sameTopic : sameType.length ? sameType : fallback).slice(0, 3);
 
+  // Dates are stored as date-only strings ("2026-08-27") and parse as UTC
+  // midnight. Formatting must pin timeZone: "UTC" too, or the displayed day
+  // shifts with the viewer's/server's local offset -- which showed up as a
+  // real SSR/hydration mismatch (different calendar day server vs. client).
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
+      timeZone: "UTC",
     });
   const dateLabel = formatDate(post.date);
   const cta = getPostCTA(post);

@@ -38,6 +38,7 @@ import PromoBanner from "../components/PromoBanner";
 import { tripSpecials, promos } from "../data/exoticcaTrips";
 import SectionHeading from "../components/SectionHeading";
 import CTASection from "../components/CTASection";
+import SocialFollow from "../components/SocialFollow";
 import Reveal from "../components/Reveal";
 import NewsletterForm from "../components/NewsletterForm";
 
@@ -613,6 +614,10 @@ export default function Home() {
         secondaryLabel="Book It Yourself"
         secondaryTo="/book-it-yourself"
       />
+
+      {/* SOCIAL FOLLOW — last section before the footer, a soft secondary
+          ask after the primary Plan/Book conversion push above. */}
+      <SocialFollow />
     </>
   );
 }

@@ -142,7 +142,10 @@ export const links = {
   ternDfwInPersonIntake:
     "https://app.tern.travel/public/forms/oUT4xxNvTTCuFgvTXfq8vw/responses/new",
   messenger: "https://m.me/61581081109053",
-  ownerLinkedIn: "https://www.linkedin.com/in/brianvoyles76",
+  // Same page as `messenger` above (m.me/61581081109053 resolves to this
+  // page) -- verified, already live in PostcardsIssue01's footer credit.
+  facebook: "https://www.facebook.com/profile.php?id=61581081109053",
+  instagram: "https://www.instagram.com/paradoxtravelnetwork/",
   email: "hello@paradoxtravelnetwork.com",
   supportEmail: "support@paradoxtravelnetwork.com",
 };

@@ -58,6 +58,7 @@ function canonicalizeSiteEntities(value: unknown): unknown {
     node["@id"] ??= `${origin}/#organization`;
     node.url ??= `${origin}/`;
     node.naics ??= business.naics;
+    node.sameAs ??= [links.facebook, links.instagram];
     node.logo ??= {
       "@type": "ImageObject",
       "@id": `${origin}/#logo`,
@@ -71,7 +72,6 @@ function canonicalizeSiteEntities(value: unknown): unknown {
   if (type === "Person" && name === business.owner) {
     node["@id"] ??= `${origin}/#brian-voyles`;
     node.url ??= `${origin}/about/`;
-    node.sameAs ??= [links.ownerLinkedIn];
     node.image ??= {
       "@type": "ImageObject",
       "@id": `${origin}/#brian-voyles-portrait`,

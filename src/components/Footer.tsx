@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Mail } from "lucide-react";
+import { Mail, Facebook, Instagram } from "lucide-react";
 import { footerBlurb, footerLinks } from "../data/site";
 import { assets, business, links } from "../lib/assets";
 import NewsletterForm from "./NewsletterForm";
@@ -66,9 +66,29 @@ export default function Footer() {
           <span className="font-display italic text-cream">
             {business.tagline}
           </span>
-          <span>
-            © {business.year} {business.name}
-          </span>
+          <div className="flex items-center gap-4">
+            <a
+              href={links.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Paradox Travel Network on Facebook"
+              className="text-cream/80 transition-colors hover:text-cream"
+            >
+              <Facebook size={16} />
+            </a>
+            <a
+              href={links.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Paradox Travel Network on Instagram"
+              className="text-cream/80 transition-colors hover:text-cream"
+            >
+              <Instagram size={16} />
+            </a>
+            <span>
+              © {business.year} {business.name}
+            </span>
+          </div>
         </div>
       </div>
     </footer>
