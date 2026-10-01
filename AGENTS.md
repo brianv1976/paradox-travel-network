@@ -1,7 +1,7 @@
 # Paradox Travel Network — Agent Instructions
 
-**Updated:** 2026-09-03 5:15 PM CDT
-**By:** ChatGPT HQ — Codex  
+**Updated:** 2026-10-01 1:18 PM CDT
+**By:** ChatGPT HQ — GPT-5.6 Sol  
 **Status:** CURRENT
 
 ## Repository
@@ -23,25 +23,28 @@ Do not copy permanent business knowledge into this repository just to make an ag
 
 ## SharePoint context for coding work
 
-Before substantial website work, use the connected Paradox SharePoint knowledge system when available:
+Follow the current SharePoint bootstrap rules in `Paradox Travel Network/README_FIRST.md`.
+
+For a **fresh** Website / Visibility implementation session, the normal minimum is:
 
 1. `Paradox Travel Network/README_FIRST.md`
-2. `Paradox Travel Network/PTN_BRAIN_REGISTRY.csv`
-3. `Paradox Travel Network/PTN_AI_START_HERE.md`
-4. `Paradox Travel Network/PTN_COMPANY_CORE_CONTEXT.md`
-5. `Paradox Travel Network/Website & Digital/PTN_WEBSITE_CURRENT_STATE.md`
-6. `Paradox Travel Network/Website & Digital/PTN_WEBSITE_COLLABORATION_HUB.md`
-7. `Paradox Travel Network/PTN_RECENT_CHANGES.md` when recent changes matter
-8. Add only the additional domain state required by the task:
-   - Brand: `Brand Assets/PTN_BRAND_CURRENT_STATE.md`
-   - Marketing: `Marketing & Social/PTN_MARKETING_CURRENT_STATE.md`
-   - Suppliers: `Supplier & Vendor Management/PTN_SUPPLIERS_CURRENT_STATE.md`
-   - Business: `AI & Planning/PTN_BUSINESS_CURRENT_STATE.md`
-   - Client workflow: `General Master Business/PTN_CLIENT_WORKFLOW_CURRENT_STATE.md`
+2. `Paradox Travel Network/Website & Digital/PTN_WEBSITE_CURRENT_STATE.md`
+3. `Paradox Travel Network/AI & Planning/Specialist Handoffs/PTN_HANDOFF_WEBSITE.md`
 
-The Company Core gives shared business awareness; website/domain files provide deeper authority. Do **not** read all historical logs by default. Follow the routing rules in `PTN_AI_START_HERE.md`.
+Load an ACTIVE task or another domain authority only when Brian is resuming that exact task or the current task genuinely depends on it. Do **not** load the Registry, router, Company Core, Recent Changes, collaboration logs, unrelated Current States, or historical handovers merely to get caught up.
 
-For an active ChatGPT/Claude/Codex handoff, use the relevant file in `AI & Planning/Active Task States/` if one exists.
+Within the same continuous coding session, reuse already-loaded README/Current State context. Do not repeat the cold start merely because Brian gives another substantial Website instruction.
+
+## Local workspace / OneDrive safety
+
+Before any recursive local command, confirm the working directory is the exact `paradox-travel-network` repo/worktree or another explicitly scoped task folder.
+
+- Recursive commands such as `rg`, `grep`, `find`, PowerShell recursion, directory walks, broad globs, or local indexing must stay inside that scoped directory.
+- Never run recursive discovery from the parent Paradox workspace, OneDrive/SharePoint sync root, Documents, user profile, drive root, or another broad ancestor.
+- Do not use Brian's locally synced OneDrive/SharePoint tree to discover or search PTN brain files. Use the connected SharePoint app and the deterministic paths in `README_FIRST.md`.
+- Never trigger Files On-Demand hydration/download of cloud-only OneDrive/SharePoint content merely to search or inspect it.
+- If a command unexpectedly starts OneDrive downloading/hydrating files or shows a cloud-download prompt, stop/cancel that command immediately, treat it as a scope violation, and correct the working directory/search target before continuing.
+- Read-only commands are still subject to this boundary because they can cause network downloads and local side effects.
 
 ## Write authorization
 
