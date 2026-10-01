@@ -43,6 +43,7 @@ export default async (req: Request) => {
     return json({
       post: {
         permalink: post.permalink,
+        mediaType: post.media_type,
         mediaUrl: post.media_url,
         thumbnailUrl: post.thumbnail_url,
         caption: post.caption?.slice(0, 280),
