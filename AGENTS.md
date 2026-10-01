@@ -1,72 +1,65 @@
-# Paradox Travel Network — Agent Instructions
+# Paradox Travel Network — Implementation Agent Instructions
 
-**Updated:** 2026-10-01 1:18 PM CDT
-**By:** ChatGPT HQ — GPT-5.6 Sol  
+**Updated:** 2026-10-01
+**By:** ChatGPT HQ — GPT-5.6 Sol
 **Status:** CURRENT
 
-## Repository
+## Purpose
 
-This is the production website repository for **Paradox Travel Network** at `paradoxtravelnetwork.com`.
+This file is the normal bootstrap for Claude, Codex, Work, and other scoped implementation agents working in this repository.
 
-Stack: Vite, React, TypeScript, Tailwind, Framer Motion, Three.js, React Router, Lenis, GA4, Netlify Functions.
+**Do not perform the PTN standing-specialist cold start.**
+Do not load the global SharePoint `README_FIRST.md`, Website Current State, specialist inbox, Registry, router, Company Core, Recent Changes, collaboration logs, or historical handovers merely to orient yourself.
 
-## Authority
+The owning PTN specialist/HQ is responsible for business context and routing. Your job is to implement the scoped task.
 
-Use the right source for the right kind of truth:
+## Minimal startup
 
-1. **Live production** is authoritative for what visitors are actually receiving.
-2. **GitHub `main`** is authoritative for current website/code implementation.
-3. **Paradox SharePoint CURRENT_STATE files** are authoritative for business rules, positioning, brand, marketing, suppliers, client workflow, and operating decisions.
-4. Historical logs, handovers, and superseded SharePoint files are reference only unless investigating history.
+1. Read this file.
+2. Use the exact task/instructions supplied by the owning specialist/HQ.
+3. Inspect only the repo/code/system surfaces needed for that task.
+4. Fetch an additional SharePoint authority only when the task explicitly names it or a missing fact blocks safe implementation.
 
-Do not copy permanent business knowledge into this repository just to make an agent remember it.
+If the task prompt already contains enough approved context, **do not read SharePoint at all**.
 
-## SharePoint context for coding work
+If critical business context is missing, ask for the exact pointer or fetch only the exact named file. Do not browse/search the PTN brain to become generally informed.
 
-Follow the current SharePoint bootstrap rules in `Paradox Travel Network/README_FIRST.md`.
+## Scope
 
-For a **fresh** Website / Visibility implementation session, the normal minimum is:
+Stay inside the assigned task. Do not turn a bug fix into an audit, cleanup, redesign, architecture project, or broad reconciliation unless explicitly authorized.
 
-1. `Paradox Travel Network/README_FIRST.md`
-2. `Paradox Travel Network/Website & Digital/PTN_WEBSITE_CURRENT_STATE.md`
-3. `Paradox Travel Network/AI & Planning/Specialist Handoffs/PTN_HANDOFF_WEBSITE.md`
+Authority for implementation:
+1. Live production = what visitors currently receive.
+2. GitHub `main` = current code implementation.
+3. Exact PTN business authority supplied by the task = business rules/decisions.
 
-Load an ACTIVE task or another domain authority only when Brian is resuming that exact task or the current task genuinely depends on it. Do **not** load the Registry, router, Company Core, Recent Changes, collaboration logs, unrelated Current States, or historical handovers merely to get caught up.
-
-Within the same continuous coding session, reuse already-loaded README/Current State context. Do not repeat the cold start merely because Brian gives another substantial Website instruction.
+Do not copy permanent PTN business knowledge into this repository.
 
 ## Local workspace / OneDrive safety
 
-Before any recursive local command, confirm the working directory is the exact `paradox-travel-network` repo/worktree or another explicitly scoped task folder.
+Before recursive local commands, confirm the working directory is the exact `paradox-travel-network` repo/worktree or another explicitly scoped task folder.
 
-- Recursive commands such as `rg`, `grep`, `find`, PowerShell recursion, directory walks, broad globs, or local indexing must stay inside that scoped directory.
-- Never run recursive discovery from the parent Paradox workspace, OneDrive/SharePoint sync root, Documents, user profile, drive root, or another broad ancestor.
-- Do not use Brian's locally synced OneDrive/SharePoint tree to discover or search PTN brain files. Use the connected SharePoint app and the deterministic paths in `README_FIRST.md`.
-- Never trigger Files On-Demand hydration/download of cloud-only OneDrive/SharePoint content merely to search or inspect it.
-- If a command unexpectedly starts OneDrive downloading/hydrating files or shows a cloud-download prompt, stop/cancel that command immediately, treat it as a scope violation, and correct the working directory/search target before continuing.
-- Read-only commands are still subject to this boundary because they can cause network downloads and local side effects.
+- Keep `rg`, `grep`, `find`, PowerShell recursion, directory walks, broad globs, and local indexing inside that scoped directory.
+- Never recursively scan the parent Paradox workspace, OneDrive/SharePoint sync root, Documents, user profile, or drive root.
+- Never use Brian's synced OneDrive/SharePoint tree to discover PTN brain files.
+- Never trigger Files On-Demand hydration/download merely to search or inspect cloud-only files.
+- If OneDrive starts downloading/hydrating unexpectedly, stop/cancel the command immediately and correct the scope before continuing.
 
-## Write authorization
+Read-only commands are subject to the same boundary because they can still cause local/network side effects.
 
-Read-only inspection, auditing, research, and verification are allowed when the task calls for them.
+## Writes and approval
 
-**Brian has delegated standing operational authority to ChatGPT HQ for necessary Paradox website, GitHub, and Netlify technical implementation that carries out approved business direction, architecture, maintenance, security, or bug-fix work.** HQ does not need repeated per-action Brian approval inside that delegated scope.
+Scoped technical writes are allowed when the task is explicitly assigned/authorized by Brian or ChatGPT HQ.
 
-Claude, Codex, and other implementation agents may perform scoped writes when the task is explicitly directed or authorized by ChatGPT HQ or Brian. They may not self-authorize unrelated changes or expand scope merely because they have write-capable tools.
+Do not infer execution from screenshots, pasted commentary, examples, or discussion.
 
-Fresh Brian approval is still required for material business-policy changes, pricing/fees, client commitments, bookings/payments/refunds, financial or legal commitments, credentials/recovery secrets, domain ownership/transfers, destructive deletion of protected records, or public changes that materially alter Paradox's offers, promises, positioning, or client-facing commitments.
+Fresh Brian approval is required for credentials/recovery secrets, material business-policy changes, pricing/fees, client commitments, bookings/payments/refunds, financial/legal commitments, domain ownership/transfers, destructive deletion of protected records, or material public changes to PTN offers/promises/positioning.
 
-A commit using **`[skip netlify]` is still a GitHub write**, but it is permitted when the underlying task is within HQ's standing delegated authority or has direct Brian approval.
+Do not touch unrelated credentials, environment variables, hosting settings, or external account settings.
 
-## Build and validation
+## Validation and deployment
 
-Install dependencies when needed:
-
-```bash
-npm install
-```
-
-For reviewed work:
+For reviewed website work, use the checks implicated by the change. Typical full validation is:
 
 ```bash
 npm run typecheck
@@ -74,22 +67,8 @@ npm run build
 npm run validate:build
 ```
 
-Use `npm run dev` for local development.
+Do not claim a fix is complete until the actual failure mode is tested.
 
-Do not claim a bug is fixed until the actual failure mode has been tested, especially responsive/mobile behavior.
+Netlify watches `main`. Use `[skip netlify]` for intermediate GitHub commits that must not deploy. Routine deployment of already-approved validated work is allowed within the authorized task.
 
-## Deployment
-
-Netlify watches `main`.
-
-Intermediate reviewed commits to `main` should include **`[skip netlify]`** when the work is not yet ready for production.
-
-Production deployment is allowed when ChatGPT HQ or Brian has authorized the scoped implementation and the required validation has passed. Routine deployment of already-approved code/content is not a separate Brian-approval event under HQ's standing delegation.
-
-Do not create an ordinary untagged commit to `main` as housekeeping. A later ordinary commit will deploy all accumulated skipped changes.
-
-Do not alter tracking/referral query parameters, analytics IDs, or production integrations unless the task explicitly requires it and the change is verified.
-
-## Keep this file small
-
-This file is a router and operating guide, not the Paradox knowledge base. Durable business knowledge belongs in SharePoint. Exact implementation belongs in GitHub.
+Do not create unrelated housekeeping commits.
