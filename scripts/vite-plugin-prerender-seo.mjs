@@ -55,7 +55,7 @@ const CSP = [
   "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com",
+  "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.cdninstagram.com",
   "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://assets.mailerlite.com",
   "frame-src 'none'",
   "object-src 'none'",

@@ -7,6 +7,7 @@
 #   - googletagmanager.com + Google Analytics regional endpoints -> GA4
 #   - fonts.googleapis.com / fonts.gstatic.com                    -> web fonts
 #   - assets.mailerlite.com                                       -> newsletter signup
+#   - *.cdninstagram.com                                          -> latest Instagram media
 # Google documents wildcard Analytics hosts because collection can use
 # regional subdomains (including EU/UK/Switzerland routing). The GA script
 # itself is loaded from googletagmanager.com; Analytics hosts are collection
@@ -21,4 +22,4 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://assets.mailerlite.com; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.cdninstagram.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://assets.mailerlite.com; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
