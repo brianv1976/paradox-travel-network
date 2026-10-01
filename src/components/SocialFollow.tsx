@@ -5,10 +5,10 @@ import { stagger, fadeUp } from "../lib/motion";
 import { links } from "../lib/assets";
 import Reveal from "./Reveal";
 import Magnetic from "./Magnetic";
-import TiltCard from "./TiltCard";
 
 type LatestPost = {
   permalink: string;
+  mediaType?: string;
   mediaUrl?: string;
   thumbnailUrl?: string;
   caption?: string;
@@ -31,19 +31,20 @@ export default function SocialFollow() {
     return () => controller.abort();
   }, []);
 
-  const image = latest?.thumbnailUrl || latest?.mediaUrl;
+  const isVideo = latest?.mediaType === "VIDEO";
+  const image = latest?.mediaUrl || latest?.thumbnailUrl;
 
   return (
     <section className="container-px py-20 md:py-28" aria-labelledby="social-follow-title">
       <Reveal variant="rise">
         <div className="overflow-hidden rounded-[2rem] bg-ocean-dark text-cream shadow-lift">
-          <div className={`grid ${latest ? "lg:grid-cols-[1.2fr_0.8fr]" : ""}`}>
+          <div className={`grid ${latest ? "lg:grid-cols-2" : ""}`}>
             <motion.div
               variants={stagger(0.12)}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.4 }}
-              className="p-8 md:p-12"
+              className="p-8 md:p-12 lg:flex lg:min-h-[24rem] lg:flex-col lg:justify-center"
             >
               <motion.span variants={fadeUp} className="eyebrow text-gold">
                 Stay connected
@@ -91,36 +92,45 @@ export default function SocialFollow() {
             </motion.div>
 
             {latest && (
-              <Reveal variant="zoom" className="min-h-72">
-                <TiltCard className="h-full min-h-72" intensity={6}>
-                  <a
-                    href={latest.permalink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative block h-full min-h-72 overflow-hidden bg-ink"
-                    aria-label="View the latest post from Paradox Travel Network on Instagram"
-                  >
-                    {image && (
-                      <img
-                        src={image}
-                        alt=""
-                        className="absolute inset-0 h-full w-full object-cover opacity-75 transition-transform duration-700 group-hover:scale-105"
-                      />
+              <Reveal variant="zoom" className="h-full min-h-80 lg:min-h-[24rem]">
+                <a
+                  href={latest.permalink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative block h-full min-h-80 overflow-hidden bg-ink lg:min-h-[24rem]"
+                  aria-label="View the latest post from Paradox Travel Network on Instagram"
+                >
+                  {isVideo && latest.mediaUrl ? (
+                    <video
+                      src={latest.mediaUrl}
+                      poster={latest.thumbnailUrl}
+                      className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                    />
+                  ) : image ? (
+                    <img
+                      src={image}
+                      alt=""
+                      className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : null}
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/15 to-transparent" />
+                  <div className="relative flex h-full min-h-80 flex-col justify-end p-7 lg:min-h-[24rem]">
+                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+                      Latest from Paradox
+                    </span>
+                    {latest.caption && (
+                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream">{latest.caption}</p>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
-                    <div className="relative flex h-full min-h-72 flex-col justify-end p-7">
-                      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
-                        Latest from Paradox
-                      </span>
-                      {latest.caption && (
-                        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream">{latest.caption}</p>
-                      )}
-                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cream">
-                        View on Instagram <ArrowUpRight size={15} />
-                      </span>
-                    </div>
-                  </a>
-                </TiltCard>
+                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cream">
+                      View on Instagram <ArrowUpRight size={15} />
+                    </span>
+                  </div>
+                </a>
               </Reveal>
             )}
           </div>
