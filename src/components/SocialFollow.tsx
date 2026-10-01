@@ -92,19 +92,19 @@ export default function SocialFollow() {
             </motion.div>
 
             {latest && (
-              <Reveal variant="zoom" className="aspect-square h-full min-h-80 w-full">
+              <Reveal variant="zoom" className="w-full lg:self-start">
                 <a
                   href={latest.permalink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative block h-full min-h-80 overflow-hidden bg-ink"
+                  className="group relative block overflow-hidden bg-ink"
                   aria-label="View the latest post from Paradox Travel Network on Instagram"
                 >
                   {isVideo && latest.mediaUrl ? (
                     <video
                       src={latest.mediaUrl}
                       poster={latest.thumbnailUrl}
-                      className="absolute inset-0 h-full w-full object-contain opacity-80 transition-transform duration-700 group-hover:scale-105"
+                      className="block h-auto w-full opacity-80 transition-transform duration-700 group-hover:scale-105"
                       autoPlay
                       muted
                       loop
@@ -115,11 +115,11 @@ export default function SocialFollow() {
                     <img
                       src={image}
                       alt=""
-                      className="absolute inset-0 h-full w-full object-contain opacity-80 transition-transform duration-700 group-hover:scale-105"
+                      className="block h-auto w-full opacity-80 transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : null}
                   <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/15 to-transparent" />
-                  <div className="relative flex h-full min-h-80 flex-col justify-end p-7">
+                  <div className="absolute inset-0 flex flex-col justify-end p-7">
                     <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
                       Latest from Paradox
                     </span>
