@@ -143,7 +143,7 @@ export const links = {
     "https://app.tern.travel/public/forms/oUT4xxNvTTCuFgvTXfq8vw/responses/new",
   messenger: "https://m.me/61581081109053",
   facebook: "https://www.facebook.com/profile.php?id=61581081109053",
-  instagram: "https://www.instagram.com/paradoxtravelnetwork/",
+  instagram: "https://www.instagram.com/briankeithvoyles/",
   email: "hello@paradoxtravelnetwork.com",
   supportEmail: "support@paradoxtravelnetwork.com",
   phone: "(469) 966-9122",
