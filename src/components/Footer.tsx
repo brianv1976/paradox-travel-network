@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Facebook, Instagram, Mail } from "lucide-react";
+import { Facebook, Instagram, Mail, Phone } from "lucide-react";
 import { footerBlurb, footerLinks } from "../data/site";
 import { assets, business, links } from "../lib/assets";
 import NewsletterForm from "./NewsletterForm";
@@ -25,6 +25,13 @@ export default function Footer() {
           >
             <Mail size={16} />
             {links.email}
+          </a>
+          <a
+            href={links.phoneHref}
+            className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-cream transition-colors hover:text-cream/80"
+          >
+            <Phone size={16} />
+            {links.phone}
           </a>
           <div className="mt-5 flex items-center gap-3" aria-label="Follow Paradox Travel Network">
             <a
