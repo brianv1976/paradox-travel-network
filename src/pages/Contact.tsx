@@ -107,6 +107,21 @@ export default function Contact() {
               />
             </a>
           </Reveal>
+          <Reveal delay={0.13}>
+            <a
+              href={links.phoneHref}
+              className="group mt-6 inline-flex flex-wrap items-center gap-3 font-display text-sm font-semibold text-cream transition-colors hover:text-gold sm:text-2xl"
+            >
+              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-cream/70">
+                Prefer to call?
+              </span>
+              {links.phone}
+              <ArrowRight
+                size={28}
+                className="hidden transition-transform duration-300 group-hover:translate-x-2 sm:block"
+              />
+            </a>
+          </Reveal>
           <Reveal delay={0.15}>
             <div className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-cream/15 pt-8">
               <a

@@ -146,6 +146,8 @@ export const links = {
   instagram: "https://www.instagram.com/paradoxtravelnetwork/",
   email: "hello@paradoxtravelnetwork.com",
   supportEmail: "support@paradoxtravelnetwork.com",
+  phone: "(469) 966-9122",
+  phoneHref: "tel:+14699669122",
 };
 
 export const business = {
